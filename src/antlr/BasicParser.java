@@ -17,11 +17,13 @@ public class BasicParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		MOD=5, OR=13, OPEN_PARENTHESES=14, LT=8, EQ=10, GT=6, MINUS=2, DIV=4, 
-		MULT=3, AND=12, GTE=7, NEQ=11, LTE=9, PLUS=1, CLOSE_PARENTHESES=15, INTEGER=16;
+		MOD=5, OR=13, OPEN_PARENTHESES=14, LT=8, CHAR=17, EQ=10, GT=6, MINUS=2, 
+		DIV=4, MULT=3, AND=12, GTE=7, STRING=18, NEQ=11, LTE=9, PLUS=1, CLOSE_PARENTHESES=15, 
+		INTEGER=16;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'+'", "'-'", "'*'", "'/'", "'%'", "'>'", "'>='", "'<'", 
-		"'<='", "'=='", "'!='", "'&&'", "'||'", "'('", "')'", "INTEGER"
+		"'<='", "'=='", "'!='", "'&&'", "'||'", "'('", "')'", "INTEGER", "CHAR", 
+		"STRING"
 	};
 	public static final int
 		RULE_binaryOper = 0, RULE_expr = 1, RULE_prog = 2;
@@ -108,6 +110,8 @@ public class BasicParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
+		public TerminalNode STRING() { return getToken(BasicParser.STRING, 0); }
+		public TerminalNode CHAR() { return getToken(BasicParser.CHAR, 0); }
 		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
 		public BinaryOperContext binaryOper() {
 			return getRuleContext(BinaryOperContext.class,0);
@@ -138,25 +142,35 @@ public class BasicParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(14);
+			setState(16);
 			switch (_input.LA(1)) {
+			case CHAR:
+				{
+				setState(9); match(CHAR);
+				}
+				break;
+			case STRING:
+				{
+				setState(10); match(STRING);
+				}
+				break;
 			case INTEGER:
 				{
-				setState(9); match(INTEGER);
+				setState(11); match(INTEGER);
 				}
 				break;
 			case OPEN_PARENTHESES:
 				{
-				setState(10); match(OPEN_PARENTHESES);
-				setState(11); expr(0);
-				setState(12); match(CLOSE_PARENTHESES);
+				setState(12); match(OPEN_PARENTHESES);
+				setState(13); expr(0);
+				setState(14); match(CLOSE_PARENTHESES);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(22);
+			setState(24);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -167,14 +181,14 @@ public class BasicParser extends Parser {
 					{
 					_localctx = new ExprContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_expr);
-					setState(16);
-					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-					setState(17); binaryOper();
-					setState(18); expr(4);
+					setState(18);
+					if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+					setState(19); binaryOper();
+					setState(20); expr(6);
 					}
 					} 
 				}
-				setState(24);
+				setState(26);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			}
@@ -217,20 +231,20 @@ public class BasicParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(30);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==OPEN_PARENTHESES || _la==INTEGER) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OPEN_PARENTHESES) | (1L << INTEGER) | (1L << CHAR) | (1L << STRING))) != 0)) {
 				{
 				{
-				setState(25); expr(0);
+				setState(27); expr(0);
 				}
 				}
-				setState(30);
+				setState(32);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(31); match(EOF);
+			setState(33); match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -252,22 +266,23 @@ public class BasicParser extends Parser {
 	}
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return precpred(_ctx, 3);
+		case 0: return precpred(_ctx, 5);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\22$\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3\21\n\3\3\3\3\3\3\3\3\3"+
-		"\7\3\27\n\3\f\3\16\3\32\13\3\3\4\7\4\35\n\4\f\4\16\4 \13\4\3\4\3\4\3\4"+
-		"\2\3\4\5\2\4\6\2\3\3\2\3\17#\2\b\3\2\2\2\4\20\3\2\2\2\6\36\3\2\2\2\b\t"+
-		"\t\2\2\2\t\3\3\2\2\2\n\13\b\3\1\2\13\21\7\22\2\2\f\r\7\20\2\2\r\16\5\4"+
-		"\3\2\16\17\7\21\2\2\17\21\3\2\2\2\20\n\3\2\2\2\20\f\3\2\2\2\21\30\3\2"+
-		"\2\2\22\23\f\5\2\2\23\24\5\2\2\2\24\25\5\4\3\6\25\27\3\2\2\2\26\22\3\2"+
-		"\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\5\3\2\2\2\32\30\3\2"+
-		"\2\2\33\35\5\4\3\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2"+
-		"\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\2\2\3\"\7\3\2\2\2\5\20\30\36";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24&\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\23\n\3\3\3\3\3"+
+		"\3\3\3\3\7\3\31\n\3\f\3\16\3\34\13\3\3\4\7\4\37\n\4\f\4\16\4\"\13\4\3"+
+		"\4\3\4\3\4\2\3\4\5\2\4\6\2\3\3\2\3\17\'\2\b\3\2\2\2\4\22\3\2\2\2\6 \3"+
+		"\2\2\2\b\t\t\2\2\2\t\3\3\2\2\2\n\13\b\3\1\2\13\23\7\23\2\2\f\23\7\24\2"+
+		"\2\r\23\7\22\2\2\16\17\7\20\2\2\17\20\5\4\3\2\20\21\7\21\2\2\21\23\3\2"+
+		"\2\2\22\n\3\2\2\2\22\f\3\2\2\2\22\r\3\2\2\2\22\16\3\2\2\2\23\32\3\2\2"+
+		"\2\24\25\f\7\2\2\25\26\5\2\2\2\26\27\5\4\3\b\27\31\3\2\2\2\30\24\3\2\2"+
+		"\2\31\34\3\2\2\2\32\30\3\2\2\2\32\33\3\2\2\2\33\5\3\2\2\2\34\32\3\2\2"+
+		"\2\35\37\5\4\3\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!#\3"+
+		"\2\2\2\" \3\2\2\2#$\7\2\2\3$\7\3\2\2\2\5\22\32 ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

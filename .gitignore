@@ -1,0 +1,30 @@
+#ignore junk files from latex output
+*.out
+*.log
+*.aux
+*.dvi
+*.ps
+
+#ignore junk files from compiling Java code
+*.class
+
+# ignore Java package Files
+*.jar
+*.war
+*.ear
+
+#ignore junk files from running the WACC compiler
+*.s
+*.ast
+
+#ignore the WACC tempory test_files copy
+#TODO: testing/test_files/
+
+#ignore other junk files
+*.backup
+*.kate-swp
+*.swp
+*.snm
+*.vrb
+*.nav
+*.toc

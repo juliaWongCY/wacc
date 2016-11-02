@@ -1,5 +1,15 @@
 lexer grammar BasicLexer;
 
+
+//syntax
+COMMA :  ',' ;
+ASSIGN : '=' ;
+SEMICOLON : ';' ;
+WS : (' ' | '\t' | '\r' | '\n')+ -> skip ;
+//WS: [ \t\r\n]+ -> skip ;
+COMMENTSYM : '#' ;
+EOL : ('\r' | '\n') ;
+
 //operators
 PLUS: '+' ;
 MINUS: '-' ;
@@ -22,15 +32,6 @@ LEN: 'len' ;
 ORD: 'ord' ;
 CHR: 'chr' ;
 
-
-//identifier
-IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ; 
-
-//syntax
-COMMA: ',' ;
-ASSIGN: '=' ;
-SEMICOLON: ';' ;
-WS: (' ' | '\t')+ -> skip ;
 
 //keywords
 NEWPAIR: 'newpair' ;
@@ -89,4 +90,6 @@ BOOLLITER: ('true' | 'false') ;
 //pair
 PAIRLITER: 'null' ;
 
+//identifier
+IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ; 
 

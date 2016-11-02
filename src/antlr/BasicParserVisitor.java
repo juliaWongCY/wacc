@@ -24,17 +24,17 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BasicParser#arrayType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -84,12 +84,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProg(@NotNull BasicParser.ProgContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BasicParser#pairElemType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BasicParser#baseType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -101,6 +95,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPairType(@NotNull BasicParser.PairTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BasicParser#pairElemType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#func}.
 	 * @param ctx the parse tree
@@ -125,6 +125,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr(@NotNull BasicParser.ExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BasicParser#comment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComment(@NotNull BasicParser.CommentContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#pairElem}.
 	 * @param ctx the parse tree

@@ -2,35 +2,13 @@ lexer grammar BasicLexer;
 
 
 //syntax
-COMMA :  ',' ;
+WS : (' ' | '\t' | '\r' | '\n')+ -> skip ;
 ASSIGN : '=' ;
 SEMICOLON : ';' ;
-WS : (' ' | '\t' | '\r' | '\n')+ -> skip ;
+COMMA :  ',' ;
 //WS: [ \t\r\n]+ -> skip ;
 COMMENTSYM : '#' ;
 EOL : ('\r' | '\n') ;
-
-//operators
-PLUS: '+' ;
-MINUS: '-' ;
-MULT: '*' ;
-DIV: '/' ;
-MOD: '%' ;
-GT: '>' ;
-GTE: '>=' ;
-LT: '<' ;
-LTE: '<=' ;
-EQ: '==' ;
-NEQ: '!=' ;
-AND: '&&' ;
-OR: '||' ;
-
-//Unary operator
-NOT: '!' ;
-NEG: '-' ;
-LEN: 'len' ;
-ORD: 'ord' ;
-CHR: 'chr' ;
 
 
 //keywords
@@ -61,6 +39,30 @@ BEGIN: 'begin' ;
 END: 'end' ;
 IS: 'is' ;
 
+
+//operators
+PLUS: '+' ;
+MINUS: '-' ;
+MULT: '*' ;
+DIV: '/' ;
+MOD: '%' ;
+GT: '>' ;
+GTE: '>=' ;
+LT: '<' ;
+LTE: '<=' ;
+EQ: '==' ;
+NEQ: '!=' ;
+AND: '&&' ;
+OR: '||' ;
+
+//Unary operator
+NOT: '!' ;
+NEG: '-' ;
+LEN: 'len' ;
+ORD: 'ord' ;
+CHR: 'chr' ;
+
+
 //brackets
 OPEN_PARENTHESES : '(' ;
 CLOSE_PARENTHESES : ')' ;
@@ -69,7 +71,7 @@ CLOSE_SQPARENTHESES : ']' ;
 
 
 //numbers
-fragment DIGIT : '0'..'9' ; 
+fragment DIGIT : '0'..'9' ;
 fragment SIGN : '+' | '-' ;
 
 INTEGER: (SIGN)? DIGIT+ ;
@@ -91,5 +93,4 @@ BOOLLITER: ('true' | 'false') ;
 PAIRLITER: 'null' ;
 
 //identifier
-IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ; 
-
+IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;

@@ -12,6 +12,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

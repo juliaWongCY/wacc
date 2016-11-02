@@ -4,12 +4,19 @@ options {
   tokenVocab=BasicLexer;
 }
 
-binaryOper : PLUS | MINUS | MULT | DIV | MOD | GT | GTE | LT | LTE | EQ | NEQ | AND | OR;
+binaryOper : PLUS | MINUS | MULT | DIV | MOD | GT | GTE | LT | LTE | EQ | NEQ | AND | OR ;
+unaryOper : NOT | NEG | LEN | ORD | CHR ;
+arrayElem : (IDENT) (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
 
 expr: expr binaryOper expr
+| INTEGER
+| BOOL
 | CHAR
 | STRING
-| INTEGER
+| PAIRLITER
+| IDENT
+| arrayElem
+| unaryOper expr  
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
 ;
 

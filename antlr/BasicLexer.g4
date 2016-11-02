@@ -22,8 +22,43 @@ LEN: 'len' ;
 ORD: 'ord' ;
 CHR: 'chr' ;
 
+
 //identifier
 IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ; 
+
+//syntax
+COMMA: ',' ;
+ASSIGN: '=' ;
+SEMICOLON: ';' ;
+WS: (' ' | '\t')+ -> skip ;
+
+//keywords
+NEWPAIR: 'newpair' ;
+FST: 'fst' ;
+SND: 'snd' ;
+CALL: 'call' ;
+PAIR: 'pair' ;
+BOOL: 'bool' ;
+CHAR: 'char' ;
+STRING: 'string' ;
+INT: 'int' ;
+SKIP: 'skip' ;
+READ: 'read' ;
+FREE: 'free' ;
+RETURN: 'return' ;
+EXIT: 'exit' ;
+PRINT: 'print' ;
+PRINTLN: 'println' ;
+IF: 'if' ;
+THEN: 'then' ;
+ELSE: 'else' ;
+FI: 'fi' ;
+WHILE: 'while' ;
+DO: 'do' ;
+DONE: 'done' ;
+BEGIN: 'begin' ;
+END: 'end' ;
+IS: 'is' ;
 
 //brackets
 OPEN_PARENTHESES : '(' ;
@@ -34,19 +69,24 @@ CLOSE_SQPARENTHESES : ']' ;
 
 //numbers
 fragment DIGIT : '0'..'9' ; 
+fragment SIGN : '+' | '-' ;
 
-INTEGER: DIGIT+ ;
+INTEGER: (SIGN)? DIGIT+ ;
+
 
 //character
 fragment LETTER : ('a'..'z'|'A'..'Z'|'_'| ' ') ;
 fragment ESCCHAR : ('\u0000' | '\b' | '\t' | '\n' | '\f' | '\r' | '\"' | '\'' | '\\');
 
-CHAR: ('\'' (LETTER) '\''| (ESCCHAR) ) ;
-STRING:'"' (LETTER)* '"' ;
+CHARLITER: ('\'' (LETTER) '\''| (ESCCHAR) ) ;
+STRINGLITER:'"' (LETTER)* '"' ;
+
 
 //boolean
-BOOL: ('true' | 'false') ;
+BOOLLITER: ('true' | 'false') ;
+
 
 //pair
 PAIRLITER: 'null' ;
+
 

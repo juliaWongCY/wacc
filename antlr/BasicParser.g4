@@ -36,7 +36,7 @@ baseType : INT | BOOL | CHAR | STRING ;
 
 
 
-program: BEGIN (func)* stat END;
+program: (comment)* BEGIN (func)* stat END EOF;
 
 func: type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
 
@@ -84,7 +84,8 @@ type: baseType
 | pairType
 ;
 
-comment: COMMENTSYM ~(EOL)* EOL ;
+//comment: COMMENTSYM ~(EOL)* EOL ;
+comment: COMMENTSYM ~(EOL)*;
 
 // EOF indicates that the program must consume to the end of the input.
-prog: (expr)*  EOF ;
+//prog: (expr)*  EOF ;

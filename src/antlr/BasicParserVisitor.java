@@ -78,12 +78,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(@NotNull BasicParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BasicParser#prog}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitProg(@NotNull BasicParser.ProgContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BasicParser#pairType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

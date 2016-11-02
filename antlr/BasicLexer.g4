@@ -9,6 +9,7 @@ COMMA :  ',' ;
 //WS: [ \t\r\n]+ -> skip ;
 COMMENTSYM : '#' ;
 EOL : ('\r' | '\n') ;
+SYMBOLS : . ;
 
 
 //keywords

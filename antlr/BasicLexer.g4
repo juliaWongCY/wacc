@@ -6,7 +6,11 @@ WS : ( ' ' | '\t' | '\r'| '\n')+ -> skip ;
 ASSIGN : '=' ;
 SEMICOLON : ';' ;
 COMMA :  ',' ;
+//WS: [ \t\r\n]+ -> skip ;
 fragment EOL : ('\r' | '\n') ;
+
+fragment COMMENTSYM : '#' ;
+COMMENT : COMMENTSYM .+? (EOL) -> skip ;
 
 //handling comments
 fragment COMMENTSYM : '#' ;
@@ -96,3 +100,4 @@ PAIRLITER: 'null' ;
 
 //identifier
 IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
+

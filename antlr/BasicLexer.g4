@@ -8,13 +8,8 @@ SEMICOLON : ';' ;
 COMMA :  ',' ;
 //WS: [ \t\r\n]+ -> skip ;
 fragment EOL : ('\r' | '\n') ;
-
 fragment COMMENTSYM : '#' ;
 COMMENT : COMMENTSYM .+? (EOL) -> skip ;
-
-//handling comments
-fragment COMMENTSYM : '#' ;
-COMMENT : (COMMENTSYM .*? (EOL)) -> skip;
 
 //keywords
 NEWPAIR: 'newpair' ;
@@ -85,10 +80,13 @@ INTEGER: (SIGN)? DIGIT+ ;
 //character
 //fragment LETTER : ('a'..'z'|'A'..'Z'|'_'| ' ') ;
 fragment LETTER : ~('\\' | '\'' | '\"') ;
-fragment ESCCHAR : ( '\\0' | '\b' | '\t' | '\n' | '\f' | '\r' | '\"' | '\'' | '\\');
+fragment ESCCHAR : ( '0' | 'b' | 't' | 'n' | 'f' | 'r' | '"' | '\'' | '\\') ;
+//                                                               '      \
+fragment CHARACTER : (LETTER | '\\' ESCCHAR) ;
 
-CHARLITER: ('\'' (LETTER) '\''| '\'' ESCCHAR '\'') ;
-STRINGLITER:'"' (LETTER)* '"' ;
+
+CHARLITER: '\'' (CHARACTER) '\'' ;
+STRINGLITER: '"' (CHARACTER)* '"' ;
 
 
 //boolean

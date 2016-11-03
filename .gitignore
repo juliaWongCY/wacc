@@ -18,7 +18,13 @@
 *.ast
 
 #ignore the WACC tempory test_files copy
-#TODO: testing/test_files/
+#ToDo: testing/test_files/
+
+#ignore wacc exmaple
+exmaple/
+
+#ignore intellij system config
+.idea/
 
 #ignore other junk files
 *.backup

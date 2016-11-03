@@ -7,9 +7,10 @@ ASSIGN : '=' ;
 SEMICOLON : ';' ;
 COMMA :  ',' ;
 //WS: [ \t\r\n]+ -> skip ;
-COMMENTSYM : '#' ;
-EOL : ('\r' | '\n') ;
-SYMBOLS : . ;
+fragment EOL : ('\r' | '\n') ;
+
+fragment COMMENTSYM : '#' ;
+COMMENT : COMMENTSYM .+? (EOL) -> skip ;
 
 
 //keywords
@@ -95,3 +96,4 @@ PAIRLITER: 'null' ;
 
 //identifier
 IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
+

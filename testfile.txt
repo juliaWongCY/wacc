@@ -1,17 +1,5 @@
-# Simple conditional statement with boolen expression test
-
-# Output:
-# correct
-
-# Program:
+#This is a comment.
 
 begin
-  bool b = true;
-  bool c = false;
-  if b || c
-  then
-    println "correct"
-  else
-    println "incorrect"
-  fi
+  bool b = true
 end

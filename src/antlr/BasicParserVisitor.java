@@ -120,12 +120,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(@NotNull BasicParser.ExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BasicParser#comment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitComment(@NotNull BasicParser.CommentContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BasicParser#pairElem}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

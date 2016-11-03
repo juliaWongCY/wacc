@@ -9,17 +9,15 @@ argList : expr ( COMMA expr )* ;
 
 arrayLiter : OPEN_SQPARENTHESES ( expr ( COMMA expr )* )? CLOSE_SQPARENTHESES ;
 
-
 arrayElem : (IDENT) (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
 
 pairElem : FST expr | SND expr ;
-
 
 binaryOper : PLUS | MINUS | MULT | DIV | MOD | GT | GTE | LT | LTE | EQ | NEQ | AND | OR ;
 
 unaryOper : NOT | NEG | LEN | ORD | CHR ;
 
-paramList: param ( COMMA param)*;
+paramList: param ( COMMA param )*;
 
 param : type IDENT;
 
@@ -36,7 +34,7 @@ baseType : INT | BOOL | CHAR | STRING ;
 
 
 
-program: (comment)* BEGIN (func)* stat END EOF;
+program: BEGIN (func)* stat END EOF;
 
 func: type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
 
@@ -84,8 +82,6 @@ type: baseType
 | pairType
 ;
 
-//comment: COMMENTSYM ~(EOL)* EOL ;
-comment: COMMENTSYM ~(EOL)*;
 
 // EOF indicates that the program must consume to the end of the input.
 //prog: (expr)*  EOF ;

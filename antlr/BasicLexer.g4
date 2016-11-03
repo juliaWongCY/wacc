@@ -2,15 +2,15 @@ lexer grammar BasicLexer;
 
 
 //syntax
-WS : (' ' | '\t' | '\r' | '\n')+ -> skip ;
+WS : ( ' ' | '\t' | '\r'| '\n')+ -> skip ;
 ASSIGN : '=' ;
 SEMICOLON : ';' ;
 COMMA :  ',' ;
-//WS: [ \t\r\n]+ -> skip ;
-COMMENTSYM : '#' ;
-EOL : ('\r' | '\n') ;
-SYMBOLS : . ;
+fragment EOL : ('\r' | '\n') ;
 
+//handling comments
+fragment COMMENTSYM : '#' ;
+COMMENT : (COMMENTSYM .*? (EOL)) -> skip;
 
 //keywords
 NEWPAIR: 'newpair' ;
@@ -79,10 +79,11 @@ INTEGER: (SIGN)? DIGIT+ ;
 
 
 //character
-fragment LETTER : ('a'..'z'|'A'..'Z'|'_'| ' ') ;
-fragment ESCCHAR : ('\u0000' | '\b' | '\t' | '\n' | '\f' | '\r' | '\"' | '\'' | '\\');
+//fragment LETTER : ('a'..'z'|'A'..'Z'|'_'| ' ') ;
+fragment LETTER : ~('\\' | '\'' | '\"') ;
+fragment ESCCHAR : ( '\\0' | '\b' | '\t' | '\n' | '\f' | '\r' | '\"' | '\'' | '\\');
 
-CHARLITER: ('\'' (LETTER) '\''| (ESCCHAR) ) ;
+CHARLITER: ('\'' (LETTER) '\''| '\'' ESCCHAR '\'') ;
 STRINGLITER:'"' (LETTER)* '"' ;
 
 

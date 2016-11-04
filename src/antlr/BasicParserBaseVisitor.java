@@ -32,7 +32,11 @@ public class BasicParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+<<<<<<< HEAD
 	@Override public T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) { return visitChildren(ctx); }
+=======
+	@Override public T visitStat(@NotNull BasicParser.StatContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * {@inheritDoc}
 	 *
@@ -46,7 +50,11 @@ public class BasicParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+<<<<<<< HEAD
 	@Override public T visitStat(@NotNull BasicParser.StatContext ctx) { return visitChildren(ctx); }
+=======
+	@Override public T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * {@inheritDoc}
 	 *
@@ -81,35 +89,55 @@ public class BasicParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+<<<<<<< HEAD
 	@Override public T visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
+=======
 	@Override public T visitType(@NotNull BasicParser.TypeContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+<<<<<<< HEAD
+	@Override public T visitType(@NotNull BasicParser.TypeContext ctx) { return visitChildren(ctx); }
+=======
+	@Override public T visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+<<<<<<< HEAD
 	@Override public T visitPairType(@NotNull BasicParser.PairTypeContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
+=======
 	@Override public T visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+<<<<<<< HEAD
+	@Override public T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) { return visitChildren(ctx); }
+=======
+	@Override public T visitPairType(@NotNull BasicParser.PairTypeContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+<<<<<<< HEAD
+	@Override public T visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) { return visitChildren(ctx); }
+=======
+	@Override public T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) { return visitChildren(ctx); }
+>>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * {@inheritDoc}
 	 *

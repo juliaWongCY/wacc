@@ -18,11 +18,7 @@ public class BasicLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		WS=1, ASSIGN=2, SEMICOLON=3, COMMA=4, COMMENT=5, NEWPAIR=6, FST=7, SND=8, 
-<<<<<<< HEAD
-		CALL=9, PAIR=10, BOOL=11, CHAR=12, STRING=13, INT=14, SKIPPING=15, READ=16, 
-=======
 		CALL=9, PAIR=10, BOOL=11, CHAR=12, STRING=13, INT=14, SKIP_=15, READ=16, 
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 		FREE=17, RETURN=18, EXIT=19, PRINT=20, PRINTLN=21, IF=22, THEN=23, ELSE=24, 
 		FI=25, WHILE=26, DO=27, DONE=28, BEGIN=29, END=30, IS=31, PLUS=32, MINUS=33, 
 		MULT=34, DIV=35, MOD=36, GT=37, GTE=38, LT=39, LTE=40, EQ=41, NEQ=42, 
@@ -46,17 +42,10 @@ public class BasicLexer extends Lexer {
 	public static final String[] ruleNames = {
 		"WS", "ASSIGN", "SEMICOLON", "COMMA", "EOL", "COMMENTSYM", "COMMENT", 
 		"NEWPAIR", "FST", "SND", "CALL", "PAIR", "BOOL", "CHAR", "STRING", "INT", 
-<<<<<<< HEAD
-		"SKIPPING", "READ", "FREE", "RETURN", "EXIT", "PRINT", "PRINTLN", "IF", 
-		"THEN", "ELSE", "FI", "WHILE", "DO", "DONE", "BEGIN", "END", "IS", "PLUS", 
-		"MINUS", "MULT", "DIV", "MOD", "GT", "GTE", "LT", "LTE", "EQ", "NEQ", 
-		"AND", "OR", "NOT", "NEG", "LEN", "ORD", "CHR", "OPEN_PARENTHESES", "CLOSE_PARENTHESES", 
-=======
 		"SKIP_", "READ", "FREE", "RETURN", "EXIT", "PRINT", "PRINTLN", "IF", "THEN", 
 		"ELSE", "FI", "WHILE", "DO", "DONE", "BEGIN", "END", "IS", "PLUS", "MINUS", 
 		"MULT", "DIV", "MOD", "GT", "GTE", "LT", "LTE", "EQ", "NEQ", "AND", "OR", 
 		"NOT", "NEG", "LEN", "ORD", "CHR", "OPEN_PARENTHESES", "CLOSE_PARENTHESES", 
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 		"OPEN_SQPARENTHESES", "CLOSE_SQPARENTHESES", "DIGIT", "SIGN", "INTEGER", 
 		"LETTER", "ESCCHAR", "CHARACTER", "CHARLITER", "STRINGLITER", "BOOLLITER", 
 		"PAIRLITER", "IDENT"

@@ -24,19 +24,11 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx);
 	/**
-<<<<<<< HEAD
 	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
-=======
-	 * Visit a parse tree produced by {@link BasicParser#stat}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStat(@NotNull BasicParser.StatContext ctx);
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#arrayType}.
 	 * @param ctx the parse tree
@@ -44,19 +36,11 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx);
 	/**
-<<<<<<< HEAD
 	 * Visit a parse tree produced by {@link BasicParser#stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStat(@NotNull BasicParser.StatContext ctx);
-=======
-	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#assignRHS}.
 	 * @param ctx the parse tree
@@ -82,34 +66,17 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(@NotNull BasicParser.ProgramContext ctx);
 	/**
-<<<<<<< HEAD
-=======
-	 * Visit a parse tree produced by {@link BasicParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitType(@NotNull BasicParser.TypeContext ctx);
-	/**
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	 * Visit a parse tree produced by {@link BasicParser#binaryOper}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx);
 	/**
-<<<<<<< HEAD
 	 * Visit a parse tree produced by {@link BasicParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitType(@NotNull BasicParser.TypeContext ctx);
-=======
-	 * Visit a parse tree produced by {@link BasicParser#baseType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBaseType(@NotNull BasicParser.BaseTypeContext ctx);
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#pairType}.
 	 * @param ctx the parse tree
@@ -123,15 +90,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx);
 	/**
-<<<<<<< HEAD
 	 * Visit a parse tree produced by {@link BasicParser#baseType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBaseType(@NotNull BasicParser.BaseTypeContext ctx);
 	/**
-=======
->>>>>>> ac474cf50140765b8b19d343378bb32812e111ac
 	 * Visit a parse tree produced by {@link BasicParser#func}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

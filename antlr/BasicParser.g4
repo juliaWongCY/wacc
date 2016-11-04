@@ -34,7 +34,7 @@ program : BEGIN (func)* stat END EOF;
 func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
 
 
-stat : SKIP
+stat : SKIP_
 | type IDENT ASSIGN assignRHS
 | assignLHS ASSIGN assignRHS
 | READ assignLHS

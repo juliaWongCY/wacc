@@ -21,7 +21,7 @@ BOOL: 'bool' ;
 CHAR: 'char' ;
 STRING: 'string' ;
 INT: 'int' ;
-SKIP: 'skip' ;
+SKIP_: 'skip' ;
 READ: 'read' ;
 FREE: 'free' ;
 RETURN: 'return' ;

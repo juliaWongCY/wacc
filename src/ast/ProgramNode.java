@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class ProgramNode implements ASTNode {
 
+    // <program> ::= ‘begin’ <func>* <stat> ‘end’
+
+
     private ArrayList<FunctionNode> functions;
     private ArrayList<StatementNode> statements;
 
@@ -16,6 +19,15 @@ public class ProgramNode implements ASTNode {
     public void addStatement(StatementNode stat) {
         statements.add(stat);
     }
+
+    public ArrayList<FunctionNode> getFunctionNodes(){
+        return functions;
+    }
+
+    public ArrayList<StatementNode> getStatementsNode(){
+        return statements;
+    }
+
 
 //    @Override
 //    public ASTNode match(ParserRuleContext cxt) throws UnwantedTokenException {

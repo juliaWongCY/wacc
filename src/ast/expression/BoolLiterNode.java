@@ -15,9 +15,5 @@ public class BoolLiterNode implements ExpressionNode {
     public boolean getValue() {
         return value;
     }
-
-    @Override
-    public ASTNode match(ParserRuleContext cxt) throws UnwantedTokenException {
-        return null;
-    }
+    
 }

@@ -1,9 +1,12 @@
 package ast;
 
+import type.Type;
+
 public interface ASTNode {
 
-    // this class should be able to compare itself with other ASTNode with type and content(?)
-
+    /* return the type of the node, which will internally perform a type check
+     * to ensure all it's children has the correct type*/
+    Type getNodeType();
 
 
     // wrong responsibility? ////////////////////////////////////////

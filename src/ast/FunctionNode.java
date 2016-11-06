@@ -1,40 +1,39 @@
 package ast;
 
+import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
 import ast.statement.StatementNode;
-import org.antlr.runtime.UnwantedTokenException;
-import org.antlr.v4.runtime.ParserRuleContext;
 import type.Type;
 
 import java.util.ArrayList;
 
 public class FunctionNode implements ASTNode {
 
-    //<func> ::= <type> <ident> ‘(’ <param-list>? ‘)’ ‘is’ <stat> ‘end’
+    //<func> ::= <returnType> <functionName> ‘(’ <param-list>? ‘)’ ‘is’ <bodyStat> ‘end’
 
-    private Type type;
-    private IdentNode ident;
+    private Type returnType;
+    private IdentNode functionName;
     private ArrayList<ParamListNode> paramList;
-    private StatementNode stat;
+    private StatementNode bodyStat;
 
     //Constructor
     public FunctionNode(Type type,
-                        IdentNode ident,
+                        IdentNode functionName,
                         ArrayList<ParamListNode> paramList,
-                        StatementNode stat){
-        this.type = type;
-        this.ident = ident;
+                        StatementNode bodyStat){
+        this.returnType = type;
+        this.functionName = functionName;
         this.paramList = paramList;
-        this.stat = stat;
+        this.bodyStat = bodyStat;
     }
 
 
-    public Type getType(){
-        return type;
+    public Type getReturnType(){
+        return returnType;
     }
 
-    public IdentNode getIdentNode(){
-        return ident;
+    public IdentNode getFunctionName(){
+        return functionName;
     }
 
     public void addParamListNode(ParamListNode paramLN){
@@ -45,11 +44,12 @@ public class FunctionNode implements ASTNode {
     }
 
     public StatementNode getStatement(){
-        return stat;
+        return bodyStat;
     }
 
 
-
-
-
+    @Override
+    public Type getNodeType() {
+        return null;
+    }
 }

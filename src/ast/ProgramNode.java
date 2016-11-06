@@ -1,6 +1,7 @@
 package ast;
 
 import ast.statement.StatementNode;
+import type.Type;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,11 @@ public class ProgramNode implements ASTNode {
 
     private ArrayList<FunctionNode> functions;
     private ArrayList<StatementNode> statements;
+
+    public ProgramNode() {
+        this.functions = new ArrayList<>();
+        this.statements = new ArrayList<>();
+    }
 
     public ProgramNode(ArrayList<FunctionNode> functions,
                        ArrayList<StatementNode> statements){
@@ -32,6 +38,11 @@ public class ProgramNode implements ASTNode {
 
     public ArrayList<StatementNode> getStatementsNode(){
         return statements;
+    }
+
+    @Override
+    public Type getNodeType() {
+        return null;
     }
 
 

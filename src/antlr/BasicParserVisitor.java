@@ -36,6 +36,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BasicParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStat(@NotNull BasicParser.StatContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#assignRHS}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -53,12 +59,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link BasicParser#bodyStat}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBodyStat(@NotNull BasicParser.BodyStatContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#program}.
 	 * @param ctx the parse tree

@@ -3,6 +3,8 @@ package ast;
 import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
 import ast.statement.StatementNode;
+import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.Type;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class FunctionNode implements ASTNode {
 
 
     @Override
-    public Type getNodeType() {
+    public Type getNodeType(SymbolTable st) throws SemanticException {
         return null;
     }
 }

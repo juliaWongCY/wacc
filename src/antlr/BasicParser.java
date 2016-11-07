@@ -39,12 +39,12 @@ public class BasicParser extends Parser {
 		RULE_argList = 0, RULE_arrayLiter = 1, RULE_arrayElem = 2, RULE_pairElem = 3, 
 		RULE_binaryOper = 4, RULE_unaryOper = 5, RULE_paramList = 6, RULE_param = 7, 
 		RULE_pairType = 8, RULE_pairElemType = 9, RULE_arrayType = 10, RULE_baseType = 11, 
-		RULE_program = 12, RULE_func = 13, RULE_bodyStat = 14, RULE_assignRHS = 15, 
+		RULE_program = 12, RULE_func = 13, RULE_stat = 14, RULE_assignRHS = 15, 
 		RULE_assignLHS = 16, RULE_expr = 17, RULE_type = 18;
 	public static final String[] ruleNames = {
 		"argList", "arrayLiter", "arrayElem", "pairElem", "binaryOper", "unaryOper", 
 		"paramList", "param", "pairType", "pairElemType", "arrayType", "baseType", 
-		"program", "func", "bodyStat", "assignRHS", "assignLHS", "expr", "type"
+		"program", "func", "stat", "assignRHS", "assignLHS", "expr", "type"
 	};
 
 	@Override
@@ -687,9 +687,6 @@ public class BasicParser extends Parser {
 	}
 
 	public static class ProgramContext extends ParserRuleContext {
-		public BodyStatContext bodyStat() {
-			return getRuleContext(BodyStatContext.class,0);
-		}
 		public TerminalNode EOF() { return getToken(BasicParser.EOF, 0); }
 		public List<FuncContext> func() {
 			return getRuleContexts(FuncContext.class);
@@ -699,6 +696,9 @@ public class BasicParser extends Parser {
 		}
 		public TerminalNode BEGIN() { return getToken(BasicParser.BEGIN, 0); }
 		public TerminalNode END() { return getToken(BasicParser.END, 0); }
+		public StatContext stat() {
+			return getRuleContext(StatContext.class,0);
+		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -733,7 +733,7 @@ public class BasicParser extends Parser {
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
-			setState(114); bodyStat(0);
+			setState(114); stat(0);
 			setState(115); match(END);
 			setState(116); match(EOF);
 			}
@@ -751,9 +751,6 @@ public class BasicParser extends Parser {
 
 	public static class FuncContext extends ParserRuleContext {
 		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
-		public BodyStatContext bodyStat() {
-			return getRuleContext(BodyStatContext.class,0);
-		}
 		public TerminalNode IS() { return getToken(BasicParser.IS, 0); }
 		public ParamListContext paramList() {
 			return getRuleContext(ParamListContext.class,0);
@@ -761,6 +758,9 @@ public class BasicParser extends Parser {
 		public TerminalNode END() { return getToken(BasicParser.END, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
+		}
+		public StatContext stat() {
+			return getRuleContext(StatContext.class,0);
 		}
 		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
 		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
@@ -795,7 +795,7 @@ public class BasicParser extends Parser {
 
 			setState(124); match(CLOSE_PARENTHESES);
 			setState(125); match(IS);
-			setState(126); bodyStat(0);
+			setState(126); stat(0);
 			setState(127); match(END);
 			}
 		}
@@ -810,7 +810,7 @@ public class BasicParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BodyStatContext extends ParserRuleContext {
+	public static class StatContext extends ParserRuleContext {
 		public TerminalNode ELSE() { return getToken(BasicParser.ELSE, 0); }
 		public TerminalNode SEMICOLON() { return getToken(BasicParser.SEMICOLON, 0); }
 		public TerminalNode IF() { return getToken(BasicParser.IF, 0); }
@@ -821,12 +821,9 @@ public class BasicParser extends Parser {
 		public TerminalNode FI() { return getToken(BasicParser.FI, 0); }
 		public TerminalNode DONE() { return getToken(BasicParser.DONE, 0); }
 		public TerminalNode RETURN() { return getToken(BasicParser.RETURN, 0); }
-		public List<BodyStatContext> bodyStat() {
-			return getRuleContexts(BodyStatContext.class);
-		}
 		public TerminalNode DO() { return getToken(BasicParser.DO, 0); }
-		public BodyStatContext bodyStat(int i) {
-			return getRuleContext(BodyStatContext.class,i);
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
 		}
 		public TerminalNode BEGIN() { return getToken(BasicParser.BEGIN, 0); }
 		public TypeContext type() {
@@ -834,6 +831,9 @@ public class BasicParser extends Parser {
 		}
 		public TerminalNode PRINT() { return getToken(BasicParser.PRINT, 0); }
 		public TerminalNode THEN() { return getToken(BasicParser.THEN, 0); }
+		public List<StatContext> stat() {
+			return getRuleContexts(StatContext.class);
+		}
 		public TerminalNode WHILE() { return getToken(BasicParser.WHILE, 0); }
 		public TerminalNode EXIT() { return getToken(BasicParser.EXIT, 0); }
 		public AssignRHSContext assignRHS() {
@@ -848,28 +848,28 @@ public class BasicParser extends Parser {
 		public AssignLHSContext assignLHS() {
 			return getRuleContext(AssignLHSContext.class,0);
 		}
-		public BodyStatContext(ParserRuleContext parent, int invokingState) {
+		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_bodyStat; }
+		@Override public int getRuleIndex() { return RULE_stat; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitBodyStat(this);
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitStat(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final BodyStatContext bodyStat() throws RecognitionException {
-		return bodyStat(0);
+	public final StatContext stat() throws RecognitionException {
+		return stat(0);
 	}
 
-	private BodyStatContext bodyStat(int _p) throws RecognitionException {
+	private StatContext stat(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		BodyStatContext _localctx = new BodyStatContext(_ctx, _parentState);
-		BodyStatContext _prevctx = _localctx;
+		StatContext _localctx = new StatContext(_ctx, _parentState);
+		StatContext _prevctx = _localctx;
 		int _startState = 28;
-		enterRecursionRule(_localctx, 28, RULE_bodyStat, _p);
+		enterRecursionRule(_localctx, 28, RULE_stat, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -943,9 +943,9 @@ public class BasicParser extends Parser {
 				setState(152); match(IF);
 				setState(153); expr(0);
 				setState(154); match(THEN);
-				setState(155); bodyStat(0);
+				setState(155); stat(0);
 				setState(156); match(ELSE);
-				setState(157); bodyStat(0);
+				setState(157); stat(0);
 				setState(158); match(FI);
 				}
 				break;
@@ -954,14 +954,14 @@ public class BasicParser extends Parser {
 				setState(160); match(WHILE);
 				setState(161); expr(0);
 				setState(162); match(DO);
-				setState(163); bodyStat(0);
+				setState(163); stat(0);
 				setState(164); match(DONE);
 				}
 				break;
 			case BEGIN:
 				{
 				setState(166); match(BEGIN);
-				setState(167); bodyStat(0);
+				setState(167); stat(0);
 				setState(168); match(END);
 				}
 				break;
@@ -978,12 +978,12 @@ public class BasicParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new BodyStatContext(_parentctx, _parentState);
-					pushNewRecursionContext(_localctx, _startState, RULE_bodyStat);
+					_localctx = new StatContext(_parentctx, _parentState);
+					pushNewRecursionContext(_localctx, _startState, RULE_stat);
 					setState(172);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 					setState(173); match(SEMICOLON);
-					setState(174); bodyStat(2);
+					setState(174); stat(2);
 					}
 					} 
 				}
@@ -1404,13 +1404,13 @@ public class BasicParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 14: return bodyStat_sempred((BodyStatContext)_localctx, predIndex);
+		case 14: return stat_sempred((StatContext)_localctx, predIndex);
 		case 17: return expr_sempred((ExprContext)_localctx, predIndex);
 		case 18: return type_sempred((TypeContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean bodyStat_sempred(BodyStatContext _localctx, int predIndex) {
+	private boolean stat_sempred(StatContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: return precpred(_ctx, 1);
 		}

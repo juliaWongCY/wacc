@@ -12,8 +12,5 @@ public class ReadStatNode implements StatementNode {
         this.assignLHS = assignLHS;
     }
 
-    @Override
-    public Type getNodeType() throws SemanticException {
-        return null;
-    }
+
 }

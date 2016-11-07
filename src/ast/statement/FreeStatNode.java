@@ -3,6 +3,7 @@ package ast.statement;
 import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.ArrayType;
 import type.PairType;
 import type.Type;
 
@@ -19,7 +20,6 @@ public class FreeStatNode implements StatementNode {
         this.expr = expr;
     }
 
-    //TODO: Array-type?????
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type;

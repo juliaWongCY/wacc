@@ -42,9 +42,6 @@ public class BinaryOprNode implements ExpressionNode {
                 case GTE:
                 case LT:
                 case LTE:
-                    if (t1 instanceof PairType) {
-                        break;
-                    }
                     //Is it better if we don't use instanceof
                     if (t1 instanceof IntType || t1 instanceof CharType) {
                         return boolType.getType();

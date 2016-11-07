@@ -1,6 +1,7 @@
 package ast.expression;
 
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.StringType;
 import type.Type;
 
@@ -17,7 +18,7 @@ public class StringLiterNode implements ExpressionNode {
     }
 
     @Override
-    public Type getNodeType() throws SemanticException {
+    public Type getNodeType(SymbolTable st) throws SemanticException {
         StringType stringType = new StringType();
         return stringType.getType();
     }

@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.BoolType;
 import type.Type;
 
@@ -27,9 +28,9 @@ public class WhileStatNode implements StatementNode {
 
     //TODO!!!
     @Override
-    public Type getNodeType() throws SemanticException {
+    public Type getNodeType(SymbolTable st) throws SemanticException {
         BoolType bool = new BoolType();
-        if(!expr.getNodeType().equals(bool.getType())){
+        if(!expr.getNodeType(st).equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }
         return null;

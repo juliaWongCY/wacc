@@ -1,6 +1,8 @@
 package ast.statement;
 
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
+import type.StatementType;
 import type.Type;
 
 public class SkipStatNode implements StatementNode {
@@ -10,8 +12,10 @@ public class SkipStatNode implements StatementNode {
 
     }
 
-//    @Override
-//    public Type getNodeType() throws SemanticException {
-        //return statement type
-//    }
+
+    @Override
+    public Type getNodeType(SymbolTable st) throws SemanticException {
+        StatementType stat = new StatementType();
+        return stat.getType();
+    }
 }

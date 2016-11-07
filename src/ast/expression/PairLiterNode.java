@@ -1,6 +1,7 @@
 package ast.expression;
 
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
 
@@ -10,9 +11,8 @@ public class PairLiterNode implements ExpressionNode {
         //PairLiter = null
     }
 
-
     @Override
-    public Type getNodeType() throws SemanticException {
+    public Type getNodeType(SymbolTable st) throws SemanticException {
         PairType pairType = new PairType();
         return pairType.getType();
     }

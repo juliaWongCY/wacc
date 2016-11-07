@@ -1,5 +1,6 @@
 package ast.expression;
 
+import frontEnd.SymbolTable;
 import type.Type;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ArrayElemExprNode implements ExpressionNode {
     }
 
     @Override
-    public Type getNodeType() {
+    public Type getNodeType(SymbolTable st) {
         // look up
         return null;
     }

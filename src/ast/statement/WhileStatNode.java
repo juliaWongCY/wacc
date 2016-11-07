@@ -26,13 +26,13 @@ public class WhileStatNode implements StatementNode {
         return stat;
     }
 
-    //TODO!!!
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         BoolType bool = new BoolType();
         if(!expr.getNodeType(st).equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }
-        return null;
+        return stat.getNodeType(st);
     }
 }

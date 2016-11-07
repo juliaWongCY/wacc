@@ -4,6 +4,7 @@ import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.BoolType;
+import type.StatementType;
 import type.Type;
 
 public class IfStatNode implements StatementNode {
@@ -38,6 +39,7 @@ public class IfStatNode implements StatementNode {
 
 
 
+    //TODO: Check the return statement
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         BoolType bool = new BoolType();
@@ -49,10 +51,6 @@ public class IfStatNode implements StatementNode {
 
         Type thenStatType = statThenBody.getNodeType(thenST);
         Type elseStatType = statElseBody.getNodeType(elseST);
-
-        if(!thenStatType.equals(statThenBody.getNodeType(st))){
-            
-        }
-        return null;
+        return statThenBody.getNodeType(st);
     }
 }

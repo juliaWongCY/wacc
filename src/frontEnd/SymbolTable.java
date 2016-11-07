@@ -36,12 +36,12 @@ public class SymbolTable {
         }
     }
 
-    public void addVariable(String var, Type retType) throws SemanticException{
+    public void addVariable(String var, Type varType) throws SemanticException{
         if (varTable.containsKey(var)) {
             throw new SemanticException
                     ("Variable with same identifier is already declared in current scope");
         } else {
-            varTable.put(var, retType);
+            varTable.put(var, varType);
         }
     }
 

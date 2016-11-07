@@ -28,7 +28,7 @@ public class WhileStatNode implements StatementNode {
     //TODO!!!
     @Override
     public Type getNodeType() throws SemanticException {
-        BoolType bool = null;
+        BoolType bool = new BoolType();
         if(!expr.getNodeType().equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }

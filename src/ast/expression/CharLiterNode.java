@@ -1,5 +1,9 @@
 package ast.expression;
 
+import frontEnd.SemanticException;
+import type.CharType;
+import type.Type;
+
 public class CharLiterNode implements ExpressionNode {
 
     //CharLiter value has to be String since escape character contains two characters.
@@ -13,4 +17,9 @@ public class CharLiterNode implements ExpressionNode {
         return value;
     }
 
+    @Override
+    public Type getNodeType() throws SemanticException {
+        CharType charType = new CharType();
+        return charType.getType();
+    }
 }

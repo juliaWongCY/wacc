@@ -1,13 +1,14 @@
 package ast;
 
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.Type;
 
 public interface ASTNode {
 
     /* return the type of the node, which will internally perform a type check
      * to ensure all it's children has the correct type*/
-    Type getNodeType() throws SemanticException;
+    Type getNodeType(SymbolTable st) throws SemanticException;
 
 
     // wrong responsibility? ////////////////////////////////////////

@@ -1,8 +1,8 @@
 package ast.expression;
 
-import ast.ASTNode;
-import org.antlr.runtime.UnwantedTokenException;
-import org.antlr.v4.runtime.ParserRuleContext;
+import frontEnd.SemanticException;
+import type.BoolType;
+import type.Type;
 
 public class BoolLiterNode implements ExpressionNode {
 
@@ -15,5 +15,10 @@ public class BoolLiterNode implements ExpressionNode {
     public boolean getValue() {
         return value;
     }
-    
+
+    @Override
+    public Type getNodeType() throws SemanticException {
+        BoolType boolType = new BoolType();
+        return boolType.getType();
+    }
 }

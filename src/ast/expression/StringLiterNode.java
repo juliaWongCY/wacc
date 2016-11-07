@@ -1,5 +1,9 @@
 package ast.expression;
 
+import frontEnd.SemanticException;
+import type.StringType;
+import type.Type;
+
 public class StringLiterNode implements ExpressionNode {
 
     private final String value;
@@ -12,4 +16,9 @@ public class StringLiterNode implements ExpressionNode {
         return value;
     }
 
+    @Override
+    public Type getNodeType() throws SemanticException {
+        StringType stringType = new StringType();
+        return stringType.getType();
+    }
 }

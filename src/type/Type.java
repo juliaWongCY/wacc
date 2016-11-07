@@ -2,7 +2,7 @@ package type;
 
 public abstract class Type {
 
-    Type getType() {
+    public Type getType() {
         return this;
     }
 

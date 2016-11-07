@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.ASTNode;
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.Type;
 
 public class ReadStatNode implements StatementNode {
@@ -13,4 +14,8 @@ public class ReadStatNode implements StatementNode {
     }
 
 
+    @Override
+    public Type getNodeType(SymbolTable st) throws SemanticException {
+        return null;
+    }
 }

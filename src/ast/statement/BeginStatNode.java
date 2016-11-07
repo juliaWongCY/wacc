@@ -8,16 +8,17 @@ public class BeginStatNode implements StatementNode {
     // <stat> = 'begin' <stat> 'end'
 
     private StatementNode stat;
+
     public BeginStatNode(StatementNode stat) {
         this.stat = stat;
     }
 
-    public StatementNode getStat(){
+    public StatementNode getchildrenStat(){
         return stat;
     }
-    //TODO
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return null;
+        return stat.getNodeType(st);
     }
 }

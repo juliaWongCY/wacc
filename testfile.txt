@@ -1,31 +1,17 @@
-# print a user-specified sized triangle
+# basic array declaration and assignment
 
 # Output:
-# Please enter the size of the triangle to print:
-# #input#
-# #output#
+# 3
+# 3
 
 # Program:
 
 begin
-  int f(int x) is
-    if x == 0 then
-      skip
-    else
-      int i = x ;
-      while i > 0 do 
-        print "-" ;
-        i = i - 1
-      done ;
-      println "" ;
-      int s = call f(x - 1)
-    fi ;
-    return 0
-  end
-
-  println "Please enter the size of the triangle to print: " ;
-  int x = 0;
-
-  read x;
-  int s = call f(x) 
+  int[] a = [1,2,3];
+  int[] b = [3,4];
+  int[][] c = [a,b] ;
+  a[1] = 6;
+  println c[0][2] ;
+  println c[1][0]
 end
+

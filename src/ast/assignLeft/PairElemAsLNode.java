@@ -1,11 +1,9 @@
 package ast.assignLeft;
 
-import ast.ASTNode;
+
 import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
-import org.antlr.runtime.UnwantedTokenException;
-import org.antlr.v4.runtime.ParserRuleContext;
 import type.Type;
 
 public class PairElemAsLNode implements AssignLeftNode {

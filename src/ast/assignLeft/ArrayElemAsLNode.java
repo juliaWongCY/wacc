@@ -9,11 +9,11 @@ import type.Type;
 
 public class ArrayElemAsLNode implements AssignLeftNode {
 
-    private IdentNode identifier;
+    private IdentNode id;
     private ArrayElemExprNode arrayElem;
 
-    public ArrayElemAsLNode(IdentNode identifier, ArrayElemExprNode arrayElem) {
-        this.identifier = identifier;
+    public ArrayElemAsLNode(IdentNode id, ArrayElemExprNode arrayElem) {
+        this.id = id;
         this.arrayElem = arrayElem;
     }
 

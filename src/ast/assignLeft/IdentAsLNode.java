@@ -1,24 +1,25 @@
 package ast.assignLeft;
 
-import ast.ASTNode;
 import ast.expression.IdentNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
-import org.antlr.runtime.UnwantedTokenException;
-import org.antlr.v4.runtime.ParserRuleContext;
 import type.Type;
 
 public class IdentAsLNode implements AssignLeftNode {
 
-    private IdentNode identifier;
+    private IdentNode id;
 
-    public IdentAsLNode(IdentNode identifier) {
-        this.identifier = identifier;
+    public IdentAsLNode(IdentNode id) {
+        this.id = id;
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return identifier.getNodeType(st);
+        try {
+            return id.getNodeType(st);
+        } catch (SemanticException e) {
+            throw new SemanticException("ERROR");
+        }
     }
 
     /* this is a wrapper node to contain the IdentExprNode */

@@ -5,40 +5,43 @@ import ast.parameter.ParamListNode;
 import ast.statement.StatementNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.FunctionType;
 import type.Type;
-
-import java.util.ArrayList;
 
 public class FunctionNode implements ASTNode {
 
-    //<func> ::= <returnType> <functionName> ‘(’ <param-list>? ‘)’ ‘is’ <bodyStat> ‘end’
+    //<func> ::= <type> <functionName> ‘(’ <param-list>? ‘)’ ‘is’ <bodyStat> ‘end’
 
-    private Type returnType;
+    private Type type;
     private IdentNode functionName;
-    private ArrayList<ParamListNode> paramList;
+    private ParamListNode paramList;
     private StatementNode bodyStat;
 
     //Constructor
     public FunctionNode(Type type,
                         IdentNode functionName,
-                        ArrayList<ParamListNode> paramList,
+                        ParamListNode paramList,
                         StatementNode bodyStat){
-        this.returnType = type;
+        if (paramList.getParams().isEmpty()) {
+            this.type = new FunctionType(type);
+        } else {
+            try {
+                this.type = new FunctionType(type, paramList.getNodeTypes(null));
+            } catch (SemanticException e) {
+                System.err.println("Internal error in creating function node - " +
+                        "paramList returned semanticException");
+            }
+        }
         this.functionName = functionName;
         this.paramList = paramList;
         this.bodyStat = bodyStat;
-    }
-
-
-    public Type getReturnType(){
-        return returnType;
     }
 
     public String getFunctionName(){
         return functionName.getId();
     }
 
-    public ArrayList<ParamListNode> getParamListNode(){
+    public ParamListNode getParamListNode(){
         return paramList;
     }
 
@@ -48,6 +51,6 @@ public class FunctionNode implements ASTNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return returnType;
+        return type;
     }
 }

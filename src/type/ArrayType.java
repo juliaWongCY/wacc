@@ -6,6 +6,12 @@ public class ArrayType extends Type {
     private int length;
     private int nestedLayer;
 
+    public ArrayType() {
+        this.elemType = null;
+        this.length = 0;
+        this.nestedLayer = 0;
+    }
+
     public ArrayType(Type elemType, int length, int nestedLayer) {
         this.elemType = elemType;
         this.length = length;
@@ -22,5 +28,13 @@ public class ArrayType extends Type {
 
     public int getNestedLayer() {
         return nestedLayer;
+    }
+
+    public void setElemType(Type elemType) {
+        this.elemType = elemType;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

@@ -1,4 +1,12 @@
 package ast.assignRight;
 
+import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
+import type.Type;
+
 public class PairElemAsRNode implements AssignRightNode {
+    @Override
+    public Type getNodeType(SymbolTable st) throws SemanticException {
+        return null;
+    }
 }

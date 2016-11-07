@@ -9,16 +9,14 @@ import type.Type;
 
 public class ArrayElemAsLNode implements AssignLeftNode {
 
-    private IdentNode id;
     private ArrayElemExprNode arrayElem;
 
-    public ArrayElemAsLNode(IdentNode id, ArrayElemExprNode arrayElem) {
-        this.id = id;
+    public ArrayElemAsLNode(ArrayElemExprNode arrayElem) {
         this.arrayElem = arrayElem;
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return null;
+        return arrayElem.getNodeType(st);
     }
 }

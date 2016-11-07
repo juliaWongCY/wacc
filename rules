@@ -9,16 +9,16 @@ src/ast/parameter/ParamNode.java
 src/ast/parameter/ParamListNode.java
 src/ast/ProgramNode.java
 src/ast/statement/FreeStatNode.java
-src/ast/statement/InitStatNode.java
 src/ast/statement/IfStatNode.java
 src/ast/statement/ReadStatNode.java
 src/ast/statement/WhileStatNode.java
 src/ast/statement/ExitStatNode.java
 src/ast/statement/ReturnStatNode.java
-src/ast/statement/ConcatStatNode.java
+src/ast/statement/SequentialStatNode.java
 src/ast/statement/PrintlnStatNode.java
+src/ast/statement/DeclareStatNode.java
+src/ast/statement/ScopingStatNode.java
 src/ast/statement/StatementNode.java
-src/ast/statement/BeginStatNode.java
 src/ast/statement/SkipStatNode.java
 src/ast/statement/AssignStatNode.java
 src/ast/statement/PrintStatNode.java
@@ -28,6 +28,7 @@ src/ast/assignRight/PairElemAsRNode.java
 src/ast/assignRight/NewPairAsRNode.java
 src/ast/assignRight/ExprAsRNode.java
 src/ast/assignRight/AssignRightNode.java
+src/ast/BinaryOpr.java
 src/ast/ASTNode.java
 src/ast/expression/PairLiterNode.java
 src/ast/expression/BinaryOprNode.java
@@ -41,6 +42,7 @@ src/ast/expression/IdentNode.java
 src/ast/expression/UnaryOprNode.java
 src/ast/expression/BoolLiterNode.java
 src/ast/FunctionNode.java
+src/ast/UnaryOpr.java
 src/type/FunctionType.java
 src/type/PairElemType.java
 src/type/Type.java

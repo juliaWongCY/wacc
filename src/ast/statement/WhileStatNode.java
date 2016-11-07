@@ -4,6 +4,7 @@ import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.BoolType;
+import type.StatementType;
 import type.Type;
 
 public class WhileStatNode implements StatementNode {
@@ -33,6 +34,12 @@ public class WhileStatNode implements StatementNode {
         if(!expr.getNodeType(st).equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }
-        return stat.getNodeType(st);
+
+        if(!(stat instanceof StatementNode)){
+            throw new SemanticException("the body must be a StatementNode type.");
+        }
+
+        StatementType statement = new StatementType();
+        return statement.getType();
     }
 }

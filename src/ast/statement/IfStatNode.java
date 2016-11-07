@@ -14,8 +14,8 @@ public class IfStatNode implements StatementNode {
     private ExpressionNode expr;
     private StatementNode statThenBody;
     private StatementNode statElseBody;
-    private SymbolTable thenST;
-    private SymbolTable elseST;
+   // private SymbolTable thenST;
+   // private SymbolTable elseST;
 
     public IfStatNode(ExpressionNode expr,
                       StatementNode statThenBody,
@@ -49,8 +49,14 @@ public class IfStatNode implements StatementNode {
             throw new SemanticException("the condition must return a boolean");
         }
 
-        Type thenStatType = statThenBody.getNodeType(thenST);
-        Type elseStatType = statElseBody.getNodeType(elseST);
-        return statThenBody.getNodeType(st);
+        if(!(statThenBody instanceof StatementType)){
+            throw new SemanticException("The thenPath body statement should be of type StatementNode.");
+        }
+
+        if(!(statElseBody instanceof StatementType)){
+            throw new SemanticException("The elsePath body statement should be of type StatementNode.");
+        }
+        StatementType stat = new StatementType();
+        return stat.getType();
     }
 }

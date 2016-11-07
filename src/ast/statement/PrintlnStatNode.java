@@ -17,7 +17,8 @@ public class PrintlnStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        StatementType stat = new StatementType();
-        return stat.getType();
+        return expr.getNodeType(st);
+        //StatementType stat = new StatementType();
+        //return stat.getType();
     }
 }

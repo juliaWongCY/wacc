@@ -4,12 +4,12 @@ import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
 
-public class BeginStatNode implements StatementNode {
+public class ScopingStatNode implements StatementNode {
     // <stat> = 'begin' <stat> 'end'
 
     private StatementNode stat;
 
-    public BeginStatNode(StatementNode stat) {
+    public ScopingStatNode(StatementNode stat) {
         this.stat = stat;
     }
 

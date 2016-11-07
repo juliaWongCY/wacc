@@ -5,6 +5,7 @@ import ast.assignRight.AssignRightNode;
 import ast.expression.IdentNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.ArrayType;
 import type.StatementType;
 import type.Type;
 
@@ -56,9 +57,7 @@ public class AssignStatNode implements StatementNode {
             throw new SemanticException("There is no ident.");
         }
 
-        if(!(lhs instanceof ident))
-
-        StatementType stat = new StatementType();
-        return stat.getType();
+        //TODO!!!!!
+     return null;
     }
 }

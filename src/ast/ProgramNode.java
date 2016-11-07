@@ -18,12 +18,6 @@ public class ProgramNode implements ASTNode {
         this.statements = new ArrayList<>();
     }
 
-    public ProgramNode(ArrayList<FunctionNode> functions,
-                       ArrayList<StatementNode> statements){
-        this.functions = functions;
-        this.statements = statements;
-    }
-
     public void addFunction(FunctionNode func) {
         functions.add(func);
     }

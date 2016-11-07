@@ -1,6 +1,6 @@
 package type;
 
-public class PairElemType implements Type {
+public class PairElemType extends Type {
 
     //A pair contains two elements that can be of any type.
     private final Type fst;
@@ -20,8 +20,5 @@ public class PairElemType implements Type {
         return snd;
     }
 
-    @Override
-    public TypeEnum getType() {
-        return TypeEnum.PAIR_ELEM;
-    }
+
 }

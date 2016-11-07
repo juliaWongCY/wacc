@@ -1,11 +1,9 @@
 package ast.statement;
 
 import ast.expression.ExpressionNode;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import frontEnd.SemanticException;
 import type.BoolType;
 import type.Type;
-import type.TypeEnum;
 
 public class WhileStatNode implements StatementNode {
     //<stat> = ‘while’ <expr> ‘do’ <stat> ‘done’

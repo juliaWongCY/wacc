@@ -1,8 +1,5 @@
 package type;
 
-public class BoolType extends BaseType {
-    @Override
-    public TypeEnum getType() {
-        return TypeEnum.BOOL;
-    }
+public class BoolType extends Type {
+
 }

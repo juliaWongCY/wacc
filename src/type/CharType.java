@@ -1,9 +1,6 @@
 package type;
 
-public class CharType extends BaseType {
+public class CharType extends Type {
 
-    @Override
-    public TypeEnum getType() {
-        return TypeEnum.CHAR;
-    }
+
 }

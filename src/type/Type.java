@@ -1,7 +1,9 @@
 package type;
 
-public interface Type {
+public abstract class Type {
 
-    TypeEnum getType();
+    Type getType() {
+        return this;
+    }
 
 }

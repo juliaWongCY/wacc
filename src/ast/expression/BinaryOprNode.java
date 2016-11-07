@@ -52,8 +52,9 @@ public class BinaryOprNode implements ExpressionNode {
                     break;
                 case EQ:
                 case NEQ:
-                    if (t1 instanceof IntType || t1 instanceof CharType || t1 instanceof StringType ||
-                            t1 instanceof BoolType || t1 instanceof PairType) {
+                    if (t1 instanceof IntType || t1 instanceof CharType ||
+                            t1 instanceof StringType || t1 instanceof BoolType ||
+                            t1 instanceof PairType) {
                         return boolType.getType();
                     }
                     break;

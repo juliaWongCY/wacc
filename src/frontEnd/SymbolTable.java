@@ -11,6 +11,11 @@ public class SymbolTable {
     private Map<String, Type> functionTable = new HashMap<>();
     private Map<String, Type> varTable = new HashMap<>();
 
+    //Constructor
+    public SymbolTable(SymbolTable parent){
+        this.parent = parent;
+    }
+
     public SymbolTable getParent() {
         return parent;
     }

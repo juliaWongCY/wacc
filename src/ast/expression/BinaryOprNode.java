@@ -23,6 +23,9 @@ public class BinaryOprNode implements ExpressionNode {
         Type t1 = exprL.getNodeType(st);
         Type t2 = exprR.getNodeType(st);
 
+        IntType intType = new IntType();
+        BoolType boolType = new BoolType();
+
         if (t1.equals(t2)) {
             switch (binaryOpr) {
                 case MULT:
@@ -31,36 +34,38 @@ public class BinaryOprNode implements ExpressionNode {
                 case PLUS:
                 case MINUS:
                     if (t1 instanceof IntType) {
-                        IntType intType = new IntType();
                         return intType.getType();
+                    } else {
+                        throw new SemanticException("Only IntLiter");
                     }
-                    break;
                 case GT:
                 case GTE:
                 case LT:
                 case LTE:
                     if (t1 instanceof PairType) {
-                        throw new SemanticException("You can't use PairType here.");
+                        break;
                     }
                     //Is it better if we don't use instanceof
                     if (t1 instanceof IntType || t1 instanceof CharType) {
-                        BoolType boolType = new BoolType();
                         return boolType.getType();
                     }
                     break;
                 case EQ:
                 case NEQ:
-                    BoolType boolType = new BoolType();
-                    return boolType.getType();
-                break;
-                case AND:
-                case OR:
-                    BoolType boolType = new BoolType();
-                    return boolType.getType();
-                break;
+                    if (t1 instanceof IntType || t1 instanceof CharType || t1 instanceof StringType ||
+                            t1 instanceof BoolType || t1 instanceof PairType) {
+                        return boolType.getType();
+                    }
+                    break;
+                default:
+                    if (t1 instanceof BoolType) {
+                        return boolType.getType();
+                    }
+                    break;
             }
-
         }
+
+        throw new SemanticException("If none of above, then there is error.");
     }
 }
 

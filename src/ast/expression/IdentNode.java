@@ -1,6 +1,5 @@
 package ast.expression;
 
-import ast.ASTNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;

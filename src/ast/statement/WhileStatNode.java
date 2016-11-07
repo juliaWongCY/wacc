@@ -35,11 +35,6 @@ public class WhileStatNode implements StatementNode {
             throw new SemanticException("the condition must return a boolean");
         }
 
-        if(!(stat instanceof StatementNode)){
-            throw new SemanticException("the body must be a StatementNode type.");
-        }
-
-        StatementType statement = new StatementType();
-        return statement.getType();
+        return stat.getNodeType(st);
     }
 }

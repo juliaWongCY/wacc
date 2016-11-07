@@ -29,12 +29,12 @@ arrayType : type OPEN_SQPARENTHESES CLOSE_SQPARENTHESES ;
 
 baseType : INT | BOOL | CHAR | STRING ;
 
-program : BEGIN (func)* bodyStat END EOF;
+program : BEGIN (func)* stat END EOF;
 
-func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS bodyStat END;
+func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
 
 
-bodyStat : SKIP_
+stat : SKIP_
 | type IDENT ASSIGN assignRHS
 | assignLHS ASSIGN assignRHS
 | READ assignLHS
@@ -43,10 +43,10 @@ bodyStat : SKIP_
 | EXIT expr
 | PRINT expr
 | PRINTLN expr
-| IF expr THEN bodyStat ELSE bodyStat FI
-| WHILE expr DO bodyStat DONE
-| BEGIN bodyStat END
-| bodyStat SEMICOLON bodyStat
+| IF expr THEN stat ELSE stat FI
+| WHILE expr DO stat DONE
+| BEGIN stat END
+| stat SEMICOLON stat
 ;
 
 assignRHS : expr

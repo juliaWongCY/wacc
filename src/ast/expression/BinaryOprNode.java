@@ -57,11 +57,14 @@ public class BinaryOprNode implements ExpressionNode {
                         return boolType.getType();
                     }
                     break;
-                default:
+                case AND:
+                case OR:
                     if (t1 instanceof BoolType) {
                         return boolType.getType();
                     }
                     break;
+                default: //Should never reach here
+                    throw new SemanticException("Error: Binary opeartor not found.");
             }
         }
 

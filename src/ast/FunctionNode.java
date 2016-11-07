@@ -34,13 +34,10 @@ public class FunctionNode implements ASTNode {
         return returnType;
     }
 
-    public IdentNode getFunctionName(){
-        return functionName;
+    public String getFunctionName(){
+        return functionName.getId();
     }
 
-    public void addParamListNode(ParamListNode paramLN){
-        paramList.add(paramLN);
-    }
     public ArrayList<ParamListNode> getParamListNode(){
         return paramList;
     }
@@ -49,9 +46,8 @@ public class FunctionNode implements ASTNode {
         return bodyStat;
     }
 
-
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return null;
+        return returnType;
     }
 }

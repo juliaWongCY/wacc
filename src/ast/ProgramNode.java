@@ -1,6 +1,9 @@
 package ast;
 
 import ast.statement.StatementNode;
+import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
+import type.StatementType;
 import type.Type;
 
 import java.util.ArrayList;
@@ -35,7 +38,18 @@ public class ProgramNode implements ASTNode {
     }
 
     @Override
-    public Type getNodeType() {
+    public Type getNodeType(SymbolTable st) throws SemanticException {
+        for (FunctionNode f : functions) {
+            f.getNodeType(st);
+        }
+        for (StatementNode s : statements) {
+            if (!s.getNodeType(st).equals(new StatementType())) {
+                throw new SemanticException
+                        ("Type error in statement" + s +
+                                ", expecting statement type -" +
+                                " actual type is" + s.getNodeType(st));
+            }
+        }
         return null;
     }
 

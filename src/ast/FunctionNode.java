@@ -3,6 +3,8 @@ package ast;
 import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
 import ast.statement.StatementNode;
+import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.Type;
 
 import java.util.ArrayList;
@@ -32,13 +34,10 @@ public class FunctionNode implements ASTNode {
         return returnType;
     }
 
-    public IdentNode getFunctionName(){
-        return functionName;
+    public String getFunctionName(){
+        return functionName.getId();
     }
 
-    public void addParamListNode(ParamListNode paramLN){
-        paramList.add(paramLN);
-    }
     public ArrayList<ParamListNode> getParamListNode(){
         return paramList;
     }
@@ -47,9 +46,8 @@ public class FunctionNode implements ASTNode {
         return bodyStat;
     }
 
-
     @Override
-    public Type getNodeType() {
-        return null;
+    public Type getNodeType(SymbolTable st) throws SemanticException {
+        return returnType;
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
+    private SymbolTable symbolTable = null;
+
     @Override
     public ASTNode visitArgList(BasicParser.ArgListContext ctx) {
         // argList is only referenced in assign-rhs, as the parameter to a function,
@@ -63,12 +65,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // advanced:  ident are declared, assignment is same type with variable,
         // put variable/function to symbol table, etc
 
-        // base case - didn't add to symbol table or perform type check or return error
+        // base case
+
+        symbolTable = new SymbolTable(null);
         ProgramNode programNode = new ProgramNode();
         List<BasicParser.FuncContext> functions = ctx.func();
-        BasicParser.StatContext statements      = ctx.stat();
+        BasicParser.StatContext statements = ctx.stat();
 
         for (BasicParser.FuncContext f : functions) {
+
+            symbolTable.addFunction(f.IDENT().getText(), f.type());
             programNode.addFunction((FunctionNode) visitFunc(f));
         }
 

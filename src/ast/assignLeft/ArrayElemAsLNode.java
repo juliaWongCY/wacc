@@ -1,7 +1,6 @@
 package ast.assignLeft;
 
-import ast.expression.ArrayElemExprNode;
-import ast.expression.IdentNode;
+import ast.expression.ArrayElemNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
@@ -9,9 +8,9 @@ import type.Type;
 
 public class ArrayElemAsLNode implements AssignLeftNode {
 
-    private ArrayElemExprNode arrayElem;
+    private ArrayElemNode arrayElem;
 
-    public ArrayElemAsLNode(ArrayElemExprNode arrayElem) {
+    public ArrayElemAsLNode(ArrayElemNode arrayElem) {
         this.arrayElem = arrayElem;
     }
 

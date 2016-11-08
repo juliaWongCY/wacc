@@ -7,6 +7,8 @@ import type.Type;
 
 public class PairLiterNode implements ExpressionNode {
 
+    // <expr> = <pair-liter>
+
     public PairLiterNode() {
         //PairLiter = null
     }

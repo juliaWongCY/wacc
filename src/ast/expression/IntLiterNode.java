@@ -7,6 +7,8 @@ import type.Type;
 
 public class IntLiterNode implements ExpressionNode {
 
+    // <expr> = <int-liter>
+
     private final int value;
 
     public IntLiterNode(int value) {

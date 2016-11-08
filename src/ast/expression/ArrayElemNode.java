@@ -7,13 +7,15 @@ import type.Type;
 
 import java.util.List;
 
-public class ArrayElemExprNode implements ExpressionNode {
+public class ArrayElemNode implements ExpressionNode {
 
     private Type elemType;
     private IdentNode arrayName;
     private List<String> indexes;
 
-    public ArrayElemExprNode(Type elemType, IdentNode arrayName, List<String> indexes) {
+    public ArrayElemNode(Type elemType, IdentNode arrayName, List<String> indexes) {
+
+        //<array-elem> ::= <ident> (‘[’ <expr > ‘]’)+
         this.elemType = elemType;
         this.arrayName = arrayName;
         this.indexes = indexes;

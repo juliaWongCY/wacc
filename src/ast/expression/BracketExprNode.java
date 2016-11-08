@@ -6,6 +6,7 @@ import type.Type;
 
 public class BracketExprNode implements ExpressionNode {
 
+    // <expr> = '(' <expr> ')'
     private ExpressionNode expressionNode;
 
     public BracketExprNode(ExpressionNode expressionNode) {

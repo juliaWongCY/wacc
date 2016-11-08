@@ -13,6 +13,8 @@ public class BinaryOprNode implements ExpressionNode {
     private final ExpressionNode exprR;
 
     public BinaryOprNode(BinaryOpr binaryOpr, ExpressionNode exprL, ExpressionNode exprR) {
+        // <expr> = <expr> <binary-oper> <expr>
+        //<binary-oper> ::= ‘*’ | ‘/’ | ‘%’ | ‘+’ | ‘-’ | ‘>’ | ‘>=’ | ‘<’ | ‘<=’ | ‘==’ | ‘!=’ | ‘&&’ | ‘||’
         this.binaryOpr = binaryOpr;
         this.exprL = exprL;
         this.exprR = exprR;
@@ -20,20 +22,20 @@ public class BinaryOprNode implements ExpressionNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        Type t1 = exprL.getNodeType(st);
-        Type t2 = exprR.getNodeType(st);
+        Type tL = exprL.getNodeType(st);
+        Type tR = exprR.getNodeType(st);
 
         IntType intType = new IntType();
         BoolType boolType = new BoolType();
 
-        if (t1.equals(t2)) {
+        if (tL.equals(tR)) {
             switch (binaryOpr) {
                 case MULT:
                 case DIV:
                 case MOD:
                 case PLUS:
                 case MINUS:
-                    if (t1 instanceof IntType) {
+                    if (tL instanceof IntType) {
                         return intType.getType();
                     } else {
                         throw new SemanticException("Only IntLiter");
@@ -43,21 +45,21 @@ public class BinaryOprNode implements ExpressionNode {
                 case LT:
                 case LTE:
                     //Is it better if we don't use instanceof
-                    if (t1 instanceof IntType || t1 instanceof CharType) {
+                    if (tL instanceof IntType || tL instanceof CharType) {
                         return boolType.getType();
                     }
                     break;
                 case EQ:
                 case NEQ:
-                    if (t1 instanceof IntType || t1 instanceof CharType ||
-                            t1 instanceof StringType || t1 instanceof BoolType ||
-                            t1 instanceof PairType) {
+                    if (tL instanceof IntType || tL instanceof CharType ||
+                            tL instanceof StringType || tL instanceof BoolType ||
+                            tL instanceof PairType) {
                         return boolType.getType();
                     }
                     break;
                 case AND:
                 case OR:
-                    if (t1 instanceof BoolType) {
+                    if (tL instanceof BoolType) {
                         return boolType.getType();
                     }
                     break;

@@ -5,6 +5,10 @@ public class PairType extends Type {
     private PairElemType fst;
     private PairElemType snd;
 
+    public PairType() {
+
+    }
+
     public PairType(PairElemType fst, PairElemType snd) {
         this.fst = fst;
         this.snd = snd;
@@ -17,4 +21,6 @@ public class PairType extends Type {
     public Type getSnd() {
         return snd.getElemType();
     }
+
+
 }

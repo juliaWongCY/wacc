@@ -8,16 +8,16 @@ import type.Type;
 
 public class PairElemAsLNode implements AssignLeftNode {
 
-    private ExpressionNode pairElem;
+    private ExpressionNode expressionNode;
     private boolean isFirst;
 
-    public PairElemAsLNode(ExpressionNode pairElem, boolean isFirst) {
-        this.pairElem = pairElem;
+    public PairElemAsLNode(ExpressionNode expressionNode, boolean isFirst) {
+        this.expressionNode = expressionNode;
         this.isFirst = isFirst;
     }
 
-    public ExpressionNode getPairElem() {
-        return pairElem;
+    public ExpressionNode getExpressionNode() {
+        return expressionNode;
     }
 
     public boolean isFirst() {
@@ -26,7 +26,7 @@ public class PairElemAsLNode implements AssignLeftNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return pairElem.getNodeType(st);
+        return expressionNode.getNodeType(st);
     }
 
     /* this is a wrapper class to contain the pairElemTypeNode */

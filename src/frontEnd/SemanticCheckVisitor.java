@@ -6,6 +6,7 @@ import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
 import ast.statement.StatementNode;
+import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
@@ -120,7 +121,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitInt_liter(@NotNull BasicParser.Int_literContext ctx) {
-        return super.visitInt_liter(ctx);
+
+        IntLiterNode i = null;
+
+        try {
+            i = new IntLiterNode(Integer.parseInt(ctx.getText()));
+        } catch (Exception e) {
+            System.err.println("Syntax error.");
+        }
+
+        return i;
+
     }
 
     @Override

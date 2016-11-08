@@ -72,11 +72,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         List<BasicParser.FuncContext> functions = ctx.func();
         BasicParser.StatContext statements = ctx.stat();
 
-        for (BasicParser.FuncContext f : functions) {
-
-            symbolTable.addFunction(f.IDENT().getText(), f.type());
-            programNode.addFunction((FunctionNode) visitFunc(f));
+        try {
+            for (BasicParser.FuncContext f : functions) {
+                FunctionNode fn = (FunctionNode) visitFunc(f);
+                symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
+                programNode.addFunction(fn);
+            }
+        } catch (SemanticException e) {
+            System.err.println(e);
         }
+
 
         programNode.addStatement((StatementNode) visitStat(statements));
 

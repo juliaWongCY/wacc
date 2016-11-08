@@ -46,16 +46,17 @@ public class AssignStatNode implements StatementNode {
         Type ident;
         ExpressionNode expr;
 
+        //TODO: Do I need to check each type in assignLHS and assignRHS?
         try{
             lhs = assignLHS.getNodeType(st);
         } catch (SemanticException e) {
-            throw new SemanticException("The type must be an int in exit statement.");
+            throw new SemanticException("The type must be either an ident, array-elem or pair-elem.");
         }
 
         try{
             rhs = assignRHS.getNodeType(st);
         } catch (SemanticException se) {
-            throw new SemanticException("The type must be an int in exit statement.");
+            throw new SemanticException("The type must be either an expression / an array literal / a function call / a pair constructor / a pair element.");
         }
 
         if(lhs != rhs){

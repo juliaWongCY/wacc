@@ -36,6 +36,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
+
         return super.visitPrintln_stat(ctx);
     }
 

@@ -239,7 +239,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
-        return super.visitPairElemType(ctx);
+        return new PairLiterNode();
     }
 
     @Override

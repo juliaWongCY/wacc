@@ -6,6 +6,8 @@ import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
 import ast.statement.StatementNode;
+import ast.expression.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
@@ -14,53 +16,57 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     private SymbolTable symbolTable = null;
 
     @Override
-    public ASTNode visitArgList(BasicParser.ArgListContext ctx) {
-        // argList is only referenced in assign-rhs, as the parameter to a function,
-        // so the method should a argListNode with all respective node;
-        // argListNode should provide a method that return all types of variable,
-        // so visitassignLHS can call and use it to compare with the param type of the function
-        List<BasicParser.ExprContext> exprs = ctx.expr();
-
+    public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
         return super.visitArgList(ctx);
     }
 
     @Override
-    public ASTNode visitArrayLiter(BasicParser.ArrayLiterContext ctx) {
+    public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
         return super.visitArrayLiter(ctx);
     }
 
     @Override
-    public ASTNode visitArrayElem(BasicParser.ArrayElemContext ctx) {
+    public ASTNode visitString_liter(@NotNull BasicParser.String_literContext ctx) {
+        return super.visitString_liter(ctx);
+    }
+
+    @Override
+    public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
         return super.visitArrayElem(ctx);
     }
 
     @Override
-    public ASTNode visitArrayType(BasicParser.ArrayTypeContext ctx) {
-        return super.visitArrayType(ctx);
+    public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
+        return super.visitPrintln_stat(ctx);
     }
 
     @Override
-    public ASTNode visitStat(BasicParser.StatContext ctx) {
-        return super.visitStat(ctx);
+    public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
+        return super.visitScope_stat(ctx);
     }
 
     @Override
-    public ASTNode visitAssignRHS(BasicParser.AssignRHSContext ctx) {
-        return super.visitAssignRHS(ctx);
+    public ASTNode visitAssignr_expr(@NotNull BasicParser.Assignr_exprContext ctx) {
+        return super.visitAssignr_expr(ctx);
     }
 
     @Override
-    public ASTNode visitAssignLHS(BasicParser.AssignLHSContext ctx) {
-        return super.visitAssignLHS(ctx);
-    }
-
-    @Override
-    public ASTNode visitUnaryOper(BasicParser.UnaryOperContext ctx) {
+    public ASTNode visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx) {
         return super.visitUnaryOper(ctx);
     }
 
     @Override
-    public ASTNode visitProgram(BasicParser.ProgramContext ctx) {
+    public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
+        return super.visitIdent(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
+        return super.visitAssignl_arrayelem(ctx);
+    }
+
+    @Override
+    public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
         // base case: tokens are in correct type and correct order
         // advanced:  ident are declared, assignment is same type with variable,
         // put variable/function to symbol table, etc
@@ -72,69 +78,204 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         List<BasicParser.FuncContext> functions = ctx.func();
         BasicParser.StatContext statements = ctx.stat();
 
-        for (BasicParser.FuncContext f : functions) {
-
-            symbolTable.addFunction(f.IDENT().getText(), f.type());
-            programNode.addFunction((FunctionNode) visitFunc(f));
+        try {
+            for (BasicParser.FuncContext f : functions) {
+                FunctionNode fn = (FunctionNode) visitFunc(f);
+                symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
+                programNode.addFunction(fn);
+            }
+        } catch (SemanticException e) {
+            System.err.println(e);
         }
 
-        programNode.addStatement((StatementNode) visitStat(statements));
+
+        //programNode.addStatement((StatementNode) visitStat(statements));
 
         return programNode;
     }
 
     @Override
-    public ASTNode visitBinaryOper(BasicParser.BinaryOperContext ctx) {
-        return super.visitBinaryOper(ctx);
+    public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
+        return super.visitExit_stat(ctx);
     }
 
     @Override
-    public ASTNode visitType(BasicParser.TypeContext ctx) {
+    public ASTNode visitType(@NotNull BasicParser.TypeContext ctx) {
         return super.visitType(ctx);
     }
 
     @Override
-    public ASTNode visitPairType(BasicParser.PairTypeContext ctx) {
-        return super.visitPairType(ctx);
+    public ASTNode visitSkip_stat(@NotNull BasicParser.Skip_statContext ctx) {
+        return super.visitSkip_stat(ctx);
     }
 
     @Override
-    public ASTNode visitPairElemType(BasicParser.PairElemTypeContext ctx) {
-        return super.visitPairElemType(ctx);
+    public ASTNode visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx) {
+        return super.visitDeclare_stat(ctx);
     }
 
     @Override
-    public ASTNode visitBaseType(BasicParser.BaseTypeContext ctx) {
+    public ASTNode visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) {
         return super.visitBaseType(ctx);
     }
 
     @Override
-    public ASTNode visitFunc(BasicParser.FuncContext ctx) {
+    public ASTNode visitInt_liter(@NotNull BasicParser.Int_literContext ctx) {
 
-        // <func> ::= <type> <dent> ‘(’ <param-list>? ‘)’ ‘is’ <stat> ‘end’
+        IntLiterNode i = null;
 
-        symbolTable = new SymbolTable(null);
+        try {
+            i = new IntLiterNode(Integer.parseInt(ctx.getText()));
+        } catch (Exception e) {
+            System.err.println("Syntax error.");
+        }
 
-        return super.visitFunc(ctx);
+        return i;
+
     }
 
     @Override
-    public ASTNode visitParam(BasicParser.ParamContext ctx) {
+    public ASTNode visitParen(@NotNull BasicParser.ParenContext ctx) {
+        return super.visitParen(ctx);
+    }
+
+    @Override
+    public ASTNode visitParam(@NotNull BasicParser.ParamContext ctx) {
         return super.visitParam(ctx);
     }
 
     @Override
-    public ASTNode visitParamList(BasicParser.ParamListContext ctx) {
+    public ASTNode visitWhile_stat(@NotNull BasicParser.While_statContext ctx) {
+        return super.visitWhile_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignl_id(@NotNull BasicParser.Assignl_idContext ctx) {
+        return super.visitAssignl_id(ctx);
+    }
+
+    @Override
+    public ASTNode visitChar_liter(@NotNull BasicParser.Char_literContext ctx) {
+        return super.visitChar_liter(ctx);
+    }
+
+    @Override
+    public ASTNode visitIf_stat(@NotNull BasicParser.If_statContext ctx) {
+        return super.visitIf_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitPairElem(@NotNull BasicParser.PairElemContext ctx) {
+        return super.visitPairElem(ctx);
+    }
+
+    @Override
+    public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
+        return super.visitBinary_op(ctx);
+    }
+
+    @Override
+    public ASTNode visitPrint_stat(@NotNull BasicParser.Print_statContext ctx) {
+        return super.visitPrint_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx) {
+        return super.visitArrayType(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssign_stat(@NotNull BasicParser.Assign_statContext ctx) {
+        return super.visitAssign_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitBool_liter(@NotNull BasicParser.Bool_literContext ctx) {
+        return super.visitBool_liter(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignRarrayliter(@NotNull BasicParser.AssignRarrayliterContext ctx) {
+        return super.visitAssignRarrayliter(ctx);
+    }
+
+    @Override
+    public ASTNode visitReturn_stat(@NotNull BasicParser.Return_statContext ctx) {
+        return super.visitReturn_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignr_pairelem(@NotNull BasicParser.Assignr_pairelemContext ctx) {
+        return super.visitAssignr_pairelem(ctx);
+    }
+
+    @Override
+    public ASTNode visitUnary_op(@NotNull BasicParser.Unary_opContext ctx) {
+        return super.visitUnary_op(ctx);
+    }
+
+    @Override
+    public ASTNode visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) {
+        return super.visitBinaryOper(ctx);
+    }
+
+    @Override
+    public ASTNode visitFree_stat(@NotNull BasicParser.Free_statContext ctx) {
+        return super.visitFree_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitPair_liter(@NotNull BasicParser.Pair_literContext ctx) {
+        return super.visitPair_liter(ctx);
+    }
+
+    @Override
+    public ASTNode visitPairType(@NotNull BasicParser.PairTypeContext ctx) {
+        return super.visitPairType(ctx);
+    }
+
+    @Override
+    public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
+        return super.visitPairElemType(ctx);
+    }
+
+    @Override
+    public ASTNode visitArrayelem(@NotNull BasicParser.ArrayelemContext ctx) {
+        return super.visitArrayelem(ctx);
+    }
+
+    @Override
+    public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
+        return super.visitFunc(ctx);
+    }
+
+    @Override
+    public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {
         return super.visitParamList(ctx);
     }
 
     @Override
-    public ASTNode visitExpr(BasicParser.ExprContext ctx) {
-        return super.visitExpr(ctx);
+    public ASTNode visitConcat_stat(@NotNull BasicParser.Concat_statContext ctx) {
+        return super.visitConcat_stat(ctx);
     }
 
     @Override
-    public ASTNode visitPairElem(BasicParser.PairElemContext ctx) {
-        return super.visitPairElem(ctx);
+    public ASTNode visitRead_stat(@NotNull BasicParser.Read_statContext ctx) {
+        return super.visitRead_stat(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignl_pairelem(@NotNull BasicParser.Assignl_pairelemContext ctx) {
+        return super.visitAssignl_pairelem(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignr_paren(@NotNull BasicParser.Assignr_parenContext ctx) {
+        return super.visitAssignr_paren(ctx);
+    }
+
+    @Override
+    public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
+        return super.visitAssignr_newpair(ctx);
     }
 }

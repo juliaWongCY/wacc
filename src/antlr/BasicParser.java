@@ -811,50 +811,191 @@ public class BasicParser extends Parser {
 	}
 
 	public static class StatContext extends ParserRuleContext {
-		public TerminalNode ELSE() { return getToken(BasicParser.ELSE, 0); }
-		public TerminalNode SEMICOLON() { return getToken(BasicParser.SEMICOLON, 0); }
-		public TerminalNode IF() { return getToken(BasicParser.IF, 0); }
-		public TerminalNode FREE() { return getToken(BasicParser.FREE, 0); }
-		public TerminalNode READ() { return getToken(BasicParser.READ, 0); }
-		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
-		public TerminalNode SKIP_() { return getToken(BasicParser.SKIP_, 0); }
-		public TerminalNode FI() { return getToken(BasicParser.FI, 0); }
-		public TerminalNode DONE() { return getToken(BasicParser.DONE, 0); }
-		public TerminalNode RETURN() { return getToken(BasicParser.RETURN, 0); }
-		public TerminalNode DO() { return getToken(BasicParser.DO, 0); }
-		public StatContext stat(int i) {
-			return getRuleContext(StatContext.class,i);
-		}
-		public TerminalNode BEGIN() { return getToken(BasicParser.BEGIN, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode PRINT() { return getToken(BasicParser.PRINT, 0); }
-		public TerminalNode THEN() { return getToken(BasicParser.THEN, 0); }
-		public List<StatContext> stat() {
-			return getRuleContexts(StatContext.class);
-		}
-		public TerminalNode WHILE() { return getToken(BasicParser.WHILE, 0); }
-		public TerminalNode EXIT() { return getToken(BasicParser.EXIT, 0); }
-		public AssignRHSContext assignRHS() {
-			return getRuleContext(AssignRHSContext.class,0);
-		}
-		public TerminalNode ASSIGN() { return getToken(BasicParser.ASSIGN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public TerminalNode PRINTLN() { return getToken(BasicParser.PRINTLN, 0); }
-		public TerminalNode END() { return getToken(BasicParser.END, 0); }
-		public AssignLHSContext assignLHS() {
-			return getRuleContext(AssignLHSContext.class,0);
-		}
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat; }
+	 
+		public StatContext() { }
+		public void copyFrom(StatContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Print_statContext extends StatContext {
+		public TerminalNode PRINT() { return getToken(BasicParser.PRINT, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public Print_statContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitStat(this);
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitPrint_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assign_statContext extends StatContext {
+		public TerminalNode ASSIGN() { return getToken(BasicParser.ASSIGN, 0); }
+		public AssignRHSContext assignRHS() {
+			return getRuleContext(AssignRHSContext.class,0);
+		}
+		public AssignLHSContext assignLHS() {
+			return getRuleContext(AssignLHSContext.class,0);
+		}
+		public Assign_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssign_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Println_statContext extends StatContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode PRINTLN() { return getToken(BasicParser.PRINTLN, 0); }
+		public Println_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitPrintln_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Scope_statContext extends StatContext {
+		public TerminalNode BEGIN() { return getToken(BasicParser.BEGIN, 0); }
+		public TerminalNode END() { return getToken(BasicParser.END, 0); }
+		public StatContext stat() {
+			return getRuleContext(StatContext.class,0);
+		}
+		public Scope_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitScope_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Return_statContext extends StatContext {
+		public TerminalNode RETURN() { return getToken(BasicParser.RETURN, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public Return_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitReturn_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Exit_statContext extends StatContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode EXIT() { return getToken(BasicParser.EXIT, 0); }
+		public Exit_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitExit_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Skip_statContext extends StatContext {
+		public TerminalNode SKIP_() { return getToken(BasicParser.SKIP_, 0); }
+		public Skip_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitSkip_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Declare_statContext extends StatContext {
+		public TerminalNode ASSIGN() { return getToken(BasicParser.ASSIGN, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
+		public AssignRHSContext assignRHS() {
+			return getRuleContext(AssignRHSContext.class,0);
+		}
+		public Declare_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitDeclare_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Free_statContext extends StatContext {
+		public TerminalNode FREE() { return getToken(BasicParser.FREE, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public Free_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitFree_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class While_statContext extends StatContext {
+		public TerminalNode DONE() { return getToken(BasicParser.DONE, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode DO() { return getToken(BasicParser.DO, 0); }
+		public StatContext stat() {
+			return getRuleContext(StatContext.class,0);
+		}
+		public TerminalNode WHILE() { return getToken(BasicParser.WHILE, 0); }
+		public While_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitWhile_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class If_statContext extends StatContext {
+		public TerminalNode FI() { return getToken(BasicParser.FI, 0); }
+		public TerminalNode ELSE() { return getToken(BasicParser.ELSE, 0); }
+		public TerminalNode IF() { return getToken(BasicParser.IF, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode THEN() { return getToken(BasicParser.THEN, 0); }
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
+		}
+		public List<StatContext> stat() {
+			return getRuleContexts(StatContext.class);
+		}
+		public If_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitIf_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Concat_statContext extends StatContext {
+		public TerminalNode SEMICOLON() { return getToken(BasicParser.SEMICOLON, 0); }
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
+		}
+		public List<StatContext> stat() {
+			return getRuleContexts(StatContext.class);
+		}
+		public Concat_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitConcat_stat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Read_statContext extends StatContext {
+		public TerminalNode READ() { return getToken(BasicParser.READ, 0); }
+		public AssignLHSContext assignLHS() {
+			return getRuleContext(AssignLHSContext.class,0);
+		}
+		public Read_statContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitRead_stat(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -878,6 +1019,10 @@ public class BasicParser extends Parser {
 			switch (_input.LA(1)) {
 			case SKIP_:
 				{
+				_localctx = new Skip_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(130); match(SKIP_);
 				}
 				break;
@@ -887,6 +1032,9 @@ public class BasicParser extends Parser {
 			case STRING:
 			case INT:
 				{
+				_localctx = new Declare_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(131); type(0);
 				setState(132); match(IDENT);
 				setState(133); match(ASSIGN);
@@ -897,6 +1045,9 @@ public class BasicParser extends Parser {
 			case SND:
 			case IDENT:
 				{
+				_localctx = new Assign_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(136); assignLHS();
 				setState(137); match(ASSIGN);
 				setState(138); assignRHS();
@@ -904,42 +1055,63 @@ public class BasicParser extends Parser {
 				break;
 			case READ:
 				{
+				_localctx = new Read_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(140); match(READ);
 				setState(141); assignLHS();
 				}
 				break;
 			case FREE:
 				{
+				_localctx = new Free_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(142); match(FREE);
 				setState(143); expr(0);
 				}
 				break;
 			case RETURN:
 				{
+				_localctx = new Return_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(144); match(RETURN);
 				setState(145); expr(0);
 				}
 				break;
 			case EXIT:
 				{
+				_localctx = new Exit_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(146); match(EXIT);
 				setState(147); expr(0);
 				}
 				break;
 			case PRINT:
 				{
+				_localctx = new Print_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(148); match(PRINT);
 				setState(149); expr(0);
 				}
 				break;
 			case PRINTLN:
 				{
+				_localctx = new Println_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(150); match(PRINTLN);
 				setState(151); expr(0);
 				}
 				break;
 			case IF:
 				{
+				_localctx = new If_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(152); match(IF);
 				setState(153); expr(0);
 				setState(154); match(THEN);
@@ -951,6 +1123,9 @@ public class BasicParser extends Parser {
 				break;
 			case WHILE:
 				{
+				_localctx = new While_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(160); match(WHILE);
 				setState(161); expr(0);
 				setState(162); match(DO);
@@ -960,6 +1135,9 @@ public class BasicParser extends Parser {
 				break;
 			case BEGIN:
 				{
+				_localctx = new Scope_statContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(166); match(BEGIN);
 				setState(167); stat(0);
 				setState(168); match(END);
@@ -978,7 +1156,7 @@ public class BasicParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new StatContext(_parentctx, _parentState);
+					_localctx = new Concat_statContext(new StatContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_stat);
 					setState(172);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
@@ -1005,9 +1183,65 @@ public class BasicParser extends Parser {
 	}
 
 	public static class AssignRHSContext extends ParserRuleContext {
+		public AssignRHSContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_assignRHS; }
+	 
+		public AssignRHSContext() { }
+		public void copyFrom(AssignRHSContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Assignr_exprContext extends AssignRHSContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public Assignr_exprContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_expr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AssignRarrayliterContext extends AssignRHSContext {
+		public ArrayLiterContext arrayLiter() {
+			return getRuleContext(ArrayLiterContext.class,0);
+		}
+		public AssignRarrayliterContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignRarrayliter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignr_pairelemContext extends AssignRHSContext {
+		public PairElemContext pairElem() {
+			return getRuleContext(PairElemContext.class,0);
+		}
+		public Assignr_pairelemContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_pairelem(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignr_parenContext extends AssignRHSContext {
 		public ArgListContext argList() {
 			return getRuleContext(ArgListContext.class,0);
 		}
+		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
+		public TerminalNode CALL() { return getToken(BasicParser.CALL, 0); }
+		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
+		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
+		public Assignr_parenContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_paren(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignr_newpairContext extends AssignRHSContext {
 		public TerminalNode NEWPAIR() { return getToken(BasicParser.NEWPAIR, 0); }
 		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
 		public List<ExprContext> expr() {
@@ -1016,23 +1250,12 @@ public class BasicParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public ArrayLiterContext arrayLiter() {
-			return getRuleContext(ArrayLiterContext.class,0);
-		}
 		public TerminalNode COMMA() { return getToken(BasicParser.COMMA, 0); }
-		public TerminalNode CALL() { return getToken(BasicParser.CALL, 0); }
-		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
 		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
-		public PairElemContext pairElem() {
-			return getRuleContext(PairElemContext.class,0);
-		}
-		public AssignRHSContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_assignRHS; }
+		public Assignr_newpairContext(AssignRHSContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignRHS(this);
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_newpair(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1056,18 +1279,21 @@ public class BasicParser extends Parser {
 			case BOOLLITER:
 			case PAIRLITER:
 			case IDENT:
+				_localctx = new Assignr_exprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(180); expr(0);
 				}
 				break;
 			case OPEN_SQPARENTHESES:
+				_localctx = new AssignRarrayliterContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(181); arrayLiter();
 				}
 				break;
 			case NEWPAIR:
+				_localctx = new Assignr_newpairContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(182); match(NEWPAIR);
@@ -1080,12 +1306,14 @@ public class BasicParser extends Parser {
 				break;
 			case FST:
 			case SND:
+				_localctx = new Assignr_pairelemContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(189); pairElem();
 				}
 				break;
 			case CALL:
+				_localctx = new Assignr_parenContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(190); match(CALL);
@@ -1118,20 +1346,44 @@ public class BasicParser extends Parser {
 	}
 
 	public static class AssignLHSContext extends ParserRuleContext {
-		public ArrayElemContext arrayElem() {
-			return getRuleContext(ArrayElemContext.class,0);
-		}
-		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
-		public PairElemContext pairElem() {
-			return getRuleContext(PairElemContext.class,0);
-		}
 		public AssignLHSContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignLHS; }
+	 
+		public AssignLHSContext() { }
+		public void copyFrom(AssignLHSContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Assignl_idContext extends AssignLHSContext {
+		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
+		public Assignl_idContext(AssignLHSContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignLHS(this);
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignl_id(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignl_arrayelemContext extends AssignLHSContext {
+		public ArrayElemContext arrayElem() {
+			return getRuleContext(ArrayElemContext.class,0);
+		}
+		public Assignl_arrayelemContext(AssignLHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignl_arrayelem(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignl_pairelemContext extends AssignLHSContext {
+		public PairElemContext pairElem() {
+			return getRuleContext(PairElemContext.class,0);
+		}
+		public Assignl_pairelemContext(AssignLHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignl_pairelem(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1143,18 +1395,21 @@ public class BasicParser extends Parser {
 			setState(202);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
+				_localctx = new Assignl_idContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(199); match(IDENT);
 				}
 				break;
 			case 2:
+				_localctx = new Assignl_arrayelemContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(200); arrayElem();
 				}
 				break;
 			case 3:
+				_localctx = new Assignl_pairelemContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(201); pairElem();
@@ -1174,36 +1429,122 @@ public class BasicParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public UnaryOperContext unaryOper() {
-			return getRuleContext(UnaryOperContext.class,0);
-		}
-		public TerminalNode INTEGER() { return getToken(BasicParser.INTEGER, 0); }
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
-		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
-		public BinaryOperContext binaryOper() {
-			return getRuleContext(BinaryOperContext.class,0);
-		}
-		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
-		public TerminalNode CHARLITER() { return getToken(BasicParser.CHARLITER, 0); }
-		public ArrayElemContext arrayElem() {
-			return getRuleContext(ArrayElemContext.class,0);
-		}
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public TerminalNode STRINGLITER() { return getToken(BasicParser.STRINGLITER, 0); }
-		public TerminalNode BOOLLITER() { return getToken(BasicParser.BOOLLITER, 0); }
-		public TerminalNode PAIRLITER() { return getToken(BasicParser.PAIRLITER, 0); }
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Int_literContext extends ExprContext {
+		public TerminalNode INTEGER() { return getToken(BasicParser.INTEGER, 0); }
+		public Int_literContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitInt_liter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class String_literContext extends ExprContext {
+		public TerminalNode STRINGLITER() { return getToken(BasicParser.STRINGLITER, 0); }
+		public String_literContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitString_liter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ArrayelemContext extends ExprContext {
+		public ArrayElemContext arrayElem() {
+			return getRuleContext(ArrayElemContext.class,0);
+		}
+		public ArrayelemContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitArrayelem(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ParenContext extends ExprContext {
+		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
+		public ParenContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitParen(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Bool_literContext extends ExprContext {
+		public TerminalNode BOOLLITER() { return getToken(BasicParser.BOOLLITER, 0); }
+		public Bool_literContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitBool_liter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IdentContext extends ExprContext {
+		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
+		public IdentContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitIdent(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Char_literContext extends ExprContext {
+		public TerminalNode CHARLITER() { return getToken(BasicParser.CHARLITER, 0); }
+		public Char_literContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitChar_liter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Unary_opContext extends ExprContext {
+		public UnaryOperContext unaryOper() {
+			return getRuleContext(UnaryOperContext.class,0);
+		}
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public Unary_opContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitUnary_op(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Pair_literContext extends ExprContext {
+		public TerminalNode PAIRLITER() { return getToken(BasicParser.PAIRLITER, 0); }
+		public Pair_literContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitPair_liter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Binary_opContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public BinaryOperContext binaryOper() {
+			return getRuleContext(BinaryOperContext.class,0);
+		}
+		public Binary_opContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitBinary_op(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1227,47 +1568,75 @@ public class BasicParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
+				_localctx = new Unary_opContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(205); unaryOper();
 				setState(206); expr(3);
 				}
 				break;
 			case 2:
 				{
+				_localctx = new Int_literContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(208); match(INTEGER);
 				}
 				break;
 			case 3:
 				{
+				_localctx = new Bool_literContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(209); match(BOOLLITER);
 				}
 				break;
 			case 4:
 				{
+				_localctx = new Char_literContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(210); match(CHARLITER);
 				}
 				break;
 			case 5:
 				{
+				_localctx = new String_literContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(211); match(STRINGLITER);
 				}
 				break;
 			case 6:
 				{
+				_localctx = new Pair_literContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(212); match(PAIRLITER);
 				}
 				break;
 			case 7:
 				{
+				_localctx = new IdentContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(213); match(IDENT);
 				}
 				break;
 			case 8:
 				{
+				_localctx = new ArrayelemContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(214); arrayElem();
 				}
 				break;
 			case 9:
 				{
+				_localctx = new ParenContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(215); match(OPEN_PARENTHESES);
 				setState(216); expr(0);
 				setState(217); match(CLOSE_PARENTHESES);
@@ -1284,7 +1653,7 @@ public class BasicParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new ExprContext(_parentctx, _parentState);
+					_localctx = new Binary_opContext(new ExprContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_expr);
 					setState(221);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");

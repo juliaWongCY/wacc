@@ -34,9 +34,9 @@ public class PairElemAsRNode implements AssignRightNode {
             Type t = expressionNode.getNodeType(st);
             if (t instanceof PairType) {
                 if (isFirst) {
-                    return ((PairType) t).getFst();
+                    return ((PairType) t).getFstExprType();
                 } else {
-                    return ((PairType) t).getSnd();
+                    return ((PairType) t).getSndExprType();
                 }
             }
             return t;

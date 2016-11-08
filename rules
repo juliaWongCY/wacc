@@ -28,6 +28,7 @@ src/ast/assignRight/PairElemAsRNode.java
 src/ast/assignRight/NewPairAsRNode.java
 src/ast/assignRight/ExprAsRNode.java
 src/ast/assignRight/AssignRightNode.java
+src/ast/assignRight/ArgListNode.java
 src/ast/BinaryOpr.java
 src/ast/ASTNode.java
 src/ast/expression/PairLiterNode.java
@@ -35,8 +36,8 @@ src/ast/expression/BinaryOprNode.java
 src/ast/expression/IntLiterNode.java
 src/ast/expression/StringLiterNode.java
 src/ast/expression/CharLiterNode.java
+src/ast/expression/ArrayElemNode.java
 src/ast/expression/BracketExprNode.java
-src/ast/expression/ArrayElemExprNode.java
 src/ast/expression/ExpressionNode.java
 src/ast/expression/IdentNode.java
 src/ast/expression/UnaryOprNode.java
@@ -44,7 +45,6 @@ src/ast/expression/BoolLiterNode.java
 src/ast/FunctionNode.java
 src/ast/UnaryOpr.java
 src/type/FunctionType.java
-src/type/PairElemType.java
 src/type/Type.java
 src/type/StringType.java
 src/type/ArrayType.java

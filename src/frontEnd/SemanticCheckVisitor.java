@@ -16,6 +16,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     private SymbolTable symbolTable = null;
 
     @Override
+    public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
+        return super.visitAssignr_arrayliter(ctx);
+    }
+
+    @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
         return super.visitArgList(ctx);
     }
@@ -27,7 +32,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitString_liter(@NotNull BasicParser.String_literContext ctx) {
-        return super.visitString_liter(ctx);
+        return new StringLiterNode(ctx.getText());
     }
 
     @Override
@@ -199,11 +204,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitAssignRarrayliter(@NotNull BasicParser.AssignRarrayliterContext ctx) {
-        return super.visitAssignRarrayliter(ctx);
-    }
-
-    @Override
     public ASTNode visitReturn_stat(@NotNull BasicParser.Return_statContext ctx) {
         return super.visitReturn_stat(ctx);
     }
@@ -230,7 +230,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPair_liter(@NotNull BasicParser.Pair_literContext ctx) {
-        return super.visitPair_liter(ctx);
+        return new PairLiterNode();
     }
 
     @Override
@@ -240,7 +240,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
-        return new PairLiterNode();
+
     }
 
     @Override

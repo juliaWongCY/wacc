@@ -17,14 +17,14 @@ public class BasicParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		PRINT=20, LT=39, NEWPAIR=6, DO=27, CHR=49, STRINGLITER=56, MINUS=33, MULT=34, 
-		BOOLLITER=57, SEMICOLON=3, ELSE=24, IF=22, INTEGER=54, DONE=28, FST=7, 
-		IS=31, EQ=41, READ=16, NOT=45, AND=43, THEN=23, END=30, LTE=40, EXIT=19, 
-		PAIRLITER=58, PLUS=32, CLOSE_PARENTHESES=51, CHARLITER=55, ORD=48, CALL=9, 
-		FI=25, PRINTLN=21, OPEN_PARENTHESES=50, SND=8, CHAR=12, BEGIN=29, ASSIGN=2, 
-		FREE=17, COMMENT=5, INT=14, RETURN=18, WS=1, COMMA=4, MOD=36, OR=44, GT=37, 
-		DIV=35, NEG=46, SKIP_=15, LEN=47, IDENT=59, BOOL=11, OPEN_SQPARENTHESES=52, 
-		CLOSE_SQPARENTHESES=53, STRING=13, GTE=38, WHILE=26, NEQ=42, PAIR=10;
+		WS=1, ASSIGN=2, SEMICOLON=3, COMMA=4, COMMENT=5, NEWPAIR=6, FST=7, SND=8, 
+		CALL=9, PAIR=10, BOOL=11, CHAR=12, STRING=13, INT=14, SKIP_=15, READ=16, 
+		FREE=17, RETURN=18, EXIT=19, PRINT=20, PRINTLN=21, IF=22, THEN=23, ELSE=24, 
+		FI=25, WHILE=26, DO=27, DONE=28, BEGIN=29, END=30, IS=31, PLUS=32, MINUS=33, 
+		MULT=34, DIV=35, MOD=36, GT=37, GTE=38, LT=39, LTE=40, EQ=41, NEQ=42, 
+		AND=43, OR=44, NOT=45, NEG=46, LEN=47, ORD=48, CHR=49, OPEN_PARENTHESES=50, 
+		CLOSE_PARENTHESES=51, OPEN_SQPARENTHESES=52, CLOSE_SQPARENTHESES=53, INTEGER=54, 
+		CHARLITER=55, STRINGLITER=56, BOOLLITER=57, PAIRLITER=58, IDENT=59;
 	public static final String[] tokenNames = {
 		"<INVALID>", "WS", "'='", "';'", "','", "COMMENT", "'newpair'", "'fst'", 
 		"'snd'", "'call'", "'pair'", "'bool'", "'char'", "'string'", "'int'", 
@@ -192,6 +192,7 @@ public class BasicParser extends Parser {
 	}
 
 	public static class ArrayElemContext extends ParserRuleContext {
+		public Token name;
 		public List<TerminalNode> OPEN_SQPARENTHESES() { return getTokens(BasicParser.OPEN_SQPARENTHESES); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -225,9 +226,7 @@ public class BasicParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			{
-			setState(59); match(IDENT);
-			}
+			setState(59); ((ArrayElemContext)_localctx).name = match(IDENT);
 			setState(64); 
 			_errHandler.sync(this);
 			_alt = 1;
@@ -1204,17 +1203,6 @@ public class BasicParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AssignRarrayliterContext extends AssignRHSContext {
-		public ArrayLiterContext arrayLiter() {
-			return getRuleContext(ArrayLiterContext.class,0);
-		}
-		public AssignRarrayliterContext(AssignRHSContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignRarrayliter(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class Assignr_pairelemContext extends AssignRHSContext {
 		public PairElemContext pairElem() {
 			return getRuleContext(PairElemContext.class,0);
@@ -1223,6 +1211,17 @@ public class BasicParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_pairelem(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Assignr_arrayliterContext extends AssignRHSContext {
+		public ArrayLiterContext arrayLiter() {
+			return getRuleContext(ArrayLiterContext.class,0);
+		}
+		public Assignr_arrayliterContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_arrayliter(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1286,7 +1285,7 @@ public class BasicParser extends Parser {
 				}
 				break;
 			case OPEN_SQPARENTHESES:
-				_localctx = new AssignRarrayliterContext(_localctx);
+				_localctx = new Assignr_arrayliterContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(181); arrayLiter();

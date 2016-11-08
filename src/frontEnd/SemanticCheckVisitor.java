@@ -13,12 +13,12 @@ import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
+    private SymbolTable symbolTable = null;
+
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
         return super.visitAssignr_arrayliter(ctx);
     }
-
-    private SymbolTable symbolTable = null;
 
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
@@ -27,7 +27,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
-
+        return super.visitArrayLiter(ctx);
     }
 
     @Override

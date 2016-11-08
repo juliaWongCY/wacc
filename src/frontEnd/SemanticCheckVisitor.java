@@ -57,7 +57,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
-        return super.visitIdent(ctx);
+        return new IdentNode(ctx.getText());
     }
 
     @Override
@@ -156,7 +156,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitChar_liter(@NotNull BasicParser.Char_literContext ctx) {
-        return super.visitChar_liter(ctx);
+
+        return new CharLiterNode(ctx.getText());
     }
 
     @Override
@@ -191,7 +192,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBool_liter(@NotNull BasicParser.Bool_literContext ctx) {
-        return super.visitBool_liter(ctx);
+
+        return new BoolLiterNode(Boolean.valueOf(ctx.getText()));
+
     }
 
     @Override

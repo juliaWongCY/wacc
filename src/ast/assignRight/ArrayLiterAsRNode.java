@@ -1,6 +1,5 @@
 package ast.assignRight;
 
-import ast.expression.ArrayElemExprNode;
 import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;

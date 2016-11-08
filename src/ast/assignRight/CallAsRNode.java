@@ -9,6 +9,7 @@ public class CallAsRNode implements AssignRightNode {
 
     private String functionName;
 
+
     public CallAsRNode(String functionName) {
         this.functionName = functionName;
     }

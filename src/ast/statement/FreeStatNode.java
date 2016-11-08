@@ -25,7 +25,7 @@ public class FreeStatNode implements StatementNode {
         Type type;
         type = expr.getNodeType(st);
 
-        if (!(type instanceof PairType)){
+        if (!((type instanceof PairType) || (type instanceof ArrayType))){
             throw new SemanticException("The expression must evaluate to a valid ref to a pair.");
         }
         return type;

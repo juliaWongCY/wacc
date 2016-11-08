@@ -10,8 +10,6 @@ begin
   int[] a = [1,2,3];
   int[] b = [3,4];
   int[][] c = [a,b] ;
-  a[1] = 6;
-  println c[0][2] ;
-  println c[1][0]
+  println c[0][2]
 end
 

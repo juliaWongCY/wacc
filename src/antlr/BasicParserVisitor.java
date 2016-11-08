@@ -205,13 +205,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBool_liter(@NotNull BasicParser.Bool_literContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code assignRarrayliter}
-	 * labeled alternative in {@link BasicParser#assignRHS}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignRarrayliter(@NotNull BasicParser.AssignRarrayliterContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code return_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -238,6 +231,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code assignr_arrayliter}
+	 * labeled alternative in {@link BasicParser#assignRHS}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code free_stat}
 	 * labeled alternative in {@link BasicParser#stat}.

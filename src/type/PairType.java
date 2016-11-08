@@ -4,43 +4,43 @@ import ast.expression.ExpressionNode;
 
 public class PairType extends Type {
 
-    private PairElemType fst;
-    private PairElemType snd;
+
+    private Type fstExprType;
+    private Type sndExprType;
+    private ExpressionNode fstExpr;
+    private ExpressionNode sndExpr;
 
     public PairType() {
 
     }
 
-    //Type instead of PairElemType???
-    //Our goal is to get the basetype instead of what the pair stores.
-    public PairType(PairElemType fst, PairElemType snd) {
-        this.fst = fst;
-        this.snd = snd;
+    public PairType(Type fstExprType, Type sndExprType) {
+        this.fstExprType = fstExprType;
+        this.sndExprType = sndExprType;
     }
 
-    public Type getFst() {
-        return fst.getElemType();
+    public Type getFstExprType() {
+        return fstExprType;
     }
 
-    public Type getSnd() {
-        return snd.getElemType();
+    public Type getSndExprType() {
+        return sndExprType;
     }
 
-    public ExpressionNode getFstExpression() {
-        return fst.getExpressionNode();
+    public ExpressionNode getFstExpr() {
+        return fstExpr;
     }
 
-    public ExpressionNode getSndExoression() {
-        return snd.getExpressionNode();
+    public ExpressionNode getSndExpr() {
+        return sndExpr;
     }
 
-    public void setFstExpression(ExpressionNode expressionNode) {
-        fst.setExpressionNode(expressionNode);
+    public void setFstExpr(ExpressionNode fstExpr) {
+        this.fstExpr = fstExpr;
     }
 
-    public void setSndExpression(ExpressionNode expressionNode) {
-        snd.setExpressionNode(expressionNode);
+    public void setSndExpr(ExpressionNode sndExpr) {
+        this.sndExpr = sndExpr;
     }
-
 
 }

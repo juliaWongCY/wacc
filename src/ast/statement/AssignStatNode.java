@@ -3,11 +3,8 @@ package ast.statement;
 import ast.assignLeft.AssignLeftNode;
 import ast.assignRight.AssignRightNode;
 import ast.expression.ExpressionNode;
-import ast.expression.IdentNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
-import type.ArrayType;
-import type.PairElemType;
 import type.StatementType;
 import type.Type;
 

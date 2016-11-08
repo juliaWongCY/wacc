@@ -68,11 +68,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
-        // base case: tokens are in correct type and correct order
-        // advanced:  ident are declared, assignment is same type with variable,
-        // put variable/function to symbol table, etc
-
-        // base case
 
         symbolTable = new SymbolTable(null);
         ProgramNode programNode = new ProgramNode();
@@ -90,9 +85,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
 
-        //programNode.addStatement((StatementNode) visitStat(statements));
 
         return programNode;
+
     }
 
     @Override

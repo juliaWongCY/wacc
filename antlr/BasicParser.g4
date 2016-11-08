@@ -34,43 +34,43 @@ program : BEGIN (func)* stat END EOF;
 func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
 
 
-stat : SKIP_
-| type IDENT ASSIGN assignRHS
-| assignLHS ASSIGN assignRHS
-| READ assignLHS
-| FREE expr
-| RETURN expr
-| EXIT expr
-| PRINT expr
-| PRINTLN expr
-| IF expr THEN stat ELSE stat FI
-| WHILE expr DO stat DONE
-| BEGIN stat END
-| stat SEMICOLON stat
+stat : SKIP_ #skip_stat
+| type IDENT ASSIGN assignRHS #declare_stat
+| assignLHS ASSIGN assignRHS #assign_stat
+| READ assignLHS #read_stat
+| FREE expr #free_stat
+| RETURN expr #return_stat
+| EXIT expr #exit_stat
+| PRINT expr #print_stat
+| PRINTLN expr #println_stat
+| IF expr THEN stat ELSE stat FI #if_stat
+| WHILE expr DO stat DONE #while_stat
+| BEGIN stat END #scope_stat
+| stat SEMICOLON stat #concat_stat
 ;
 
-assignRHS : expr
-| arrayLiter
-| NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES
-| pairElem
-| CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES
+assignRHS : expr #assignr_expr
+| arrayLiter #assignRarrayliter
+| NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES #assignr_newpair
+| pairElem #assignr_pairelem
+| CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES #assignr_paren
 ;
 
-assignLHS : IDENT
-| arrayElem
-| pairElem
+assignLHS : IDENT #assignl_id
+| arrayElem #assignl_arrayelem
+| pairElem #assignl_pairelem
 ;
 
-expr : INTEGER
-| BOOLLITER
-| CHARLITER
-| STRINGLITER
-| PAIRLITER
-| IDENT
-| arrayElem
-| unaryOper expr
-| expr binaryOper expr
-| OPEN_PARENTHESES expr CLOSE_PARENTHESES
+expr : INTEGER #int_liter
+| BOOLLITER #bool_liter
+| CHARLITER #char_liter
+| STRINGLITER #string_liter
+| PAIRLITER #pair_liter
+| IDENT #ident
+| arrayElem #arrayelem
+| unaryOper expr #unary_op
+| expr binaryOper expr #binary_op
+| OPEN_PARENTHESES expr CLOSE_PARENTHESES #paren
 ;
 
 type : baseType

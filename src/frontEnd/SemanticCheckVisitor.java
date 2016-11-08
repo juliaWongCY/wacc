@@ -110,6 +110,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(BasicParser.FuncContext ctx) {
+
+        // <func> ::= <type> <dent> ‘(’ <param-list>? ‘)’ ‘is’ <stat> ‘end’
+
+        symbolTable = new SymbolTable(null);
+
         return super.visitFunc(ctx);
     }
 

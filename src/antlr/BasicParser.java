@@ -192,6 +192,7 @@ public class BasicParser extends Parser {
 	}
 
 	public static class ArrayElemContext extends ParserRuleContext {
+		public Token name;
 		public List<TerminalNode> OPEN_SQPARENTHESES() { return getTokens(BasicParser.OPEN_SQPARENTHESES); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -225,9 +226,7 @@ public class BasicParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			{
-			setState(59); match(IDENT);
-			}
+			setState(59); ((ArrayElemContext)_localctx).name = match(IDENT);
 			setState(64); 
 			_errHandler.sync(this);
 			_alt = 1;

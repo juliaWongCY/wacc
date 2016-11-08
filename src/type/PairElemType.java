@@ -2,23 +2,14 @@ package type;
 
 public class PairElemType extends Type {
 
-    //A pair contains two elements that can be of any type.
-    private final Type fst;
-    private final Type snd;
+    private Type elem;
 
-    public PairElemType(Type fst, Type snd) {
-        //TODO: fst and snd could be either a pair or any other types respectively.
-        this.fst = fst;
-        this.snd = snd;
+    public PairElemType(Type elem) {
+        this.elem = elem;
     }
 
-    public Type getFst() {
-        return fst;
+    public Type getElemType() {
+        return elem.getType();
     }
-
-    public Type getSnd() {
-        return snd;
-    }
-
 
 }

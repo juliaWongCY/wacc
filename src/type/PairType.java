@@ -2,8 +2,19 @@ package type;
 
 public class PairType extends Type {
 
-    public PairType() {
-        
+    private PairElemType fst;
+    private PairElemType snd;
+
+    public PairType(PairElemType fst, PairElemType snd) {
+        this.fst = fst;
+        this.snd = snd;
     }
 
+    public Type getFst() {
+        return fst.getElemType();
+    }
+
+    public Type getSnd() {
+        return snd.getElemType();
+    }
 }

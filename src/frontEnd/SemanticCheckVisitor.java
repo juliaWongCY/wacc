@@ -5,6 +5,7 @@ import antlr.BasicParserBaseVisitor;
 import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
+import ast.statement.PrintlnStatNode;
 import ast.statement.StatementNode;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -37,7 +38,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
-        return super.visitPrintln_stat(ctx);
+       ASTNode child = visitChildren(ctx);
+
+        if(!(child instanceof ExpressionNode)){
+            System.out.println("Error: need an expr for println");
+        }
+        return new PrintlnStatNode((ExpressionNode) child);
     }
 
     @Override

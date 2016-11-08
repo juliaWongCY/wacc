@@ -1,5 +1,6 @@
 // Generated from ./BasicParser.g4 by ANTLR 4.4
 package antlr;
+import frontEnd.SemanticException;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -42,7 +43,7 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx);
+	T visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) throws SemanticException;
 	/**
 	 * Visit a parse tree produced by the {@code scope_stat}
 	 * labeled alternative in {@link BasicParser#stat}.

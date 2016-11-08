@@ -1,6 +1,5 @@
 // Generated from ./BasicParser.g4 by ANTLR 4.4
 package antlr;
-import frontEnd.SemanticException;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -47,7 +46,7 @@ public class BasicParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) throws SemanticException { return visitChildren(ctx); }
+	@Override public T visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

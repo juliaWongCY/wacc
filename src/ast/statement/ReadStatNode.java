@@ -1,6 +1,7 @@
 package ast.statement;
 
 import ast.ASTNode;
+import ast.assignLeft.PairElemAsLNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
@@ -34,10 +35,18 @@ public class ReadStatNode implements StatementNode {
                 throw new SemanticException("The read statement can only handle character or integer input.");
             }
 
-        } else if(assignLHS instanceof PairElemType){
+        } else if(assignLHS instanceof PairElemAsLNode){
+            PairType pairType = (PairType) assignLHS.getNodeType(st);
+            PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
 
-            //TODO!!!
+            Type elemType;
+            elemType = assignLPair.isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
 
+
+            if(!(elemType instanceof IntType || elemType instanceof CharType)) {
+                throw new SemanticException("The read statement can only handle character or integer input.");
+
+            }
 
         } else if(!(assignLHS instanceof IntType) || !(assignLHS instanceof CharType)){
             throw new SemanticException("The read statement can only handle character or integer input.");

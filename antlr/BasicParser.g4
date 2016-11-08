@@ -50,7 +50,7 @@ stat : SKIP_ #skip_stat
 ;
 
 assignRHS : expr #assignr_expr
-| arrayLiter #assignRarrayliter
+| arrayLiter #assignr_arrayliter
 | NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES #assignr_newpair
 | pairElem #assignr_pairelem
 | CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES #assignr_paren

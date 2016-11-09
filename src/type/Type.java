@@ -6,13 +6,16 @@ public abstract class Type {
         return this;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        return this.getClass().equals(obj.getClass());
-//    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return this.getClass().equals(obj.getClass());
+    }
 }

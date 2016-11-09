@@ -8,6 +8,7 @@ import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.IntType;
+import type.StatementType;
 
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
         return new PrintlnStatNode((ExpressionNode) child);
 
-
     }
 
     @Override
@@ -102,9 +102,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println(e);
         }
 
-//        if (statement instanceof )
+        ASTNode statementNode = visit(statement);
+        try {
+            if (statementNode.getNodeType(symbolTable).equals(new StatementType())) {
+                if (statementNode instanceof ReturnStatNode) {
+                    System.err.println("return statement not allowed in global scope");
+                }
+                programNode.setStatementNode((StatementNode)statementNode);
+                return programNode;
+            }
+        } catch (SemanticException e) {
+            e.printStackTrace();
+            System.err.println(e);
+        }
 
-        return programNode;
+        System.err.println("Error in processing statementNode");
+        return null;
 
     }
 

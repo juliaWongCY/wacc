@@ -24,7 +24,7 @@ public class ProgramNode implements ASTNode {
         functions.add(func);
     }
 
-    public void setStatement(StatementNode statement) {
+    public void setStatementNode(StatementNode statement) {
         this.statement = statement;
     }
 
@@ -32,7 +32,7 @@ public class ProgramNode implements ASTNode {
         return functions;
     }
 
-    public StatementNode getStatementsNode(){
+    public StatementNode getStatementNode(){
         return statement;
     }
 

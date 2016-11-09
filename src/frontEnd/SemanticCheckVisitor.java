@@ -7,6 +7,8 @@ import ast.FunctionNode;
 import ast.ProgramNode;
 import ast.assignLeft.AssignLeftNode;
 import ast.assignLeft.PairElemAsLNode;
+import ast.assignRight.ArrayLiterAsRNode;
+import ast.assignRight.AssignRightNode;
 import ast.statement.*;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -49,13 +51,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode expr = visit(ctx.expr());
 
         if(!(expr instanceof ExpressionNode)){
-            System.out.println("Error: need an expr for println");
+            System.out.println("Incompatible expression type in println.");
         }
 
         try{
             expr.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.out.println("Error: cannot get nodeType of the expression in println statement");
+            System.out.println("Cannot get expression's type in println statement");
         }
         return new PrintlnStatNode((ExpressionNode) expr);
 
@@ -135,17 +137,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         Type exitCodeType = null;
 
         if(!(exitCode instanceof ExpressionNode)){
-            System.out.println("Must put in an expression (int) in the exit code.");
+            System.err.println("Incompatible type in exitCode.");
         }
 
         try{
             exitCodeType = exitCode.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.out.println("Cannot get exitCode's type");
+            System.err.println("Cannot get exitCode's type in exit stat.");
         }
 
         if(!(exitCodeType instanceof IntType)){
-            System.out.println("The exit code must be an int");
+            System.err.println("The exit code must be an int");
         }
 
         return new ExitStatNode((ExpressionNode) exitCode);
@@ -233,6 +235,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_id(@NotNull BasicParser.Assignl_idContext ctx) {
+
         return super.visitAssignl_id(ctx);
     }
 
@@ -244,9 +247,47 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitIf_stat(@NotNull BasicParser.If_statContext ctx) {
+        ASTNode cond = visit(ctx.expr());
+        ASTNode statIF = visit(ctx.stat(0));
+        ASTNode statELSE = visit(ctx.stat(1));
+
+        Type condType;
+
+        if(!(cond instanceof ExpressionNode)){
+            System.err.println("Incompatible type in condition expr in If statement");
+        }
+
+        if(!(statIF instanceof StatementNode)){
+            System.err.println("Incompatible type in IF stat body in if statement");
+        }
+
+        if(!(statELSE instanceof StatementNode)){
+            System.err.println("Incompatible type in Else stat body in if statement");
+        }
+
+        try{
+            condType = cond.getNodeType(symbolTable);
+            if(!condType.equals(new BoolType())){
+                System.err.println("The condition should result in a boolean type.");
+            }
+        } catch (SemanticException e){
+            System.err.println("Cannot get condition's type in if statement");
+        }
+        //TODO: check symbolTable
+        //TODO: create new symTable for the if and else scope
+        try{
+            statIF.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get statIf's type in if statement");
+        }
+        try{
+            statELSE.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get statELSE's type in if statement");
+        }
 
 
-        return super.visitIf_stat(ctx);
+        return new IfStatNode((ExpressionNode) cond, (StatementNode) statIF, (StatementNode) statELSE);
     }
 
     @Override
@@ -282,7 +323,42 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssign_stat(@NotNull BasicParser.Assign_statContext ctx) {
-        return super.visitAssign_stat(ctx);
+        ASTNode assignLHS = visit(ctx.assignLHS());
+        ASTNode assignRHS = visit(ctx.assignRHS());
+        Type lhsType = null, rhsType = null;
+
+        if(!(assignLHS instanceof AssignLeftNode)){
+            System.err.println("Incompatible type in target statement in Assign stat.");
+        }
+        if(!(assignRHS instanceof AssignRightNode)){
+            System.err.println("Incompatible type in the assign statement in Assign stat.");
+        }
+
+        try{
+            lhsType = assignLHS.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get target type in assign statement.");
+        }
+
+        try{
+            rhsType = assignRHS.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get assignment type in assign statement.");
+        }
+
+        if(lhsType != null && rhsType != null){
+            if(assignRHS instanceof ExpressionNode || assignRHS instanceof ArrayLiterAsRNode){
+                if (!lhsType.equals(rhsType)) {
+                    System.err.println("Different types in target and assign value");
+                }
+            }
+        }
+
+
+
+
+
+        return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
     }
 
     @Override
@@ -377,7 +453,29 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx) {
-        return super.visitSequential_stat(ctx);
+        ASTNode statFst = visit(ctx.stat(0));
+        ASTNode statSnd = visit(ctx.stat(1));
+
+        if(!(statFst.equals(new StatementType()))){
+            System.err.println("Incompatible type in sequential statement.");
+        }
+
+        if(statFst instanceof ReturnStatNode){
+            System.err.println("Cannot have return node type in the first statement");
+        }
+
+        try{
+            statFst.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get first statement's type in sequential stat.");
+        }
+
+        try{
+            statSnd.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get second statement's type in sequential stat.");
+        }
+        return new SequentialStatNode((StatementNode) statFst);
     }
 
 
@@ -421,8 +519,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitAssignr_paren(@NotNull BasicParser.Assignr_parenContext ctx) {
-        return super.visitAssignr_paren(ctx);
+    public ASTNode visitAssignr_call(@NotNull BasicParser.Assignr_callContext ctx) {
+        return super.visitAssignr_call(ctx);
     }
 
     @Override

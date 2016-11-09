@@ -53,7 +53,7 @@ assignRHS : expr                                                #assignr_expr
 | arrayLiter                                                    #assignr_arrayliter
 | NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES    #assignr_newpair
 | pairElem                                                      #assignr_pairelem
-| CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES      #assignr_paren
+| CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES      #assignr_call
 ;
 
 assignLHS : IDENT   #assignl_id

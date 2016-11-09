@@ -1570,6 +1570,8 @@ public class BasicParser extends Parser {
 		}
 	}
 	public static class Binary_opContext extends ExprContext {
+		public ExprContext exprL;
+		public ExprContext exprR;
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -1692,11 +1694,12 @@ public class BasicParser extends Parser {
 					{
 					{
 					_localctx = new Binary_opContext(new ExprContext(_parentctx, _parentState));
+					((Binary_opContext)_localctx).exprL = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_expr);
 					setState(227);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 					setState(228); binaryOper();
-					setState(229); expr(3);
+					setState(229); ((Binary_opContext)_localctx).exprR = expr(3);
 					}
 					} 
 				}

@@ -5,12 +5,14 @@ import antlr.BasicParserBaseVisitor;
 import ast.*;
 import ast.assignRight.ArrayLiterAsRNode;
 import ast.assignRight.AssignRightNode;
+import ast.assignRight.NewPairAsRNode;
 import ast.expression.*;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 
+import java.beans.Expression;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -500,7 +502,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
-
         String id = ctx.name.getText();
         IdentNode identNode = new IdentNode(id);
         List<String> array = new LinkedList<>();
@@ -619,7 +620,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
-        return super.visitAssignr_newpair(ctx);
+        ExpressionNode fst = (ExpressionNode) visit(ctx.expr(0));
+        ExpressionNode snd = (ExpressionNode) visit(ctx.expr(1));
+        return new NewPairAsRNode(fst, snd);
     }
 
     // helper method

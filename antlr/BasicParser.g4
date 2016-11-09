@@ -69,7 +69,7 @@ expr : INTEGER                              #int_liter
 | IDENT                                     #ident
 | arrayElem                                 #arrayelem
 | unaryOper expr                            #unary_op
-| expr binaryOper expr                      #binary_op
+| exprL=expr binaryOper exprR=expr          #binary_op
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES   #paren_expr
 ;
 

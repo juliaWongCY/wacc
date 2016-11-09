@@ -10,6 +10,8 @@ import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
@@ -444,9 +446,39 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitArrayelem(@NotNull BasicParser.ArrayelemContext ctx) {
-        return super.visitArrayelem(ctx);
+    public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
+
+        String id = ctx.name.getText();
+        IdentNode identNode = new IdentNode(id);
+        List<String> array = new LinkedList<>();
+        Type arrayType = null;
+        Type indexType;
+
+
+        for (int i = 0; i < ctx.expr().size(); i++) {
+            BasicParser.ExprContext index = ctx.expr(i);
+            try {
+                ASTNode a = visit(index);
+                indexType = a.getNodeType(symbolTable);
+                if (!(indexType instanceof IntType)) {
+                    System.err.println("Semantic error");
+                }
+            } catch (SemanticException e) {
+                System.err.println("Semantic error");
+            }
+            array.add(i, index.getText());
+        }
+
+        try {
+            arrayType = symbolTable.lookUpVariable(id);
+        } catch (SemanticException e) {
+            System.err.println("Semantic error: Identifier not found.");
+        }
+
+        return new ArrayElemNode(arrayType, identNode, array);
     }
+
+
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {

@@ -11,10 +11,7 @@ import ast.statement.*;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.omg.PortableServer.ServantRetentionPolicy;
-import type.CharType;
-import type.IntType;
-import type.PairType;
-import type.Type;
+import type.*;
 
 import java.util.List;
 
@@ -66,7 +63,19 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
-        return super.visitScope_stat(ctx);
+        ASTNode stat = visit(ctx.stat());
+
+        if( !(stat.equals(new StatementType()))){
+            System.err.println("Incompatible type in scope statement.");
+        }
+
+        try{
+            stat.getNodeType(symbolTable);
+        } catch (SemanticException s){
+            System.err.println("Cannot get statement's type in scope statement.");
+        }
+
+        return new ScopingStatNode((StatementNode) stat);
     }
 
     @Override
@@ -178,8 +187,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitParen(@NotNull BasicParser.ParenContext ctx) {
-        return super.visitParen(ctx);
+    public ASTNode visitParen_expr(@NotNull BasicParser.Paren_exprContext ctx) {
+        return super.visitParen_expr(ctx);
     }
 
     @Override
@@ -189,7 +198,37 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitWhile_stat(@NotNull BasicParser.While_statContext ctx) {
-        return super.visitWhile_stat(ctx);
+        ASTNode cond = visit(ctx.expr());
+        Type condType;
+        ASTNode stat = visit(ctx.stat());
+
+        if(!(cond instanceof ExpressionNode)){
+            System.err.println("Incompatible type in While.");
+        }
+
+        if(!(stat instanceof StatementNode)){
+            System.err.println("Incompatible type in While.");
+        }
+
+        //Checking if the condition returns a boolean
+        try{
+            //TODO : Check symbol table
+            condType = cond.getNodeType(symbolTable);
+            if(!condType.equals(new BoolType())){
+                System.err.println("Incompatible type in condition.");
+            }
+        } catch (SemanticException e){
+            System.err.println("Cannot get condition's type.");
+        }
+
+        try{
+            //TODO : Check symbol table
+            stat.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get statement's type.");
+        }
+
+        return new WhileStatNode((ExpressionNode) cond, (StatementNode) stat);
     }
 
     @Override
@@ -205,6 +244,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitIf_stat(@NotNull BasicParser.If_statContext ctx) {
+
+
         return super.visitIf_stat(ctx);
     }
 
@@ -335,9 +376,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitConcat_stat(@NotNull BasicParser.Concat_statContext ctx) {
-        return super.visitConcat_stat(ctx);
+    public ASTNode visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx) {
+        return super.visitSequential_stat(ctx);
     }
+
 
     @Override
     public ASTNode visitRead_stat(@NotNull BasicParser.Read_statContext ctx) {
@@ -350,14 +392,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             assignLHSType = assignLHS.getNodeType(symbolTable);
 
-            if(assignLHSType instanceof PairType){
+            if(assignLHSType.equals(new PairType())){
                 PairType pairType = (PairType) assignLHSType;
                 PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
 
                 Type elemType;
                 elemType = assignLPair.isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
 
-                if(!(elemType instanceof IntType || elemType instanceof CharType)) {
+                if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
                     System.err.println("The read statement can only handle character or integer input.");
                 }
             }

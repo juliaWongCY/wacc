@@ -18,6 +18,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArgList(@NotNull BasicParser.ArgListContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code paren_expr}
+	 * labeled alternative in {@link BasicParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParen_expr(@NotNull BasicParser.Paren_exprContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#arrayLiter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,13 +131,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInt_liter(@NotNull BasicParser.Int_literContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code paren}
-	 * labeled alternative in {@link BasicParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParen(@NotNull BasicParser.ParenContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BasicParser#param}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -197,6 +197,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssign_stat(@NotNull BasicParser.Assign_statContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sequential_stat}
+	 * labeled alternative in {@link BasicParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code bool_liter}
 	 * labeled alternative in {@link BasicParser#expr}.
@@ -283,13 +290,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParamList(@NotNull BasicParser.ParamListContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code concat_stat}
-	 * labeled alternative in {@link BasicParser#stat}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConcat_stat(@NotNull BasicParser.Concat_statContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code read_stat}
 	 * labeled alternative in {@link BasicParser#stat}.

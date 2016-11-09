@@ -329,73 +329,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
-        //Better way to handle error but implement LATER
-        ExpressionNode exprL = (ExpressionNode) visit(ctx.exprL);
-        ExpressionNode exprR = (ExpressionNode) visit(ctx.exprR);
-        String binaryOp = ctx.binaryOper().getText();
-        BinaryOpr binaryOpr = BinaryOpr.MULT;
-
-
-        try {
-            Type exprLType = exprL.getNodeType(symbolTable);
-            Type exprRType = exprR.getNodeType(symbolTable);
-        } catch (SemanticException e) {
-            System.err.println("Error type");
-        }
-
-
-        switch (binaryOp) {
-            case "+":
-                binaryOpr = BinaryOpr.PLUS;
-                break;
-            case "-":
-                binaryOpr = BinaryOpr.MINUS;
-                break;
-            case "*":
-                binaryOpr = BinaryOpr.MULT;
-                break;
-            case "/":
-                binaryOpr = BinaryOpr.DIV;
-                break;
-            case "%":
-                binaryOpr = BinaryOpr.MOD;
-                break;
-            case "<":
-                binaryOpr = BinaryOpr.LT;
-                break;
-            case "<=":
-                binaryOpr = BinaryOpr.LTE;
-                break;
-            case ">":
-                binaryOpr = BinaryOpr.GT;
-                break;
-            case ">=":
-                binaryOpr = BinaryOpr.GTE;
-                break;
-            case "==":
-                binaryOpr = BinaryOpr.EQ;
-                break;
-            case "!=":
-                binaryOpr = BinaryOpr.NEQ;
-                break;
-            case "&&":
-                binaryOpr = BinaryOpr.AND;
-                break;
-            case "||":
-                binaryOpr = BinaryOpr.OR;
-                break;
-            default:
-                System.err.println("Binary Operator not found.");
-        }
-
-
-        return new BinaryOprNode(binaryOpr, exprL, exprR);
-
-
-    }
-
-    @Override
     public ASTNode visitPrint_stat(@NotNull BasicParser.Print_statContext ctx) {
         ASTNode expr = visit(ctx.expr());
 
@@ -481,8 +414,97 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
+    public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
+        //Better way to handle error but implement LATER
+        ExpressionNode exprL = (ExpressionNode) visit(ctx.exprL);
+        ExpressionNode exprR = (ExpressionNode) visit(ctx.exprR);
+        String binaryOp = ctx.binaryOper().getText();
+        BinaryOpr binaryOpr = BinaryOpr.MULT;
+
+
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            Type exprRType = exprR.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            System.err.println("Error type");
+        }
+
+
+        switch (binaryOp) {
+            case "+":
+                binaryOpr = BinaryOpr.PLUS;
+                break;
+            case "-":
+                binaryOpr = BinaryOpr.MINUS;
+                break;
+            case "*":
+                binaryOpr = BinaryOpr.MULT;
+                break;
+            case "/":
+                binaryOpr = BinaryOpr.DIV;
+                break;
+            case "%":
+                binaryOpr = BinaryOpr.MOD;
+                break;
+            case "<":
+                binaryOpr = BinaryOpr.LT;
+                break;
+            case "<=":
+                binaryOpr = BinaryOpr.LTE;
+                break;
+            case ">":
+                binaryOpr = BinaryOpr.GT;
+                break;
+            case ">=":
+                binaryOpr = BinaryOpr.GTE;
+                break;
+            case "==":
+                binaryOpr = BinaryOpr.EQ;
+                break;
+            case "!=":
+                binaryOpr = BinaryOpr.NEQ;
+                break;
+            case "&&":
+                binaryOpr = BinaryOpr.AND;
+                break;
+            case "||":
+                binaryOpr = BinaryOpr.OR;
+                break;
+            default:
+                System.err.println("Binary Operator not found.");
+        }
+
+        return new BinaryOprNode(binaryOpr, exprL, exprR);
+
+    }
+
+    @Override
     public ASTNode visitUnary_op(@NotNull BasicParser.Unary_opContext ctx) {
-        return super.visitUnary_op(ctx);
+        ExpressionNode expr = (ExpressionNode) visit(ctx.expr());
+        String unaryOp = ctx.unaryOper().getText();
+        UnaryOpr unaryOpr = UnaryOpr.NEG;
+
+        switch (unaryOp) {
+            case "!":
+                unaryOpr = UnaryOpr.NOT;
+                break;
+            case "-":
+                unaryOpr = UnaryOpr.NEG;
+                break;
+            case "len":
+                unaryOpr = UnaryOpr.LEN;
+                break;
+            case "ord":
+                unaryOpr = UnaryOpr.ORD;
+                break;
+            case "chr":
+                unaryOpr = UnaryOpr.CHR;
+                break;
+            default:
+                System.err.println("Unary Operator not found.");
+        }
+
+        return new UnaryOprNode(unaryOpr, expr);
     }
 
     @Override

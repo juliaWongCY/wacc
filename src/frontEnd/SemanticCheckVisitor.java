@@ -524,6 +524,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (ctx.baseType() != null) { //
             return identifyBaseType(ctx.baseType());
         }
+
+        // reaching here indicates error in matching known type
+        System.err.println("unknown pair elem type encounter");
+        return null;
     }
 
 }

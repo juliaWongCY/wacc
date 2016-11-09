@@ -1242,6 +1242,21 @@ public class BasicParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class Assignr_callContext extends AssignRHSContext {
+		public ArgListContext argList() {
+			return getRuleContext(ArgListContext.class,0);
+		}
+		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
+		public TerminalNode CALL() { return getToken(BasicParser.CALL, 0); }
+		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
+		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
+		public Assignr_callContext(AssignRHSContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_call(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class Assignr_pairelemContext extends AssignRHSContext {
 		public PairElemContext pairElem() {
 			return getRuleContext(PairElemContext.class,0);
@@ -1261,21 +1276,6 @@ public class BasicParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_arrayliter(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class Assignr_parenContext extends AssignRHSContext {
-		public ArgListContext argList() {
-			return getRuleContext(ArgListContext.class,0);
-		}
-		public TerminalNode CLOSE_PARENTHESES() { return getToken(BasicParser.CLOSE_PARENTHESES, 0); }
-		public TerminalNode CALL() { return getToken(BasicParser.CALL, 0); }
-		public TerminalNode IDENT() { return getToken(BasicParser.IDENT, 0); }
-		public TerminalNode OPEN_PARENTHESES() { return getToken(BasicParser.OPEN_PARENTHESES, 0); }
-		public Assignr_parenContext(AssignRHSContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BasicParserVisitor ) return ((BasicParserVisitor<? extends T>)visitor).visitAssignr_paren(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1351,7 +1351,7 @@ public class BasicParser extends Parser {
 				}
 				break;
 			case CALL:
-				_localctx = new Assignr_parenContext(_localctx);
+				_localctx = new Assignr_callContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(196); match(CALL);

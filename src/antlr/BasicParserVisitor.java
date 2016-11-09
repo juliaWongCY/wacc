@@ -212,6 +212,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBool_liter(@NotNull BasicParser.Bool_literContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code assignr_call}
+	 * labeled alternative in {@link BasicParser#assignRHS}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignr_call(@NotNull BasicParser.Assignr_callContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code return_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -304,13 +311,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignl_pairelem(@NotNull BasicParser.Assignl_pairelemContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code assignr_paren}
-	 * labeled alternative in {@link BasicParser#assignRHS}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignr_paren(@NotNull BasicParser.Assignr_parenContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code assignr_newpair}
 	 * labeled alternative in {@link BasicParser#assignRHS}.

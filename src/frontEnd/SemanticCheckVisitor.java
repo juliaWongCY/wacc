@@ -22,7 +22,20 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-        return super.visitAssignr_arrayliter(ctx);
+        BasicParser.ArrayLiterContext arrayLiterContext = ctx.arrayLiter();
+        List<ExpressionNode> elements = new LinkedList<>();
+        List<BasicParser.ExprContext> list = arrayLiterContext.expr();
+        Type t = null;
+        for (int i = 0; i < list.size(); i++) {
+            elements.add(i, (ExpressionNode) visit(list.get(i)));
+        }
+        try {
+            if (elements.size() > 0) {
+                t = elements.get(0).getNodeType(symbolTable);
+            }
+        } catch (SemanticException se) {
+        }
+        return new ArrayLiterAsRNode(elements);
     }
 
     @Override

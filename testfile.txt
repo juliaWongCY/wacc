@@ -1,23 +1,16 @@
-# register machine style addition
+# basic array declaration and assignment
 
 # Output:
-# initial value of x: 3
-# (+)(+)(+)(+)(+)(+)(+)
-# final value of x: 10
+# 3
+# 3
 
 # Program:
 
 begin
-  int x = 3 ;
-  int y = 7 ;
-  print "initial value of x: " ;
-  println x ;
-  while y > 0 do
-    print "(+)" ;
-    x = x + 1 ;
-    y = y - 1
-  done ;
-  println "" ;
-  print "final value of x: " ;
-  println x
+  int[] a = [1,2,3];
+  int[] b = [3,4];
+  int[][] c = [a,b] ;
+  println c[0][2] ;
+  println c[1][0]
 end
+

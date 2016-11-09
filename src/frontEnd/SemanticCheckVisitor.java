@@ -87,11 +87,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
 
+        // initiate and getting initial variable
         symbolTable = new SymbolTable(null);
         ProgramNode programNode = new ProgramNode();
         List<BasicParser.FuncContext> functions = ctx.func();
         BasicParser.StatContext statement = ctx.stat();
 
+        // populate the list of function nodes in program node
         try {
             for (BasicParser.FuncContext f : functions) {
                 FunctionNode fn = (FunctionNode) visitFunc(f);
@@ -102,6 +104,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println(e);
         }
 
+        // set program node's statement node
         ASTNode statementNode = visit(statement);
         try {
             if (statementNode.getNodeType(symbolTable).equals(new StatementType())) {
@@ -116,6 +119,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println(e);
         }
 
+        // reaching here means the statement node cannot be correctly constructed
         System.err.println("Error in processing statementNode");
         return null;
 

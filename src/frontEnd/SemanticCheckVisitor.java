@@ -9,6 +9,7 @@ import ast.statement.*;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.IntType;
+import type.Type;
 
 import java.util.List;
 
@@ -43,18 +44,18 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
-       ASTNode child = visitChildren(ctx);
+        ASTNode expr = visit(ctx.expr());
 
-        if(!(child instanceof ExpressionNode)){
+        if(!(expr instanceof ExpressionNode)){
             System.out.println("Error: need an expr for println");
         }
 
         try{
-            child.getNodeType(symbolTable);
+            expr.getNodeType(symbolTable);
         } catch (SemanticException e){
             System.out.println("Error: cannot get nodeType of the expression in println statement");
         }
-        return new PrintlnStatNode((ExpressionNode) child);
+        return new PrintlnStatNode((ExpressionNode) expr);
 
     }
 
@@ -117,23 +118,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
 
         ASTNode exitCode = visit(ctx.expr());
-        ASTNode child = visitChildren(ctx);
+        Type exitCodeType = null;
 
-        if(exitCode instanceof IntType){
-            System.out.println("The exit code must be an int");
-        }
-
-        if(!(child instanceof ExpressionNode)){
+        if(!(exitCode instanceof ExpressionNode)){
             System.out.println("Must put in an expression (int) in the exit code.");
         }
 
         try{
-            child.getNodeType(symbolTable);
+            exitCodeType = exitCode.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.out.println("Error: cannot get nodeType of the expression in exit statement");
+            System.out.println("Cannot get exitCode's type");
         }
 
-        return new ExitStatNode((ExpressionNode) child);
+        if(!(exitCodeType instanceof IntType)){
+            System.out.println("The exit code must be an int");
+        }
+
+        return new ExitStatNode((ExpressionNode) exitCode);
     }
 
     @Override
@@ -214,19 +215,18 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrint_stat(@NotNull BasicParser.Print_statContext ctx) {
-        ASTNode child = visitChildren(ctx);
+        ASTNode expr = visit(ctx.expr());
 
-        if(!(child instanceof ExpressionNode)){
+        if(!(expr instanceof ExpressionNode)){
             System.out.println("Error: need an expr for println");
         }
 
         try{
-            child.getNodeType(symbolTable);
+            expr.getNodeType(symbolTable);
         } catch (SemanticException e){
             System.out.println("Error: cannot get nodeType of the expression in println statement");
         }
-        // We catch semanticError if child is not an
-        return new PrintStatNode((ExpressionNode) child);
+        return new PrintlnStatNode((ExpressionNode) expr);
     }
 
     @Override

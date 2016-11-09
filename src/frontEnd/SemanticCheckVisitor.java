@@ -375,6 +375,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
+
+
         return super.visitFunc(ctx);
     }
 
@@ -437,4 +439,91 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
         return super.visitAssignr_newpair(ctx);
     }
+
+    // helper method
+    private Type identifyType(BasicParser.TypeContext ctx) {
+        // determine whether it's baseType, arrayType or pairType
+
+        if (ctx.arrayType() != null) { // arrayType
+            BasicParser.ArrayTypeContext actx = ctx.arrayType();
+            return identifyArrayType(actx);
+        }
+
+        if (ctx.baseType() != null) { // baseType
+            BasicParser.BaseTypeContext btctx = ctx.baseType();
+            return identifyBaseType(btctx);
+        }
+
+        if (ctx.pairType() != null) { // pairType
+            BasicParser.PairTypeContext pctx = ctx.pairType();
+            return identifyPairType(pctx);
+        }
+
+        // reaching here indicates error in matching known type
+        System.err.println("Unknown type encountered");
+        return null;
+    }
+
+    private Type identifyArrayType(BasicParser.ArrayTypeContext ctx) {
+        Type elemType = null;
+        if (ctx.baseType() != null) {
+            // baseType array
+             elemType = identifyBaseType(ctx.baseType());
+
+        }
+        if (ctx.pairType() != null) {
+            // pairType array
+            elemType = identifyPairType(ctx.pairType());
+        }
+        Type retType  = new ArrayType(elemType);
+        //
+        for (int i = 0; i < ctx.OPEN_SQPARENTHESES().size() - 1; i++) {
+            retType = new ArrayType(retType);
+        }
+        return retType;
+
+    }
+
+    private Type identifyBaseType(BasicParser.BaseTypeContext ctx) {
+        if (ctx.BOOL() != null) {
+            return new BoolType();
+        }
+
+        if (ctx.CHAR() != null) {
+            return new CharType();
+        }
+
+        if (ctx.INT() != null) {
+            return new IntType();
+        }
+
+        if (ctx.STRING() != null) {
+            return new StringType();
+        }
+
+        System.err.println("unknown base type");
+        return null;
+    }
+
+    private Type identifyPairType(BasicParser.PairTypeContext ctx) {
+        BasicParser.PairElemTypeContext fst = ctx.pairElemType(0);
+        BasicParser.PairElemTypeContext snd = ctx.pairElemType(1);
+
+        return new PairType(identifyPairElemType(fst), identifyPairElemType(snd));
+    }
+
+    private Type identifyPairElemType(BasicParser.PairElemTypeContext ctx) {
+        if (ctx.PAIR() != null) { // pair elem
+            return new PairType(); // return a pair type which has null as its own pairElem
+        }
+
+        if (ctx.arrayType() != null) { // array elem
+            return identifyArrayType(ctx.arrayType());
+        }
+
+        if (ctx.baseType() != null) { //
+            return identifyBaseType(ctx.baseType());
+        }
+    }
+
 }

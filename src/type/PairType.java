@@ -7,11 +7,10 @@ public class PairType extends Type {
 
     private Type fstExprType;
     private Type sndExprType;
-    private ExpressionNode fstExpr;
-    private ExpressionNode sndExpr;
 
     public PairType() {
-
+        fstExprType = null;
+        sndExprType = null;
     }
 
     public PairType(Type fstExprType, Type sndExprType) {
@@ -25,22 +24,6 @@ public class PairType extends Type {
 
     public Type getSndExprType() {
         return sndExprType;
-    }
-
-    public ExpressionNode getFstExpr() {
-        return fstExpr;
-    }
-
-    public ExpressionNode getSndExpr() {
-        return sndExpr;
-    }
-
-    public void setFstExpr(ExpressionNode fstExpr) {
-        this.fstExpr = fstExpr;
-    }
-
-    public void setSndExpr(ExpressionNode sndExpr) {
-        this.sndExpr = sndExpr;
     }
 
 }

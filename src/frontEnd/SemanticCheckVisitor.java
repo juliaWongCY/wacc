@@ -2,12 +2,10 @@ package frontEnd;
 
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
-import ast.ASTNode;
-import ast.FunctionNode;
-import ast.ProgramNode;
-import ast.statement.ExitStatNode;
-import ast.statement.StatementNode;
+import ast.*;
 import ast.expression.*;
+import ast.statement.*;
+import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.IntType;
 
@@ -15,12 +13,12 @@ import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
+    private SymbolTable symbolTable = null;
+
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
         return super.visitAssignr_arrayliter(ctx);
     }
-
-    private SymbolTable symbolTable = null;
 
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
@@ -44,21 +42,21 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
-        BasicParser.ExprContext expr = ctx.expr();
-        ASTNode exprNode = visit(expr);
 
-        if (exprNode instanceof ExpressionNode);
+       ASTNode child = visitChildren(ctx);
 
-        try {
-            if (exprNode.getNodeType(symbolTable).equals(new IntType())) {
-                return new ExitStatNode((ExpressionNode) exprNode);
-            } else {
-                System.err.println("not int type expr given");
-            }
-        } catch (SemanticException e) {
-            e.printStackTrace();
+        if(!(child instanceof ExpressionNode)){
+            System.out.println("Error: need an expr for println");
         }
-        return super.visitPrintln_stat(ctx);
+
+        try{
+            child.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.out.println("Error: cannot get nodeType of the expression in println statement");
+        }
+        return new PrintlnStatNode((ExpressionNode) child);
+
+
     }
 
     @Override
@@ -110,9 +108,28 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     }
 
+
     @Override
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
-        return super.visitExit_stat(ctx);
+
+        ASTNode exitCode = visit(ctx.expr());
+        ASTNode child = visitChildren(ctx);
+
+        if(exitCode instanceof IntType){
+            System.out.println("The exit code must be an int");
+        }
+
+        if(!(child instanceof ExpressionNode)){
+            System.out.println("Must put in an expression (int) in the exit code.");
+        }
+
+        try{
+            child.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.out.println("Error: cannot get nodeType of the expression in exit statement");
+        }
+
+        return new ExitStatNode((ExpressionNode) child);
     }
 
     @Override
@@ -122,7 +139,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitSkip_stat(@NotNull BasicParser.Skip_statContext ctx) {
-        return super.visitSkip_stat(ctx);
+        return new SkipStatNode();
     }
 
     @Override
@@ -193,7 +210,19 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrint_stat(@NotNull BasicParser.Print_statContext ctx) {
-        return super.visitPrint_stat(ctx);
+        ASTNode child = visitChildren(ctx);
+
+        if(!(child instanceof ExpressionNode)){
+            System.out.println("Error: need an expr for println");
+        }
+
+        try{
+            child.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.out.println("Error: cannot get nodeType of the expression in println statement");
+        }
+        // We catch semanticError if child is not an
+        return new PrintStatNode((ExpressionNode) child);
     }
 
     @Override
@@ -250,7 +279,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
-        return super.visitPairElemType(ctx);
+      return super.visitPairElemType(ctx);
     }
 
     @Override

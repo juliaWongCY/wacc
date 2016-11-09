@@ -33,11 +33,12 @@ public class SequentialStatNode implements StatementNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
 
+        /*
         if(!(firstStat instanceof StatementType)){
             throw new SemanticException("The first statement should be a StatementType");
         }
 
-        Type nodeType = null;
+        Type nodeType;
         for(StatementNode statNode: listOfStatNode){
             try{
               nodeType = statNode.getNodeType(st);
@@ -49,7 +50,9 @@ public class SequentialStatNode implements StatementNode {
                 throw new SemanticException("The first statement should be a StatementType");
             }
         }
-
-        return nodeType;
+         */
+        //return nodeType;
+        StatementType stat = new StatementType();
+        return stat.getType();
     }
 }

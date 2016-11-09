@@ -9,7 +9,7 @@ argList : expr ( COMMA expr )* ;
 
 arrayLiter : OPEN_SQPARENTHESES ( expr ( COMMA expr )* )? CLOSE_SQPARENTHESES ;
 
-arrayElem : (IDENT) (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
+arrayElem : name=IDENT (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
 
 pairElem : FST expr | SND expr ;
 

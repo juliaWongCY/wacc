@@ -1,8 +1,11 @@
 package ast.statement;
 
+import ast.assignLeft.ArrayElemAsLNode;
 import ast.assignLeft.AssignLeftNode;
+import ast.assignLeft.PairElemAsLNode;
 import ast.assignRight.AssignRightNode;
 import ast.expression.ExpressionNode;
+import ast.expression.IdentNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.StatementType;
@@ -17,7 +20,6 @@ public class AssignStatNode implements StatementNode {
 
     private AssignRightNode assignRHS;
     private AssignLeftNode assignLHS;
-    private String id;
 
     public AssignStatNode(AssignRightNode assignRHS, AssignLeftNode assignLHS) {
         this.assignRHS = assignRHS;
@@ -38,6 +40,8 @@ public class AssignStatNode implements StatementNode {
         <assign-lhs> = <ident> | <array-elem> | <pair-elem>
         <assign-rhs> = <expr> | <array-liter> | ‘newpair’ ‘(’ <expr> ‘,’ <expr> ‘)’ | <pair-elem> | ‘call’ <ident> ‘(’ <arg-list>? ‘)’
         */
+
+        /*
         Type lhs;
         Type rhs;
         Type ident;
@@ -60,7 +64,12 @@ public class AssignStatNode implements StatementNode {
             throw new SemanticException("The target value and assignment values should have the same type");
         }
 
-        /*
+        if (!(assignLHS instanceof IdentNode || assignLHS instanceof PairElemAsLNode || assignLHS instanceof ArrayElemAsLNode)) {
+
+
+        }
+
+
         try{
             ident = st.lookUpVariable(id);
         } catch (SemanticException e) {

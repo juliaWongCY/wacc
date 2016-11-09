@@ -5,6 +5,7 @@ import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
 import type.PairType;
+import type.StatementType;
 import type.Type;
 
 public class FreeStatNode implements StatementNode {
@@ -22,12 +23,15 @@ public class FreeStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
+        /*
         Type type;
         type = expr.getNodeType(st);
 
         if (!((type instanceof PairType) || (type instanceof ArrayType))){
             throw new SemanticException("The expression must evaluate to a valid ref to a pair.");
         }
-        return type;
+        */
+        StatementType stat = new StatementType();
+        return stat.getType();
     }
 }

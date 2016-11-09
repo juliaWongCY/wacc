@@ -42,12 +42,17 @@ public class IfStatNode implements StatementNode {
     //TODO: Check the return statement
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
+
+       /*
         BoolType bool = new BoolType();
 
         //the condition must be of type bool
         if(!expr.getNodeType(st).equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }
+
+        Type thenStat = statThenBody.getNodeType(st);
+        Type elseStat = statElseBody.getNodeType(st);
 
         if(!(statThenBody instanceof StatementType)){
             throw new SemanticException("The thenPath body statement should be of type StatementNode.");
@@ -56,6 +61,13 @@ public class IfStatNode implements StatementNode {
         if(!(statElseBody instanceof StatementType)){
             throw new SemanticException("The elsePath body statement should be of type StatementNode.");
         }
+
+        if(thenStat instanceof StatementType){
+            return thenStat;
+        }
+
+        return elseStat;
+        */
         StatementType stat = new StatementType();
         return stat.getType();
     }

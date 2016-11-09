@@ -4,6 +4,7 @@ import ast.assignRight.AssignRightNode;
 import ast.expression.IdentNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.StatementType;
 import type.Type;
 
 public class DeclareStatNode implements StatementNode {
@@ -38,6 +39,7 @@ public class DeclareStatNode implements StatementNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         //to check the lhs type is the same as the rhs
 
+        /*
         Type t;
         try{
             t = assignRightNode.getNodeType(st);
@@ -48,8 +50,9 @@ public class DeclareStatNode implements StatementNode {
         if(!type.equals(t)){
             throw new SemanticException("Type of LHS must be same as RHS's type.");
         }
-
-        return t;
+        */
+        StatementType stat = new StatementType();
+        return stat.getType();
     }
 
 }

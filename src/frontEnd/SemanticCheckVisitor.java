@@ -5,6 +5,7 @@ import antlr.BasicParserBaseVisitor;
 import ast.*;
 import ast.assignRight.ArrayLiterAsRNode;
 import ast.assignRight.AssignRightNode;
+import ast.assignRight.ExprAsRNode;
 import ast.assignRight.NewPairAsRNode;
 import ast.expression.*;
 import ast.statement.*;
@@ -88,7 +89,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_expr(@NotNull BasicParser.Assignr_exprContext ctx) {
-        return super.visitAssignr_expr(ctx);
+        return new ExprAsRNode((ExpressionNode) visit(ctx.expr()));
     }
 
     @Override

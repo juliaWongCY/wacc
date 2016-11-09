@@ -30,6 +30,7 @@ public class ReadStatNode implements StatementNode {
         <pair-elem> = <base-type> | <array-type> | 'pair'
         */
 
+        /*
         if(assignLHS.equals(st.lookUpFunction(id))){
             if(!(assignLHS instanceof IntType) || !(assignLHS instanceof CharType)){
                 throw new SemanticException("The read statement can only handle character or integer input.");
@@ -52,6 +53,7 @@ public class ReadStatNode implements StatementNode {
             throw new SemanticException("The read statement can only handle character or integer input.");
         }
 
+        */
         StatementType stat = new StatementType();
         return stat.getType();
     }

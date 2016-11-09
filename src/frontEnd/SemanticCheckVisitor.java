@@ -5,11 +5,13 @@ import antlr.BasicParserBaseVisitor;
 import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
+import ast.statement.ExitStatNode;
 import ast.statement.PrintStatNode;
 import ast.statement.PrintlnStatNode;
 import ast.statement.StatementNode;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import type.IntType;
 
 import java.util.List;
 
@@ -115,7 +117,29 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
-        return super.visitExit_stat(ctx);
+        /*
+        ASTNode child = visitChildren(ctx);
+
+        if(!(child instanceof ExpressionNode)){
+            System.out.println("Error: need an expr for println");
+        }
+
+        try{
+            child.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.out.println("Error: cannot get nodeType of the expression in println statement");
+        }
+        // We catch semanticError if child is not an
+        return new PrintStatNode((ExpressionNode) child);
+         */
+
+        ASTNode exitCode = visitChildren(ctx);
+
+        if(!(exitCode instanceof ExpressionNode)){
+            System.out.println("Error: The exitCode must be an expression.");
+        }
+
+        return new ExitStatNode((ExpressionNode) exitCode);
     }
 
     @Override
@@ -207,6 +231,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             System.out.println("Error: cannot get nodeType of the expression in println statement");
         }
+        // We catch semanticError if child is not an
         return new PrintStatNode((ExpressionNode) child);
     }
 

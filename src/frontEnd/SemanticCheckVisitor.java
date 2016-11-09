@@ -5,10 +5,15 @@ import antlr.BasicParserBaseVisitor;
 import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
+import ast.assignLeft.AssignLeftNode;
+import ast.assignLeft.PairElemAsLNode;
 import ast.statement.*;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.omg.PortableServer.ServantRetentionPolicy;
+import type.CharType;
 import type.IntType;
+import type.PairType;
 import type.Type;
 
 import java.util.List;
@@ -248,7 +253,18 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitReturn_stat(@NotNull BasicParser.Return_statContext ctx) {
-        return super.visitReturn_stat(ctx);
+        ASTNode expr = visit(ctx.expr());
+        if(!(expr instanceof ExpressionNode)){
+            System.out.println("Error: need an expr for println");
+        }
+
+        try{
+            expr.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get exprType in return statement.");
+        }
+
+        return new ReadStatNode((ExpressionNode) expr);
     }
 
     @Override
@@ -268,7 +284,24 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFree_stat(@NotNull BasicParser.Free_statContext ctx) {
-        return super.visitFree_stat(ctx);
+        ASTNode expr = visit(ctx.expr());
+        Type exprType = null;
+
+        if(!(expr instanceof ExpressionNode)){
+            System.err.println("Please put an expression(pair) to free.");
+        }
+
+        try{
+            exprType = expr.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get the expressionType in free statement.");
+        }
+
+        if(!(exprType instanceof PairType)){
+            System.err.println("Free is used to free the heap memory for pairType");
+        }
+
+        return new FreeStatNode((ExpressionNode) expr);
     }
 
     @Override
@@ -308,7 +341,36 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitRead_stat(@NotNull BasicParser.Read_statContext ctx) {
-        return super.visitRead_stat(ctx);
+        ASTNode assignLHS = visit(ctx.assignLHS());
+        Type assignLHSType;
+
+        if(!(assignLHS instanceof AssignLeftNode)){
+            System.out.println("Error: need type assignLHS for read");
+        }
+        try{
+            assignLHSType = assignLHS.getNodeType(symbolTable);
+
+            if(assignLHSType instanceof PairType){
+                PairType pairType = (PairType) assignLHSType;
+                PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
+
+                Type elemType;
+                elemType = assignLPair.isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
+
+                if(!(elemType instanceof IntType || elemType instanceof CharType)) {
+                    System.err.println("The read statement can only handle character or integer input.");
+                }
+            }
+
+            if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
+                System.err.println("incompatible type in target");
+            }
+
+        } catch (SemanticException e){
+            System.err.println("Cannot get assignLHS's node type.");
+        }
+
+        return new ReadStatNode(assignLHS);
     }
 
     @Override

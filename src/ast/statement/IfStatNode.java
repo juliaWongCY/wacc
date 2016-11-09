@@ -50,10 +50,7 @@ public class IfStatNode implements StatementNode {
         if(!expr.getNodeType(st).equals(bool.getType())){
             throw new SemanticException("the condition must return a boolean");
         }
-        */
 
-
-       //TODO
         Type thenStat = statThenBody.getNodeType(st);
         Type elseStat = statElseBody.getNodeType(st);
 
@@ -70,5 +67,8 @@ public class IfStatNode implements StatementNode {
         }
 
         return elseStat;
+        */
+        StatementType stat = new StatementType();
+        return stat.getType();
     }
 }

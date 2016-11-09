@@ -5,10 +5,7 @@ import antlr.BasicParserBaseVisitor;
 import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
-import ast.statement.ExitStatNode;
-import ast.statement.PrintStatNode;
-import ast.statement.PrintlnStatNode;
-import ast.statement.StatementNode;
+import ast.statement.*;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.IntType;
@@ -115,31 +112,28 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return programNode;
     }
 
+
     @Override
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
-        /*
+
+        ASTNode exitCode = visit(ctx.expr());
         ASTNode child = visitChildren(ctx);
 
+        if(exitCode instanceof IntType){
+            System.out.println("The exit code must be an int");
+        }
+
         if(!(child instanceof ExpressionNode)){
-            System.out.println("Error: need an expr for println");
+            System.out.println("Must put in an expression (int) in the exit code.");
         }
 
         try{
             child.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.out.println("Error: cannot get nodeType of the expression in println statement");
-        }
-        // We catch semanticError if child is not an
-        return new PrintStatNode((ExpressionNode) child);
-         */
-
-        ASTNode exitCode = visitChildren(ctx);
-
-        if(!(exitCode instanceof ExpressionNode)){
-            System.out.println("Error: The exitCode must be an expression.");
+            System.out.println("Error: cannot get nodeType of the expression in exit statement");
         }
 
-        return new ExitStatNode((ExpressionNode) exitCode);
+        return new ExitStatNode((ExpressionNode) child);
     }
 
     @Override
@@ -149,7 +143,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitSkip_stat(@NotNull BasicParser.Skip_statContext ctx) {
-        return super.visitSkip_stat(ctx);
+        return new SkipStatNode();
     }
 
     @Override

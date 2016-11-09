@@ -28,8 +28,7 @@ public class PairElemAsRNode implements AssignRightNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
 
         if (expressionNode == null) {
-            PairType pairType = new PairType();
-            return pairType.getType();
+            throw new SemanticException("Expression node is null");
         } else {
             Type t = expressionNode.getNodeType(st);
             if (t instanceof PairType) {
@@ -39,7 +38,7 @@ public class PairElemAsRNode implements AssignRightNode {
                     return ((PairType) t).getSndExprType();
                 }
             }
-            return t;
+            throw new SemanticException("Expression node not of required type pair");
         }
 
     }

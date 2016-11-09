@@ -24,10 +24,10 @@ public class ArrayElemNode implements ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type = st.lookUpVariable(arrayName.getId());
-        while (type instanceof ArrayType) {
-            if (((ArrayType) type).getNestedLayer() < indexes.size()) {
-                type = ((ArrayType) type).getElemType();
-            }
+        int counter = indexes.size();
+        while (type instanceof ArrayType && counter > 0) {
+            type = ((ArrayType) type).getElemType();
+            counter--;
         }
 
         return type;

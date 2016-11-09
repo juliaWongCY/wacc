@@ -5,9 +5,11 @@ import antlr.BasicParserBaseVisitor;
 import ast.ASTNode;
 import ast.FunctionNode;
 import ast.ProgramNode;
+import ast.statement.ExitStatNode;
 import ast.statement.StatementNode;
 import ast.expression.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import type.IntType;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
-
+        return super.visitArrayLiter(ctx);
     }
 
     @Override
@@ -42,7 +44,20 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx) {
+        BasicParser.ExprContext expr = ctx.expr();
+        ASTNode exprNode = visit(expr);
 
+        if (exprNode instanceof ExpressionNode);
+
+        try {
+            if (exprNode.getNodeType(symbolTable).equals(new IntType())) {
+                return new ExitStatNode((ExpressionNode) exprNode);
+            } else {
+                System.err.println("not int type expr given");
+            }
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
         return super.visitPrintln_stat(ctx);
     }
 
@@ -77,7 +92,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         symbolTable = new SymbolTable(null);
         ProgramNode programNode = new ProgramNode();
         List<BasicParser.FuncContext> functions = ctx.func();
-        BasicParser.StatContext statements = ctx.stat();
+        BasicParser.StatContext statement = ctx.stat();
 
         try {
             for (BasicParser.FuncContext f : functions) {
@@ -89,7 +104,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println(e);
         }
 
-
+//        if (statement instanceof )
 
         return programNode;
 
@@ -235,7 +250,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
-
+        return super.visitPairElemType(ctx);
     }
 
     @Override

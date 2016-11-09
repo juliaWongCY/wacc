@@ -12,29 +12,28 @@ public class ProgramNode implements ASTNode {
 
     // <program> ::= ‘begin’ <func>* <stat> ‘end’
 
-
     private ArrayList<FunctionNode> functions;
-    private ArrayList<StatementNode> statements;
+    private StatementNode statement;
 
     public ProgramNode() {
         this.functions = new ArrayList<>();
-        this.statements = new ArrayList<>();
+        this.statement = null;
     }
 
     public void addFunction(FunctionNode func) {
         functions.add(func);
     }
 
-    public void addStatement(StatementNode stat) {
-        statements.add(stat);
+    public void setStatement(StatementNode statement) {
+        this.statement = statement;
     }
 
     public ArrayList<FunctionNode> getFunctionNodes(){
         return functions;
     }
 
-    public ArrayList<StatementNode> getStatementsNode(){
-        return statements;
+    public StatementNode getStatementsNode(){
+        return statement;
     }
 
     @Override
@@ -42,29 +41,14 @@ public class ProgramNode implements ASTNode {
         for (FunctionNode f : functions) {
             f.getNodeType(st);
         }
-        for (StatementNode s : statements) {
-            if (!s.getNodeType(st).equals(new StatementType())) {
-                throw new SemanticException
-                        ("Type error in statement" + s +
-                                ", expecting statement type -" +
-                                " actual type is" + s.getNodeType(st));
-            }
+        if (!(statement.getNodeType(st) instanceof StatementType)) {
+            throw new SemanticException
+                    ("Type error in statement" + statement +
+                            ", expecting statement type -" +
+                            " actual type is" + statement.getNodeType(st));
         }
+
         return null;
     }
 
-
-//    @Override
-//    public ASTNode match(ParserRuleContext cxt) throws UnwantedTokenException {
-//        /* pseudo code:
-//         * check next token is NormalisedNode - 'Begin'
-//         * if true: check next token is FunctionNode, or stateNode
-//         *      if true: call match on either node
-//         *          if true: check next token is NormalisedNode - 'End'
-//         * else: return exception
-//         */
-//
-//
-//        return null;
-//    }
 }

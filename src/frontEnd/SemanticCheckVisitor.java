@@ -37,7 +37,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
         return new ArrayLiterAsRNode(elements);
     }
-
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
         return super.visitArgList(ctx);
@@ -104,7 +103,21 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-        return super.visitAssignl_arrayelem(ctx);
+        BasicParser.ArrayElemContext arrayElem = ctx.arrayElem();
+        String id = arrayElem.IDENT().getText();
+        List<String> index = new LinkedList<String>();
+        for (int i = 0; i < arrayElem.expr().size(); i++) {
+            index.add(i, arrayElem.expr(i).getText());
+        }
+        Type type = null;
+        try {
+            type = symbolTable.lookUpVariable(id);
+        } catch (Exception e) {
+            System.err.println("Semantic error: Assign undeclared.");
+        }
+
+        ArrayElemNode arrayElemNode = new ArrayElemNode(type, new IdentNode(id), index);
+        return new ArrayElemAsLNode(arrayElemNode);
     }
 
     @Override

@@ -13,8 +13,6 @@ arrayElem : name=IDENT (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
 
 pairElem : FST expr | SND expr ;
 
-unaryOper : NOT | NEG | LEN | ORD | CHR ;
-
 binaryOper_IntHigher : MULT | DIV | MOD ;
 
 binaryOper_IntLower: PLUS | MINUS ;
@@ -74,7 +72,7 @@ expr : INTEGER                                    #int_liter
 | PAIRLITER                                       #pair_liter
 | IDENT                                           #ident
 | arrayElem                                       #arrayElem_expr
-| unaryOper expr                                  #unary_op
+| unaryOper                                       #unary_op
 | exprL=expr binaryOper_IntHigher exprR=expr      #binary_opIntHigher
 | exprL=expr binaryOper_IntLower exprR=expr       #binary_opIntLower
 | exprL=expr binaryOper_CompareHigher exprR=expr  #binary_opCompareHigher
@@ -84,10 +82,19 @@ expr : INTEGER                                    #int_liter
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES         #paren_expr
 ;
 
+unaryOper : NOT   expr #uary_opNot
+| MINUS expr #unary_opNeg
+| LEN   expr #unary_opLen
+| ORD   expr #unary_opOrd
+| CHR   expr #unary_opChr
+;
+
 type : baseType
 | arrayType
 | pairType
 ;
+
+
 
 // EOF indicates that the program must consume to the end of the input.
 //prog: (expr)*  EOF ;

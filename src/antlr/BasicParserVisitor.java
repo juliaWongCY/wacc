@@ -37,12 +37,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BasicParser#unaryOper}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ident}
 	 * labeled alternative in {@link BasicParser#expr}.
 	 * @param ctx the parse tree
@@ -184,6 +178,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinary_opAnd(@NotNull BasicParser.Binary_opAndContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code unary_opOrd}
+	 * labeled alternative in {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_opOrd(@NotNull BasicParser.Unary_opOrdContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#paramList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -252,6 +253,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinary_opCompareLower(@NotNull BasicParser.Binary_opCompareLowerContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code uary_opNot}
+	 * labeled alternative in {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUary_opNot(@NotNull BasicParser.Uary_opNotContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code assignl_arrayelem}
 	 * labeled alternative in {@link BasicParser#assignLHS}.
 	 * @param ctx the parse tree
@@ -305,6 +313,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParam(@NotNull BasicParser.ParamContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code unary_opNeg}
+	 * labeled alternative in {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_opNeg(@NotNull BasicParser.Unary_opNegContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code if_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -324,6 +339,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrint_stat(@NotNull BasicParser.Print_statContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unary_opLen}
+	 * labeled alternative in {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_opLen(@NotNull BasicParser.Unary_opLenContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code return_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
@@ -364,6 +386,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBinary_opOr(@NotNull BasicParser.Binary_opOrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unary_opChr}
+	 * labeled alternative in {@link BasicParser#unaryOper}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_opChr(@NotNull BasicParser.Unary_opChrContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code read_stat}
 	 * labeled alternative in {@link BasicParser#stat}.

@@ -57,7 +57,6 @@ OR: '||' ;
 
 //Unary operator
 NOT: '!' ;
-NEG: '-' ;
 LEN: 'len' ;
 ORD: 'ord' ;
 CHR: 'chr' ;

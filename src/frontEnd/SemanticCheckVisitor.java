@@ -140,12 +140,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx) {
-        //We probably do not need this since we won't use this visit function.
-        return super.visitUnaryOper(ctx);
-    }
-
-    @Override
     public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
         return new IdentNode(ctx.getText()); //TODO: [DL] is it ctx.getText() or ctx.IDENT().getText()?
     }
@@ -780,35 +774,59 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitUnary_op(@NotNull BasicParser.Unary_opContext ctx) {
-        ASTNode expr = (ExpressionNode) visit(ctx.expr());
+    public ASTNode visitUnary_opOrd(@NotNull BasicParser.Unary_opOrdContext ctx) {
+        ASTNode expr = visit(ctx.expr());
 
         if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.ORD, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
 
-            String unaryOp = ctx.unaryOper().getText();
-            UnaryOpr unaryOpr = UnaryOpr.NEG;
+    @Override
+    public ASTNode visitUary_opNot(@NotNull BasicParser.Uary_opNotContext ctx) {
+        ASTNode expr = visit(ctx.expr());
 
-            switch (unaryOp) {
-                case "!":
-                    unaryOpr = UnaryOpr.NOT;
-                    break;
-                case "-":
-                    unaryOpr = UnaryOpr.NEG;
-                    break;
-                case "len":
-                    unaryOpr = UnaryOpr.LEN;
-                    break;
-                case "ord":
-                    unaryOpr = UnaryOpr.ORD;
-                    break;
-                case "chr":
-                    unaryOpr = UnaryOpr.CHR;
-                    break;
-                default:
-                    System.err.println("Unary Operator not found.");
-            }
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.NOT, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
 
-            return new UnaryOprNode(unaryOpr, (ExpressionNode) expr);
+    @Override
+    public ASTNode visitUnary_opNeg(@NotNull BasicParser.Unary_opNegContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.NEG, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUnary_opLen(@NotNull BasicParser.Unary_opLenContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.LEN, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUnary_opChr(@NotNull BasicParser.Unary_opChrContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.CHR, (ExpressionNode) expr);
         } else {
             System.err.println("not instance of expressionNode");
             return null;

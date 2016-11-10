@@ -1,5 +1,7 @@
 package frontEnd;
 
+import ErrorHandling.ErrorHandle;
+import ErrorHandling.ErrorType;
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
 import ast.*;
@@ -27,17 +29,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
+
+
         for (BasicParser.ExprContext ectx : ectxs) {
             ASTNode node = visit(ectx);
             if (node instanceof ExpressionNode) {
                 elements.add((ExpressionNode) node);
             } else {
-                System.err.println("element not instance of expression node");
-                return null;
+                ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+                int line = ectx.start.getLine();
+                int charI = ectx.start.getCharPositionInLine();
+                handleError(line, charI, errType);
             }
         }
         return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
     }
+
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
         List<BasicParser.ExprContext> ectx = ctx.expr();
@@ -47,8 +54,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             if (node instanceof ExpressionNode) {
                 exprs.add((ExpressionNode) node);
             } else {
-                System.err.println("non expression node in arg list");
-                return null;
+                ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+                int line = context.start.getLine();
+                int charI = context.start.getCharPositionInLine();
+                handleError(line, charI, errType);
             }
         }
         return new ArgListNode(exprs);
@@ -71,13 +80,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode expr = visit(ctx.expr());
 
         if(!(expr instanceof ExpressionNode)){
-            System.out.println("Incompatible expression type in println.");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.start.getLine();
+            int charI = ctx.start.getCharPositionInLine();
+            handleError(line, charI, errType);
         }
 
         try{
             expr.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.out.println("Cannot get expression's type in println statement");
+            //TODO:
+            System.err.println("Cannot get expression's type in println statement");
         }
         return new PrintlnStatNode((ExpressionNode) expr);
 
@@ -90,12 +103,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode stat = visit(ctx.stat());
 
         if( !(stat.equals(new StatementType()))){
-            System.err.println("Incompatible type in scope statement.");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.stat().start.getLine();
+            int charI = ctx.stat().start.getCharPositionInLine();
+            handleError(line, charI, errType);
         }
 
         try{
             stat.getNodeType(symbolTable);
         } catch (SemanticException s){
+            //TODO:
             System.err.println("Cannot get statement's type in scope statement.");
         }
 
@@ -115,7 +132,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (exprNode instanceof ExpressionNode) {
             return new ExprAsRNode((ExpressionNode) exprNode);
         } else {
-            System.err.println("non expression node found");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.expr().start.getLine();
+            int charI = ctx.expr().start.getCharPositionInLine();
+            handleError(line, charI, errType);
             return null;
         }
     }
@@ -138,7 +158,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (arrayElem instanceof ArrayElemNode) {
             return new ArrayElemAsLNode((ArrayElemNode) arrayElem);
         } else {
-            System.err.println("required arrayElemNode not found");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.arrayElem().start.getLine();
+            int charI = ctx.arrayElem().start.getCharPositionInLine();
+            handleError(line, charI, errType);
             return null;
         }
     }
@@ -160,7 +183,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 programNode.addFunction(fn);
             }
         } catch (SemanticException e) {
-            System.err.println(e);
+            //TODO: what error??
+            System.err.println("Cannot add function to symbol table");
         }
 
         // set program node's statement node
@@ -175,7 +199,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         } catch (SemanticException e) {
             e.printStackTrace();
-            System.err.println(e);
+            //TODO:::
+            System.err.println("Cannot set statement node in program.");
+            //System.err.println(e);
         }
 
         // reaching here means the statement node cannot be correctly constructed
@@ -198,11 +224,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             exitCodeType = exitCode.getNodeType(symbolTable);
         } catch (SemanticException e){
+            //TODO:
             System.err.println("Cannot get exitCode's type in exit stat.");
+            //System.err.println("Cannot get exitCode's type in exit stat.");
         }
 
         if(!(exitCodeType instanceof IntType)){
-            System.err.println("The exit code must be an int");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.expr().start.getLine();
+            int charI = ctx.expr().start.getCharPositionInLine();
+            handleError(line, charI, errType);
+            //System.err.println("The exit code must be an int");
         }
 
         return new ExitStatNode((ExpressionNode) exitCode);
@@ -981,15 +1013,26 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         // reaching here indicates error in matching known type
-        System.err.println("unknown pair elem type encounter");
+        //semanticErrorExit("unknown pair elem type encounter");
+        //return new ErrorType();
         return null;
     }
 
+    
+    private void handleEAError(int line, int charIndex, ErrorHandle errorType, Type exp, Type act){
+        String errorMSG = errorType.getErrorMsg();
+        System.out.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG
+                            + "(expected: " + exp + ")"
+                            + "(actual: " + act + ")");
 
-    private void semanticErrorExit(String message) {
-        System.err.println(message);
-        System.exit(200);
     }
+
+    private void handleError(int line, int charIndex, ErrorHandle errorType){
+        String errorMSG = errorType.getErrorMsg();
+        System.out.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG);
+    }
+
+
 
     private void newSymbolTable() {
         SymbolTable st = new SymbolTable(symbolTable);

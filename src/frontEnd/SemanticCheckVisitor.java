@@ -1,7 +1,7 @@
 package frontEnd;
 
-import ErrorHandling.ErrorHandle;
-import ErrorHandling.ErrorType;
+import errorHandling.ErrorHandle;
+import errorHandling.ErrorType;
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
 import ast.*;
@@ -11,7 +11,6 @@ import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ParseTree;
 import type.*;
 import java.util.ArrayList;
 import java.util.LinkedList;

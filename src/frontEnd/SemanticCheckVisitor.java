@@ -10,8 +10,8 @@ import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
-import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
@@ -20,7 +20,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-<<<<<<< HEAD
+/*
         BasicParser.ArrayLiterContext arrayLiterContext = ctx.arrayLiter();
         List<ExpressionNode> elements = new LinkedList<>();
         List<BasicParser.ExprContext> list = arrayLiterContext.expr();
@@ -35,7 +35,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException se) {
         }
         return new ArrayLiterAsRNode(elements);
-=======
+*/
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
         for (BasicParser.ExprContext ectx : ectxs) {
@@ -48,7 +48,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         }
         return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
->>>>>>> donald
+
     }
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
@@ -133,7 +133,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-<<<<<<< HEAD
+/*
         BasicParser.ArrayElemContext arrayElem = ctx.arrayElem();
         String id = arrayElem.IDENT().getText();
         List<String> index = new LinkedList<String>();
@@ -149,7 +149,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         ArrayElemNode arrayElemNode = new ArrayElemNode(type, new IdentNode(id), index);
         return new ArrayElemAsLNode(arrayElemNode);
-=======
+*/
         ASTNode arrayElem = visit(ctx.arrayElem());
 
         if (arrayElem instanceof ArrayElemAsLNode) {
@@ -158,7 +158,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("required arrayElemNode not found");
             return null;
         }
->>>>>>> donald
     }
 
     @Override
@@ -239,7 +238,25 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx) {
         Type typeOfIdent = identifyType(ctx.type());
-        ASTNode ident = visit(ctx);
+        String ident = ctx.IDENT().getText();
+        //ASTNode ident = visit(ctx);
+        ASTNode assignRhs = visit(ctx.assignRHS());
+
+        try{
+            symbolTable.addVariable(ident, typeOfIdent);
+        } catch (SemanticException e){
+            System.err.println("Cannot add identifier into the symbol table.");
+        }
+
+        if(!(assignRhs instanceof AssignRightNode)){
+            System.err.println("Incompatible assignment type in declare statement.");
+        }
+
+        try{
+            assignRhs.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get assignment type in declare statement.");
+        }
 
         return super.visitDeclare_stat(ctx);
     }
@@ -434,9 +451,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
             }
 
-<<<<<<< HEAD
-        return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
-=======
+       // return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
+
             if (assignRHS instanceof NewPairAsRNode) {
                 try {
                     if (!(assignLHS.getNodeType(symbolTable).equals(new PairType()))) {
@@ -474,14 +490,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
             }
             return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
+
         }
 
 
-        System.err.println("null type occurs in either side");
+       // System.err.println("null type occurs in either side");
         return null;
 
->>>>>>> donald
+
     }
+
 
     @Override
     public ASTNode visitBool_liter(@NotNull BasicParser.Bool_literContext ctx) {
@@ -695,7 +713,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {
-        return super.visitParamList(ctx);
+        List<ParamNode> params = new ArrayList<>();
+        ///ASTNode param = visit(ctx.param(0));
+/*
+        while(!ctx.param().isEmpty()){
+            int i = 0;
+            i++;
+            params.add(visit(ctx.param(i)));
+        }
+
+        for(ASTNode param : ctx.param()){
+            params.add(visit(ctx.param(p)));
+        }
+        */
+        return new ParamListNode(params);
+
+        //return super.visitParamList(ctx);
     }
 
     @Override
@@ -808,11 +841,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
-<<<<<<< HEAD
+/*
         ExpressionNode fst = (ExpressionNode) visit(ctx.expr(0));
         ExpressionNode snd = (ExpressionNode) visit(ctx.expr(1));
         return new NewPairAsRNode(fst, snd);
-=======
+*/
         ASTNode fst = visit(ctx.expr(0));
         ASTNode snd = visit(ctx.expr(1));
 
@@ -822,7 +855,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("not both pair elem instance of expressionNode");
             return null;
         }
->>>>>>> donald
     }
 
     // helper method
@@ -913,6 +945,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // reaching here indicates error in matching known type
         System.err.println("unknown pair elem type encounter");
         return null;
+    }
+
+
+    private void errorExit(){
+        System.err.println("Error occured.");
+        System.exit(-1);
+        //TODO
     }
 
 }

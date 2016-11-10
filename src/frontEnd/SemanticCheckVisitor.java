@@ -20,22 +20,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-/*
-        BasicParser.ArrayLiterContext arrayLiterContext = ctx.arrayLiter();
-        List<ExpressionNode> elements = new LinkedList<>();
-        List<BasicParser.ExprContext> list = arrayLiterContext.expr();
-        Type t = null;
-        for (int i = 0; i < list.size(); i++) {
-            elements.add(i, (ExpressionNode) visit(list.get(i)));
-        }
-        try {
-            if (elements.size() > 0) {
-                t = elements.get(0).getNodeType(symbolTable);
-            }
-        } catch (SemanticException se) {
-        }
-        return new ArrayLiterAsRNode(elements);
-*/
+
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
         for (BasicParser.ExprContext ectx : ectxs) {
@@ -48,7 +33,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         }
         return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
-
     }
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
@@ -133,26 +117,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-/*
-        BasicParser.ArrayElemContext arrayElem = ctx.arrayElem();
-        String id = arrayElem.IDENT().getText();
-        List<String> index = new LinkedList<String>();
-        for (int i = 0; i < arrayElem.expr().size(); i++) {
-            index.add(i, arrayElem.expr(i).getText());
-        }
-        Type type = null;
-        try {
-            type = symbolTable.lookUpVariable(id);
-        } catch (Exception e) {
-            System.err.println("Semantic error: Assign undeclared.");
-        }
 
-        ArrayElemNode arrayElemNode = new ArrayElemNode(type, new IdentNode(id), index);
-        return new ArrayElemAsLNode(arrayElemNode);
-*/
         ASTNode arrayElem = visit(ctx.arrayElem());
 
-        if (arrayElem instanceof ArrayElemAsLNode) {
+        if (arrayElem instanceof ArrayElemNode) {
             return new ArrayElemAsLNode((ArrayElemNode) arrayElem);
         } else {
             System.err.println("required arrayElemNode not found");
@@ -451,8 +419,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
             }
 
-       // return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
-
             if (assignRHS instanceof NewPairAsRNode) {
                 try {
                     if (!(assignLHS.getNodeType(symbolTable).equals(new PairType()))) {
@@ -471,7 +437,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
 
             if (assignRHS instanceof PairElemAsRNode) {
-                if (((PairElemAsRNode) assignRHS).isFirst()) {
+                if (((PairElemAsRNode) assignRHS).getPairElemNode().isFirst()) {
                     try {
                         if (!assignRHS.getNodeType(symbolTable).equals(assignLHS.getNodeType(symbolTable))) {
                             System.err.println("target and assignment type mismatched");
@@ -496,8 +462,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
        // System.err.println("null type occurs in either side");
         return null;
-
-
     }
 
 
@@ -674,7 +638,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
         String id = ctx.name.getText();
         IdentNode identNode = new IdentNode(id);
-        List<String> array = new LinkedList<>();
+        List<ExpressionNode> indexes = new LinkedList<>();
         Type arrayType = null;
         Type indexType;
 
@@ -684,22 +648,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             try {
                 ASTNode a = visit(index);
                 indexType = a.getNodeType(symbolTable);
-                if (!(indexType instanceof IntType)) {
+                if (!(indexType.equals(new IntType()) && a instanceof ExpressionNode)) {
                     System.err.println("Semantic error");
+                    return null;
                 }
+                indexes.add((ExpressionNode) a);
             } catch (SemanticException e) {
                 System.err.println("Semantic error");
             }
-            array.add(i, index.getText());
         }
 
         try {
-            arrayType = symbolTable.lookUpVariable(id);
+            symbolTable.lookUpVariable(id);
         } catch (SemanticException e) {
             System.err.println("Semantic error: Identifier not found.");
         }
 
-        return new ArrayElemNode(arrayType, identNode, array);
+        return new ArrayElemNode(identNode, indexes);
     }
 
 
@@ -758,7 +723,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new SequentialStatNode((StatementNode) statFst);
     }
 
-
+    // todo: [DL] changed pairelem so need review here
     @Override
     public ASTNode visitRead_stat(@NotNull BasicParser.Read_statContext ctx) {
         ASTNode assignLHS = visit(ctx.assignLHS());
@@ -775,7 +740,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
 
                 Type elemType;
-                elemType = assignLPair.isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
+                elemType = assignLPair.getPairElemNode().isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
+
 
                 if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
                     System.err.println("The read statement can only handle character or integer input.");
@@ -841,11 +807,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
-/*
-        ExpressionNode fst = (ExpressionNode) visit(ctx.expr(0));
-        ExpressionNode snd = (ExpressionNode) visit(ctx.expr(1));
-        return new NewPairAsRNode(fst, snd);
-*/
         ASTNode fst = visit(ctx.expr(0));
         ASTNode snd = visit(ctx.expr(1));
 

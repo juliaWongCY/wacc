@@ -15,6 +15,9 @@ public class PairElemAsRNode implements AssignRightNode {
         this.pairElemNode = pairElemNode;
     }
 
+    public PairElemNode getPairElemNode() {
+        return pairElemNode;
+    }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {

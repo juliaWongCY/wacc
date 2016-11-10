@@ -913,10 +913,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
 
-    private void errorExit(){
-        System.err.println("Error occured.");
-        System.exit(-1);
-        //TODO
+    private void semanticErrorExit(String message){
+        System.err.println(message);
+        System.exit(200);
     }
 
 }

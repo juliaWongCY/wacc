@@ -20,22 +20,21 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-<<<<<<< HEAD
-        BasicParser.ArrayLiterContext arrayLiterContext = ctx.arrayLiter();
-        List<ExpressionNode> elements = new LinkedList<>();
-        List<BasicParser.ExprContext> list = arrayLiterContext.expr();
-        Type t = null;
-        for (int i = 0; i < list.size(); i++) {
-            elements.add(i, (ExpressionNode) visit(list.get(i)));
-        }
-        try {
-            if (elements.size() > 0) {
-                t = elements.get(0).getNodeType(symbolTable);
-            }
-        } catch (SemanticException se) {
-        }
-        return new ArrayLiterAsRNode(elements);
-=======
+//        BasicParser.ArrayLiterContext arrayLiterContext = ctx.arrayLiter();
+//        List<ExpressionNode> elements = new LinkedList<>();
+//        List<BasicParser.ExprContext> list = arrayLiterContext.expr();
+//        Type t = null;
+//        for (int i = 0; i < list.size(); i++) {
+//            elements.add(i, (ExpressionNode) visit(list.get(i)));
+//        }
+//        try {
+//            if (elements.size() > 0) {
+//                t = elements.get(0).getNodeType(symbolTable);
+//            }
+//        } catch (SemanticException se) {
+//        }
+//        return new ArrayLiterAsRNode(elements);
+
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
         for (BasicParser.ExprContext ectx : ectxs) {
@@ -48,7 +47,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         }
         return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
->>>>>>> donald
+
     }
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
@@ -66,6 +65,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new ArgListNode(exprs);
     }
 
+    //Maybe not used
     @Override
     public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
         return super.visitArrayLiter(ctx);
@@ -73,6 +73,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitString_liter(@NotNull BasicParser.String_literContext ctx) {
+        //Nothing to add, juts a new StringLiterNode needed.
         return new StringLiterNode(ctx.getText());
     }
 
@@ -123,6 +124,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx) {
+        //We probably do not need this since we won't use this visit function.
         return super.visitUnaryOper(ctx);
     }
 
@@ -133,23 +135,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-<<<<<<< HEAD
-        BasicParser.ArrayElemContext arrayElem = ctx.arrayElem();
-        String id = arrayElem.IDENT().getText();
-        List<String> index = new LinkedList<String>();
-        for (int i = 0; i < arrayElem.expr().size(); i++) {
-            index.add(i, arrayElem.expr(i).getText());
-        }
-        Type type = null;
-        try {
-            type = symbolTable.lookUpVariable(id);
-        } catch (Exception e) {
-            System.err.println("Semantic error: Assign undeclared.");
-        }
+//        BasicParser.ArrayElemContext arrayElem = ctx.arrayElem();
+//        String id = arrayElem.IDENT().getText();
+//        List<String> index = new LinkedList<String>();
+//        for (int i = 0; i < arrayElem.expr().size(); i++) {
+//            index.add(i, arrayElem.expr(i).getText());
+//        }
+//        Type type = null;
+//        try {
+//            type = symbolTable.lookUpVariable(id);
+//        } catch (Exception e) {
+//            System.err.println("Semantic error: Assign undeclared.");
+//        }
+//
+//        ArrayElemNode arrayElemNode = new ArrayElemNode(type, new IdentNode(id), index);
+//        return new ArrayElemAsLNode(arrayElemNode);
 
-        ArrayElemNode arrayElemNode = new ArrayElemNode(type, new IdentNode(id), index);
-        return new ArrayElemAsLNode(arrayElemNode);
-=======
         ASTNode arrayElem = visit(ctx.arrayElem());
 
         if (arrayElem instanceof ArrayElemAsLNode) {
@@ -158,7 +159,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("required arrayElemNode not found");
             return null;
         }
->>>>>>> donald
+
     }
 
     @Override
@@ -228,7 +229,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitType(@NotNull BasicParser.TypeContext ctx) {
-        return super.visitType(ctx);
+        //We just need to visit the children type.
+        return visitChildren(ctx);
     }
 
     @Override
@@ -246,6 +248,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) {
+        //[DL] We probably do not need this as we won't use this visit function.
         return super.visitBaseType(ctx);
     }
 
@@ -266,7 +269,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitParen_expr(@NotNull BasicParser.Paren_exprContext ctx) {
-        return super.visitParen_expr(ctx);
+        //just visit the expr part but ignoring others.
+        return visit(ctx.getChild(1));
     }
 
     @Override
@@ -376,7 +380,35 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElem(@NotNull BasicParser.PairElemContext ctx) {
-        return super.visitPairElem(ctx);
+
+        String fstOrSnd = ctx.getChild(0).getText();
+        ASTNode valueNode = visit(ctx.expr());
+        Type type = null;
+
+        if (valueNode instanceof IdentNode) {
+            try {
+                type = valueNode.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                System.err.println("Semantic error: Cannot find pair elem type.");
+                return null;
+            }
+        }
+
+        if (!(type instanceof  PairType)) {
+            System.err.println("Semantic error: It can only be pairtype.");
+        }
+
+        final String fst = "fst";
+        boolean isFirst;
+
+        if (fstOrSnd.equals(fst)) {
+            isFirst = true;
+            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+        } else {
+            isFirst = false;
+            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+        }
+
     }
 
     @Override
@@ -397,6 +429,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitArrayType(ctx);
     }
 
@@ -434,9 +467,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
             }
 
-<<<<<<< HEAD
-        return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
-=======
+
+
             if (assignRHS instanceof NewPairAsRNode) {
                 try {
                     if (!(assignLHS.getNodeType(symbolTable).equals(new PairType()))) {
@@ -480,12 +512,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         System.err.println("null type occurs in either side");
         return null;
 
->>>>>>> donald
     }
 
     @Override
     public ASTNode visitBool_liter(@NotNull BasicParser.Bool_literContext ctx) {
-
+        //Only return a BoolLiterNode with the value.
         return new BoolLiterNode(Boolean.valueOf(ctx.getText()));
 
     }
@@ -518,100 +549,116 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
-        //Better way to handle error but implement LATER
-        ExpressionNode exprL = (ExpressionNode) visit(ctx.exprL);
-        ExpressionNode exprR = (ExpressionNode) visit(ctx.exprR);
-        String binaryOp = ctx.binaryOper().getText();
-        BinaryOpr binaryOpr = BinaryOpr.MULT;
+
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+
+            String binaryOp = ctx.binaryOper().getText();
+            BinaryOpr binaryOpr = BinaryOpr.MULT;
 
 
-        try {
-            Type exprLType = exprL.getNodeType(symbolTable);
-            Type exprRType = exprR.getNodeType(symbolTable);
-        } catch (SemanticException e) {
-            System.err.println("Error type");
+            try {
+                Type exprLType = exprL.getNodeType(symbolTable);
+                Type exprRType = exprR.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                System.err.println("Error type");
+            }
+
+
+            switch (binaryOp) {
+                case "+":
+                    binaryOpr = BinaryOpr.PLUS;
+                    break;
+                case "-":
+                    binaryOpr = BinaryOpr.MINUS;
+                    break;
+                case "*":
+                    binaryOpr = BinaryOpr.MULT;
+                    break;
+                case "/":
+                    binaryOpr = BinaryOpr.DIV;
+                    break;
+                case "%":
+                    binaryOpr = BinaryOpr.MOD;
+                    break;
+                case "<":
+                    binaryOpr = BinaryOpr.LT;
+                    break;
+                case "<=":
+                    binaryOpr = BinaryOpr.LTE;
+                    break;
+                case ">":
+                    binaryOpr = BinaryOpr.GT;
+                    break;
+                case ">=":
+                    binaryOpr = BinaryOpr.GTE;
+                    break;
+                case "==":
+                    binaryOpr = BinaryOpr.EQ;
+                    break;
+                case "!=":
+                    binaryOpr = BinaryOpr.NEQ;
+                    break;
+                case "&&":
+                    binaryOpr = BinaryOpr.AND;
+                    break;
+                case "||":
+                    binaryOpr = BinaryOpr.OR;
+                    break;
+                default:
+                    System.err.println("Binary Operator not found.");
+            }
+
+            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
         }
-
-
-        switch (binaryOp) {
-            case "+":
-                binaryOpr = BinaryOpr.PLUS;
-                break;
-            case "-":
-                binaryOpr = BinaryOpr.MINUS;
-                break;
-            case "*":
-                binaryOpr = BinaryOpr.MULT;
-                break;
-            case "/":
-                binaryOpr = BinaryOpr.DIV;
-                break;
-            case "%":
-                binaryOpr = BinaryOpr.MOD;
-                break;
-            case "<":
-                binaryOpr = BinaryOpr.LT;
-                break;
-            case "<=":
-                binaryOpr = BinaryOpr.LTE;
-                break;
-            case ">":
-                binaryOpr = BinaryOpr.GT;
-                break;
-            case ">=":
-                binaryOpr = BinaryOpr.GTE;
-                break;
-            case "==":
-                binaryOpr = BinaryOpr.EQ;
-                break;
-            case "!=":
-                binaryOpr = BinaryOpr.NEQ;
-                break;
-            case "&&":
-                binaryOpr = BinaryOpr.AND;
-                break;
-            case "||":
-                binaryOpr = BinaryOpr.OR;
-                break;
-            default:
-                System.err.println("Binary Operator not found.");
         }
-
-        return new BinaryOprNode(binaryOpr, exprL, exprR);
 
     }
 
     @Override
     public ASTNode visitUnary_op(@NotNull BasicParser.Unary_opContext ctx) {
-        ExpressionNode expr = (ExpressionNode) visit(ctx.expr());
-        String unaryOp = ctx.unaryOper().getText();
-        UnaryOpr unaryOpr = UnaryOpr.NEG;
+        ASTNode expr = (ExpressionNode) visit(ctx.expr());
 
-        switch (unaryOp) {
-            case "!":
-                unaryOpr = UnaryOpr.NOT;
-                break;
-            case "-":
-                unaryOpr = UnaryOpr.NEG;
-                break;
-            case "len":
-                unaryOpr = UnaryOpr.LEN;
-                break;
-            case "ord":
-                unaryOpr = UnaryOpr.ORD;
-                break;
-            case "chr":
-                unaryOpr = UnaryOpr.CHR;
-                break;
-            default:
-                System.err.println("Unary Operator not found.");
-        }
+        if (expr instanceof ExpressionNode) {
 
-        return new UnaryOprNode(unaryOpr, expr);
+            String unaryOp = ctx.unaryOper().getText();
+            UnaryOpr unaryOpr = UnaryOpr.NEG;
+
+            switch (unaryOp) {
+                case "!":
+                    unaryOpr = UnaryOpr.NOT;
+                    break;
+                case "-":
+                    unaryOpr = UnaryOpr.NEG;
+                    break;
+                case "len":
+                    unaryOpr = UnaryOpr.LEN;
+                    break;
+                case "ord":
+                    unaryOpr = UnaryOpr.ORD;
+                    break;
+                case "chr":
+                    unaryOpr = UnaryOpr.CHR;
+                    break;
+                default:
+                    System.err.println("Unary Operator not found.");
+            }
+
+            return new UnaryOprNode(unaryOpr, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
     }
 
     @Override
     public ASTNode visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitBinaryOper(ctx);
     }
 
@@ -639,16 +686,19 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPair_liter(@NotNull BasicParser.Pair_literContext ctx) {
+        //Only return a new PairLiterNode.
         return new PairLiterNode();
     }
 
     @Override
     public ASTNode visitPairType(@NotNull BasicParser.PairTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitPairType(ctx);
     }
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
       return super.visitPairElemType(ctx);
     }
 
@@ -688,7 +738,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
-
 
         return super.visitFunc(ctx);
     }
@@ -808,11 +857,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
-<<<<<<< HEAD
-        ExpressionNode fst = (ExpressionNode) visit(ctx.expr(0));
-        ExpressionNode snd = (ExpressionNode) visit(ctx.expr(1));
-        return new NewPairAsRNode(fst, snd);
-=======
         ASTNode fst = visit(ctx.expr(0));
         ASTNode snd = visit(ctx.expr(1));
 
@@ -822,7 +866,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("not both pair elem instance of expressionNode");
             return null;
         }
->>>>>>> donald
     }
 
     // helper method

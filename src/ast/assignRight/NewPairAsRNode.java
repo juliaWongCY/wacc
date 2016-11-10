@@ -11,6 +11,7 @@ public class NewPairAsRNode implements AssignRightNode {
 
     //Not sure if it is PairElemType or ExpressionNode
     //It should be ExpressionNode since NewPairAsRNode initialises a pair
+    // [DL] this should be a "constructor/assignment" of a pair type variable
     private ExpressionNode fst;
     private ExpressionNode snd;
 

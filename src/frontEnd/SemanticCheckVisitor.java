@@ -210,29 +210,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         Type typeOfIdent = identifyType(ctx.type());
         String ident = ctx.IDENT().getText();
         ASTNode assignRhs = visit(ctx.assignRHS());
-        Type assignRhsType = null;
 
-        try{
-            symbolTable.addVariable(ident, typeOfIdent);
-        } catch (SemanticException e){
-            System.err.println("Cannot add identifier into the symbol table.");
+        if (assignRhs instanceof AssignRightNode && operandsTypeCheck(typeOfIdent, (AssignRightNode) assignRhs)) {
+            return new DeclareStatNode(typeOfIdent, new IdentNode(ident), (AssignRightNode) assignRhs);
+        } else {
+            System.err.println("type mismatch");
+            return null;
         }
 
-        if(!(assignRhs instanceof AssignRightNode)){
-            System.err.println("Incompatible assignment type in declare statement.");
-        }
 
-        try{
-            assignRhsType = assignRhs.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            System.err.println("Cannot get assignment type in declare statement.");
-        }
-
-        if((assignRhsType == null) || !(assignRhsType.equals(typeOfIdent))){
-            System.err.println("Incompatible type. Cannot declare statement.");
-        }
-
-        return new DeclareStatNode(typeOfIdent, new IdentNode(ident), (AssignRightNode) assignRhs);
     }
 
     @Override
@@ -441,64 +427,58 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("Cannot get target type in assign statement.");
         }
 
-        try{
-            rhsType = assignRHS.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            System.err.println("Cannot get assignment type in assign statement.");
+        if (operandsTypeCheck(lhsType, (AssignRightNode) assignRHS)) {
+            return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
+        } else {
+            System.err.println("Type mismatch");
+            return null;
         }
 
-        if(lhsType != null && rhsType != null){
-            if(assignRHS instanceof ExpressionNode
-                    || assignRHS instanceof ArrayLiterAsRNode
-                    || assignRHS instanceof CallAsRNode){
-                if (!lhsType.equals(rhsType)) {
+    }
+
+    private boolean operandsTypeCheck(Type targetType, AssignRightNode node) {
+        Type rhsType;
+        try{
+            rhsType = node.getNodeType(symbolTable);
+        } catch (SemanticException e){
+            System.err.println("Cannot get assignment type in assign statement.");
+            return false;
+        }
+
+        if(targetType != null && rhsType != null){
+            if(node instanceof ExpressionNode
+                    || node instanceof ArrayLiterAsRNode
+                    || node instanceof CallAsRNode
+                    || node instanceof PairElemAsRNode){
+                if (!targetType.equals(rhsType)) {
                     System.err.println("Different types in target and assign value");
+                    return false;
                 }
             }
 
-            if (assignRHS instanceof NewPairAsRNode) {
+            if (node instanceof NewPairAsRNode) {
                 try {
-                    if (!(assignLHS.getNodeType(symbolTable).equals(new PairType()))) {
+                    if (!(targetType.equals(new PairType()))) {
                         System.err.println("target type is not pair type");
+                        return false;
                     }
-                    PairType pType = (PairType) assignLHS.getNodeType(symbolTable);
-                    if (pType.getFstExprType() != ((NewPairAsRNode) assignRHS).getFstType(symbolTable)
-                            ||pType.getSndExprType() != ((NewPairAsRNode) assignRHS).getSndType(symbolTable)) {
+                    PairType pType = (PairType) targetType;
+                    if (pType.getFstExprType() != ((NewPairAsRNode) node).getFstType(symbolTable)
+                            ||pType.getSndExprType() != ((NewPairAsRNode) node).getSndType(symbolTable)) {
                         System.err.println("target pair elements mismatched with assignments");
+                        return false;
                     }
 
                 } catch (SemanticException e) {
                     e.printStackTrace();
                     System.err.println(e);
+                    return false;
                 }
             }
-
-            if (assignRHS instanceof PairElemAsRNode) {
-                if (((PairElemAsRNode) assignRHS).getPairElemNode().isFirst()) {
-                    try {
-                        if (!assignRHS.getNodeType(symbolTable).equals(assignLHS.getNodeType(symbolTable))) {
-                            System.err.println("target and assignment type mismatched");
-                        }
-                    } catch (SemanticException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        if (!assignRHS.getNodeType(symbolTable).equals(assignLHS.getNodeType(symbolTable))) {
-                            System.err.println("target and assignment type mismatched");
-                        }
-                    } catch (SemanticException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
-
+            return true;
+        } else {
+            return false;
         }
-
-
-       // System.err.println("null type occurs in either side");
-        return null;
     }
 
 
@@ -723,12 +703,41 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new ArrayElemNode(identNode, indexes);
     }
 
-
-
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
+        Type retType = identifyType(ctx.type());
+        if (retType == null) {
+            System.err.println("cannot recognize return type");
+            return null;
+        }
+        IdentNode functionId = new IdentNode(ctx.IDENT().getText());
+        ParamListNode params = null;
+        if (ctx.paramList() != null) {
+            ASTNode node = visit(ctx.paramList());
+            if (node instanceof ParamListNode) {
+                params = (ParamListNode) node;
+            }
+        }
+        StatementNode stat = null;
+        ASTNode s = visit(ctx.stat());
+        if (s instanceof StatementNode) {
+            if (s instanceof SequentialStatNode
+                    && (((SequentialStatNode)s).getSndStat() instanceof ExitStatNode
+                        || ((SequentialStatNode)s).getSndStat() instanceof ReturnStatNode)) {
+                stat = (StatementNode) s;
+            } else {
+                if (s instanceof ExitStatNode || s instanceof ReturnStatNode) {
+                    stat = (StatementNode) s;
+                }
+            }
+        }
 
-        return super.visitFunc(ctx);
+        if (stat == null) {
+            System.err.println("function not end with return or exit statement");
+            return null;
+        }
+
+        return new FunctionNode(retType, functionId, params, stat);
     }
 
     @Override
@@ -771,7 +780,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             System.err.println("Cannot get second statement's type in sequential stat.");
         }
-        return new SequentialStatNode((StatementNode) statFst);
+        return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
     }
 
     // todo: [DL] changed pairelem so need review here

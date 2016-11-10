@@ -22,7 +22,7 @@ public class FunctionNode implements ASTNode {
                         IdentNode functionName,
                         ParamListNode paramList,
                         StatementNode bodyStat){
-        if (paramList.getParams().isEmpty()) {
+        if (paramList == null) {
             this.type = new FunctionType(type);
         } else {
             try {

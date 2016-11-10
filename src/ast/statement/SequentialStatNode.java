@@ -13,20 +13,20 @@ public class SequentialStatNode implements StatementNode {
   // <stat> = <stat> ; <stat>
   // The second statement can itself be a sequential composition
 
-    private Deque<StatementNode> listOfStatNode;
-    private StatementNode firstStat;
+    private StatementNode fstStat;
+    private StatementNode sndStat;
 
-    public SequentialStatNode(StatementNode firstStat) {
-       this.firstStat = firstStat;
-      listOfStatNode = new ArrayDeque<>();
+    public SequentialStatNode(StatementNode fstStat, StatementNode sndStat) {
+        this.fstStat = fstStat;
+        this.sndStat = sndStat;
     }
 
-    public void addStatNode(StatementNode statNode){
-        listOfStatNode.add(statNode);
+    public StatementNode getFstStat() {
+        return fstStat;
     }
 
-    public Deque<StatementNode> getListOfStatNode(){
-        return listOfStatNode;
+    public StatementNode getSndStat() {
+        return sndStat;
     }
 
     //TODO: Double-check

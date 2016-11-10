@@ -379,14 +379,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         final String fst = "fst";
-        boolean isFirst;
 
         if (fstOrSnd.equals(fst)) {
-            isFirst = true;
-            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+            return new PairElemNode((ExpressionNode) valueNode, true);
         } else {
-            isFirst = false;
-            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+            return new PairElemNode((ExpressionNode) valueNode, false);
         }
 
     }

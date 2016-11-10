@@ -38,6 +38,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitString_liter(@NotNull BasicParser.String_literContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code arrayElem_expr}
+	 * labeled alternative in {@link BasicParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayElem_expr(@NotNull BasicParser.ArrayElem_exprContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#arrayElem}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -278,13 +285,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arrayelem}
-	 * labeled alternative in {@link BasicParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayelem(@NotNull BasicParser.ArrayelemContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BasicParser#func}.
 	 * @param ctx the parse tree

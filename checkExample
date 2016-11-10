@@ -1,8 +1,17 @@
 #!/usr/bin/env ruby
+#checkExample.sh
 
 require 'open3'
 
 $log = "log_valid_cases.txt"
+
+$caseType = "valid"
+
+if ARGV.length == 1 
+    if ARGV[0] == "invalid" then
+        $caseType = "invalid"
+    end
+end
 
 def compileCase (casePath)
     sout, serr, stat  = Open3.capture3("./compile #{casePath}")
@@ -22,6 +31,6 @@ File.delete($log) if File.exist?($log)
 file = File.new($log, "a+")
 file.close
 
-cases = Dir.glob("./example/valid/**/*.wacc")
+cases = Dir.glob("./example/"+$caseType+"/**/*.wacc")
 
 cases.map! {|x| compileCase(x)}

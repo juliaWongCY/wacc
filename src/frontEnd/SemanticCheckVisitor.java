@@ -9,6 +9,7 @@ import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 import type.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,6 +18,10 @@ import java.util.List;
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     private SymbolTable symbolTable = null;
+
+    public SemanticCheckVisitor(SymbolTable symbolTable) {
+
+    }
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {

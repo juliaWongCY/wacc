@@ -812,12 +812,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statFst = visit(ctx.stat(0));
         ASTNode statSnd = visit(ctx.stat(1));
 
-        if(!(statFst.equals(new StatementType()))){
+        if(!(statFst instanceof SequentialStatNode || statSnd instanceof SequentialStatNode)){
             System.err.println("Incompatible type in sequential statement.");
-        }
-
-        if(statFst instanceof ReturnStatNode){
-            System.err.println("Cannot have return node type in the first statement");
         }
 
         try{

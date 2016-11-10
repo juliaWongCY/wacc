@@ -9,9 +9,7 @@ import type.Type;
 import java.util.ArrayList;
 
 public class ProgramNode implements ASTNode {
-
-    // <program> ::= ‘begin’ <func>* <stat> ‘end’
-
+    
     private ArrayList<FunctionNode> functions;
     private StatementNode statement;
 

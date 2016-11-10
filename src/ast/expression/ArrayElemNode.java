@@ -9,14 +9,12 @@ import java.util.List;
 
 public class ArrayElemNode implements ExpressionNode {
 
-    private Type elemType;
     private IdentNode arrayName;
-    private List<String> indexes;
+    private List<ExpressionNode> indexes;
 
-    public ArrayElemNode(Type elemType, IdentNode arrayName, List<String> indexes) {
+    public ArrayElemNode(IdentNode arrayName, List<ExpressionNode> indexes) {
 
         //<array-elem> ::= <ident> (‘[’ <expr > ‘]’)+
-        this.elemType = elemType;
         this.arrayName = arrayName;
         this.indexes = indexes;
     }

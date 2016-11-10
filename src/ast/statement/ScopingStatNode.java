@@ -6,7 +6,7 @@ import type.StatementType;
 import type.Type;
 
 public class ScopingStatNode implements StatementNode {
-    // <stat> = 'begin' <stat> 'end'
+
 
     private StatementNode stat;
 

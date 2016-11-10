@@ -10,7 +10,6 @@ import type.Type;
 
 public class FunctionNode implements ASTNode {
 
-    //<func> ::= <type> <functionName> ‘(’ <param-list>? ‘)’ ‘is’ <bodyStat> ‘end’
 
     private Type type;
     private IdentNode functionName;

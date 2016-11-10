@@ -8,7 +8,7 @@ import type.StatementType;
 import type.Type;
 
 public class WhileStatNode implements StatementNode {
-    //<stat> = ‘while’ <expr> ‘do’ <stat> ‘done’
+
 
     private ExpressionNode expr;
     private StatementNode stat;

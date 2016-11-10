@@ -10,7 +10,6 @@ import java.util.Deque;
 
 public class SequentialStatNode implements StatementNode {
 
-  // <stat> = <stat> ; <stat>
   // The second statement can itself be a sequential composition
 
     private StatementNode fstStat;

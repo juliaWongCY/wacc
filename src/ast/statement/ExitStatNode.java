@@ -9,7 +9,6 @@ import type.Type;
 
 public class ExitStatNode implements StatementNode {
 
-    //<stat> = ‘exit’ <expr>
 
     public ExpressionNode expr;
 

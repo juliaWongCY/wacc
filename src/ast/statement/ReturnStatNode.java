@@ -7,7 +7,6 @@ import type.StatementType;
 import type.Type;
 
 public class ReturnStatNode implements StatementNode {
-    //<stat> = 'return' <expr>
 
     ExpressionNode expr;
 

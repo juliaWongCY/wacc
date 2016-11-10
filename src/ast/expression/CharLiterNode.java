@@ -7,8 +7,6 @@ import type.Type;
 
 public class CharLiterNode implements ExpressionNode {
 
-    // <expr> = <char-liter>
-    //CharLiter value has to be String since escape character contains two characters.
     private final String value;
 
     public CharLiterNode(String value) {

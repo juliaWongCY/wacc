@@ -6,7 +6,6 @@ import type.StatementType;
 import type.Type;
 
 public class SkipStatNode implements StatementNode {
-    // <stat> := skip;
 
     public SkipStatNode() {
 

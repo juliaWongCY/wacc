@@ -13,8 +13,6 @@ public class BinaryOprNode implements ExpressionNode {
     private final ExpressionNode exprR;
 
     public BinaryOprNode(BinaryOpr binaryOpr, ExpressionNode exprL, ExpressionNode exprR) {
-        // <expr> = <expr> <binary-oper> <expr>
-        //<binary-oper> ::= ‘*’ | ‘/’ | ‘%’ | ‘+’ | ‘-’ | ‘>’ | ‘>=’ | ‘<’ | ‘<=’ | ‘==’ | ‘!=’ | ‘&&’ | ‘||’
         this.binaryOpr = binaryOpr;
         this.exprL = exprL;
         this.exprR = exprR;

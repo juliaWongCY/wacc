@@ -8,8 +8,6 @@ import type.Type;
 
 public class PrintStatNode implements StatementNode {
 
-    // <stat> ='print' <expr>
-
     private ExpressionNode expr;
     public PrintStatNode(ExpressionNode expr) {
         this.expr = expr;

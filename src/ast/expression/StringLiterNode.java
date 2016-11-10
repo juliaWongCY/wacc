@@ -7,8 +7,6 @@ import type.Type;
 
 public class StringLiterNode implements ExpressionNode {
 
-    //<expr> = <str-liter>
-
     private final String value;
 
     public StringLiterNode(String value) {

@@ -7,9 +7,6 @@ import type.Type;
 
 public class BoolLiterNode implements ExpressionNode {
 
-    // <expr> = <bool-liter>
-    //<bool-liter > ::= ‘true’ | ‘false’
-
     private final boolean value;
 
     public BoolLiterNode(boolean value) {

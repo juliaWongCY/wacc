@@ -10,7 +10,6 @@ import javax.swing.plaf.nimbus.State;
 
 public class ReadStatNode implements StatementNode {
 
-    // <stat> = 'read' <assign-lhs>
     // the read statement can only handle character or integer input
     // a read statement can only target a program variable, an array element or a pair element.
 
@@ -24,11 +23,6 @@ public class ReadStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        /* Remark:
-        <assign-lhs> = <ident> | <array-elem> = <ident> (‘[’ <expr> ‘]’)+ | <pair-elem>
-        where
-        <pair-elem> = <base-type> | <array-type> | 'pair'
-        */
 
         /*
         if(assignLHS.equals(st.lookUpFunction(id))){

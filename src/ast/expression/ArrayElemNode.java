@@ -13,8 +13,6 @@ public class ArrayElemNode implements ExpressionNode {
     private List<ExpressionNode> indexes;
 
     public ArrayElemNode(IdentNode arrayName, List<ExpressionNode> indexes) {
-
-        //<array-elem> ::= <ident> (‘[’ <expr > ‘]’)+
         this.arrayName = arrayName;
         this.indexes = indexes;
     }

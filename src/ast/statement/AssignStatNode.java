@@ -13,7 +13,6 @@ import type.Type;
 
 public class AssignStatNode implements StatementNode {
 
-  // <stat> = <assign-lhs> '=' <assign-rhs>
   // The target of an assignment can be either a program variable, an array element or a pair element.
   // The assignment value can be one of five possible types:
   // an expression / an array literal / a function call / a pair constructor / a pair element.

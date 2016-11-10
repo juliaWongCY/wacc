@@ -8,7 +8,6 @@ import type.StatementType;
 import type.Type;
 
 public class DeclareStatNode implements StatementNode {
-    // <stat> = <type> <ident> '=' <assign-rhs>
 
     private Type type;
     private IdentNode id;

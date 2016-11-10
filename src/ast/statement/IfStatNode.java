@@ -9,8 +9,6 @@ import type.Type;
 
 public class IfStatNode implements StatementNode {
 
-    // <stat> = 'if' <expr> 'then' <stat> 'else' <stat> 'fi'
-
     private ExpressionNode expr;
     private StatementNode statThenBody;
     private StatementNode statElseBody;

@@ -9,9 +9,8 @@ import type.StatementType;
 import type.Type;
 
 public class FreeStatNode implements StatementNode {
-    // <stat> = 'free' <expr>
 
-    //‘free’ is used to free the heap memory allocated for a pair or array and its immediate content.
+    // free is used to free the heap memory allocated for a pair or array and its immediate content.
     // The expression must evaluate to a valid reference to a pair or array
     // free is not recursive
 

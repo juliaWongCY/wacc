@@ -6,8 +6,6 @@ import type.Type;
 
 public class IdentNode implements ExpressionNode {
 
-    // <expr> = <ident>
-
     private final String id;
 
     public IdentNode(String id) {

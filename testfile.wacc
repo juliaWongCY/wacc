@@ -7,6 +7,6 @@
 # Program:
 
 begin
-  int a = 1
+  return 1
 end
 

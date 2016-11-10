@@ -8,4 +8,4 @@ make
 
 echo "\nrunning testfile\n"
 
-./grun antlr.Basic program -tokens -gui < testfile.txt
+./grun antlr.Basic program -tokens -gui < testfile.wacc

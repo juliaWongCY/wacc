@@ -2,34 +2,22 @@ package ast.assignLeft;
 
 
 import ast.expression.ExpressionNode;
+import ast.expression.PairElemNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
 
 public class PairElemAsLNode implements AssignLeftNode {
 
-    private ExpressionNode expressionNode;
-    private boolean isFirst;
+    private PairElemNode pairElemNode;
 
-    public PairElemAsLNode(ExpressionNode expressionNode, boolean isFirst) {
-        this.expressionNode = expressionNode;
-        this.isFirst = isFirst;
+    public PairElemAsLNode(PairElemNode pairElemNode) {
+        this.pairElemNode = pairElemNode;
     }
 
-    public ExpressionNode getExpressionNode() {
-        return expressionNode;
-    }
-
-    public boolean isFirst() {
-        return isFirst;
-    }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return expressionNode.getNodeType(st);
+        return pairElemNode.getNodeType(st);
     }
-
-    /* this is a wrapper class to contain the pairElemTypeNode */
-
-
 }

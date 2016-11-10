@@ -10,7 +10,7 @@ import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
@@ -19,12 +19,34 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-        return super.visitAssignr_arrayliter(ctx);
+        List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
+        List<ExpressionNode> elements = new ArrayList<>();
+        for (BasicParser.ExprContext ectx : ectxs) {
+            ASTNode node = visit(ectx);
+            if (node instanceof ExpressionNode) {
+                elements.add((ExpressionNode) node);
+            } else {
+                System.err.println("element not instance of expression node");
+                return null;
+            }
+        }
+        return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
     }
 
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
-        return super.visitArgList(ctx);
+        List<BasicParser.ExprContext> ectx = ctx.expr();
+        List<ExpressionNode> exprs = new ArrayList<>();
+        for (BasicParser.ExprContext context : ectx) {
+            ASTNode node = visit(context);
+            if (node instanceof ExpressionNode) {
+                exprs.add((ExpressionNode) node);
+            } else {
+                System.err.println("non expression node in arg list");
+                return null;
+            }
+        }
+        return new ArgListNode(exprs);
     }
 
     @Override
@@ -39,6 +61,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
+
         return super.visitArrayElem(ctx);
     }
 
@@ -78,7 +101,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_expr(@NotNull BasicParser.Assignr_exprContext ctx) {
-        return super.visitAssignr_expr(ctx);
+        ASTNode exprNode = visit(ctx.expr());
+        if (exprNode instanceof ExpressionNode) {
+            return new ExprAsRNode((ExpressionNode) exprNode);
+        } else {
+            System.err.println("non expression node found");
+            return null;
+        }
     }
 
     @Override
@@ -88,12 +117,19 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
-        return new IdentNode(ctx.getText());
+        return new IdentNode(ctx.getText()); //TODO: [DL] is it ctx.getText() or ctx.IDENT().getText()?
     }
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-        return super.visitAssignl_arrayelem(ctx);
+        ASTNode arrayElem = visit(ctx.arrayElem());
+
+        if (arrayElem instanceof ArrayElemAsLNode) {
+            return new ArrayElemAsLNode((ArrayElemNode) arrayElem);
+        } else {
+            System.err.println("required arrayElemNode not found");
+            return null;
+        }
     }
 
     @Override
@@ -243,8 +279,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_id(@NotNull BasicParser.Assignl_idContext ctx) {
-
-        return super.visitAssignl_id(ctx);
+        return new IdentAsLNode(new IdentNode(ctx.IDENT().getText())); //TODO: [DL] is it ctx.getText() or ctx.IDENT().getText()?
     }
 
     @Override
@@ -433,7 +468,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_pairelem(@NotNull BasicParser.Assignr_pairelemContext ctx) {
-        return super.visitAssignr_pairelem(ctx);
+        ASTNode pairElem = visit(ctx.pairElem());
+        if (pairElem instanceof PairElemNode) {
+            return new PairElemAsRNode((PairElemNode) pairElem);
+        }
+        System.err.println("required pairElemNode not found");
+        return null;
     }
 
     @Override
@@ -564,17 +604,61 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_pairelem(@NotNull BasicParser.Assignl_pairelemContext ctx) {
-        return super.visitAssignl_pairelem(ctx);
+        ASTNode pairElem = visit(ctx.pairElem());
+        if (pairElem instanceof PairElemNode) {
+            return new PairElemAsLNode((PairElemNode) pairElem);
+        }
+        System.err.println("required pairElemNode not found");
+        return null;
     }
 
     @Override
     public ASTNode visitAssignr_call(@NotNull BasicParser.Assignr_callContext ctx) {
-        return super.visitAssignr_call(ctx);
+        String functionId = ctx.IDENT().getSymbol().getText(); // TODO: [DL] is this the right way to get the identifier text
+
+        try {
+            Type fType = symbolTable.lookUpFunction(functionId);
+            if (fType instanceof FunctionType) {
+                List<Type> paramTypes = ((FunctionType) fType).getParams();
+                ASTNode argListNode = visit(ctx.argList());
+                if (argListNode instanceof ArgListNode) {
+                    List<Type> argTypes = ((ArgListNode) argListNode).getNodeTypes(symbolTable);
+                    if (argTypes.size() == paramTypes.size()) {
+                        for (int i = 0; i < paramTypes.size(); i++) {
+                            if (!argTypes.get(i).equals(argTypes.get(i))) {
+                                System.err.println("params and args type mismatch");
+                                return null;
+                            }
+                            return new CallAsRNode(new IdentNode(functionId), (ArgListNode) argListNode);
+                        }
+                    } else {
+                        System.err.println("number of params and number of args mismatched");
+                    }
+                } else {
+                    System.err.println("non argListNode found");
+                }
+            } else {
+                System.err.println("non function type returned from function symbol type");
+            }
+        } catch (SemanticException e) {
+            e.printStackTrace();
+            System.err.println(e);
+        }
+
+        return null;
     }
 
     @Override
     public ASTNode visitAssignr_newpair(@NotNull BasicParser.Assignr_newpairContext ctx) {
-        return super.visitAssignr_newpair(ctx);
+        ASTNode fst = visit(ctx.expr(0));
+        ASTNode snd = visit(ctx.expr(1));
+
+        if (fst instanceof ExpressionNode && snd instanceof ExpressionNode) {
+            return new NewPairAsRNode((ExpressionNode) fst, (ExpressionNode) snd);
+        } else {
+            System.err.println("not both pair elem instance of expressionNode");
+            return null;
+        }
     }
 
     // helper method

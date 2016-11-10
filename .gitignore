@@ -20,9 +20,6 @@
 #ignore the WACC tempory test_files copy
 #ToDo: testing/test_files/
 
-#ignore wacc exmaple
-example/
-
 #ignore intellij system config
 .idea/
 

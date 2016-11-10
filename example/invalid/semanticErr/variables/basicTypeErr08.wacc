@@ -1,0 +1,13 @@
+# wacc.type mismatch: char <- bool
+
+# Output:
+# #semantic_error#
+
+# Exit:
+# 200
+
+# Program:
+
+begin
+  char c = false
+end

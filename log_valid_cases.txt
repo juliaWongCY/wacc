@@ -1,19 +1,150 @@
 ================================================
-./example/invalid/syntaxErr/array/arrayExpr.wacc
+./example/valid/advanced/binarySortTree.wacc
 
-line 12:22 mismatched input '+' expecting {';', 'end'}
-================================================
-================================================
-================================================
-./example/invalid/syntaxErr/variables/badintAssignments.wacc
-
-line 12:13 extraneous input '0' expecting {';', 'end', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 13:11 extraneous input 'A4' expecting {';', 'end', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-Syntax error.
+target pair elements mismatched with assignments
+type mismatch
+Cannot get assignment type in assign statement.
 type mismatch
 Incompatible type in sequential statement.
 Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:820)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:772)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:183)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/advanced/ticTacToe.wacc
+
+Incompatible type in sequential statement.
+Error type
+Incompatible type in sequential statement.
+Cannot get assignLHS's node type.
+Error type
+Error type
+Error type
+Cannot get target type in assign statement.
+Type mismatch
+Error type
+Error type
+Error type
+Cannot get target type in assign statement.
+Type mismatch
+Error type
+Error type
+Error type
+Incompatible type in sequential statement.
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
+Cannot get condition's type in if statement
+Incompatible type in IF stat body in if statement
+Cannot get condition's type in if statement
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:393)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1024)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:366)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1024)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:813)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:319)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1003)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:813)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:772)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:183)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/advanced/hashTable.wacc
+
+Incompatible type in sequential statement.
+Error type
+Semantic error
+Error type
+Cannot get target type in assign statement.
+Cannot get assignment type in assign statement.
+Type mismatch
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
 	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:826)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:319)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1003)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:813)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:772)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:183)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/array/arrayEmpty.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arraySimple.wacc
+
+Semantic error: Identifier not found.
+Cannot get target type in assign statement.
+Type mismatch
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:826)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
 	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
@@ -25,10 +156,30 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/variables/varNoName.wacc
+./example/valid/array/printRef.wacc
 
-line 13:6 no viable alternative at input 'int='
+Incompatible type in sequential statement.
+Cannot get expression's type in println statement
+================================================
+================================================
+================================================
+./example/valid/array/arrayNested.wacc
+
+Incompatible type in sequential statement.
+Cannot get assignment type in assign statement.
+type mismatch
 Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:826)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:193)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
@@ -38,28 +189,74 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/variables/bigIntAssignment.wacc
+./example/valid/array/arrayLength.wacc
 
-Syntax error.
-type mismatch
-Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:195)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:45)
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/dooErr.wacc
+./example/valid/array/arrayBasic.wacc
 
-line 12:14 mismatched input 'doo' expecting {'do', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayLookup.wacc
+
+Semantic error: Identifier not found.
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
+================================================
+================================================
+================================================
+./example/valid/array/array.wacc
+
+Incompatible type in sequential statement.
+Error type
+Semantic error
+Semantic error: Identifier not found.
+Cannot get target type in assign statement.
+Cannot get assignment type in assign statement.
+Type mismatch
+Error type
+Cannot get target type in assign statement.
+Cannot get assignment type in assign statement.
+Type mismatch
+Incompatible type in sequential statement.
 Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:820)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
 	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:319)
 	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1003)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:813)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:193)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
@@ -68,41 +265,29 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/donoErr.wacc
+./example/valid/array/modifyString.wacc
 
-line 14:2 mismatched input 'dono' expecting {';', 'done'}
-================================================
-================================================
-================================================
-./example/invalid/syntaxErr/while/whileNodone.wacc
-
-line 14:0 mismatched input 'end' expecting {';', 'done'}
-================================================
-================================================
-================================================
-./example/invalid/syntaxErr/while/whilErr.wacc
-
-line 12:7 missing '=' at 'false'
-line 12:13 mismatched input 'do' expecting {';', 'end', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
+Semantic error: Identifier not found.
 Cannot get target type in assign statement.
 Type mismatch
 Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:195)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:826)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:45)
-================================================
-================================================
-================================================
-./example/invalid/syntaxErr/while/whileNodo.wacc
-
-line 13:4 mismatched input 'skip' expecting {'do', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:319)
-	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1003)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:193)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
@@ -112,19 +297,23 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionMissingType.wacc
+./example/valid/array/arrayPrint.wacc
 
-line 12:3 missing '=' at '('
-line 12:4 no viable alternative at input ')'
-line 12:6 mismatched input 'is' expecting {';', 'end', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 15:2 mismatched input 'int' expecting <EOF>
-Incompatible type in the assign statement in Assign stat.
+Incompatible type in sequential statement.
 Cannot get target type in assign statement.
+Type mismatch
 Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.operandsTypeCheck(SemanticCheckVisitor.java:490)
-	at frontEnd.SemanticCheckVisitor.visitAssign_stat(SemanticCheckVisitor.java:478)
-	at frontEnd.SemanticCheckVisitor.visitAssign_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Assign_statContext.accept(BasicParser.java:885)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:826)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:812)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:912)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:193)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
@@ -134,43 +323,64 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/funcExpr2.wacc
+./example/valid/variables/puncCharDeclaration.wacc
 
-line 17:13 mismatched input '(' expecting {'do', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-function not end with return or exit statement
-Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:184)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:45)
-================================================
-================================================
-================================================
-./example/invalid/syntaxErr/function/functionLateDefine.wacc
 
-line 17:7 missing '=' at '('
-line 17:8 no viable alternative at input ')'
-line 17:10 mismatched input 'is' expecting {';', 'end', '+', MINUS, '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 20:2 mismatched input 'int' expecting <EOF>
-function not end with return or exit statement
-Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:184)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:45)
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionNoReturn.wacc
+./example/valid/variables/stringDeclaration.wacc
 
-function not end with return or exit statement
-Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:184)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:746)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:45)
+
+================================================
+================================================
+================================================
+./example/valid/variables/charDeclaration2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/emptyStringDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/_VarNames.wacc
+
+Cannot get exitCode's type in exit stat.
+Incompatible type in sequential statement.
+================================================
+================================================
+================================================
+./example/valid/variables/boolDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/capCharDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/intDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/charDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/longVarNames.wacc
+
+Cannot get exitCode's type in exit stat.
+Incompatible type in sequential statement.
 ================================================
 ================================================

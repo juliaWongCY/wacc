@@ -651,7 +651,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 Type exprLType = exprL.getNodeType(symbolTable);
                 Type exprRType = exprR.getNodeType(symbolTable);
             } catch (SemanticException e) {
-                
                 System.err.println("Error type");
             }
 
@@ -703,7 +702,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
 
         } else {
-            System.err.println("not instance of expressionNode");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int lineL = ctx.exprL.start.getLine();
+            int lineR = ctx.exprR.start.getLine();
+
+            int charIL = ctx.exprL.start.getCharPositionInLine();
+            int charIR = ctx.exprR.start.getCharPositionInLine();
+
+            handleError(lineL, charIL, errType);
+            handleError(lineR, charIR, errType);
+            //System.err.println("not instance of expressionNode");
             return null;
         }
 
@@ -740,7 +748,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
             return new UnaryOprNode(unaryOpr, (ExpressionNode) expr);
         } else {
-            System.err.println("not instance of expressionNode");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.expr().start.getLine();
+            int charI = ctx.expr().start.getCharPositionInLine();
+            handleError(line, charI, errType);
+            //System.err.println("not instance of expressionNode");
             return null;
         }
     }
@@ -757,17 +769,26 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         Type exprType = null;
 
         if(!(expr instanceof ExpressionNode)){
-            System.err.println("Please put an expression(pair) to free.");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.expr().start.getLine();
+            int charI = ctx.expr().start.getCharPositionInLine();
+            handleError(line, charI, errType);
+            //System.err.println("Please put an expression(pair) to free.");
         }
 
         try{
             exprType = expr.getNodeType(symbolTable);
         } catch (SemanticException e){
+            //TODO
             System.err.println("Cannot get the expressionType in free statement.");
         }
 
         if(!(exprType instanceof PairType)){
-            System.err.println("Free is used to free the heap memory for pairType");
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.expr().start.getLine();
+            int charI = ctx.expr().start.getCharPositionInLine();
+            handleError(line, charI, errType);
+            //System.err.println("Free is used to free the heap memory for pairType");
         }
 
         return new FreeStatNode((ExpressionNode) expr);
@@ -806,11 +827,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 ASTNode a = visit(index);
                 indexType = a.getNodeType(symbolTable);
                 if (!(indexType.equals(new IntType()) && a instanceof ExpressionNode)) {
+                    ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+                    int line = ctx.expr(i).start.getLine();
+                    int charI = ctx.expr(i).start.getCharPositionInLine();
+                    handleEAError(line, charI, errType, new IntType(), indexType );
                     System.err.println("Semantic error");
                     return null;
                 }
                 indexes.add((ExpressionNode) a);
             } catch (SemanticException e) {
+                //Todo
                 System.err.println("Semantic error");
             }
         }
@@ -818,6 +844,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try {
             symbolTable.lookUpVariable(id);
         } catch (SemanticException e) {
+            //todo
             System.err.println("Semantic error: Identifier not found.");
         }
 
@@ -873,7 +900,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             if (node instanceof ParamNode) {
                 params.add((ParamNode) node);
             } else {
-                System.err.println("non paramNode returned from param context");
+                System.err.println("Incompatible type : non paramNode returned from param context");
                 return null;
             }
         }
@@ -886,18 +913,28 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statSnd = visit(ctx.stat(1));
 
         if(!(statFst instanceof SequentialStatNode || statSnd instanceof SequentialStatNode)){
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int linefst = ctx.stat(0).start.getLine();
+            int charIfst = ctx.stat(0).start.getCharPositionInLine();
+            handleError(linefst, charIfst, errType);
+
+            int line = ctx.stat(1).start.getLine();
+            int charI = ctx.stat(1).start.getCharPositionInLine();
+            handleError(line, charI, errType);
             System.err.println("Incompatible type in sequential statement.");
         }
 
         try{
             statFst.getNodeType(symbolTable);
         } catch (SemanticException e){
+            //todo
             System.err.println("Cannot get first statement's type in sequential stat.");
         }
 
         try{
             statSnd.getNodeType(symbolTable);
         } catch (SemanticException e){
+            //todo
             System.err.println("Cannot get second statement's type in sequential stat.");
         }
         return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
@@ -910,6 +947,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         Type assignLHSType;
 
         if(!(assignLHS instanceof AssignLeftNode)){
+            ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+            int line = ctx.assignLHS().start.getLine();
+            int charI = ctx.assignLHS().start.getCharPositionInLine();
+            handleError(line, charI, errType);
             System.out.println("Error: need type assignLHS for read");
         }
         try{
@@ -924,15 +965,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
 
                 if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
-                    System.err.println("The read statement can only handle character or integer input.");
+                    System.err.println("Incompatible type -- The read statement can only handle character or integer input.");
                 }
             }
 
             if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
-                System.err.println("incompatible type in target");
+                System.err.println("Incompatible type in target");
             }
 
         } catch (SemanticException e){
+            //todo
             System.err.println("Cannot get assignLHS's node type.");
         }
 
@@ -945,7 +987,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (pairElem instanceof PairElemNode) {
             return new PairElemAsLNode((PairElemNode) pairElem);
         }
-        System.err.println("required pairElemNode not found");
+        ErrorHandle errType = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
+        int line = ctx.pairElem().start.getLine();
+        int charI = ctx.pairElem().start.getCharPositionInLine();
+        handleError(line, charI, errType);
+        //System.err.println("required pairElemNode not found");
         return null;
     }
 
@@ -993,7 +1039,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (fst instanceof ExpressionNode && snd instanceof ExpressionNode) {
             return new NewPairAsRNode((ExpressionNode) fst, (ExpressionNode) snd);
         } else {
-            System.err.println("not both pair elem instance of expressionNode");
+            System.err.println("Incompatible type -- not both pair elem instance of expressionNode");
             return null;
         }
     }
@@ -1059,7 +1105,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return new StringType();
         }
 
-        System.err.println("unknown base type");
+        System.err.println("Incompatible type -- unknown base type");
         return null;
     }
 
@@ -1084,8 +1130,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         // reaching here indicates error in matching known type
-        //semanticErrorExit("unknown pair elem type encounter");
-        //return new ErrorType();
+        System.err.println("Incompatible type -- unknown pair elem type encounter.");
         return null;
     }
 

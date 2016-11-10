@@ -635,34 +635,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return null;
     }
 
-    @Override
-    public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
 
+    @Override
+    public ASTNode visitBinary_opIntHigher(@NotNull BasicParser.Binary_opIntHigherContext ctx) {
+        String operator = ctx.binaryOper_IntHigher().getText();
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
         if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-
-            String binaryOp = ctx.binaryOper().getText();
             BinaryOpr binaryOpr = BinaryOpr.MULT;
 
-
-            try {
-                Type exprLType = exprL.getNodeType(symbolTable);
-                Type exprRType = exprR.getNodeType(symbolTable);
-            } catch (SemanticException e) {
-                
-                System.err.println("Error type");
-            }
-
-
-            switch (binaryOp) {
-                case "+":
-                    binaryOpr = BinaryOpr.PLUS;
-                    break;
-                case "-":
-                    binaryOpr = BinaryOpr.MINUS;
-                    break;
+            switch (operator) {
                 case "*":
                     binaryOpr = BinaryOpr.MULT;
                     break;
@@ -672,41 +655,128 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 case "%":
                     binaryOpr = BinaryOpr.MOD;
                     break;
-                case "<":
-                    binaryOpr = BinaryOpr.LT;
+                default:
+                    System.err.println("Operator not found.");
+            }
+
+            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitBinary_opIntLower(@NotNull BasicParser.Binary_opIntLowerContext ctx) {
+        String operator = ctx.binaryOper_IntLower().getText();
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+            BinaryOpr binaryOpr = BinaryOpr.PLUS;
+
+            switch (operator) {
+                case "+":
+                    binaryOpr = BinaryOpr.PLUS;
                     break;
-                case "<=":
-                    binaryOpr = BinaryOpr.LTE;
+                case "-":
+                    binaryOpr = BinaryOpr.MINUS;
                     break;
+                default:
+                    System.err.println("Operator not found.");
+            }
+
+            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitBinary_opCompareHigher(@NotNull BasicParser.Binary_opCompareHigherContext ctx) {
+        String operator = ctx.binaryOper_CompareHigher().getText();
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+            BinaryOpr binaryOpr = BinaryOpr.GT;
+
+            switch (operator) {
                 case ">":
                     binaryOpr = BinaryOpr.GT;
                     break;
                 case ">=":
                     binaryOpr = BinaryOpr.GTE;
                     break;
+                case "<":
+                    binaryOpr = BinaryOpr.LT;
+                    break;
+                case "<=":
+                    binaryOpr = BinaryOpr.LTE;
+                    break;
+                default:
+                    System.err.println("Operator not found.");
+            }
+
+            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitBinary_opCompareLower(@NotNull BasicParser.Binary_opCompareLowerContext ctx) {
+        String operator = ctx.binaryOper_CompareLower().getText();
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+            BinaryOpr binaryOpr = BinaryOpr.EQ;
+
+            switch (operator) {
                 case "==":
                     binaryOpr = BinaryOpr.EQ;
                     break;
                 case "!=":
                     binaryOpr = BinaryOpr.NEQ;
                     break;
-                case "&&":
-                    binaryOpr = BinaryOpr.AND;
-                    break;
-                case "||":
-                    binaryOpr = BinaryOpr.OR;
-                    break;
                 default:
-                    System.err.println("Binary Operator not found.");
+                    System.err.println("Operator not found.");
             }
 
             return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
-
         } else {
             System.err.println("not instance of expressionNode");
             return null;
         }
+    }
 
+    @Override
+    public ASTNode visitBinary_opAnd(@NotNull BasicParser.Binary_opAndContext ctx) {
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+            return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitBinary_opOr(@NotNull BasicParser.Binary_opOrContext ctx) {
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+            return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
     }
 
     @Override
@@ -743,12 +813,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("not instance of expressionNode");
             return null;
         }
-    }
-
-    @Override
-    public ASTNode visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) {
-        //[DL] We probably do not need this visit function.
-        return super.visitBinaryOper(ctx);
     }
 
     @Override

@@ -13,9 +13,15 @@ arrayElem : name=IDENT (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
 
 pairElem : FST expr | SND expr ;
 
-binaryOper : PLUS | MINUS | MULT | DIV | MOD | GT | GTE | LT | LTE | EQ | NEQ | AND | OR ;
-
 unaryOper : NOT | NEG | LEN | ORD | CHR ;
+
+binaryOper_IntHigher : MULT | DIV | MOD ;
+
+binaryOper_IntLower: PLUS | MINUS ;
+
+binaryOper_CompareHigher: GT | GTE | LT | LTE ;
+
+binaryOper_CompareLower: EQ | NEQ ;
 
 paramList: param ( COMMA param )*;
 
@@ -61,16 +67,21 @@ assignLHS : IDENT   #assignl_id
 | pairElem          #assignl_pairelem
 ;
 
-expr : INTEGER                              #int_liter
-| BOOLLITER                                 #bool_liter
-| CHARLITER                                 #char_liter
-| STRINGLITER                               #string_liter
-| PAIRLITER                                 #pair_liter
-| IDENT                                     #ident
-| arrayElem                                 #arrayElem_expr
-| unaryOper expr                            #unary_op
-| exprL=expr binaryOper exprR=expr          #binary_op
-| OPEN_PARENTHESES expr CLOSE_PARENTHESES   #paren_expr
+expr : INTEGER                                    #int_liter
+| BOOLLITER                                       #bool_liter
+| CHARLITER                                       #char_liter
+| STRINGLITER                                     #string_liter
+| PAIRLITER                                       #pair_liter
+| IDENT                                           #ident
+| arrayElem                                       #arrayElem_expr
+| unaryOper expr                                  #unary_op
+| exprL=expr binaryOper_IntHigher exprR=expr      #binary_opIntHigher
+| exprL=expr binaryOper_IntLower exprR=expr       #binary_opIntLower
+| exprL=expr binaryOper_CompareHigher exprR=expr  #binary_opCompareHigher
+| exprL=expr binaryOper_CompareLower exprR=expr   #binary_opCompareLower
+| exprL=expr AND exprR=expr                       #binary_opAnd
+| exprL=expr OR exprR=expr                        #binary_opOr
+| OPEN_PARENTHESES expr CLOSE_PARENTHESES         #paren_expr
 ;
 
 type : baseType

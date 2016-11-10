@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 
 import java.beans.Expression;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -606,7 +607,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {
-        return super.visitParamList(ctx);
+        List<ParamNode> params = new ArrayList<>();
+        ///ASTNode param = visit(ctx.param(0));
+/*
+        while(!ctx.param().isEmpty()){
+            int i = 0;
+            i++;
+            params.add(visit(ctx.param(i)));
+        }
+
+        for(ASTNode param : ctx.param()){
+            params.add(visit(ctx.param(p)));
+        }
+        */
+        return new ParamListNode(params);
+
+        //return super.visitParamList(ctx);
     }
 
     @Override

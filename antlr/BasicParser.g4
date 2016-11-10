@@ -67,7 +67,7 @@ expr : INTEGER                              #int_liter
 | STRINGLITER                               #string_liter
 | PAIRLITER                                 #pair_liter
 | IDENT                                     #ident
-| arrayElem                                 #arrayelem
+| arrayElem                                 #arrayElem_expr
 | unaryOper expr                            #unary_op
 | exprL=expr binaryOper exprR=expr          #binary_op
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES   #paren_expr

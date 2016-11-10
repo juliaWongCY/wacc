@@ -1,0 +1,12 @@
+# basic array declaration and assignment
+
+# Output:
+# 3
+# 3
+
+# Program:
+
+begin
+  int a = 1
+end
+

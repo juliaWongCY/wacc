@@ -1,3 +1,5 @@
+package basic;
+
 import antlr.BasicLexer;
 import antlr.BasicParser;
 import frontEnd.SemanticCheckVisitor;

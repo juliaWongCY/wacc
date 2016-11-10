@@ -39,7 +39,7 @@ public class Main {
 
         ParseTree tree = parser.program();
 
-        SymbolTable symbolTable = new SymbolTable();
+        SymbolTable symbolTable = new SymbolTable(null);
 
         SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
         semanticCheckVisitor.visit(tree);

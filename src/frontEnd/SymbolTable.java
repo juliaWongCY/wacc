@@ -12,8 +12,8 @@ public class SymbolTable {
     private Map<String, Type> varTable = new HashMap<>();
 
     //Constructor
-    public SymbolTable(){
-
+    public SymbolTable(SymbolTable parent){
+        this.parent = parent;
     }
 
     public SymbolTable getParent() {

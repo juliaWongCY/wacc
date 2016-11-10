@@ -239,8 +239,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx) {
         Type typeOfIdent = identifyType(ctx.type());
         String ident = ctx.IDENT().getText();
-        //ASTNode ident = visit(ctx);
         ASTNode assignRhs = visit(ctx.assignRHS());
+        Type assignRhsType = null;
 
         try{
             symbolTable.addVariable(ident, typeOfIdent);
@@ -253,12 +253,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         try{
-            assignRhs.getNodeType(symbolTable);
+            assignRhsType = assignRhs.getNodeType(symbolTable);
         } catch (SemanticException e){
             System.err.println("Cannot get assignment type in declare statement.");
         }
 
-        return super.visitDeclare_stat(ctx);
+        if((assignRhsType == null) || !(assignRhsType.equals(typeOfIdent))){
+            System.err.println("Incompatible type. Cannot declare statement.");
+        }
+
+        return new DeclareStatNode(typeOfIdent, new IdentNode(ident), (AssignRightNode) assignRhs);
     }
 
     @Override

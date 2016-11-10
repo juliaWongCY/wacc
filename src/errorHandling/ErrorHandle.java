@@ -1,4 +1,4 @@
-package ErrorHandling;
+package errorHandling;
 
 public class ErrorHandle {
     ErrorType errorType;

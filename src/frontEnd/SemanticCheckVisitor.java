@@ -683,21 +683,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {
         List<ParamNode> params = new ArrayList<>();
-        ///ASTNode param = visit(ctx.param(0));
-/*
-        while(!ctx.param().isEmpty()){
-            int i = 0;
-            i++;
-            params.add(visit(ctx.param(i)));
+        List<BasicParser.ParamContext> pctx = ctx.param();
+        for (BasicParser.ParamContext context : pctx) {
+            ASTNode node = visit(context);
+            if (node instanceof ParamNode) {
+                params.add((ParamNode) node);
+            } else {
+                System.err.println("non paramNode returned from param context");
+                return null;
+            }
         }
-
-        for(ASTNode param : ctx.param()){
-            params.add(visit(ctx.param(p)));
-        }
-        */
         return new ParamListNode(params);
-
-        //return super.visitParamList(ctx);
     }
 
     @Override

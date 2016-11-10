@@ -85,6 +85,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
+        newSymbolTable();
+
         ASTNode stat = visit(ctx.stat());
 
         if( !(stat.equals(new StatementType()))){
@@ -97,6 +99,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("Cannot get statement's type in scope statement.");
         }
 
+        if (symbolTable.getParent() != null) {
+            symbolTable = symbolTable.getParent();
+        } else {
+            System.err.println("error in finding symbol table parent");
+        }
+
+        popSymbolTable();
         return new ScopingStatNode((StatementNode) stat);
     }
 
@@ -138,7 +147,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
 
         // initiate and getting initial variable
-        symbolTable = new SymbolTable(null);
+        symbolTable = new SymbolTable();
         ProgramNode programNode = new ProgramNode();
         List<BasicParser.FuncContext> functions = ctx.func();
         BasicParser.StatContext statement = ctx.stat();
@@ -269,6 +278,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitWhile_stat(@NotNull BasicParser.While_statContext ctx) {
+        newSymbolTable();
+
         ASTNode cond = visit(ctx.expr());
         Type condType;
         ASTNode stat = visit(ctx.stat());
@@ -299,6 +310,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("Cannot get statement's type.");
         }
 
+        popSymbolTable();
         return new WhileStatNode((ExpressionNode) cond, (StatementNode) stat);
     }
 
@@ -707,6 +719,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
+        newSymbolTable();
+
         Type retType = identifyType(ctx.type());
         if (retType == null) {
             System.err.println("cannot recognize return type");
@@ -739,6 +753,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return null;
         }
 
+        popSymbolTable();
         return new FunctionNode(retType, functionId, params, stat);
     }
 
@@ -971,9 +986,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
 
-    private void semanticErrorExit(String message){
+    private void semanticErrorExit(String message) {
         System.err.println(message);
         System.exit(200);
+    }
+
+    private void newSymbolTable() {
+        SymbolTable st = new SymbolTable(symbolTable);
+        symbolTable = st;
+    }
+
+    private void popSymbolTable() {
+        if (symbolTable.getParent() != null) {
+            symbolTable = symbolTable.getParent();
+        } else {
+            System.err.println("error in finding symbol table parent");
+        }
     }
 
 }

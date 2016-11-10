@@ -11,6 +11,10 @@ public class SymbolTable {
     private Map<String, Type> functionTable = new HashMap<>();
     private Map<String, Type> varTable = new HashMap<>();
 
+    public SymbolTable() {
+        this.parent = null;
+    }
+
     //Constructor
     public SymbolTable(SymbolTable parent){
         this.parent = parent;
@@ -49,7 +53,7 @@ public class SymbolTable {
         if (functionTable.containsKey(func)) {
             return functionTable.get(func);
         }
-        if (getParent().equals(this)) {
+        if (getParent() == null) {
             throw new SemanticException("Function not found");
         } else {
             return getParent().lookUpFunction(func);
@@ -60,7 +64,7 @@ public class SymbolTable {
         if (varTable.containsKey(var)) {
             return varTable.get(var);
         }
-        if (getParent().equals(this)) {
+        if (getParent() == null) {
             throw new SemanticException("Variable not found");
         } else {
             return getParent().lookUpVariable(var);

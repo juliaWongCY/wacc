@@ -20,7 +20,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
-
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
         for (BasicParser.ExprContext ectx : ectxs) {
@@ -50,6 +49,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new ArgListNode(exprs);
     }
 
+    //Maybe not used
     @Override
     public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
         return super.visitArrayLiter(ctx);
@@ -57,6 +57,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitString_liter(@NotNull BasicParser.String_literContext ctx) {
+        //Nothing to add, juts a new StringLiterNode needed.
         return new StringLiterNode(ctx.getText());
     }
 
@@ -107,6 +108,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitUnaryOper(@NotNull BasicParser.UnaryOperContext ctx) {
+        //We probably do not need this since we won't use this visit function.
         return super.visitUnaryOper(ctx);
     }
 
@@ -117,7 +119,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {
-
         ASTNode arrayElem = visit(ctx.arrayElem());
 
         if (arrayElem instanceof ArrayElemNode) {
@@ -195,7 +196,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitType(@NotNull BasicParser.TypeContext ctx) {
-        return super.visitType(ctx);
+        //We just need to visit the children type.
+        return visitChildren(ctx);
     }
 
     @Override
@@ -235,6 +237,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) {
+        //[DL] We probably do not need this as we won't use this visit function.
         return super.visitBaseType(ctx);
     }
 
@@ -255,7 +258,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitParen_expr(@NotNull BasicParser.Paren_exprContext ctx) {
-        return super.visitParen_expr(ctx);
+        //just visit the expr part but ignoring others.
+        return visit(ctx.getChild(1));
     }
 
     @Override
@@ -365,7 +369,35 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPairElem(@NotNull BasicParser.PairElemContext ctx) {
-        return super.visitPairElem(ctx);
+
+        String fstOrSnd = ctx.getChild(0).getText();
+        ASTNode valueNode = visit(ctx.expr());
+        Type type = null;
+
+        if (valueNode instanceof IdentNode) {
+            try {
+                type = valueNode.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                System.err.println("Semantic error: Cannot find pair elem type.");
+                return null;
+            }
+        }
+
+        if (!(type instanceof  PairType)) {
+            System.err.println("Semantic error: It can only be pairtype.");
+        }
+
+        final String fst = "fst";
+        boolean isFirst;
+
+        if (fstOrSnd.equals(fst)) {
+            isFirst = true;
+            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+        } else {
+            isFirst = false;
+            return new PairElemNode((ExpressionNode) valueNode, isFirst);
+        }
+
     }
 
     @Override
@@ -386,6 +418,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitArrayType(ctx);
     }
 
@@ -471,7 +504,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBool_liter(@NotNull BasicParser.Bool_literContext ctx) {
-
+        //Only return a BoolLiterNode with the value.
         return new BoolLiterNode(Boolean.valueOf(ctx.getText()));
 
     }
@@ -504,100 +537,116 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitBinary_op(@NotNull BasicParser.Binary_opContext ctx) {
-        //Better way to handle error but implement LATER
-        ExpressionNode exprL = (ExpressionNode) visit(ctx.exprL);
-        ExpressionNode exprR = (ExpressionNode) visit(ctx.exprR);
-        String binaryOp = ctx.binaryOper().getText();
-        BinaryOpr binaryOpr = BinaryOpr.MULT;
+
+        ASTNode exprL = visit(ctx.exprL);
+        ASTNode exprR = visit(ctx.exprR);
+
+        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
+
+            String binaryOp = ctx.binaryOper().getText();
+            BinaryOpr binaryOpr = BinaryOpr.MULT;
 
 
-        try {
-            Type exprLType = exprL.getNodeType(symbolTable);
-            Type exprRType = exprR.getNodeType(symbolTable);
-        } catch (SemanticException e) {
-            System.err.println("Error type");
+            try {
+                Type exprLType = exprL.getNodeType(symbolTable);
+                Type exprRType = exprR.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                System.err.println("Error type");
+            }
+
+
+            switch (binaryOp) {
+                case "+":
+                    binaryOpr = BinaryOpr.PLUS;
+                    break;
+                case "-":
+                    binaryOpr = BinaryOpr.MINUS;
+                    break;
+                case "*":
+                    binaryOpr = BinaryOpr.MULT;
+                    break;
+                case "/":
+                    binaryOpr = BinaryOpr.DIV;
+                    break;
+                case "%":
+                    binaryOpr = BinaryOpr.MOD;
+                    break;
+                case "<":
+                    binaryOpr = BinaryOpr.LT;
+                    break;
+                case "<=":
+                    binaryOpr = BinaryOpr.LTE;
+                    break;
+                case ">":
+                    binaryOpr = BinaryOpr.GT;
+                    break;
+                case ">=":
+                    binaryOpr = BinaryOpr.GTE;
+                    break;
+                case "==":
+                    binaryOpr = BinaryOpr.EQ;
+                    break;
+                case "!=":
+                    binaryOpr = BinaryOpr.NEQ;
+                    break;
+                case "&&":
+                    binaryOpr = BinaryOpr.AND;
+                    break;
+                case "||":
+                    binaryOpr = BinaryOpr.OR;
+                    break;
+                default:
+                    System.err.println("Binary Operator not found.");
+            }
+
+            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
         }
-
-
-        switch (binaryOp) {
-            case "+":
-                binaryOpr = BinaryOpr.PLUS;
-                break;
-            case "-":
-                binaryOpr = BinaryOpr.MINUS;
-                break;
-            case "*":
-                binaryOpr = BinaryOpr.MULT;
-                break;
-            case "/":
-                binaryOpr = BinaryOpr.DIV;
-                break;
-            case "%":
-                binaryOpr = BinaryOpr.MOD;
-                break;
-            case "<":
-                binaryOpr = BinaryOpr.LT;
-                break;
-            case "<=":
-                binaryOpr = BinaryOpr.LTE;
-                break;
-            case ">":
-                binaryOpr = BinaryOpr.GT;
-                break;
-            case ">=":
-                binaryOpr = BinaryOpr.GTE;
-                break;
-            case "==":
-                binaryOpr = BinaryOpr.EQ;
-                break;
-            case "!=":
-                binaryOpr = BinaryOpr.NEQ;
-                break;
-            case "&&":
-                binaryOpr = BinaryOpr.AND;
-                break;
-            case "||":
-                binaryOpr = BinaryOpr.OR;
-                break;
-            default:
-                System.err.println("Binary Operator not found.");
-        }
-
-        return new BinaryOprNode(binaryOpr, exprL, exprR);
 
     }
 
     @Override
     public ASTNode visitUnary_op(@NotNull BasicParser.Unary_opContext ctx) {
-        ExpressionNode expr = (ExpressionNode) visit(ctx.expr());
-        String unaryOp = ctx.unaryOper().getText();
-        UnaryOpr unaryOpr = UnaryOpr.NEG;
+        ASTNode expr = (ExpressionNode) visit(ctx.expr());
 
-        switch (unaryOp) {
-            case "!":
-                unaryOpr = UnaryOpr.NOT;
-                break;
-            case "-":
-                unaryOpr = UnaryOpr.NEG;
-                break;
-            case "len":
-                unaryOpr = UnaryOpr.LEN;
-                break;
-            case "ord":
-                unaryOpr = UnaryOpr.ORD;
-                break;
-            case "chr":
-                unaryOpr = UnaryOpr.CHR;
-                break;
-            default:
-                System.err.println("Unary Operator not found.");
+        if (expr instanceof ExpressionNode) {
+
+            String unaryOp = ctx.unaryOper().getText();
+            UnaryOpr unaryOpr = UnaryOpr.NEG;
+
+            switch (unaryOp) {
+                case "!":
+                    unaryOpr = UnaryOpr.NOT;
+                    break;
+                case "-":
+                    unaryOpr = UnaryOpr.NEG;
+                    break;
+                case "len":
+                    unaryOpr = UnaryOpr.LEN;
+                    break;
+                case "ord":
+                    unaryOpr = UnaryOpr.ORD;
+                    break;
+                case "chr":
+                    unaryOpr = UnaryOpr.CHR;
+                    break;
+                default:
+                    System.err.println("Unary Operator not found.");
+            }
+
+            return new UnaryOprNode(unaryOpr, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
         }
-
-        return new UnaryOprNode(unaryOpr, expr);
     }
 
     @Override
     public ASTNode visitBinaryOper(@NotNull BasicParser.BinaryOperContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitBinaryOper(ctx);
     }
 
@@ -625,16 +674,19 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitPair_liter(@NotNull BasicParser.Pair_literContext ctx) {
+        //Only return a new PairLiterNode.
         return new PairLiterNode();
     }
 
     @Override
     public ASTNode visitPairType(@NotNull BasicParser.PairTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
         return super.visitPairType(ctx);
     }
 
     @Override
     public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
+        //[DL] We probably do not need this visit function.
       return super.visitPairElemType(ctx);
     }
 
@@ -676,28 +728,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
 
-
         return super.visitFunc(ctx);
     }
 
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {
         List<ParamNode> params = new ArrayList<>();
-        ///ASTNode param = visit(ctx.param(0));
-/*
-        while(!ctx.param().isEmpty()){
-            int i = 0;
-            i++;
-            params.add(visit(ctx.param(i)));
+        List<BasicParser.ParamContext> pctx = ctx.param();
+        for (BasicParser.ParamContext context : pctx) {
+            ASTNode node = visit(context);
+            if (node instanceof ParamNode) {
+                params.add((ParamNode) node);
+            } else {
+                System.err.println("non paramNode returned from param context");
+                return null;
+            }
         }
-
-        for(ASTNode param : ctx.param()){
-            params.add(visit(ctx.param(p)));
-        }
-        */
         return new ParamListNode(params);
-
-        //return super.visitParamList(ctx);
     }
 
     @Override

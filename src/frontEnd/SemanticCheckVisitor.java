@@ -3,13 +3,14 @@ package frontEnd;
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
 import ast.*;
-import ast.assignRight.ArrayLiterAsRNode;
-import ast.assignRight.AssignRightNode;
+import ast.assignRight.*;
 import ast.expression.*;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
+
+import java.util.Calendar;
 import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
@@ -354,18 +355,57 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         if(lhsType != null && rhsType != null){
-            if(assignRHS instanceof ExpressionNode || assignRHS instanceof ArrayLiterAsRNode){
+            if(assignRHS instanceof ExpressionNode
+                    || assignRHS instanceof ArrayLiterAsRNode
+                    || assignRHS instanceof CallAsRNode){
                 if (!lhsType.equals(rhsType)) {
                     System.err.println("Different types in target and assign value");
                 }
             }
+
+            if (assignRHS instanceof NewPairAsRNode) {
+                try {
+                    if (!(assignLHS.getNodeType(symbolTable).equals(new PairType()))) {
+                        System.err.println("target type is not pair type");
+                    }
+                    PairType pType = (PairType) assignLHS.getNodeType(symbolTable);
+                    if (pType.getFstExprType() != ((NewPairAsRNode) assignRHS).getFstType(symbolTable)
+                            ||pType.getSndExprType() != ((NewPairAsRNode) assignRHS).getSndType(symbolTable)) {
+                        System.err.println("target pair elements mismatched with assignments");
+                    }
+
+                } catch (SemanticException e) {
+                    e.printStackTrace();
+                    System.err.println(e);
+                }
+            }
+
+            if (assignRHS instanceof PairElemAsRNode) {
+                if (((PairElemAsRNode) assignRHS).isFirst()) {
+                    try {
+                        if (!assignRHS.getNodeType(symbolTable).equals(assignLHS.getNodeType(symbolTable))) {
+                            System.err.println("target and assignment type mismatched");
+                        }
+                    } catch (SemanticException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        if (!assignRHS.getNodeType(symbolTable).equals(assignLHS.getNodeType(symbolTable))) {
+                            System.err.println("target and assignment type mismatched");
+                        }
+                    } catch (SemanticException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
         }
 
 
+        System.err.println("null type occurs in either side");
+        return null;
 
-
-
-        return new AssignStatNode((AssignRightNode) assignRHS, (AssignLeftNode) assignLHS);
     }
 
     @Override

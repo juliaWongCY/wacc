@@ -241,9 +241,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             System.err.println("Variable with same identifier is already declared in current scope");
         }
-
-        //TODO
-        return new ParamNode(typeOfIdent, ident);
+        return new ParamNode(typeOfIdent, new IdentNode(ident));
 
     }
 

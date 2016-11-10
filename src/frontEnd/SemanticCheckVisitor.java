@@ -6,6 +6,8 @@ import ast.*;
 import ast.assignRight.ArrayLiterAsRNode;
 import ast.assignRight.AssignRightNode;
 import ast.expression.*;
+import ast.parameter.ParamListNode;
+import ast.parameter.ParamNode;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -172,6 +174,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx) {
+        Type typeOfIdent = identifyType(ctx.type());
+        ASTNode ident = visit(ctx);
+
         return super.visitDeclare_stat(ctx);
     }
 
@@ -202,7 +207,18 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitParam(@NotNull BasicParser.ParamContext ctx) {
-        return super.visitParam(ctx);
+        Type typeOfIdent = identifyType(ctx.type());
+        String ident = ctx.IDENT().getText();
+
+        try{
+            symbolTable.addVariable(ident, typeOfIdent);
+        } catch (SemanticException e){
+            System.err.println("Variable with same identifier is already declared in current scope");
+        }
+
+        //TODO
+        return new ParamNode(typeOfIdent, ident);
+
     }
 
     @Override

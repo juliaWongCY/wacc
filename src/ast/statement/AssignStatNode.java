@@ -35,10 +35,6 @@ public class AssignStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        /*Remark:
-        <assign-lhs> = <ident> | <array-elem> | <pair-elem>
-        <assign-rhs> = <expr> | <array-liter> | ‘newpair’ ‘(’ <expr> ‘,’ <expr> ‘)’ | <pair-elem> | ‘call’ <ident> ‘(’ <arg-list>? ‘)’
-        */
 
         /*
         Type lhs;

@@ -787,7 +787,66 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
     }
 
-    
+    @Override
+    public ASTNode visitUnary_opOrd(@NotNull BasicParser.Unary_opOrdContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.ORD, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUary_opNot(@NotNull BasicParser.Uary_opNotContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.NOT, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUnary_opNeg(@NotNull BasicParser.Unary_opNegContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.NEG, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUnary_opLen(@NotNull BasicParser.Unary_opLenContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.LEN, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
+    @Override
+    public ASTNode visitUnary_opChr(@NotNull BasicParser.Unary_opChrContext ctx) {
+        ASTNode expr = visit(ctx.expr());
+
+        if (expr instanceof ExpressionNode) {
+            return new UnaryOprNode(UnaryOpr.CHR, (ExpressionNode) expr);
+        } else {
+            System.err.println("not instance of expressionNode");
+            return null;
+        }
+    }
+
 
 
 

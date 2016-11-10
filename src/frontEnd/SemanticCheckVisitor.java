@@ -841,6 +841,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
     }
 
+
+
     @Override
     public ASTNode visitFree_stat(@NotNull BasicParser.Free_statContext ctx) {
         ASTNode expr = visit(ctx.expr());

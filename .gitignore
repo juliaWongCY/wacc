@@ -21,7 +21,7 @@
 #ToDo: testing/test_files/
 
 #ignore wacc exmaple
-exmaple/
+example/
 
 #ignore intellij system config
 .idea/

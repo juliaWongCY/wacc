@@ -1,46 +1,32 @@
-# program with function that has same parameter name as function
+# print a fixed size triangle
 
 # Output:
-# 99
+# --------
+# -------
+# ------
+# -----
+# ----
+# ---
+# --
+# -
 
 # Program:
 
 begin
-  int f(int f) is
-    return f
+  int f(int x) is
+    if x == 0 then
+      skip
+    else
+      int i = x ;
+      while i > 0 do
+        print "-" ;
+        i = i - 1
+      done ;
+      println "" ;
+      int s = call f(x - 1)
+    fi ;
+    return 0
   end
 
-  int f = call f(99);
-  println f
-end# print a fixed size triangle
-
-   # Output:
-   # --------
-   # -------
-   # ------
-   # -----
-   # ----
-   # ---
-   # --
-   # -
-
-   # Program:
-
-   begin
-     int f(int x) is
-       if x == 0 then
-         skip
-       else
-         int i = x ;
-         while i > 0 do
-           print "-" ;
-           i = i - 1
-         done ;
-         println "" ;
-         int s = call f(x - 1)
-       fi ;
-       return 0
-     end
-
-     int s = call f(8)
-   end
+  int s = call f(8)
+end

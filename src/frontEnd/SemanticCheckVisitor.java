@@ -1114,7 +1114,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     //TODO!!!!!1
     public ASTNode visitAssignr_call(@NotNull BasicParser.Assignr_callContext ctx) {
         String functionId = ctx.IDENT().getText();
-
         Type fType = null;
         try {
             fType = symbolTable.lookUpFunction(functionId);
@@ -1158,7 +1157,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         } catch (SemanticException e) {
-            System.out.println("cannot get func type");
+            System.err.println("cannot get func type");
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
         }
         return null;

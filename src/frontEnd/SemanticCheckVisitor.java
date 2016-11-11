@@ -1019,13 +1019,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     //TODO!!!!!1
     public ASTNode visitAssignr_call(@NotNull BasicParser.Assignr_callContext ctx) {
-        String functionId = ctx.IDENT().getSymbol().getText(); // TODO: [DL] is this the right way to get the identifier text
+        String functionId = ctx.IDENT().getText();
 
+        Type fType = null;
         try {
-            Type fType = symbolTable.lookUpFunction(functionId);
+            fType = symbolTable.lookUpFunction(functionId);
             if (fType instanceof FunctionType) {
                 List<Type> paramTypes = ((FunctionType) fType).getParams();
-                ASTNode argListNode = visit(ctx.argList());
+                BasicParser.ArgListContext actx = ctx.argList();
+                if (paramTypes == null && actx == null) {
+                    return new CallAsRNode(new IdentNode(functionId));
+                }
+                if (paramTypes == null && actx != null
+                        || paramTypes != null && actx == null
+                        || paramTypes.size() != actx.expr().size()) {
+                    return handleError(ctx.argList(), ErrorHandle.ERRORTYPE_INCORRECT_NUM_PARAM);
+                }
+                ASTNode argListNode = visit(actx);
                 if (argListNode instanceof ArgListNode) {
                     List<Type> argTypes = ((ArgListNode) argListNode).getNodeTypes(symbolTable);
                     if (argTypes.size() == paramTypes.size()) {
@@ -1046,11 +1056,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 System.err.println("non function type returned from function symbol type");
             }
         } catch (SemanticException e) {
-            //TODO: throw semantic exception
             e.printStackTrace();
-            System.err.println(e);
         }
-
         return null;
     }
 

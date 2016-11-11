@@ -106,13 +106,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(), ((ErrorNode)statNode).getErrorType());
         }
 
-        try {
-            BasicParser.Return_statContext stat = getActualRetContext(ctx.stat());
-            return handleError(stat, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-        } catch (ClassCastException e) {
-            // do nothing as it should not find return statement in global scope
+        if (getActualRetContext(ctx.stat()) != null) {
+            return handleError(getActualRetContext(ctx.stat()), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
         }
-
         popSymbolTable();
         return new ScopingStatNode((StatementNode) statNode);
     }
@@ -176,12 +172,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // set program node's statement node
         ASTNode statementNode = visit(statement);
         if (statementNode instanceof StatementNode) {
-            try {
-                BasicParser.Return_statContext stat = getActualRetContext(statement);
-                return handleError(stat, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-            } catch (ClassCastException e) {
-                // do nothing as it should not find return statement in global scope
-            }
             programNode.setStatementNode((StatementNode) statementNode);
             return programNode;
         } else {

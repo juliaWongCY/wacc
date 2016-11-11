@@ -1,19 +1,17 @@
-# find the max of two numbers
+# Simple conditional statement with int comparison test
 
 # Output:
-# max value = 17
+# correct
 
 # Program:
 
 begin
-  int i = 0 ;
-  int x = 10 ;
-  int y = 17 ;
-  while (y > 0 || x > 0) do
-    x = x - 1 ;
-    y = y - 1 ;
-    i = i + 1
-  done ;
-  print "max value = ";
-  println i
+  int a = 13;
+  int b = 37;
+  if a < b
+  then
+    println "correct"
+  else
+    println "incorrect"
+  fi
 end

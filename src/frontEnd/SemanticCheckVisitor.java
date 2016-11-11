@@ -1028,27 +1028,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statFst = visit(ctx.stat(0));
         ASTNode statSnd = visit(ctx.stat(1));
 
-        if(!(statFst instanceof StatementNode && statSnd instanceof StatementNode)){
-            System.err.println("Incompatible type in sequential statement.");
-            handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        if(statFst instanceof StatementNode){
+            if(statSnd instanceof StatementNode){
+                return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
+            } else {
+                return handleError(ctx.stat(1), ((ErrorNode) statSnd).getErrorType());
+            }
+        } else {
+            return handleError(ctx.stat(0), ((ErrorNode) statFst).getErrorType());
         }
 
-//        try{
-//            statFst.getNodeType(symbolTable);
-//        } catch (SemanticException e){
-//            //todo: semantic exception
-//            System.err.println("Cannot get first statement's type in sequential stat.");
-//
-//        }
-//
-//        try{
-//            statSnd.getNodeType(symbolTable);
-//        } catch (SemanticException e){
-//            //todo: semantic exception
-//            System.err.println("Cannot get second statement's type in sequential stat.");
-//        }
-        return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
     }
 
     // todo: [DL] changed pairelem so need review here

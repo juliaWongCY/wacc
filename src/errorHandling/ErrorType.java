@@ -10,6 +10,6 @@ public enum ErrorType {
     DUPLICATE_FUNC,
     DUPLICATE_IDENT,
     INTEGER_OVERFLOW,
-    ROFL
+    UNDEFINED
 
 }

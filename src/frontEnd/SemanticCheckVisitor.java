@@ -331,12 +331,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
+        /*
         try{
             stat.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.err.println("Should not reach here since stat is instance of StatementNode and getNodeType should return StatType directly");
-            return handleError(ctx.stat(), ErrorHandle.ROFL);
+            System.err.println("Should not reach here since stat is an instance of StatementNode and getNodeType should return StatType directly");
+            return handleError(ctx.stat(), ErrorHandle.UNDEFINED);
         }
+        */
 
         popSymbolTable();
         return new WhileStatNode((ExpressionNode) cond, (StatementNode) stat);

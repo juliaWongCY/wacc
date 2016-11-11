@@ -123,14 +123,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (exprNode instanceof ExpressionNode) {
             return new ExprAsRNode((ExpressionNode) exprNode);
         } else {
-            handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            return null;
+            return handleError(ctx.expr(), ((ErrorNode)exprNode).getErrorType());
         }
     }
 
     @Override
     public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
-        return new IdentNode(ctx.getText()); //TODO: [DL] is it ctx.getText() or ctx.IDENT().getText()?
+        return new IdentNode(ctx.IDENT().getText());
     }
 
     @Override
@@ -140,8 +139,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (arrayElem instanceof ArrayElemNode) {
             return new ArrayElemAsLNode((ArrayElemNode) arrayElem);
         } else {
-            handleError(ctx.arrayElem(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            return null;
+            return handleError(ctx.arrayElem(), ((ErrorNode)arrayElem).getErrorType());
         }
     }
 
@@ -174,7 +172,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try {
             if (statementNode.getNodeType(symbolTable).equals(new StatementType())) {
                 if (statementNode instanceof ReturnStatNode) {
-                    handleError(ctx.stat(), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+                    return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
                     //System.err.println("return statement not allowed in global scope");
                 }
                 programNode.setStatementNode((StatementNode)statementNode);
@@ -202,6 +200,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if(!(exitCode instanceof ExpressionNode)){
             System.err.println("Incompatible type in exitCode.");
+            return handleError(ctx.expr(), ((ErrorNode)exitCode).getErrorType());
         }
 
         try{
@@ -212,13 +211,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         if(!(exitCodeType instanceof IntType)){
-            handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             //System.err.println("The exit code must be an int");
         }
 
         return new ExitStatNode((ExpressionNode) exitCode);
     }
 
+    // type does not return ASTNode
     @Override
     public ASTNode visitType(@NotNull BasicParser.TypeContext ctx) {
         //We just need to visit the children type.
@@ -232,38 +232,37 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx) {
-        Type typeOfIdent = identifyType(ctx.type());
+        Type variableType = identifyType(ctx.type());
         String ident = ctx.IDENT().getText();
         ASTNode assignRhs = visit(ctx.assignRHS());
 
-        if (assignRhs instanceof AssignRightNode && operandsTypeCheck(typeOfIdent, (AssignRightNode) assignRhs)) {
-            return new DeclareStatNode(typeOfIdent, new IdentNode(ident), (AssignRightNode) assignRhs);
+        if (assignRhs instanceof AssignRightNode) {
+           if (operandsTypeCheck(variableType, (AssignRightNode) assignRhs)) {
+               return new DeclareStatNode(variableType, new IdentNode(ident), (AssignRightNode) assignRhs);
+           } else {
+               return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+           }
         } else {
-            handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.assignRHS(), ((ErrorNode)assignRhs).getErrorType());
             //System.err.println("type mismatch");
-            return null;
         }
-
-
     }
 
+    // do not need this as we won't use this visit function.
     @Override
     public ASTNode visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) {
-        //[DL] We probably do not need this as we won't use this visit function.
         return super.visitBaseType(ctx);
     }
 
     @Override
     public ASTNode visitInt_liter(@NotNull BasicParser.Int_literContext ctx) {
-
         return new IntLiterNode(Integer.parseInt(ctx.getText()));
-
     }
 
     @Override
     public ASTNode visitParen_expr(@NotNull BasicParser.Paren_exprContext ctx) {
         //just visit the expr part but ignoring others.
-        return visit(ctx.getChild(1));
+        return visit(ctx.expr());
     }
 
     @Override
@@ -481,42 +480,41 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         if(targetType != null && rhsType != null){
-            if(node instanceof ExpressionNode
-                    || node instanceof ArrayLiterAsRNode
-                    || node instanceof CallAsRNode
-                    || node instanceof PairElemAsRNode){
-                if (!targetType.equals(rhsType)) {
-                    //TODO
-                    System.err.println("Different types in target and assign value");
-                    return false;
-                }
-            }
+            if(node instanceof AssignRightNode && !(node instanceof ArgListNode)) {
+                if (node instanceof NewPairAsRNode) {
+                    try {
+                        if (!(targetType.equals(new PairType()))) {
+                            //TODO
+                            System.err.println("target type is not pair type");
+                            return false;
+                        }
+                        PairType pType = (PairType) targetType;
+                        if (pType.getFstExprType() != ((NewPairAsRNode) node).getFstType(symbolTable)
+                                ||pType.getSndExprType() != ((NewPairAsRNode) node).getSndType(symbolTable)) {
+                            //TODO
+                            System.err.println("target pair elements mismatched with assignments");
+                            return false;
+                        }
 
-            if (node instanceof NewPairAsRNode) {
-                try {
-                    if (!(targetType.equals(new PairType()))) {
-                        //TODO
-                        System.err.println("target type is not pair type");
+                    } catch (SemanticException e) {
+                        e.printStackTrace();
+                        System.err.println(e);
                         return false;
                     }
-                    PairType pType = (PairType) targetType;
-                    if (pType.getFstExprType() != ((NewPairAsRNode) node).getFstType(symbolTable)
-                            ||pType.getSndExprType() != ((NewPairAsRNode) node).getSndType(symbolTable)) {
-                        //TODO
-                        System.err.println("target pair elements mismatched with assignments");
-                        return false;
-                    }
-
-                } catch (SemanticException e) {
-                    e.printStackTrace();
-                    System.err.println(e);
-                    return false;
+                    return true;
                 }
+
+                if (targetType.equals(rhsType)) {
+                    System.out.println("targetType: " + targetType + "| rshType: " + rhsType);
+                    return true;
+                }
+                //TODO
+                System.err.println("Different types in target and assign value");
             }
-            return true;
-        } else {
+
             return false;
         }
+        return false;
     }
 
 

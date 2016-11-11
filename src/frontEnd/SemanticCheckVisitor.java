@@ -1063,35 +1063,37 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
         try{
             assignLHSType = assignLHS.getNodeType(symbolTable);
-
-            if(assignLHSType instanceof PairType){
-                PairType pairType = (PairType) assignLHSType;
-                PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
-
-                Type elemType;
-                elemType = assignLPair.getPairElemNode().isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
-
-
-                if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
-//                    System.err.println("Incompatible type -- The read statement can only handle character or integer input.");
-                    return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-                }
-            }
-
-            if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
-//                System.err.println("Incompatible type in target");
+            if (assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType())) {
+                return new ReadStatNode(assignLHS);
+            } else {
                 return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-
-
             }
+//            if(assignLHSType instanceof PairType){
+//                PairType pairType = (PairType) assignLHSType;
+//                PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
+//
+//                Type elemType;
+//                elemType = assignLPair.getPairElemNode().isFirst() ? pairType.getFstExprType() : pairType.getSndExprType();
+//
+//
+//                if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
+////                    System.err.println("Incompatible type -- The read statement can only handle character or integer input.");
+//                    return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+//                }
+//            }
+//
+//            if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
+////                System.err.println("Incompatible type in target");
+//                return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+//
+//
+//            }
 
         } catch (SemanticException e){
             //todo: throw semantic exception
             System.err.println("Cannot get assignLHS's node type.");
             return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
-
-        return new ReadStatNode(assignLHS);
     }
 
     @Override

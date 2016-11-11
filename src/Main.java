@@ -2,7 +2,8 @@ import antlr.BasicLexer;
 import antlr.BasicParser;
 import frontEnd.SemanticCheckVisitor;
 import frontEnd.SymbolTable;
-import frontEnd.SyntaxCheckVisitor;
+import frontEnd.SyntaxCheckIntVisitor;
+import frontEnd.SyntaxCheckReturnVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -46,8 +47,9 @@ public class Main {
             System.exit(100);
         }
 
-        SyntaxCheckVisitor syntaxCheckVisitor = new SyntaxCheckVisitor();
-        if (!syntaxCheckVisitor.visit(tree)) {
+        SyntaxCheckIntVisitor syntaxCheckIntVisitor = new SyntaxCheckIntVisitor();
+        SyntaxCheckReturnVisitor syntaxCheckReturnVisitor = new SyntaxCheckReturnVisitor();
+        if (!syntaxCheckIntVisitor.visit(tree) || !syntaxCheckReturnVisitor.visit(tree)) {
             System.exit(100);
         }
 

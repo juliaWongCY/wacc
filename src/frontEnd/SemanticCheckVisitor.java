@@ -941,11 +941,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         StatementNode stat = null;
         ASTNode s = visit(ctx.stat());
         //TEST
-        try {
-            System.out.println(s.getNodeType(symbolTable));
-        } catch (SemanticException e) {
-
-        }
+        System.out.println("class: " + s.getClass().getName());
 
 
         if (s instanceof StatementNode) {

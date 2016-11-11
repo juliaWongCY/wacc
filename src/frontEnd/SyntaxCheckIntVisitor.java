@@ -7,7 +7,7 @@ import errorHandling.ErrorHandle;
 import errorHandling.ErrorType;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-public class SyntaxCheckVisitor extends BasicParserBaseVisitor<Boolean> {
+public class SyntaxCheckIntVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     protected Boolean defaultResult() {
@@ -40,6 +40,8 @@ public class SyntaxCheckVisitor extends BasicParserBaseVisitor<Boolean> {
         String errorMSG = errorType.getErrorMsg();
         System.err.println("Syntax Error detected at line " + line + ": " + charIndex + "-- " + errorMSG);
     }
+
+
 
 
 

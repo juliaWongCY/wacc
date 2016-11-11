@@ -33,6 +33,11 @@ public class PairType extends Type {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        boolean isEqual =  super.equals(obj);
+        if (isEqual) {
+            isEqual = getFstExprType().equals(((PairType)obj).getFstExprType())
+                    && getSndExprType().equals(((PairType)obj).getSndExprType());
+        }
+        return isEqual;
     }
 }

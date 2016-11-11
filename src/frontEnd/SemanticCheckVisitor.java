@@ -11,6 +11,7 @@ import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.misc.IntegerList;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 import java.util.ArrayList;
@@ -107,12 +108,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
         }
 
-//        try{
-//            stat.getNodeType(symbolTable);
-//        } catch (SemanticException s){
-//            //TODO:
-//            System.err.println("Cannot get statement's type in scope statement.");
-//        }
 
         popSymbolTable();
         return new ScopingStatNode((StatementNode) stat);
@@ -226,6 +221,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO:
             System.err.println("Cannot get exitCode's type in exit stat.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if(!(exitCodeType instanceof IntType)){
@@ -331,12 +327,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get condition's type.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         try{
             stat.getNodeType(symbolTable);
         } catch (SemanticException e){
             System.err.println("Cannot get statement's type.");
+            return handleError(ctx.stat(), ErrorHandle.ROFL);
         }
 
         popSymbolTable();
@@ -385,6 +383,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO:
             System.err.println("Cannot get condition's type in if statement");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
 //        try{
@@ -449,6 +448,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.out.println("Error: cannot get nodeType of the expression in println statement");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
         return new PrintlnStatNode((ExpressionNode) expr);
     }
@@ -479,6 +479,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get target type in assign statement.");
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if (operandsTypeCheck(lhsType, (AssignRightNode) assignRHS)) {
@@ -502,23 +503,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if(targetType != null && rhsType != null){
             if(node instanceof AssignRightNode && !(node instanceof ArgListNode)) {
                 if (node instanceof NewPairAsRNode) {
-                    try {
-                        if (!(targetType.equals(new PairType()))) {
-                            //TODO
-                            System.err.println("target type is not pair type");
-                            return false;
-                        }
-                        PairType pType = (PairType) targetType;
-                        if (pType.getFstExprType() != ((NewPairAsRNode) node).getFstType(symbolTable)
-                                ||pType.getSndExprType() != ((NewPairAsRNode) node).getSndType(symbolTable)) {
-                            //TODO
-                            System.err.println("target pair elements mismatched with assignments");
-                            return false;
-                        }
-
-                    } catch (SemanticException e) {
-                        e.printStackTrace();
-                        System.err.println(e);
+                    if (!(targetType instanceof PairType)) {
+                        //TODO
+                        System.err.println("target type is not pair type");
+                        return false;
+                    }
+                    PairType lhsType = (PairType) targetType;
+                    if (!(lhsType.equals(rhsType))) {
+                        //TODO
+                        System.err.println("target pair elements mismatched with assignments");
                         return false;
                     }
                     return true;
@@ -557,6 +550,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get exprType in return statement.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ReadStatNode((ExpressionNode) expr);
@@ -586,6 +580,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (!(exprR instanceof ExpressionNode)) {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
+
+        if (!(exprL instanceof IntLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof IntLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
         BinaryOpr binaryOpr = BinaryOpr.MULT;
 
         switch (operator) {
@@ -618,7 +621,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (!(exprR instanceof ExpressionNode)) {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
-            BinaryOpr binaryOpr = BinaryOpr.PLUS;
+
+        if (!exprL.equals(new IntType())) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!exprR.equals(new IntType())) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+
+        BinaryOpr binaryOpr = BinaryOpr.PLUS;
 
         switch (operator) {
             case "+":
@@ -640,41 +653,54 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            BinaryOpr binaryOpr = BinaryOpr.GT;
-
-            switch (operator) {
-                case ">":
-                    binaryOpr = BinaryOpr.GT;
-                    break;
-                case ">=":
-                    binaryOpr = BinaryOpr.GTE;
-                    break;
-                case "<":
-                    binaryOpr = BinaryOpr.LT;
-                    break;
-                case "<=":
-                    binaryOpr = BinaryOpr.LTE;
-                    break;
-                default:
-                    System.err.println("Operator not found.");
-            }
-
-            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if (!(exprL instanceof ExpressionNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            //System.err.println("not instance of expressionNode");
-            //return null;
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
         }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof IntLiterNode && exprL instanceof IntLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof IntLiterNode && exprR instanceof IntLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+
+        BinaryOpr binaryOpr = BinaryOpr.GT;
+
+        switch (operator) {
+            case ">":
+                binaryOpr = BinaryOpr.GT;
+                break;
+            case ">=":
+                binaryOpr = BinaryOpr.GTE;
+                break;
+            case "<":
+                binaryOpr = BinaryOpr.LT;
+                break;
+            case "<=":
+                binaryOpr = BinaryOpr.LTE;
+                break;
+            default:
+                System.err.println("Operator not found.");
+        }
+
+        return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
     }
+
 
     @Override
     public ASTNode visitBinary_opCompareLower(@NotNull BasicParser.Binary_opCompareLowerContext ctx) {
         String operator = ctx.binaryOper_CompareLower().getText();
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
+
 
         if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
             BinaryOpr binaryOpr = BinaryOpr.EQ;
@@ -705,15 +731,25 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if (!(exprL instanceof ExpressionNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            //System.err.println("not instance of expressionNode");
-            //return null;
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
         }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof BoolLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof BoolLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
     }
 
     @Override
@@ -721,15 +757,24 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if(!(exprL instanceof ExpressionNode)) {
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
+        }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof BoolLiterNode)) {
             return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
+        }
+
+        if (!(exprR instanceof BoolLiterNode)) {
             return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
-            //System.err.println("not instance of expressionNode");
-            //return null;
+
+        return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);
 
     }
 
@@ -815,6 +860,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get the expressionType in free statement.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if(!((exprType instanceof PairType) || (exprType instanceof ArrayType))) {
@@ -866,6 +912,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             } catch (SemanticException e) {
                 //Todo
                 System.err.println("Semantic error");
+                return handleError(ctx.expr(i), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
         }
 
@@ -874,6 +921,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e) {
             //todo: semantic exception
             System.err.println("Semantic error: Identifier not found.");
+            return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ArrayElemNode(identNode, indexes);
@@ -887,7 +935,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (retType == null) {
             //TODO: throw semantic exception
             System.err.println("cannot recognize return type");
-            return null;
+            return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
         IdentNode functionId = new IdentNode(ctx.IDENT().getText());
         ParamListNode params = null;
@@ -897,30 +945,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 params = (ParamListNode) node;
             }
         }
-        StatementNode stat = null;
-        ASTNode s = visit(ctx.stat());
+        ASTNode stat = visit(ctx.stat());
 
-        if (s instanceof StatementNode) {
-            if (s instanceof SequentialStatNode
-                    && (((SequentialStatNode)s).getSndStat() instanceof ExitStatNode
-                        || ((SequentialStatNode)s).getSndStat() instanceof ReturnStatNode)) {
-                stat = (StatementNode) s;
-            } else {
-                if (s instanceof ExitStatNode || s instanceof ReturnStatNode) {
-                    stat = (StatementNode) s;
-                }
-            }
+        if (!(stat instanceof StatementNode)) {
+            return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        /*
-        if (stat == null) {
-            System.err.println("function not end with return or exit statement");
-            return null;
-
-        }
- */
         popSymbolTable();
-        return new FunctionNode(retType, functionId, params, stat);
+        return new FunctionNode(retType, functionId, params, (StatementNode) stat);
     }
 
     @Override
@@ -933,7 +965,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 params.add((ParamNode) node);
             } else {
                 System.err.println("Incompatible type : non paramNode returned from param context");
-                return null;
+                return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         }
         return new ParamListNode(params);
@@ -944,26 +976,26 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statFst = visit(ctx.stat(0));
         ASTNode statSnd = visit(ctx.stat(1));
 
-        if(!(statFst instanceof StatementNode || statSnd instanceof StatementNode)){
-
+        if(!(statFst instanceof StatementNode && statSnd instanceof StatementNode)){
             System.err.println("Incompatible type in sequential statement.");
             handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        try{
-            statFst.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //todo: semantic exception
-            System.err.println("Cannot get first statement's type in sequential stat.");
-        }
-
-        try{
-            statSnd.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //todo: semantic exception
-            System.err.println("Cannot get second statement's type in sequential stat.");
-        }
+//        try{
+//            statFst.getNodeType(symbolTable);
+//        } catch (SemanticException e){
+//            //todo: semantic exception
+//            System.err.println("Cannot get first statement's type in sequential stat.");
+//
+//        }
+//
+//        try{
+//            statSnd.getNodeType(symbolTable);
+//        } catch (SemanticException e){
+//            //todo: semantic exception
+//            System.err.println("Cannot get second statement's type in sequential stat.");
+//        }
         return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
     }
 
@@ -998,11 +1030,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 //                System.err.println("Incompatible type in target");
                 return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
 
+
             }
 
         } catch (SemanticException e){
             //todo: throw semantic exception
             System.err.println("Cannot get assignLHS's node type.");
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ReadStatNode(assignLHS);
@@ -1061,7 +1095,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
             }
         } catch (SemanticException e) {
-            e.printStackTrace();
+            return handleError(ctx, ErrorHandle.ROFL);
         }
         return null;
     }

@@ -71,6 +71,22 @@ public class SymbolTable {
         }
     }
 
+    public boolean hasFunction(String func) {
+        if (getParent() == null) {
+            return functionTable.containsKey(func);
+        } else {
+            return functionTable.containsKey(func) || getParent().hasFunction(func);
+        }
+    }
+
+    public boolean hasVariable(String var) {
+        if (getParent() == null) {
+            return varTable.containsKey(var);
+        } else {
+            return varTable.containsKey(var) || getParent().hasFunction(var);
+        }
+    }
+
 
 
 }

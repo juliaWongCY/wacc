@@ -9,6 +9,7 @@ import ast.expression.*;
 import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
+import errorHandling.ErrorType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
@@ -84,6 +85,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if(!(expr instanceof ExpressionNode)){
             return handleError(ctx, ((ErrorNode)expr).getErrorType());
+        }
+
+        if (expr instanceof IdentNode) {
+            if (!symbolTable.hasVariable(((IdentNode) expr).getId())) {
+                handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
+            }
         }
 
 //        try{

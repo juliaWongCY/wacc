@@ -68,7 +68,7 @@ assignLHS : IDENT   #assignl_id
 | pairElem          #assignl_pairelem
 ;
 
-expr : INTEGER                                    #int_liter
+expr : intliter                                   #int_liter
 | BOOLLITER                                       #bool_liter
 | CHARLITER                                       #char_liter
 | STRINGLITER                                     #string_liter

@@ -161,7 +161,7 @@ public class BasicParser extends Parser {
 			setState(56); match(OPEN_SQPARENTHESES);
 			setState(65);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MINUS) | (1L << NOT) | (1L << LEN) | (1L << ORD) | (1L << CHR) | (1L << OPEN_PARENTHESES) | (1L << INTEGER) | (1L << CHARLITER) | (1L << STRINGLITER) | (1L << BOOLLITER) | (1L << PAIRLITER) | (1L << IDENT))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << LEN) | (1L << ORD) | (1L << CHR) | (1L << OPEN_PARENTHESES) | (1L << INTEGER) | (1L << CHARLITER) | (1L << STRINGLITER) | (1L << BOOLLITER) | (1L << PAIRLITER) | (1L << IDENT))) != 0)) {
 				{
 				setState(57); expr(0);
 				setState(62);
@@ -1463,6 +1463,7 @@ public class BasicParser extends Parser {
 		try {
 			setState(224);
 			switch (_input.LA(1)) {
+			case PLUS:
 			case MINUS:
 			case NOT:
 			case LEN:
@@ -1517,7 +1518,7 @@ public class BasicParser extends Parser {
 				setState(219); match(OPEN_PARENTHESES);
 				setState(221);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MINUS) | (1L << NOT) | (1L << LEN) | (1L << ORD) | (1L << CHR) | (1L << OPEN_PARENTHESES) | (1L << INTEGER) | (1L << CHARLITER) | (1L << STRINGLITER) | (1L << BOOLLITER) | (1L << PAIRLITER) | (1L << IDENT))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << LEN) | (1L << ORD) | (1L << CHR) | (1L << OPEN_PARENTHESES) | (1L << INTEGER) | (1L << CHARLITER) | (1L << STRINGLITER) | (1L << BOOLLITER) | (1L << PAIRLITER) | (1L << IDENT))) != 0)) {
 					{
 					setState(220); argList();
 					}
@@ -1764,7 +1765,9 @@ public class BasicParser extends Parser {
 		}
 	}
 	public static class Int_literContext extends ExprContext {
-		public TerminalNode INTEGER() { return getToken(BasicParser.INTEGER, 0); }
+		public IntliterContext intliter() {
+			return getRuleContext(IntliterContext.class,0);
+		}
 		public Int_literContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -1858,7 +1861,7 @@ public class BasicParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(232); match(INTEGER);
+				setState(232); intliter();
 				}
 				break;
 			case 2:
@@ -2320,7 +2323,7 @@ public class BasicParser extends Parser {
 		"\2\2\2\u00e2\u00da\3\2\2\2\u00e2\u00db\3\2\2\2\u00e3)\3\2\2\2\u00e4\u00e8"+
 		"\7<\2\2\u00e5\u00e8\5\6\4\2\u00e6\u00e8\5\b\5\2\u00e7\u00e4\3\2\2\2\u00e7"+
 		"\u00e5\3\2\2\2\u00e7\u00e6\3\2\2\2\u00e8+\3\2\2\2\u00e9\u00ea\b\27\1\2"+
-		"\u00ea\u00f7\7\67\2\2\u00eb\u00f7\7:\2\2\u00ec\u00f7\78\2\2\u00ed\u00f7"+
+		"\u00ea\u00f7\5\24\13\2\u00eb\u00f7\7:\2\2\u00ec\u00f7\78\2\2\u00ed\u00f7"+
 		"\79\2\2\u00ee\u00f7\7;\2\2\u00ef\u00f7\7<\2\2\u00f0\u00f7\5\6\4\2\u00f1"+
 		"\u00f7\5.\30\2\u00f2\u00f3\7\63\2\2\u00f3\u00f4\5,\27\2\u00f4\u00f5\7"+
 		"\64\2\2\u00f5\u00f7\3\2\2\2\u00f6\u00e9\3\2\2\2\u00f6\u00eb\3\2\2\2\u00f6"+

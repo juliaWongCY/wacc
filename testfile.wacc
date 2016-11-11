@@ -1,17 +1,19 @@
-# Simple conditional statement with int comparison test
+# function return wacc.type mismatch: int <- char
 
 # Output:
-# correct
+# #semantic_error#
+
+# Exit:
+# 200
 
 # Program:
 
 begin
-  int a = 13;
-  int b = 37;
-  if a < b
-  then
-    println "correct"
-  else
-    println "incorrect"
-  fi
+	int f() is
+		return 'c';
+		return 1
+	end
+	int x = call f() ;
+	println x
 end
+

@@ -21,6 +21,9 @@ binaryOper_CompareHigher: GT | GTE | LT | LTE ;
 
 binaryOper_CompareLower: EQ | NEQ ;
 
+sign : (MINUS|PLUS) ;
+intliter : sign? INTEGER;
+
 paramList: param ( COMMA param )*;
 
 param : type IDENT;
@@ -65,7 +68,7 @@ assignLHS : IDENT   #assignl_id
 | pairElem          #assignl_pairelem
 ;
 
-expr : INTEGER                                    #int_liter
+expr : intliter                                   #int_liter
 | BOOLLITER                                       #bool_liter
 | CHARLITER                                       #char_liter
 | STRINGLITER                                     #string_liter

@@ -107,12 +107,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
         }
 
-//        try{
-//            stat.getNodeType(symbolTable);
-//        } catch (SemanticException s){
-//            //TODO:
-//            System.err.println("Cannot get statement's type in scope statement.");
-//        }
 
         popSymbolTable();
         return new ScopingStatNode((StatementNode) stat);
@@ -226,6 +220,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO:
             System.err.println("Cannot get exitCode's type in exit stat.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if(!(exitCodeType instanceof IntType)){
@@ -331,12 +326,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get condition's type.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         try{
             stat.getNodeType(symbolTable);
         } catch (SemanticException e){
             System.err.println("Cannot get statement's type.");
+            return handleError(ctx.stat(), ErrorHandle.ROFL);
         }
 
         popSymbolTable();
@@ -385,6 +382,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO:
             System.err.println("Cannot get condition's type in if statement");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
 //        try{
@@ -449,6 +447,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.out.println("Error: cannot get nodeType of the expression in println statement");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
         return new PrintlnStatNode((ExpressionNode) expr);
     }
@@ -479,6 +478,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get target type in assign statement.");
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if (operandsTypeCheck(lhsType, (AssignRightNode) assignRHS)) {
@@ -557,6 +557,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get exprType in return statement.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ReadStatNode((ExpressionNode) expr);
@@ -815,6 +816,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //TODO
             System.err.println("Cannot get the expressionType in free statement.");
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         if(!(exprType instanceof PairType)){
@@ -866,6 +868,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             } catch (SemanticException e) {
                 //Todo
                 System.err.println("Semantic error");
+                return handleError(ctx.expr(i), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
         }
 
@@ -874,6 +877,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e) {
             //todo: semantic exception
             System.err.println("Semantic error: Identifier not found.");
+            return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ArrayElemNode(identNode, indexes);
@@ -934,19 +938,20 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        try{
-            statFst.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //todo: semantic exception
-            System.err.println("Cannot get first statement's type in sequential stat.");
-        }
-
-        try{
-            statSnd.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //todo: semantic exception
-            System.err.println("Cannot get second statement's type in sequential stat.");
-        }
+//        try{
+//            statFst.getNodeType(symbolTable);
+//        } catch (SemanticException e){
+//            //todo: semantic exception
+//            System.err.println("Cannot get first statement's type in sequential stat.");
+//
+//        }
+//
+//        try{
+//            statSnd.getNodeType(symbolTable);
+//        } catch (SemanticException e){
+//            //todo: semantic exception
+//            System.err.println("Cannot get second statement's type in sequential stat.");
+//        }
         return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
     }
 
@@ -983,6 +988,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e){
             //todo: throw semantic exception
             System.err.println("Cannot get assignLHS's node type.");
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new ReadStatNode(assignLHS);
@@ -1038,7 +1044,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 System.err.println("non function type returned from function symbol type");
             }
         } catch (SemanticException e) {
-            e.printStackTrace();
+            return handleError(ctx, ErrorHandle.ROFL);
         }
         return null;
     }

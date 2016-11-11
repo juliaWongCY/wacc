@@ -9,6 +9,7 @@ public class ErrorHandle {
     public static final ErrorHandle ERRORTYPE_NO_RETURN_GLOBAL_SCOPE = new ErrorHandle(ErrorType.NO_RETURN_GLOBAL_SCOPE);
     public static final ErrorHandle ERRORTYPE_DUPLICATE_FUNC         = new ErrorHandle(ErrorType.DUPLICATE_FUNC);
     public static final ErrorHandle ERRORTYPE_DUPLICATE_IDENT        = new ErrorHandle(ErrorType.DUPLICATE_IDENT);
+    public static final ErrorHandle ROFL                             = new ErrorHandle(ErrorType.ROFL);
 
 
     public ErrorHandle(ErrorType errorType) {
@@ -35,6 +36,8 @@ public class ErrorHandle {
                 return "Duplicated identifier name in the same scope ";
             case INTEGER_OVERFLOW:
                 return "Integer is out of range ";
+            case ROFL:
+                return "meow meow meow ROFL";
             default:
                 return "Check error again";
         }

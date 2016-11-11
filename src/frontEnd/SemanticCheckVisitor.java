@@ -285,8 +285,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         try {
             i = new IntLiterNode(Integer.parseInt(ctx.getText()));
-        } catch (Exception e) {
-
+        } catch (NumberFormatException e) {
             //TODO: syntax error??
             System.err.println("Syntax error.");
         }

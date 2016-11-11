@@ -170,29 +170,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         // set program node's statement node
         ASTNode statementNode = visit(statement);
-        try {
-            if (statementNode.getNodeType(symbolTable).equals(new StatementType())) {
-                StatementNode originalSNode = (StatementNode) statementNode;
-                int counter = 0;
-                while (statementNode instanceof SequentialStatNode) {
-                    if (((SequentialStatNode) statementNode).getSndStat() instanceof ReturnStatNode) {
-                        return handleError(getSctx(counter, (BasicParser.Sequential_statContext) statement), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-                    }
-                    counter += 1;
-                    statementNode = ((SequentialStatNode) statementNode).getFstStat();
-                }
-                if (statementNode instanceof ReturnStatNode) {
+        if (statementNode instanceof StatementNode) {
+            StatementNode originalSNode = (StatementNode) statementNode;
+            int counter = 0;
+            while (statementNode instanceof SequentialStatNode) {
+                if (((SequentialStatNode) statementNode).getSndStat() instanceof ReturnStatNode) {
                     return handleError(getSctx(counter, (BasicParser.Sequential_statContext) statement), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-                    //System.err.println("return statement not allowed in global scope");
                 }
-                programNode.setStatementNode(originalSNode);
-                return programNode;
+                counter += 1;
+                statementNode = ((SequentialStatNode) statementNode).getFstStat();
             }
-        } catch (SemanticException e) {
-            e.printStackTrace();
-            //TODO:
-            System.err.println("Cannot set statement node in program.");
-            //System.err.println(e);
+            if (statementNode instanceof ReturnStatNode) {
+                return handleError(getSctx(counter, (BasicParser.Sequential_statContext) statement), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+                //System.err.println("return statement not allowed in global scope");
+            }
+            programNode.setStatementNode(originalSNode);
+            return programNode;
         }
 
         // reaching here means the statement node cannot be correctly constructed

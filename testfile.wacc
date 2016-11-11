@@ -1,14 +1,18 @@
-# trying to return from the main program
+# program has function which only contains an if statement and a return in each branch
 
 # Output:
-# #semantic_error#
-
-# Exit:
-# 200
+# true
 
 # Program:
 
 begin
-  return 42 ;
-  println "should not get here"
+  bool f() is
+    if true then
+      return true
+    else
+      return false
+    fi
+  end
+  bool x = call f();
+  println x
 end

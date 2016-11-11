@@ -25,6 +25,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     }
 
+    public boolean hasSemanticError() {
+        return hasSemanticError;
+    }
+
     @Override
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();

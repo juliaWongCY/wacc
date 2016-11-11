@@ -1,4 +1,4 @@
-# function return wacc.type mismatch: int <- char
+# function call with arguments swapped
 
 # Output:
 # #semantic_error#
@@ -9,10 +9,11 @@
 # Program:
 
 begin
-	int f() is
-		return 'c'
+	int f(int a, bool b) is
+		return 0
 	end
-	int x = call f() ;
+	int x = call f(true,1);
 	println x
 end
+
 

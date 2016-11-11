@@ -1,0 +1,568 @@
+================================================
+./example/valid/pairs/printNull.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/nestedPair.wacc
+
+target pair elements mismatched with assignments
+Cannot get assignment type in assign statement.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair03.wacc
+
+target pair elements mismatched with assignments
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:192)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/checkRefPair.wacc
+
+target pair elements mismatched with assignments
+Cannot get assignment type in assign statement.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/linkedList.wacc
+
+target pair elements mismatched with assignments
+Cannot get assignment type in assign statement.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair.wacc
+
+target pair elements mismatched with assignments
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:192)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair02.wacc
+
+target pair elements mismatched with assignments
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:192)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/readPair.wacc
+
+target pair elements mismatched with assignments
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/printPair.wacc
+
+target pair elements mismatched with assignments
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/printNullPair.wacc
+
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
+================================================
+================================================
+================================================
+./example/valid/pairs/writeFst.wacc
+
+target pair elements mismatched with assignments
+Semantic error: Cannot find pair elem type.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/null.wacc
+
+Cannot get expression's type in println statement
+Incompatible type in sequential statement.
+Cannot get target type in assign statement.
+Type mismatch
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1015)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/printPairOfNulls.wacc
+
+target pair elements mismatched with assignments
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/writeSnd.wacc
+
+target pair elements mismatched with assignments
+Semantic error: Cannot find pair elem type.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/free.wacc
+
+target pair elements mismatched with assignments
+Cannot get the expressionType in free statement.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/pairs/createRefPair.wacc
+
+target pair elements mismatched with assignments
+Cannot get assignment type in assign statement.
+Incompatible type in sequential statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1008)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/expressions/notequalsExpr.wacc
+
+Incompatible type in sequential statement.
+Cannot get assignment type in assign statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1015)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/expressions/intCalc.wacc
+
+Incompatible type in sequential statement.
+Cannot get assignment type in assign statement.
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1015)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:992)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:190)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:45)
+================================================
+================================================
+================================================
+./example/valid/expressions/longSplitExpr2.wacc
+
+Incompatible type in sequential statement.
+Cannot get expression's type in println statement
+Cannot get expression's type in println statement
+Cannot get exitCode's type in exit stat.
+================================================
+================================================
+================================================
+./example/valid/expressions/negDivisorDiv.wacc
+
+Incompatible type in sequential statement.
+Cannot get expression's type in println statement
+================================================
+================================================
+================================================
+./example/valid/expressions/minusPlusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longSplitExpr.wacc
+
+Incompatible type in sequential statement.
+Cannot get exitCode's type in exit stat.
+================================================
+================================================

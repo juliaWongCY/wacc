@@ -945,9 +945,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statSnd = visit(ctx.stat(1));
 
         if(!(statFst instanceof StatementNode || statSnd instanceof StatementNode)){
-            handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             System.err.println("Incompatible type in sequential statement.");
+            handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
         try{

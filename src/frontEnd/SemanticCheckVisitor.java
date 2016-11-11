@@ -172,6 +172,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // set program node's statement node
         ASTNode statementNode = visit(statement);
         if (statementNode instanceof StatementNode) {
+            if (getActualRetContext(statement) != null) {
+                return handleError(getActualRetContext(ctx.stat()), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+            }
             programNode.setStatementNode((StatementNode) statementNode);
             return programNode;
         } else {

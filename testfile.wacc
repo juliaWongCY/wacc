@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # functions cannot access global variables
 
 # Output:
@@ -18,3 +19,8 @@ begin
   println x
 end
 
+=======
+begin
+    print 3-2
+end
+>>>>>>> dexter

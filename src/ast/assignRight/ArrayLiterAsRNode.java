@@ -32,7 +32,6 @@ public class ArrayLiterAsRNode implements AssignRightNode {
                     throw new SemanticException("Multiple type in array");
                 }
             }
-            int layer = 0;
             return new ArrayType(type);
         }
     }

@@ -10,4 +10,5 @@ public class SemanticException extends Exception {
         super(message);
     }
 
+
 }

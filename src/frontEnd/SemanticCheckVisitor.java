@@ -262,7 +262,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                } catch (SemanticException e){
                    return handleError(ctx, ErrorHandle.ERRORTYPE_DUPLICATE_IDENT);
                }
-
                return new DeclareStatNode(variableType, new IdentNode(ident), (AssignRightNode) assignRhs);
            } else {
                return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);

@@ -21,6 +21,7 @@ public class SyntaxCheckIntVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     public Boolean visitInt_liter(BasicParser.Int_literContext ctx) {
+        System.out.println(ctx.getText());
         TerminalNode sign = ctx.intliter().sign().MINUS();
         TerminalNode int_liter = ctx.intliter().INTEGER();
         try {

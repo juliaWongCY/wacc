@@ -978,12 +978,25 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
         IdentNode functionId = new IdentNode(ctx.IDENT().getText());
         ParamListNode params = null;
-        if (ctx.paramList() != null) {
+        if (ctx.paramList() == null) {
+            try {
+                symbolTable.addFunction(functionId.getId(), new FunctionType(retType));
+            } catch (SemanticException e) {
+                System.err.println("should not reach this");
+                return null;
+            }
+        } else {
             ASTNode node = visit(ctx.paramList());
             if (node instanceof ParamListNode) {
                 params = (ParamListNode) node;
             }
+            try {
+                symbolTable.addFunction(functionId.getId(), new FunctionType(retType, params.getNodeTypes(symbolTable)));
+            } catch (SemanticException e) {
+                return handleError(ctx.paramList(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
+            }
         }
+
         ASTNode stat = visit(ctx.stat());
 
         if (!(stat instanceof StatementNode)) {
@@ -997,9 +1010,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             node          = visit(rctx.expr());
             actualRetType = node.getNodeType(symbolTable);
         } catch (SemanticException e) {
+            popSymbolTable();
             return handleError(rctx, ((ErrorNode)node).getErrorType());
         }
         if (!actualRetType.equals(retType)) {
+            popSymbolTable();
             return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
         }
 

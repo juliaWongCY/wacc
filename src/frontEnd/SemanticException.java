@@ -10,8 +10,5 @@ public class SemanticException extends Exception {
         super(message);
     }
 
-    private enum {
-        REF, UNDEF
-    }
 
 }

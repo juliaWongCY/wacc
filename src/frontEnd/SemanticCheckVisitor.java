@@ -1158,6 +1158,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         } catch (SemanticException e) {
+            System.out.println("cannot get func type");
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
         }
         return null;

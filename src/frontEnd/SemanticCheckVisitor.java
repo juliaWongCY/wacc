@@ -103,7 +103,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         ASTNode stat = visit(ctx.stat());
 
-        if( !(stat.equals(new StatementType()))){
+        if( !(stat instanceof StatementNode)){
             return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
         }
 
@@ -189,8 +189,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         // reaching here means the statement node cannot be correctly constructed
-        System.err.println("Error in processing statementNode");
-        return null;
+        return handleError(statement, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
 
     }
 
@@ -946,9 +945,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statSnd = visit(ctx.stat(1));
 
         if(!(statFst instanceof StatementNode || statSnd instanceof StatementNode)){
-            handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+
             System.err.println("Incompatible type in sequential statement.");
+            handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
         try{

@@ -7,7 +7,7 @@ public class SyntaxCheckReturnVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     protected Boolean defaultResult() {
-        return true;
+        return false;
     }
 
     @Override

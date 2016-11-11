@@ -56,6 +56,9 @@ public class Main {
 
         SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
         semanticCheckVisitor.visit(tree);
+        if (semanticCheckVisitor.hasSemanticError()) {
+            System.exit(200);
+        }
 
     }
 

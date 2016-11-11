@@ -7,7 +7,6 @@ import type.*;
 
 public class BinaryOprNode implements ExpressionNode {
 
-
     private final BinaryOpr binaryOpr;
     private final ExpressionNode exprL;
     private final ExpressionNode exprR;
@@ -42,7 +41,6 @@ public class BinaryOprNode implements ExpressionNode {
                 case GTE:
                 case LT:
                 case LTE:
-                    //Is it better if we don't use instanceof
                     if (tL instanceof IntType || tL instanceof CharType) {
                         return boolType.getType();
                     }
@@ -66,7 +64,7 @@ public class BinaryOprNode implements ExpressionNode {
             }
         }
 
-        throw new SemanticException("If none of above, then there is error.");
+        throw new SemanticException("If none of the above, there is error.");
     }
 }
 

@@ -1,7 +1,5 @@
 package ast.assignLeft;
 
-
-import ast.expression.ExpressionNode;
 import ast.expression.PairElemNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
@@ -15,6 +13,7 @@ public class PairElemAsLNode implements AssignLeftNode {
         this.pairElemNode = pairElemNode;
     }
 
+    // Functions will be used in backend
     public PairElemNode getPairElemNode() {
         return pairElemNode;
     }

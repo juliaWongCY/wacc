@@ -39,11 +39,6 @@ public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> 
 
     @Override
     public Boolean visitSequential_stat(BasicParser.Sequential_statContext ctx) {
-//        if (!visit(ctx.stat(1))) {
-//            return true;
-//        }
-//
-//        return false;
         return visit(ctx.stat(1));
     }
 

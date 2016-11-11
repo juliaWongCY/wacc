@@ -5,7 +5,6 @@ import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
 
-
 public class ArrayElemAsLNode implements AssignLeftNode {
 
     private ArrayElemNode arrayElem;

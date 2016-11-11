@@ -6,7 +6,6 @@ WS : ( ' ' | '\t' | '\r'| '\n')+ -> skip ;
 ASSIGN : '=' ;
 SEMICOLON : ';' ;
 COMMA :  ',' ;
-//WS: [ \t\r\n]+ -> skip ;
 fragment EOL : ('\r' | '\n') ;
 fragment COMMENTSYM : '#' ;
 COMMENT : COMMENTSYM .+? (EOL) -> skip ;
@@ -39,7 +38,6 @@ BEGIN: 'begin' ;
 END: 'end' ;
 IS: 'is' ;
 
-
 //operators
 PLUS: '+' ;
 MINUS: '-' ;
@@ -61,39 +59,28 @@ LEN: 'len' ;
 ORD: 'ord' ;
 CHR: 'chr' ;
 
-
 //brackets
 OPEN_PARENTHESES : '(' ;
 CLOSE_PARENTHESES : ')' ;
 OPEN_SQPARENTHESES : '[' ;
 CLOSE_SQPARENTHESES : ']' ;
 
-
 //numbers
-
-
 fragment DIGIT : '0'..'9' ;
-
 INTEGER: DIGIT+ ;
 
-
 //character
-//fragment LETTER : ('a'..'z'|'A'..'Z'|'_'| ' ') ;
 fragment LETTER : ~('\\' | '\'' | '\"') ;
 fragment ESCCHAR : ( '0' | 'b' | 't' | 'n' | 'f' | 'r' | '"' | '\'' | '\\') ;
-//                                                               '      \
 fragment CHARACTER : (LETTER | '\\' ESCCHAR) ;
-
 
 CHARLITER: '\'' (CHARACTER) '\'' ;
 STRINGLITER: '"' (CHARACTER)* '"' ;
 
-
 //boolean
 BOOLLITER: ('true' | 'false') ;
 
-
-//pair
+//pairLiter
 PAIRLITER: 'null' ;
 
 //identifier

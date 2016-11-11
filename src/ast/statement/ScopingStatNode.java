@@ -20,7 +20,7 @@ public class ScopingStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        //return stat.getNodeType(st);
+
         StatementType stat = new StatementType();
         return stat.getType();
     }

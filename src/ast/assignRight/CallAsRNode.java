@@ -21,6 +21,7 @@ public class CallAsRNode implements AssignRightNode {
         this.argList = argList;
     }
 
+    //These functions will be useful for backend
     public IdentNode getFunctionId() {
         return functionId;
     }

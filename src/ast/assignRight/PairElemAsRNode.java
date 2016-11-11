@@ -1,10 +1,8 @@
 package ast.assignRight;
 
-import ast.expression.ExpressionNode;
 import ast.expression.PairElemNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
-import type.PairType;
 import type.Type;
 
 public class PairElemAsRNode implements AssignRightNode {
@@ -15,6 +13,7 @@ public class PairElemAsRNode implements AssignRightNode {
         this.pairElemNode = pairElemNode;
     }
 
+    //This function will be useful for backend
     public PairElemNode getPairElemNode() {
         return pairElemNode;
     }

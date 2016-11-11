@@ -24,7 +24,8 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/expressions/boolOpTypeErr.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 12: 11-- Incompatible type 
+Semantic Error detected at line 12: 11-- Incompatible type 
 Semantic Error detected at line 12: 11-- Incompatible type 
 Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
@@ -32,7 +33,8 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/expressions/exprTypeErr.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 12: 10-- Incompatible type 
+Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
@@ -40,7 +42,8 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/expressions/intOpTypeErr.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 12: 10-- Incompatible type 
+Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
@@ -61,6 +64,8 @@ Semantic Error detected at line 14: 2-- Incompatible type
 Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
 Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 16: 10-- Incompatible type 
+Semantic Error detected at line 16: 2-- Incompatible type 
 Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
 Semantic Error detected at line 16: 2-- Incompatible type 
@@ -70,7 +75,10 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/expressions/mixedOpTypeErr.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 12: 10-- Incompatible type 
+Semantic Error detected at line 12: 10-- Incompatible type 
+Semantic Error detected at line 12: 10-- Incompatible type 
+Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 10-- Incompatible type 
 Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
@@ -78,25 +86,38 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/expressions/moreArrExpr.wacc
 
-
+Semantic Error detected at line 14: 10-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/function/functionAssign.wacc
 
 Cannot get target type in assign statement.
-Semantic Error detected at line 16: 6-- Incompatible type 
+Semantic Error detected at line 16: 2-- Undefined variable 
 Semantic Error detected at line 16: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/function/functionBadArgUse.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 13: 13-- Incompatible type 
+Semantic Error detected at line 13: 13-- Incompatible type 
 Semantic Error detected at line 13: 13-- Incompatible type 
 Incompatible type in sequential statement.
 Semantic Error detected at line 13: 4-- Incompatible type 
 Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 13: 4-- Incompatible type 
+Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:156)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:21)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:55)
 ================================================
 ================================================
 ================================================
@@ -160,10 +181,17 @@ Semantic Error detected at line 15: 1-- Incompatible type
 ./example/invalid/semanticErr/function/funcVarAccess.wacc
 
 Cannot get target type in assign statement.
-Semantic Error detected at line 13: 8-- Incompatible type 
+Semantic Error detected at line 13: 4-- Undefined variable 
 Incompatible type in sequential statement.
 Semantic Error detected at line 13: 4-- Incompatible type 
 Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 13: 4-- Incompatible type 
+Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:156)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:21)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:55)
 ================================================
 ================================================
 ================================================
@@ -177,16 +205,31 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ./example/invalid/semanticErr/IO/readTypeErr.wacc
 
 Incompatible type in target
+Semantic Error detected at line 13: 7-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/multiple/funcMess.wacc
 
 Cannot get target type in assign statement.
-Semantic Error detected at line 13: 8-- Incompatible type 
+Semantic Error detected at line 13: 4-- Undefined variable 
 Incompatible type in sequential statement.
 Semantic Error detected at line 13: 4-- Incompatible type 
 Semantic Error detected at line 14: 4-- Incompatible type 
+Semantic Error detected at line 13: 4-- Incompatible type 
+Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:156)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:21)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:55)
 ================================================
 ================================================
 ================================================
@@ -200,10 +243,14 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/multiple/messyExpr.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 13: 16-- Incompatible type 
+Semantic Error detected at line 13: 29-- Incompatible type 
+Semantic Error detected at line 13: 11-- Incompatible type 
+Semantic Error detected at line 13: 10-- Incompatible type 
+Semantic Error detected at line 13: 10-- Incompatible type 
 Semantic Error detected at line 13: 10-- Incompatible type 
 Cannot get exitCode's type in exit stat.
-Semantic Error detected at line 14: 7-- Incompatible type 
+Semantic Error detected at line 14: 7-- Undefined variable 
 Incompatible type in sequential statement.
 Semantic Error detected at line 13: 2-- Incompatible type 
 Semantic Error detected at line 14: 2-- Incompatible type 
@@ -250,7 +297,12 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/invalid/semanticErr/print/printTypeErr01.wacc
 
-
+Semantic Error detected at line 14: 10-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Incompatible type in setement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -259,6 +311,7 @@ Semantic Error detected at line 12: 2-- Incompatible type
 target pair elements mismatched with assignments
 Semantic Error detected at line 12: 21-- Incompatible type 
 Cannot get assignLHS's node type.
+Semantic Error detected at line 13: 7-- Undefined variable 
 Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
 Semantic Error detected at line 13: 2-- Incompatible type 
@@ -400,7 +453,7 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ./example/invalid/semanticErr/variables/undeclaredScopeVar.wacc
 
 Cannot get target type in assign statement.
-Semantic Error detected at line 15: 6-- Incompatible type 
+Semantic Error detected at line 15: 2-- Undefined variable 
 Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
 Semantic Error detected at line 15: 2-- Incompatible type 
@@ -411,14 +464,15 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ./example/invalid/semanticErr/variables/undeclaredVar.wacc
 
 Cannot get target type in assign statement.
-Semantic Error detected at line 12: 6-- Incompatible type 
+Semantic Error detected at line 12: 2-- Undefined variable 
 Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/variables/undeclaredVarAccess.wacc
 
-Cannot get assignment type in assign statement.
+Semantic Error detected at line 13: 6-- Incompatible type 
+Semantic Error detected at line 13: 6-- Incompatible type 
 Semantic Error detected at line 13: 6-- Incompatible type 
 Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
@@ -430,12 +484,16 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ./example/invalid/semanticErr/while/falsErr.wacc
 
 Cannot get condition's type.
+Semantic Error detected at line 12: 8-- Undefined variable 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/while/truErr.wacc
 
 Cannot get condition's type.
+Semantic Error detected at line 12: 8-- Undefined variable 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================

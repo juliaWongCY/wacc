@@ -1150,9 +1150,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                     }
                     if (argTypes.size() == paramTypes.size()) {
                         for (int i = 0; i < paramTypes.size(); i++) {
-                            if (!argTypes.get(i).equals(argTypes.get(i))) {
-                                System.err.println("params and args type mismatch");
-                                return null;
+                            if (!argTypes.get(i).equals(paramTypes.get(i))) {
+                                return handleEAError(actx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, paramTypes.get(i), argTypes.get(i));
                             }
                             return new CallAsRNode(new IdentNode(functionId), (ArgListNode) argListNode);
                         }

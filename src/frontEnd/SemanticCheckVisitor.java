@@ -89,16 +89,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if (expr instanceof IdentNode) {
             if (!symbolTable.hasVariable(((IdentNode) expr).getId())) {
-                handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
+                handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
         }
 
-//        try{
-//            expr.getNodeType(symbolTable);
-//        } catch (SemanticException e){
-//            //TODO:
-//            System.err.println("Cannot get expression's type in println statement");
-//        }
         return new PrintlnStatNode((ExpressionNode) expr);
 
     }
@@ -437,13 +431,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        try{
-            expr.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //TODO
-            System.out.println("Error: cannot get nodeType of the expression in println statement");
-            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
+
+        if (expr instanceof IdentNode) {
+            if (!symbolTable.hasVariable(((IdentNode) expr).getId())) {
+                handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
+            }
         }
+
         return new PrintlnStatNode((ExpressionNode) expr);
     }
 
@@ -545,7 +539,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             expr.getNodeType(symbolTable);
         } catch (SemanticException e){
-            //TODO
             System.err.println("Cannot get exprType in return statement.");
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
@@ -908,7 +901,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             exprType = expr.getNodeType(symbolTable);
         } catch (SemanticException e){
-            //TODO
             System.err.println("Cannot get the expressionType in free statement.");
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
@@ -960,7 +952,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
                 indexes.add((ExpressionNode) a);
             } catch (SemanticException e) {
-                //Todo
                 System.err.println("Semantic error");
                 return handleError(ctx.expr(i), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
@@ -969,7 +960,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try {
             symbolTable.lookUpVariable(id);
         } catch (SemanticException e) {
-            //todo: semantic exception
             System.err.println("Semantic error: Identifier not found.");
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }

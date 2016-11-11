@@ -1002,31 +1002,28 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        if (stat instanceof BasicParser.Sequential_statContext) {
-            BasicParser.Return_statContext rctx = getActualRetContext((BasicParser.Sequential_statContext) stat);
-            Type actualRetType;
-            ASTNode node = null;
-            try {
-                node          = visit(rctx.expr());
-                actualRetType = node.getNodeType(symbolTable);
-            } catch (SemanticException e) {
-                return handleError(rctx, ((ErrorNode)node).getErrorType());
-            }
-            if (actualRetType.equals(retType)) {
-                return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
-            }
+        BasicParser.Return_statContext rctx = getActualRetContext(ctx.stat());
+        Type actualRetType;
+        ASTNode node = null;
+        try {
+            node          = visit(rctx.expr());
+            actualRetType = node.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            return handleError(rctx, ((ErrorNode)node).getErrorType());
+        }
+        if (!actualRetType.equals(retType)) {
+            return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
         }
 
         popSymbolTable();
         return new FunctionNode(retType, functionId, params, (StatementNode) stat);
     }
 
-    private BasicParser.Return_statContext getActualRetContext(BasicParser.Sequential_statContext stat) {
-        ParserRuleContext ctx = stat;
+    private BasicParser.Return_statContext getActualRetContext(ParserRuleContext ctx) {
         BasicParser.Return_statContext rctx = null;
         while (ctx instanceof BasicParser.Sequential_statContext) {
             if (((BasicParser.Sequential_statContext)ctx).stat(1) instanceof BasicParser.Return_statContext) {
-                rctx = (BasicParser.Return_statContext) stat.stat(1);
+                rctx = (BasicParser.Return_statContext) ((BasicParser.Sequential_statContext)ctx).stat(1);
             }
             ctx = ((BasicParser.Sequential_statContext)ctx).stat(0);
         }

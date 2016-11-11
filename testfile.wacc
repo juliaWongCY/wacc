@@ -1,20 +1,11 @@
-# a simple increment function definition and usage
+# create a pair (int, pair (int, int) )
 
 # Output:
-# 1
-# 4
+# #empty#
 
 # Program:
 
 begin
-  int inc(int x) is
-    return x + 1
-  end
-  int x = 0 ;
-  x = call inc(x) ;
-  println x ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  println x
+  pair(int, int) p = newpair(2, 3) ;
+  pair(int, pair) q = newpair(1, p)
 end

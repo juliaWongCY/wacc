@@ -509,6 +509,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                         return false;
                     }
                     PairType lhsType = (PairType) targetType;
+
                     if (!(lhsType.equals(rhsType))) {
                         //TODO
                         System.err.println("target pair elements mismatched with assignments");
@@ -525,6 +526,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
 
             return false;
+        } else if (node instanceof PairLiterNode && targetType instanceof PairType) {
+            return true;
         }
         return false;
     }
@@ -1012,7 +1015,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             assignLHSType = assignLHS.getNodeType(symbolTable);
 
-            if(assignLHSType.equals(new PairType())){
+            if(assignLHSType instanceof PairType){
                 PairType pairType = (PairType) assignLHSType;
                 PairElemAsLNode assignLPair = (PairElemAsLNode) assignLHS;
 

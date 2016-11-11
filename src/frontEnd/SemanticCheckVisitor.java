@@ -11,6 +11,7 @@ import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.misc.IntegerList;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 import java.util.ArrayList;
@@ -579,6 +580,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (!(exprR instanceof ExpressionNode)) {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
+
+        if (!(exprL instanceof IntLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof IntLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
         BinaryOpr binaryOpr = BinaryOpr.MULT;
 
         switch (operator) {
@@ -611,7 +621,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (!(exprR instanceof ExpressionNode)) {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
-            BinaryOpr binaryOpr = BinaryOpr.PLUS;
+
+        if (!(exprL instanceof IntLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof IntLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+
+        BinaryOpr binaryOpr = BinaryOpr.PLUS;
 
         switch (operator) {
             case "+":
@@ -633,41 +653,54 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            BinaryOpr binaryOpr = BinaryOpr.GT;
-
-            switch (operator) {
-                case ">":
-                    binaryOpr = BinaryOpr.GT;
-                    break;
-                case ">=":
-                    binaryOpr = BinaryOpr.GTE;
-                    break;
-                case "<":
-                    binaryOpr = BinaryOpr.LT;
-                    break;
-                case "<=":
-                    binaryOpr = BinaryOpr.LTE;
-                    break;
-                default:
-                    System.err.println("Operator not found.");
-            }
-
-            return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if (!(exprL instanceof ExpressionNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            //System.err.println("not instance of expressionNode");
-            //return null;
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
         }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof IntLiterNode && exprL instanceof IntLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof IntLiterNode && exprR instanceof IntLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+
+        BinaryOpr binaryOpr = BinaryOpr.GT;
+
+        switch (operator) {
+            case ">":
+                binaryOpr = BinaryOpr.GT;
+                break;
+            case ">=":
+                binaryOpr = BinaryOpr.GTE;
+                break;
+            case "<":
+                binaryOpr = BinaryOpr.LT;
+                break;
+            case "<=":
+                binaryOpr = BinaryOpr.LTE;
+                break;
+            default:
+                System.err.println("Operator not found.");
+        }
+
+        return new BinaryOprNode(binaryOpr, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
     }
+
 
     @Override
     public ASTNode visitBinary_opCompareLower(@NotNull BasicParser.Binary_opCompareLowerContext ctx) {
         String operator = ctx.binaryOper_CompareLower().getText();
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
+
 
         if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
             BinaryOpr binaryOpr = BinaryOpr.EQ;
@@ -698,15 +731,25 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if (!(exprL instanceof ExpressionNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-            //System.err.println("not instance of expressionNode");
-            //return null;
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
         }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof BoolLiterNode)) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        if (!(exprR instanceof BoolLiterNode)) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
+
     }
 
     @Override
@@ -714,15 +757,24 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode exprL = visit(ctx.exprL);
         ASTNode exprR = visit(ctx.exprR);
 
-        if (exprL instanceof ExpressionNode && exprR instanceof ExpressionNode) {
-            return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);
-        } else if(!(exprL instanceof ExpressionNode)) {
+        if (!(exprL instanceof ExpressionNode)) {
+            return handleError(ctx.exprL, ((ErrorNode)exprL).getErrorType());
+        }
+
+        if (!(exprR instanceof ExpressionNode)) {
+            return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
+        }
+
+
+        if (!(exprL instanceof BoolLiterNode)) {
             return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        } else {
+        }
+
+        if (!(exprR instanceof BoolLiterNode)) {
             return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
-            //System.err.println("not instance of expressionNode");
-            //return null;
+
+        return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);
 
     }
 
@@ -975,6 +1027,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
             if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
                 System.err.println("Incompatible type in target");
+                return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
 
         } catch (SemanticException e){

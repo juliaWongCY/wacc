@@ -10,8 +10,6 @@ import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.misc.IntegerList;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
 import java.util.ArrayList;
@@ -396,19 +394,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             System.err.println("Cannot get condition's type in if statement");
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
-
-//        try{
-//            statIF.getNodeType(symbolTable);
-//        } catch (SemanticException e){
-//            //TODO
-//            System.err.println("Cannot get statIf's type in if statement");
-//        }
-//        try{
-//            statELSE.getNodeType(symbolTable);
-//        } catch (SemanticException e){
-//            //TODO
-//            System.err.println("Cannot get statELSE's type in if statement");
-//        }
 
         return new IfStatNode((ExpressionNode) cond, (StatementNode) statIF, (StatementNode) statELSE);
     }
@@ -1000,7 +985,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         Type retType = identifyType(ctx.type());
         if (retType == null) {
-            //TODO: throw semantic exception
             System.err.println("cannot recognize return type");
             return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
@@ -1018,8 +1002,38 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
+        if (stat instanceof BasicParser.Sequential_statContext) {
+            BasicParser.Return_statContext rctx = getActualRetContext((BasicParser.Sequential_statContext) stat);
+            Type actualRetType;
+            ASTNode node = null;
+            try {
+                node          = visit(rctx.expr());
+                actualRetType = node.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                return handleError(rctx, ((ErrorNode)node).getErrorType());
+            }
+            if (actualRetType.equals(retType)) {
+                return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
+            }
+        }
+
         popSymbolTable();
         return new FunctionNode(retType, functionId, params, (StatementNode) stat);
+    }
+
+    private BasicParser.Return_statContext getActualRetContext(BasicParser.Sequential_statContext stat) {
+        ParserRuleContext ctx = stat;
+        BasicParser.Return_statContext rctx = null;
+        while (ctx instanceof BasicParser.Sequential_statContext) {
+            if (((BasicParser.Sequential_statContext)ctx).stat(1) instanceof BasicParser.Return_statContext) {
+                rctx = (BasicParser.Return_statContext) stat.stat(1);
+            }
+            ctx = ((BasicParser.Sequential_statContext)ctx).stat(0);
+        }
+        if (ctx instanceof BasicParser.Return_statContext) {
+            rctx = (BasicParser.Return_statContext) ctx;
+        }
+        return rctx;
     }
 
     @Override
@@ -1043,16 +1057,17 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode statFst = visit(ctx.stat(0));
         ASTNode statSnd = visit(ctx.stat(1));
 
-        if(statFst instanceof StatementNode){
-            if(statSnd instanceof StatementNode){
+        if (statFst instanceof StatementNode) {
+            if (statSnd instanceof StatementNode) {
                 return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
             } else {
-                return handleError(ctx.stat(1), ((ErrorNode) statSnd).getErrorType());
+                System.err.println("Incompatible type in second sequential statement.");
+                return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         } else {
-            return handleError(ctx.stat(0), ((ErrorNode) statFst).getErrorType());
+            System.err.println("Incompatible type in first sequential statement.");
+            return handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
-
     }
 
     // todo: [DL] changed pairelem so need review here

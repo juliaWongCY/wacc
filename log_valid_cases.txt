@@ -1,30 +1,58 @@
 ================================================
 ./example/valid/advanced/binarySortTree.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 17: 25-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 18: 24-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 4-- Incompatible type 
-Semantic Error detected at line 18: 4-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 19: 11-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 4-- Incompatible type 
-Semantic Error detected at line 19: 4-- Incompatible type 
-Semantic Error detected at line 17: 4-- Incompatible type 
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
+Exception in thread "main" java.lang.NullPointerException
+	at type.PairType.equals(PairType.java:38)
+	at type.PairType.equals(PairType.java:38)
+	at frontEnd.SemanticCheckVisitor.operandsTypeCheck(SemanticCheckVisitor.java:511)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:253)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Declare_statContext.accept(BasicParser.java:1046)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:896)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:155)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/ticTacToe.wacc
 
+Different types in target and assign value
+Semantic Error detected at line 83: 27-- Incompatible type 
+Semantic Error detected at line 84: 30-- Undefined variable 
+Semantic Error detected at line 84: 26-- Undefined variable 
+Semantic Error detected at line 84: 26-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 83: 2-- Incompatible type 
+Semantic Error detected at line 84: 2-- Incompatible type 
+Semantic Error detected at line 85: 30-- Undefined variable 
+Semantic Error detected at line 85: 26-- Undefined variable 
+Semantic Error detected at line 85: 26-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 83: 2-- Incompatible type 
+Semantic Error detected at line 85: 2-- Incompatible type 
+Different types in target and assign value
+Semantic Error detected at line 86: 26-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 83: 2-- Incompatible type 
+Semantic Error detected at line 86: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 83: 2-- Incompatible type 
+Semantic Error detected at line 88: 4-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 83: 2-- Incompatible type 
+Semantic Error detected at line 89: 4-- Incompatible type 
 Semantic Error detected at line 90: 11-- meow meow meow ROFL
 Semantic Error detected at line 90: 11-- meow meow meow ROFL
 Incompatible type in sequential statement.
@@ -64,31 +92,31 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/hashTable.wacc
 
-Semantic Error detected at line 26: 14-- meow meow meow ROFL
-Semantic Error detected at line 26: 14-- meow meow meow ROFL
-Semantic Error detected at line 27: 25-- meow meow meow ROFL
-Semantic Error detected at line 27: 25-- meow meow meow ROFL
+Different types in target and assign value
+Semantic Error detected at line 18: 14-- Incompatible type 
 Incompatible type in sequential statement.
-Semantic Error detected at line 26: 2-- Incompatible type 
-Semantic Error detected at line 27: 2-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 28: 9-- Undefined variable 
+Semantic Error detected at line 18: 3-- Incompatible type 
+Semantic Error detected at line 19: 3-- Incompatible type 
+Semantic Error detected at line 18: 3-- Incompatible type 
 Incompatible type in sequential statement.
-Semantic Error detected at line 26: 2-- Incompatible type 
-Semantic Error detected at line 28: 2-- Incompatible type 
-Semantic Error detected at line 26: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 17: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 21: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
 Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:155)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -324,20 +352,7 @@ Semantic Error detected at line 11: 2-- Incompatible type
 ================================================
 ./example/valid/function/simple_functions/functionReturnPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 11: 23-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 12: 11-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 11: 4-- Incompatible type 
-Semantic Error detected at line 12: 4-- Incompatible type 
-Semantic Error detected at line 11: 4-- Incompatible type 
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.FunctionNode
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:155)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+
 ================================================
 ================================================
 ================================================
@@ -412,7 +427,7 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -447,7 +462,7 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -468,7 +483,7 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -489,7 +504,7 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -519,7 +534,7 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
@@ -540,48 +555,19 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/doubleFrees/hiddenDoubleFree.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 12: 22-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 13: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Cannot get the expressionType in free statement.
-Semantic Error detected at line 14: 7-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Cannot get the expressionType in free statement.
-Semantic Error detected at line 15: 7-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/doubleFrees/doubleFree.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 12: 22-- Incompatible type 
-Cannot get the expressionType in free statement.
-Semantic Error detected at line 13: 7-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Cannot get the expressionType in free statement.
-Semantic Error detected at line 14: 7-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
@@ -671,43 +657,120 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/valid/runtimeErr/nullDereference/freeNull.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 23-- Incompatible type 
+Cannot get the expressionType in free statement.
+Semantic Error detected at line 13: 7-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/setNull2.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 5-- Undefined variable 
+Semantic Error detected at line 13: 1-- Undefined variable 
+Semantic Error detected at line 13: 1-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 1-- Incompatible type 
+Semantic Error detected at line 13: 1-- Incompatible type 
+Semantic Error detected at line 12: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/useNull1.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 13-- Undefined variable 
+Semantic Error detected at line 13: 9-- Undefined variable 
+Semantic Error detected at line 13: 9-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 1-- Incompatible type 
+Semantic Error detected at line 13: 1-- Incompatible type 
+Semantic Error detected at line 12: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/readNull2.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 10-- Undefined variable 
+Semantic Error detected at line 13: 6-- Undefined variable 
+Semantic Error detected at line 13: 6-- Incompatible type 
+should not call getNodeType on errorNode
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitRead_stat(SemanticCheckVisitor.java:963)
+	at frontEnd.SemanticCheckVisitor.visitRead_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Read_statContext.accept(BasicParser.java:1108)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:925)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:166)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/readNull1.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 10-- Undefined variable 
+Semantic Error detected at line 13: 6-- Undefined variable 
+Semantic Error detected at line 13: 6-- Incompatible type 
+should not call getNodeType on errorNode
+Exception in thread "main" java.lang.NullPointerException
+	at frontEnd.SemanticCheckVisitor.visitRead_stat(SemanticCheckVisitor.java:963)
+	at frontEnd.SemanticCheckVisitor.visitRead_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Read_statContext.accept(BasicParser.java:1108)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:925)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:166)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/setNull1.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 5-- Undefined variable 
+Semantic Error detected at line 13: 1-- Undefined variable 
+Semantic Error detected at line 13: 1-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 1-- Incompatible type 
+Semantic Error detected at line 13: 1-- Incompatible type 
+Semantic Error detected at line 12: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/runtimeErr/nullDereference/useNull2.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 12: 20-- Incompatible type 
+Semantic Error detected at line 13: 13-- Undefined variable 
+Semantic Error detected at line 13: 9-- Undefined variable 
+Semantic Error detected at line 13: 9-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 1-- Incompatible type 
+Semantic Error detected at line 13: 1-- Incompatible type 
+Semantic Error detected at line 12: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -785,322 +848,7 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ================================================
 ./example/valid/scope/printAllTypes.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 37: 37-- Incompatible type 
-target pair elements mismatched with assignments
-Semantic Error detected at line 39: 41-- Incompatible type 
-target pair elements mismatched with assignments
-Semantic Error detected at line 40: 41-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 40: 20-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 41: 43-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 41: 20-- Incompatible type 
-target pair elements mismatched with assignments
-Semantic Error detected at line 45: 46-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 45: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 46: 22-- Incompatible type 
-Semantic Error detected at line 49: 36-- Incompatible type 
-Semantic Error detected at line 49: 32-- Incompatible type 
-Semantic Error detected at line 49: 32-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 49: 22-- Incompatible type 
-Semantic Error detected at line 50: 37-- Incompatible type 
-Semantic Error detected at line 50: 33-- Incompatible type 
-Semantic Error detected at line 50: 33-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 50: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 51: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 52: 28-- Undefined variable 
-Semantic Error detected at line 52: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 52: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 53: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 54: 28-- Undefined variable 
-Semantic Error detected at line 54: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 54: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 55: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 56: 28-- Undefined variable 
-Semantic Error detected at line 56: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 56: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 57: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 58: 28-- Undefined variable 
-Semantic Error detected at line 58: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 58: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 59: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 60: 28-- Undefined variable 
-Semantic Error detected at line 60: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 60: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 61: 22-- Incompatible type 
-Semantic error: Identifier not found.
-Semantic Error detected at line 62: 28-- Undefined variable 
-Semantic Error detected at line 62: 28-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 62: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 43: 22-- Incompatible type 
-Semantic Error detected at line 63: 22-- Incompatible type 
-Semantic Error detected at line 43: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 42: 20-- Incompatible type 
-Different types in target and assign value
-Semantic Error detected at line 65: 41-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 65: 20-- Incompatible type 
-Semantic Error detected at line 66: 34-- Undefined variable 
-Semantic Error detected at line 66: 30-- Undefined variable 
-Semantic Error detected at line 66: 30-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 66: 20-- Incompatible type 
-Semantic Error detected at line 67: 34-- Undefined variable 
-Semantic Error detected at line 67: 30-- Undefined variable 
-Semantic Error detected at line 67: 30-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 67: 20-- Incompatible type 
-Different types in target and assign value
-Semantic Error detected at line 68: 41-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 68: 20-- Incompatible type 
-Semantic Error detected at line 69: 34-- Undefined variable 
-Semantic Error detected at line 69: 30-- Undefined variable 
-Semantic Error detected at line 69: 30-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 69: 20-- Incompatible type 
-Semantic Error detected at line 70: 34-- Undefined variable 
-Semantic Error detected at line 70: 30-- Undefined variable 
-Semantic Error detected at line 70: 30-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 70: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 71: 20-- Incompatible type 
-Semantic Error detected at line 72: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 72: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 73: 20-- Incompatible type 
-Semantic Error detected at line 74: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 74: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 75: 20-- Incompatible type 
-Semantic Error detected at line 76: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 76: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 77: 20-- Incompatible type 
-Semantic Error detected at line 78: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 78: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 79: 20-- Incompatible type 
-Semantic Error detected at line 80: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 80: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 81: 20-- Incompatible type 
-Semantic Error detected at line 82: 26-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 82: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 39: 20-- Incompatible type 
-Semantic Error detected at line 83: 20-- Incompatible type 
-Semantic Error detected at line 39: 20-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 38: 18-- Incompatible type 
-Semantic Error detected at line 85: 30-- Incompatible type 
-Semantic Error detected at line 85: 26-- Incompatible type 
-Semantic Error detected at line 85: 26-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 85: 18-- Incompatible type 
-Semantic Error detected at line 86: 30-- Incompatible type 
-Semantic Error detected at line 86: 26-- Incompatible type 
-Semantic Error detected at line 86: 26-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 86: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 87: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 88: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 37: 18-- Incompatible type 
-Semantic Error detected at line 89: 18-- Incompatible type 
-Semantic Error detected at line 37: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 36: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 91: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 92: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 93: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 94: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 95: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 96: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 97: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 35: 16-- Incompatible type 
-Semantic Error detected at line 98: 16-- Incompatible type 
-Semantic Error detected at line 35: 16-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 34: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 100: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 101: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 102: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 103: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 33: 14-- Incompatible type 
-Semantic Error detected at line 104: 14-- Incompatible type 
-Semantic Error detected at line 33: 14-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 31: 12-- Incompatible type 
-Semantic Error detected at line 32: 12-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 31: 12-- Incompatible type 
-Semantic Error detected at line 106: 12-- Incompatible type 
-Semantic Error detected at line 31: 12-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 30: 10-- Incompatible type 
-Different types in target and assign value
-Semantic Error detected at line 108: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 108: 10-- Incompatible type 
-Different types in target and assign value
-Semantic Error detected at line 109: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 109: 10-- Incompatible type 
-Different types in target and assign value
-Semantic Error detected at line 110: 18-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 110: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 111: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 112: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 113: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 114: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 29: 10-- Incompatible type 
-Semantic Error detected at line 115: 10-- Incompatible type 
-Semantic Error detected at line 29: 10-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 27: 8-- Incompatible type 
-Semantic Error detected at line 28: 8-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 27: 8-- Incompatible type 
-Semantic Error detected at line 117: 8-- Incompatible type 
-Semantic Error detected at line 27: 8-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 25: 6-- Incompatible type 
-Semantic Error detected at line 26: 6-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 25: 6-- Incompatible type 
-Semantic Error detected at line 119: 6-- Incompatible type 
-Semantic Error detected at line 25: 6-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 23: 4-- Incompatible type 
-Semantic Error detected at line 24: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 23: 4-- Incompatible type 
-Semantic Error detected at line 121: 4-- Incompatible type 
-Semantic Error detected at line 23: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 20: 2-- Incompatible type 
-Semantic Error detected at line 22: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 20: 2-- Incompatible type 
-Semantic Error detected at line 123: 2-- Incompatible type 
-Semantic Error detected at line 20: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
@@ -1400,354 +1148,163 @@ line 9:11 extraneous input '+2' expecting {';', 'end', '+', '-', '*', '/', '%', 
 ================================================
 ./example/valid/pairs/null.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 10: 23-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 11: 2-- Incompatible type 
+Cannot get target type in assign statement.
+Semantic Error detected at line 12: 2-- Undefined variable 
+Incompatible type in sequential statement.
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 10: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/printNullPair.wacc
 
-
+Different types in target and assign value
+Semantic Error detected at line 9: 23-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 9: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/writeFst.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 10: 22-- Incompatible type 
-Semantic Error detected at line 11: 14-- Undefined variable 
-Semantic Error detected at line 11: 10-- Undefined variable 
-Semantic Error detected at line 11: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 6-- Undefined variable 
-Semantic Error detected at line 13: 2-- Undefined variable 
-Semantic Error detected at line 13: 2-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 14: 10-- Undefined variable 
-Semantic Error detected at line 14: 6-- Undefined variable 
-Semantic Error detected at line 14: 6-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/free.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 22-- Incompatible type 
-Cannot get the expressionType in free statement.
-Semantic Error detected at line 10: 7-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/createRefPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 22-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 10: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/createPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 21-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/readPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 12: 21-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 13: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 14: 3-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
-Semantic Error detected at line 16: 7-- Undefined variable 
-Semantic Error detected at line 16: 3-- Undefined variable 
-Semantic Error detected at line 16: 3-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 16: 3-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 17: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 18: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 19: 1-- Incompatible type 
-Semantic Error detected at line 20: 5-- Undefined variable 
-Semantic Error detected at line 20: 1-- Undefined variable 
-Semantic Error detected at line 20: 1-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 20: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 22: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 23: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 24: 1-- Incompatible type 
-Semantic Error detected at line 25: 9-- Undefined variable 
-Semantic Error detected at line 25: 5-- Undefined variable 
-Semantic Error detected at line 25: 5-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 25: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 26: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 27: 1-- Incompatible type 
-Semantic Error detected at line 28: 9-- Undefined variable 
-Semantic Error detected at line 28: 5-- Undefined variable 
-Semantic Error detected at line 28: 5-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 28: 1-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 29: 1-- Incompatible type 
-Semantic Error detected at line 12: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/printPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 22-- Incompatible type 
-Semantic Error detected at line 10: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 12: 14-- Undefined variable 
-Semantic Error detected at line 12: 10-- Undefined variable 
-Semantic Error detected at line 12: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 15: 15-- Undefined variable 
-Semantic Error detected at line 15: 11-- Undefined variable 
-Semantic Error detected at line 15: 11-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 16: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/writeSnd.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 10: 22-- Incompatible type 
-Semantic Error detected at line 11: 15-- Undefined variable 
-Semantic Error detected at line 11: 11-- Undefined variable 
-Semantic Error detected at line 11: 11-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 6-- Undefined variable 
-Semantic Error detected at line 13: 2-- Undefined variable 
-Semantic Error detected at line 13: 2-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 14: 10-- Undefined variable 
-Semantic Error detected at line 14: 6-- Undefined variable 
-Semantic Error detected at line 14: 6-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/checkRefPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 17: 22-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 18: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 18: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 19: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 20: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 21: 2-- Incompatible type 
-Semantic Error detected at line 22: 14-- Undefined variable 
-Semantic Error detected at line 22: 10-- Undefined variable 
-Semantic Error detected at line 22: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 22: 2-- Incompatible type 
-Semantic Error detected at line 23: 14-- Undefined variable 
-Semantic Error detected at line 23: 10-- Undefined variable 
-Semantic Error detected at line 23: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 23: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 24: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 25: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 26: 2-- Incompatible type 
-Semantic Error detected at line 27: 16-- Undefined variable 
-Semantic Error detected at line 27: 12-- Undefined variable 
-Semantic Error detected at line 27: 12-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 27: 2-- Incompatible type 
-Semantic Error detected at line 28: 16-- Undefined variable 
-Semantic Error detected at line 28: 12-- Undefined variable 
-Semantic Error detected at line 28: 12-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 28: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 29: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 30: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 31: 2-- Incompatible type 
-Semantic Error detected at line 17: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/createPair02.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 23-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/printPairOfNulls.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 23-- Incompatible type 
-Semantic Error detected at line 10: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 12: 27-- Undefined variable 
-Semantic Error detected at line 12: 23-- Undefined variable 
-Semantic Error detected at line 12: 23-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 13: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 15: 26-- Undefined variable 
-Semantic Error detected at line 15: 22-- Undefined variable 
-Semantic Error detected at line 15: 22-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 16: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 17: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+Exception in thread "main" java.lang.NullPointerException
+	at type.PairType.equals(PairType.java:38)
+	at type.PairType.equals(PairType.java:38)
+	at frontEnd.SemanticCheckVisitor.operandsTypeCheck(SemanticCheckVisitor.java:511)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:253)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Declare_statContext.accept(BasicParser.java:1046)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:166)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/nestedPair.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 21-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 10: 22-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+Exception in thread "main" java.lang.NullPointerException
+	at type.PairType.equals(PairType.java:38)
+	at type.PairType.equals(PairType.java:39)
+	at frontEnd.SemanticCheckVisitor.operandsTypeCheck(SemanticCheckVisitor.java:511)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:253)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Declare_statContext.accept(BasicParser.java:1046)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:925)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:166)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================
 ./example/valid/pairs/createPair03.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 22-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
@@ -1759,77 +1316,63 @@ Semantic Error detected at line 9: 2-- Incompatible type
 ================================================
 ./example/valid/pairs/linkedList.wacc
 
-target pair elements mismatched with assignments
-Semantic Error detected at line 9: 22-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 10: 24-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 10: 4-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 11: 24-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 11: 4-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 12: 24-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 12: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 13: 4-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 14: 24-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 14: 4-- Incompatible type 
-Semantic Error detected at line 15: 28-- Undefined variable 
-Semantic Error detected at line 15: 24-- Undefined variable 
-Semantic Error detected at line 15: 24-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 15: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 16: 4-- Incompatible type 
-Semantic Error detected at line 18: 14-- Undefined variable 
-Semantic Error detected at line 18: 10-- Undefined variable 
-Semantic Error detected at line 18: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 18: 6-- Incompatible type 
-Semantic Error detected at line 19: 6-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 18: 6-- Incompatible type 
-Semantic Error detected at line 20: 6-- Incompatible type 
-Cannot get target type in assign statement.
-Semantic Error detected at line 21: 6-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 18: 6-- Incompatible type 
-Semantic Error detected at line 21: 6-- Incompatible type 
-Semantic Error detected at line 22: 14-- Undefined variable 
-Semantic Error detected at line 22: 10-- Undefined variable 
-Semantic Error detected at line 22: 10-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 18: 6-- Incompatible type 
-Semantic Error detected at line 22: 6-- Incompatible type 
-Semantic Error detected at line 18: 6-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 17: 4-- Incompatible type 
-Semantic Error detected at line 24: 12-- Undefined variable 
-Semantic Error detected at line 24: 8-- Undefined variable 
-Semantic Error detected at line 24: 8-- Undefined variable 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 24: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 25: 4-- Incompatible type 
-Incompatible type in sequential statement.
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 26: 4-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+Exception in thread "main" java.lang.NullPointerException
+	at type.PairType.equals(PairType.java:38)
+	at type.PairType.equals(PairType.java:39)
+	at frontEnd.SemanticCheckVisitor.operandsTypeCheck(SemanticCheckVisitor.java:511)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:253)
+	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Declare_statContext.accept(BasicParser.java:1046)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:924)
+	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:166)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:56)
 ================================================
 ================================================
 ================================================

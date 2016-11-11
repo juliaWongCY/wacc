@@ -887,7 +887,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (retType == null) {
             //TODO: throw semantic exception
             System.err.println("cannot recognize return type");
-            return null;
+            return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
         IdentNode functionId = new IdentNode(ctx.IDENT().getText());
         ParamListNode params = null;
@@ -897,30 +897,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 params = (ParamListNode) node;
             }
         }
-        StatementNode stat = null;
-        ASTNode s = visit(ctx.stat());
+        ASTNode stat = visit(ctx.stat());
 
-        if (s instanceof StatementNode) {
-            if (s instanceof SequentialStatNode
-                    && (((SequentialStatNode)s).getSndStat() instanceof ExitStatNode
-                        || ((SequentialStatNode)s).getSndStat() instanceof ReturnStatNode)) {
-                stat = (StatementNode) s;
-            } else {
-                if (s instanceof ExitStatNode || s instanceof ReturnStatNode) {
-                    stat = (StatementNode) s;
-                }
-            }
+        if (!(stat instanceof StatementNode)) {
+            return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        /*
-        if (stat == null) {
-            System.err.println("function not end with return or exit statement");
-            return null;
-
-        }
- */
         popSymbolTable();
-        return new FunctionNode(retType, functionId, params, stat);
+        return new FunctionNode(retType, functionId, params, (StatementNode) stat);
     }
 
     @Override
@@ -933,7 +917,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 params.add((ParamNode) node);
             } else {
                 System.err.println("Incompatible type : non paramNode returned from param context");
-                return null;
+                return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         }
         return new ParamListNode(params);

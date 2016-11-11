@@ -18,6 +18,7 @@ import java.util.List;
 
 public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
+    private boolean hasSemanticError = false;
     private SymbolTable symbolTable = null;
 
     public SemanticCheckVisitor(SymbolTable symbolTable) {
@@ -28,7 +29,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitAssignr_arrayliter(@NotNull BasicParser.Assignr_arrayliterContext ctx) {
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
-
 
         for (BasicParser.ExprContext ectx : ectxs) {
             ASTNode node = visit(ectx);
@@ -1216,19 +1216,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     
     private void handleEAError(int line, int charIndex, ErrorHandle errorType, Type exp, Type act){
+        hasSemanticError = true;
         String errorMSG = errorType.getErrorMsg();
-        System.out.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG
+        System.err.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG
                             + "(expected: " + exp + ")"
                             + "(actual: " + act + ")");
 
     }
 
     private void handleError(int line, int charIndex, ErrorHandle errorType){
+        hasSemanticError = true;
         String errorMSG = errorType.getErrorMsg();
-        System.out.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG);
+        System.err.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG);
     }
 
-
+    public boolean isHasSemanticError() {
+        return hasSemanticError;
+    }
 
     private void newSymbolTable() {
         SymbolTable st = new SymbolTable(symbolTable);

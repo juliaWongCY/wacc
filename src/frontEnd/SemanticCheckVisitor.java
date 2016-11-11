@@ -863,7 +863,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if(!(exprType instanceof PairType)){
+        if(!((exprType instanceof PairType) || (exprType instanceof ArrayType))) {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             //System.err.println("Free is used to free the heap memory for pairType");
         }
@@ -1021,13 +1021,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
 
                 if(!(elemType.equals(new IntType()) || elemType.equals(new CharType()))) {
-                    System.err.println("Incompatible type -- The read statement can only handle character or integer input.");
+//                    System.err.println("Incompatible type -- The read statement can only handle character or integer input.");
+                    return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
                 }
             }
 
             if (!(assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType()))) {
-                System.err.println("Incompatible type in target");
+//                System.err.println("Incompatible type in target");
                 return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+
+
             }
 
         } catch (SemanticException e){
@@ -1081,12 +1084,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                         }
                     } else {
                         System.err.println("number of params and number of args mismatched");
+                        return handleError(actx, ErrorHandle.ERRORTYPE_INCORRECT_NUM_PARAM);
                     }
                 } else {
                     System.err.println("non argListNode found");
+
                 }
             } else {
                 System.err.println("non function type returned from function symbol type");
+                return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
             }
         } catch (SemanticException e) {
             return handleError(ctx, ErrorHandle.ROFL);
@@ -1102,9 +1108,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (fst instanceof ExpressionNode && snd instanceof ExpressionNode) {
             return new NewPairAsRNode((ExpressionNode) fst, (ExpressionNode) snd);
         } else if (!(fst instanceof ExpressionNode)){
-             return handleError(ctx.expr(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+             return handleError(ctx.expr(0), ((ErrorNode)fst).getErrorType());
         } else {
-            return handleError(ctx.expr(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.expr(1), ((ErrorNode)snd).getErrorType());
             //System.err.println("Incompatible type -- not both pair elem instance of expressionNode");
             //return null;
         }

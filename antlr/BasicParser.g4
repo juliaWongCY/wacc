@@ -21,6 +21,9 @@ binaryOper_CompareHigher: GT | GTE | LT | LTE ;
 
 binaryOper_CompareLower: EQ | NEQ ;
 
+sign : (MINUS|PLUS) ;
+intliter : sign? INTEGER;
+
 paramList: param ( COMMA param )*;
 
 param : type IDENT;

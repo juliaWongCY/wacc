@@ -44,6 +44,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdent(@NotNull BasicParser.IdentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BasicParser#sign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSign(@NotNull BasicParser.SignContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BasicParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -150,6 +156,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnary_op(@NotNull BasicParser.Unary_opContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BasicParser#intliter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntliter(@NotNull BasicParser.IntliterContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code assignr_arrayliter}
 	 * labeled alternative in {@link BasicParser#assignRHS}.

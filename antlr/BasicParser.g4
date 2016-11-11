@@ -5,41 +5,43 @@ options {
 }
 
 
-argList : expr ( COMMA expr )* ;
+argList : expr ( COMMA expr )*;
 
-arrayLiter : OPEN_SQPARENTHESES ( expr ( COMMA expr )* )? CLOSE_SQPARENTHESES ;
+arrayLiter : OPEN_SQPARENTHESES ( expr ( COMMA expr )* )? CLOSE_SQPARENTHESES;
 
-arrayElem : name=IDENT (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+ ;
+arrayElem : name=IDENT (OPEN_SQPARENTHESES expr CLOSE_SQPARENTHESES)+;
 
-pairElem : FST expr | SND expr ;
+pairElem : FST expr | SND expr;
 
-binaryOper_IntHigher : MULT | DIV | MOD ;
+binaryOper_IntHigher : MULT | DIV | MOD;
 
-binaryOper_IntLower: PLUS | MINUS ;
+binaryOper_IntLower: PLUS | MINUS;
 
-binaryOper_CompareHigher: GT | GTE | LT | LTE ;
+binaryOper_CompareHigher: GT | GTE | LT | LTE;
 
-binaryOper_CompareLower: EQ | NEQ ;
+binaryOper_CompareLower: EQ | NEQ;
 
-sign : (MINUS|PLUS) ;
+sign : (MINUS|PLUS);
+
 intliter : sign? INTEGER;
 
 paramList: param ( COMMA param )*;
 
 param : type IDENT;
 
-pairType : PAIR OPEN_PARENTHESES pairElemType COMMA pairElemType CLOSE_PARENTHESES ;
+pairType : PAIR OPEN_PARENTHESES pairElemType COMMA pairElemType CLOSE_PARENTHESES;
 
-pairElemType : baseType | arrayType | PAIR ;
+pairElemType : baseType | arrayType | PAIR;
 
-arrayType : (baseType | pairType) (OPEN_SQPARENTHESES CLOSE_SQPARENTHESES)+ ;
+arrayType : (baseType | pairType) (OPEN_SQPARENTHESES CLOSE_SQPARENTHESES)+;
 
-baseType : INT | BOOL | CHAR | STRING ;
+baseType : INT | BOOL | CHAR | STRING;
 
+
+// EOF indicates that the program must consume to the end of the input.
 program : BEGIN (func)* stat END EOF;
 
 func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
-
 
 stat : SKIP_                        #skip_stat
 | type IDENT ASSIGN assignRHS       #declare_stat
@@ -85,7 +87,7 @@ expr : intliter                                   #int_liter
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES         #paren_expr
 ;
 
-unaryOper : NOT   expr #uary_opNot
+unaryOper : NOT expr #uary_opNot
 | MINUS expr #unary_opNeg
 | LEN   expr #unary_opLen
 | ORD   expr #unary_opOrd
@@ -97,7 +99,3 @@ type : baseType
 | pairType
 ;
 
-
-
-// EOF indicates that the program must consume to the end of the input.
-//prog: (expr)*  EOF ;

@@ -11,7 +11,6 @@ public class SkipStatNode implements StatementNode {
 
     }
 
-
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         StatementType stat = new StatementType();

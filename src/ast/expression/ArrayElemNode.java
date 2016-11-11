@@ -4,7 +4,6 @@ import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
 import type.Type;
-
 import java.util.List;
 
 public class ArrayElemNode implements ExpressionNode {
@@ -25,7 +24,6 @@ public class ArrayElemNode implements ExpressionNode {
             type = ((ArrayType) type).getElemType();
             counter--;
         }
-
         return type;
     }
 }

@@ -14,12 +14,11 @@ public class ReturnStatNode implements StatementNode {
         this.expr = expr;
     }
 
-    //The type of the expression given to the return statement must match
-    // the return type of the function
+    /*The type of the expression given to the return statement must match
+     the return type of the function */
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
 
-        //return expr.getNodeType(st);
         StatementType stat = new StatementType();
         return stat.getType();
     }

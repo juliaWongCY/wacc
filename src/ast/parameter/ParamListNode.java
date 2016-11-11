@@ -16,6 +16,7 @@ public class ParamListNode implements ASTNode{
         this.params = params;
     }
 
+    //This function will be useful for backend
     public List<ParamNode> getParams() {
         return params;
     }

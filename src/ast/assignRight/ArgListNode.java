@@ -4,7 +4,6 @@ import ast.expression.ExpressionNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
 import java.util.ArrayList;
 import java.util.List;
 

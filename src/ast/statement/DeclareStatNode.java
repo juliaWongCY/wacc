@@ -36,20 +36,7 @@ public class DeclareStatNode implements StatementNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        //to check the lhs type is the same as the rhs
 
-        /*
-        Type t;
-        try{
-            t = assignRightNode.getNodeType(st);
-        } catch (SemanticException e){
-            throw new SemanticException("Type of LHS must be same as RHS's type");
-        }
-
-        if(!type.equals(t)){
-            throw new SemanticException("Type of LHS must be same as RHS's type.");
-        }
-        */
         StatementType stat = new StatementType();
         return stat.getType();
     }

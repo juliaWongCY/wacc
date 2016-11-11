@@ -57,13 +57,14 @@ public class PairType extends Type {
     @Override
     public boolean equals(Object obj) {
         boolean isEqual =  super.equals(obj);
-        if (isLiter)
-        if (isEqual) {
-            PairType t = (PairType)obj;
-            isEqual = ((getFstExprType() instanceof PairType && t.getFstExprType() instanceof PairType)
-                    || getFstExprType().equals(t.getFstExprType()))
-                    && ((getSndExprType() instanceof PairType && t.getSndExprType() instanceof PairType)
-                    || getSndExprType().equals(t.getSndExprType()));
+        if (isLiter) {
+            if (isEqual) {
+                PairType t = (PairType)obj;
+                isEqual = ((getFstExprType() instanceof PairType && t.getFstExprType() instanceof PairType)
+                        || getFstExprType().equals(t.getFstExprType()))
+                        && ((getSndExprType() instanceof PairType && t.getSndExprType() instanceof PairType)
+                        || getSndExprType().equals(t.getSndExprType()));
+            }
         }
         return isEqual;
     }

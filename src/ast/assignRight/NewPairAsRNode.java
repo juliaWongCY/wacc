@@ -8,10 +8,6 @@ import type.Type;
 
 public class NewPairAsRNode implements AssignRightNode {
 
-
-    //Not sure if it is PairElemType or ExpressionNode
-    //It should be ExpressionNode since NewPairAsRNode initialises a pair
-    // [DL] this should be a "constructor/assignment" of a pair type variable
     private ExpressionNode fst;
     private ExpressionNode snd;
 
@@ -24,7 +20,7 @@ public class NewPairAsRNode implements AssignRightNode {
         try {
             return fst.getNodeType(st);
         } catch (SemanticException e) {
-            throw new SemanticException("Failed to get frst expression's type.");
+            throw new SemanticException("Failed to get first expression's type.");
         }
     }
 
@@ -32,7 +28,7 @@ public class NewPairAsRNode implements AssignRightNode {
         try {
             return snd.getNodeType(st);
         } catch (SemanticException e) {
-            throw new SemanticException("Failed to get frst expression's type.");
+            throw new SemanticException("Failed to get second expression's type.");
         }
     }
     @Override

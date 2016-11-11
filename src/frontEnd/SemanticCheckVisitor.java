@@ -1,7 +1,6 @@
 package frontEnd;
 
 import errorHandling.ErrorHandle;
-import errorHandling.ErrorType;
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
 import ast.*;
@@ -23,7 +22,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     private SymbolTable symbolTable = null;
 
     public SemanticCheckVisitor(SymbolTable symbolTable) {
-
     }
 
     @Override
@@ -31,33 +29,40 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         List<BasicParser.ExprContext> ectxs = ctx.arrayLiter().expr();
         List<ExpressionNode> elements = new ArrayList<>();
 
+        if (ectxs == null) {
+            return new ArrayLiterAsRNode();
+        }
+
         for (BasicParser.ExprContext ectx : ectxs) {
             ASTNode node = visit(ectx);
             if (node instanceof ExpressionNode) {
                 elements.add((ExpressionNode) node);
             } else {
-                handleError(ectx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+                return handleError(ectx, ((ErrorNode) node).getErrorType());
             }
         }
-        return new ArrayLiterAsRNode(elements); //TODO: [DL] need to check if WACC allows [int[], bool[], char[]]
+
+        return new ArrayLiterAsRNode(elements);
     }
 
     @Override
     public ASTNode visitArgList(@NotNull BasicParser.ArgListContext ctx) {
         List<BasicParser.ExprContext> ectx = ctx.expr();
         List<ExpressionNode> exprs = new ArrayList<>();
+
         for (BasicParser.ExprContext context : ectx) {
             ASTNode node = visit(context);
             if (node instanceof ExpressionNode) {
                 exprs.add((ExpressionNode) node);
             } else {
-                handleError(context, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+                return handleError(context, ((ErrorNode) node).getErrorType());
             }
         }
+
         return new ArgListNode(exprs);
     }
 
-    //Maybe not used
+    // not used since visitAssignr_arrayliter get the array elements while its own context
     @Override
     public ASTNode visitArrayLiter(@NotNull BasicParser.ArrayLiterContext ctx) {
         return super.visitArrayLiter(ctx);
@@ -74,15 +79,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode expr = visit(ctx.expr());
 
         if(!(expr instanceof ExpressionNode)){
-            handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx, ((ErrorNode)expr).getErrorType());
         }
 
-        try{
-            expr.getNodeType(symbolTable);
-        } catch (SemanticException e){
-            //TODO:
-            System.err.println("Cannot get expression's type in println statement");
-        }
+//        try{
+//            expr.getNodeType(symbolTable);
+//        } catch (SemanticException e){
+//            //TODO:
+//            System.err.println("Cannot get expression's type in println statement");
+//        }
         return new PrintlnStatNode((ExpressionNode) expr);
 
     }
@@ -94,21 +99,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode stat = visit(ctx.stat());
 
         if( !(stat.equals(new StatementType()))){
-            handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
         }
 
-        try{
-            stat.getNodeType(symbolTable);
-        } catch (SemanticException s){
-            //TODO:
-            System.err.println("Cannot get statement's type in scope statement.");
-        }
-
-        if (symbolTable.getParent() != null) {
-            symbolTable = symbolTable.getParent();
-        } else {
-            System.err.println("error in finding symbol table parent");
-        }
+//        try{
+//            stat.getNodeType(symbolTable);
+//        } catch (SemanticException s){
+//            //TODO:
+//            System.err.println("Cannot get statement's type in scope statement.");
+//        }
 
         popSymbolTable();
         return new ScopingStatNode((StatementNode) stat);
@@ -1122,7 +1121,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     
-    private void handleEAError(ParserRuleContext ctx, ErrorHandle errorType, Type exp, Type act){
+    private ASTNode handleEAError(ParserRuleContext ctx, ErrorHandle errorType, Type exp, Type act){
         hasSemanticError = true;
         String errorMSG = errorType.getErrorMsg();
         int line = ctx.start.getLine();
@@ -1130,15 +1129,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         System.err.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG
                             + "(expected: " + exp + ")"
                             + "(actual: " + act + ")");
-
+        return new ErrorNode(errorType);
     }
 
-    private void handleError(ParserRuleContext ctx, ErrorHandle errorType){
+    private ASTNode handleError(ParserRuleContext ctx, ErrorHandle errorType){
         hasSemanticError = true;
         String errorMSG = errorType.getErrorMsg();
         int line = ctx.start.getLine();
         int charIndex = ctx.start.getCharPositionInLine();
         System.err.println("Semantic Error detected at line " + line + ": " + charIndex + "-- " + errorMSG);
+        return new ErrorNode(errorType);
     }
 
     public boolean isHasSemanticError() {

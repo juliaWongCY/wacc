@@ -13,6 +13,6 @@ public class PairLiterNode implements ExpressionNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        return new PairType(null, null);
+        return new PairType(true);
     }
 }

@@ -70,10 +70,11 @@ CLOSE_SQPARENTHESES : ']' ;
 
 
 //numbers
-fragment DIGIT : '0'..'9' ;
-fragment SIGN : '+' | '-' ;
 
-INTEGER: (SIGN)? DIGIT+ ;
+
+fragment DIGIT : '0'..'9' ;
+
+INTEGER: DIGIT+ ;
 
 
 //character

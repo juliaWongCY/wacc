@@ -153,9 +153,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try {
             for (BasicParser.FuncContext f : functions) {
                 fctx = f;
-                FunctionNode fn = (FunctionNode) visitFunc(f);
-                symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
-                programNode.addFunction(fn);
+                FunctionNode fn;
+                ASTNode node = visitFunc(f);
+                if (node instanceof FunctionNode) {
+                    fn = (FunctionNode) node;
+                    symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
+                    programNode.addFunction(fn);
+                } else {
+                    handleError(fctx, ((ErrorNode)node).getErrorType());
+                }
             }
         } catch (SemanticException e) {
             return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);

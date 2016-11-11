@@ -151,24 +151,29 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         // populate the list of function nodes in program node
         BasicParser.FuncContext fctx = null;
-        try {
+//        try {
+            for (BasicParser.FuncContext f : functions) {
+                if (!registerFunc(f)) {
+                    return handleError(f, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
+                }
+            }
             for (BasicParser.FuncContext f : functions) {
                 fctx = f;
                 FunctionNode fn;
                 ASTNode node = visitFunc(f);
                 if (node instanceof FunctionNode) {
                     fn = (FunctionNode) node;
-                    symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
+//                    symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
                     programNode.addFunction(fn);
                 } else {
                     handleError(fctx, ((ErrorNode)node).getErrorType());
                 }
             }
-        } catch (SemanticException e) {
-            return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
-            //TODO: what error??
-           // System.err.println("Cannot add function to symbol table");
-        }
+//        } catch (SemanticException e) {
+//            return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
+//            //TODO: what error??
+//           // System.err.println("Cannot add function to symbol table");
+//        }
 
         // set program node's statement node
         ASTNode statementNode = visit(statement);
@@ -971,34 +976,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
-        newSymbolTable();
-
-        Type retType = identifyType(ctx.type());
-        if (retType == null) {
-            System.err.println("cannot recognize return type");
-            return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        FunctionType fType;
+        try {
+            fType = (FunctionType) symbolTable.lookUpFunction(ctx.IDENT().getText());
+        } catch (SemanticException e) {
+            return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
         }
         IdentNode functionId = new IdentNode(ctx.IDENT().getText());
-        ParamListNode params = null;
-        if (ctx.paramList() == null) {
-            try {
-                symbolTable.addFunction(functionId.getId(), new FunctionType(retType));
-            } catch (SemanticException e) {
-                System.err.println("should not reach this");
-                return null;
-            }
-        } else {
-            ASTNode node = visit(ctx.paramList());
-            if (node instanceof ParamListNode) {
-                params = (ParamListNode) node;
-            }
-            try {
-                symbolTable.addFunction(functionId.getId(), new FunctionType(retType, params.getNodeTypes(symbolTable)));
-            } catch (SemanticException e) {
-                return handleError(ctx.paramList(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
-            }
-        }
 
+        newSymbolTable();
         ASTNode stat = visit(ctx.stat());
 
         if (!(stat instanceof StatementNode)) {
@@ -1015,13 +1001,52 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             popSymbolTable();
             return handleError(rctx, ((ErrorNode)node).getErrorType());
         }
-        if (!actualRetType.equals(retType)) {
+        if (!actualRetType.equals(fType.getType())) {
             popSymbolTable();
-            return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
+            return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, fType.getReturnType(), actualRetType);
         }
 
         popSymbolTable();
-        return new FunctionNode(retType, functionId, params, (StatementNode) stat);
+        ParamListNode params = null;
+        if (fType.getParams() != null) {
+            try {
+                params = (ParamListNode) visit(ctx.paramList());
+            } catch (ClassCastException e) {
+                return handleError(ctx.paramList(), (((ErrorNode)visit(ctx.paramList())).getErrorType()));
+            }
+        }
+        return new FunctionNode(fType.getReturnType(),functionId, params, (StatementNode) stat);
+    }
+
+    public boolean registerFunc(@NotNull BasicParser.FuncContext ctx) {
+        Type retType = identifyType(ctx.type());
+        if (retType == null) {
+            System.err.println("cannot recognize return type");
+//            return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return false;
+        }
+        IdentNode functionId = new IdentNode(ctx.IDENT().getText());
+        ParamListNode params = null;
+        if (ctx.paramList() == null) {
+            try {
+                symbolTable.addFunction(functionId.getId(), new FunctionType(retType));
+                return true;
+            } catch (SemanticException e) {
+                System.err.println("should not reach this");
+                return false;
+            }
+        } else {
+            ASTNode node = visit(ctx.paramList());
+            if (node instanceof ParamListNode) {
+                params = (ParamListNode) node;
+            }
+            try {
+                symbolTable.addFunction(functionId.getId(), new FunctionType(retType, params.getNodeTypes(symbolTable)));
+                return true;
+            } catch (SemanticException e) {
+                return false;
+            }
+        }
     }
 
     private BasicParser.Return_statContext getActualRetContext(ParserRuleContext ctx) {

@@ -9,17 +9,10 @@ Semantic Error detected at line 12: 2-- Incompatible type
 ./example/invalid/semanticErr/exit/exitNonInt.wacc
 
 Semantic Error detected at line 13: 7-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -57,29 +50,21 @@ Semantic Error detected at line 12: 2-- Incompatible type
 
 target pair elements mismatched with assignments
 Semantic Error detected at line 12: 20-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+target pair elements mismatched with assignments
+Semantic Error detected at line 14: 20-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 16: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -109,18 +94,9 @@ Semantic Error detected at line 16: 2-- Incompatible type
 
 Cannot get assignment type in assign statement.
 Semantic Error detected at line 13: 13-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:901)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:161)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 13: 4-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -128,17 +104,10 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 
 Different types in target and assign value
 Semantic Error detected at line 15: 10-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 15: 1-- Incompatible type 
+Semantic Error detected at line 16: 1-- Incompatible type 
+Semantic Error detected at line 15: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -158,17 +127,10 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 
 Semantic Error detected at line 15: 16-- Incorrect number of parameters 
 Semantic Error detected at line 15: 9-- Incorrect number of parameters 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 15: 1-- Incompatible type 
+Semantic Error detected at line 16: 1-- Incompatible type 
+Semantic Error detected at line 15: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -188,17 +150,10 @@ Semantic Error detected at line 15: 2-- Duplicated function name in the same sco
 
 Semantic Error detected at line 15: 16-- Incorrect number of parameters 
 Semantic Error detected at line 15: 9-- Incorrect number of parameters 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 15: 1-- Incompatible type 
+Semantic Error detected at line 16: 1-- Incompatible type 
+Semantic Error detected at line 15: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -206,18 +161,9 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 
 Cannot get target type in assign statement.
 Semantic Error detected at line 13: 8-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:901)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:161)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 13: 4-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -238,18 +184,9 @@ Incompatible type in target
 
 Cannot get target type in assign statement.
 Semantic Error detected at line 13: 8-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:901)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:161)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 13: 4-- Incompatible type 
+Semantic Error detected at line 14: 4-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -267,21 +204,10 @@ Cannot get assignment type in assign statement.
 Semantic Error detected at line 13: 10-- Incompatible type 
 Cannot get exitCode's type in exit stat.
 Semantic Error detected at line 14: 7-- Incompatible type 
+Incompatible type in sequential statement.
 Semantic Error detected at line 13: 2-- Incompatible type 
 Semantic Error detected at line 14: 2-- Incompatible type 
-Incompatible type in sequential statement.
-should not call getNodeType on errorNode
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Semantic Error detected at line 13: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -297,46 +223,28 @@ Different types in target and assign value
 Semantic Error detected at line 12: 10-- Incompatible type 
 Different types in target and assign value
 Semantic Error detected at line 13: 11-- Incompatible type 
+Incompatible type in sequential statement.
 Semantic Error detected at line 12: 2-- Incompatible type 
 Semantic Error detected at line 13: 2-- Incompatible type 
+Different types in target and assign value
+Semantic Error detected at line 14: 11-- Incompatible type 
 Incompatible type in sequential statement.
-should not call getNodeType on errorNode
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/invalid/semanticErr/pairs/freeNonPair.wacc
 
 Semantic Error detected at line 14: 7-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -351,17 +259,10 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 target pair elements mismatched with assignments
 Semantic Error detected at line 12: 21-- Incompatible type 
 Cannot get assignLHS's node type.
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -369,29 +270,18 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 
 Different types in target and assign value
 Semantic Error detected at line 15: 8-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitScope_stat(SemanticCheckVisitor.java:104)
-	at frontEnd.SemanticCheckVisitor.visitScope_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Scope_statContext.accept(BasicParser.java:997)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:945)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:944)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 14: 4-- Incompatible type 
+Semantic Error detected at line 15: 4-- Incompatible type 
+Semantic Error detected at line 14: 4-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 17: 7-- Incompatible type 
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 17: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -500,17 +390,10 @@ line 16:0 no viable alternative at input 'end'
 ./example/invalid/semanticErr/variables/doubleDeclare.wacc
 
 Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -518,17 +401,10 @@ Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be
 
 Cannot get target type in assign statement.
 Semantic Error detected at line 15: 6-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -544,17 +420,10 @@ Semantic Error detected at line 12: 2-- Incompatible type
 
 Cannot get assignment type in assign statement.
 Semantic Error detected at line 13: 6-- Incompatible type 
-should not call getNodeType on errorNode
-Exception in thread "main" java.lang.ClassCastException: ast.ErrorNode cannot be cast to ast.statement.StatementNode
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:966)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:984)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:172)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:818)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:55)
+Incompatible type in sequential statement.
+Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Incompatible type 
+Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================

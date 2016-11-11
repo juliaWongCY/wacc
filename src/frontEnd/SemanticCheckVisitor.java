@@ -584,12 +584,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
 
-        if (!(exprL instanceof IntLiterNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            if (!exprLType.equals(new IntType())) {
+                return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (!(exprR instanceof IntLiterNode)) {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprRType = exprR.getNodeType(symbolTable);
+            if (!exprRType.equals(new IntType())) {
+                return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         BinaryOpr binaryOpr = BinaryOpr.MULT;
@@ -625,12 +635,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
 
-        if (!exprL.equals(new IntType())) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            if (!exprLType.equals(new IntType())) {
+                return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (!exprR.equals(new IntType())) {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprRType = exprR.getNodeType(symbolTable);
+            if (!exprRType.equals(new IntType())) {
+                return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
 
@@ -665,14 +685,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
 
-        if (!(exprL instanceof IntLiterNode && exprL instanceof IntLiterNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            if (!exprLType.equals(new IntType()) || !exprLType.equals(new CharType())) {
+                return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (!(exprR instanceof IntLiterNode && exprR instanceof IntLiterNode)) {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprRType = exprR.getNodeType(symbolTable);
+            if (!exprRType.equals(new IntType()) || !exprRType.equals(new CharType())) {
+                return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
-
 
         BinaryOpr binaryOpr = BinaryOpr.GT;
 
@@ -743,12 +772,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
 
-        if (!(exprL instanceof BoolLiterNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            if (!exprLType.equals(new BoolType())) {
+                return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (!(exprR instanceof BoolLiterNode)) {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprRType = exprR.getNodeType(symbolTable);
+            if (!exprRType.equals(new BoolType())) {
+                return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new BinaryOprNode(BinaryOpr.AND, (ExpressionNode) exprL, (ExpressionNode) exprR);
@@ -769,12 +808,22 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
 
-        if (!(exprL instanceof BoolLiterNode)) {
-            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprLType = exprL.getNodeType(symbolTable);
+            if (!exprLType.equals(new BoolType())) {
+                return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (!(exprR instanceof BoolLiterNode)) {
-            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        try {
+            Type exprRType = exprR.getNodeType(symbolTable);
+            if (!exprRType.equals(new BoolType())) {
+                return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            }
+        } catch (SemanticException e) {
+            return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
         return new BinaryOprNode(BinaryOpr.OR, (ExpressionNode) exprL, (ExpressionNode) exprR);

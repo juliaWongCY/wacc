@@ -257,6 +257,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if (assignRhs instanceof AssignRightNode) {
            if (operandsTypeCheck(variableType, (AssignRightNode) assignRhs)) {
+
                return new DeclareStatNode(variableType, new IdentNode(ident), (AssignRightNode) assignRhs);
            } else {
                return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);

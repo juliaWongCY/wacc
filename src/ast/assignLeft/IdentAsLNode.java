@@ -15,11 +15,7 @@ public class IdentAsLNode implements AssignLeftNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        try {
-            return id.getNodeType(st);
-        } catch (SemanticException e) {
-            throw new SemanticException("ERROR");
-        }
+        return id.getNodeType(st);
     }
 
     /* this is a wrapper node to contain the IdentExprNode */

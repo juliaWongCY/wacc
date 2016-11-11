@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class Main {
 
-    private final int FILEERROR_EXITCODE = 1;
-    private final int SYNTAXERROR_EXITCODE = 100;
-    private final int SEMANTICERROR_EXITCODE = 200;
+    private static final int FILEERROR_EXITCODE = 1;
+    private static final int SYNTAXERROR_EXITCODE = 100;
+    private static final int SEMANTICERROR_EXITCODE = 200;
 
     public static void main(String[] args) {
         if (args.length == 0 || !args[0].endsWith(".wacc")) {

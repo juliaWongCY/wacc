@@ -3,7 +3,8 @@ package frontEnd;
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
 
-public class SyntaxCheckReturnVisitor extends BasicParserBaseVisitor<Boolean> {
+
+public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     protected Boolean defaultResult() {
@@ -12,7 +13,7 @@ public class SyntaxCheckReturnVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     protected Boolean aggregateResult(Boolean aggregate, Boolean nextResult) {
-        return aggregate || nextResult;
+        return aggregate && nextResult;
     }
 
 
@@ -31,18 +32,19 @@ public class SyntaxCheckReturnVisitor extends BasicParserBaseVisitor<Boolean> {
     public Boolean visitFunc(BasicParser.FuncContext ctx) {
         boolean result = visit(ctx.stat());
         if (!result) {
-            System.err.println("Missing return statement in function '" + ctx.IDENT().getText() + "'.");
+            System.err.println("Function '" + ctx.IDENT().getText() + "' is not ended with a return or an exit statement.");
         }
         return result;
     }
 
     @Override
     public Boolean visitSequential_stat(BasicParser.Sequential_statContext ctx) {
-        if (visit(ctx.stat(0)) || visit(ctx.stat(1))) {
-            return true;
-        }
-
-        return false;
+//        if (!visit(ctx.stat(1))) {
+//            return true;
+//        }
+//
+//        return false;
+        return visit(ctx.stat(1));
     }
 
     @Override
@@ -59,5 +61,4 @@ public class SyntaxCheckReturnVisitor extends BasicParserBaseVisitor<Boolean> {
     public Boolean visitIf_stat(BasicParser.If_statContext ctx) {
         return visit(ctx.stat(0)) && visit(ctx.stat(1));
     }
-
 }

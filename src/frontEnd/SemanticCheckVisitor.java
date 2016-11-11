@@ -281,16 +281,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitInt_liter(@NotNull BasicParser.Int_literContext ctx) {
 
-        IntLiterNode i = null;
-
-        try {
-            i = new IntLiterNode(Integer.parseInt(ctx.getText()));
-        } catch (NumberFormatException e) {
-            //TODO: syntax error??
-            System.err.println("Syntax error.");
-        }
-
-        return i;
+        return new IntLiterNode(Integer.parseInt(ctx.getText()));
 
     }
 

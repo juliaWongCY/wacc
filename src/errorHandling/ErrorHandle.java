@@ -25,6 +25,8 @@ public class ErrorHandle {
                 return "Duplicated function name in the same scope ";
             case DUPLICATE_IDENT:
                 return "Duplicated identifier name in the same scope ";
+            case INTEGER_OVERFLOW:
+                return "Integer is out of range ";
             default:
                 return "Check error again";
         }

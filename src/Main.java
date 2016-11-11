@@ -2,6 +2,7 @@ import antlr.BasicLexer;
 import antlr.BasicParser;
 import frontEnd.SemanticCheckVisitor;
 import frontEnd.SymbolTable;
+import frontEnd.SyntaxCheckVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -41,12 +42,19 @@ public class Main {
 
         SymbolTable symbolTable = new SymbolTable(null);
 
-        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
-        semanticCheckVisitor.visit(tree);
-
         if (parser.getNumberOfSyntaxErrors() > 0) {
             System.exit(100);
         }
+
+        SyntaxCheckVisitor syntaxCheckVisitor = new SyntaxCheckVisitor();
+        if (!syntaxCheckVisitor.visit(tree)) {
+            System.exit(100);
+        }
+
+
+        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
+        semanticCheckVisitor.visit(tree);
+
     }
 
 }

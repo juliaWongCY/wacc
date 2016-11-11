@@ -5,6 +5,7 @@ public class ErrorHandle {
 
     public static final ErrorHandle ERRORTYPE_INCOMPATIBLE_TYPE      = new ErrorHandle(ErrorType.INCOMPATIBLE_TYPE);
     public static final ErrorHandle ERRORTYPE_UNDEFINED_VAR          = new ErrorHandle(ErrorType.UNDEFINED_VAR);
+    public static final ErrorHandle ERRORTYPE_UNDEFINED_FUNC          = new ErrorHandle(ErrorType.UNDEFINED_FUNC);
     public static final ErrorHandle ERRORTYPE_INCORRECT_NUM_PARAM    = new ErrorHandle(ErrorType.INCORRECT_NUM_PARAM);
     public static final ErrorHandle ERRORTYPE_NO_RETURN_GLOBAL_SCOPE = new ErrorHandle(ErrorType.NO_RETURN_GLOBAL_SCOPE);
     public static final ErrorHandle ERRORTYPE_DUPLICATE_FUNC         = new ErrorHandle(ErrorType.DUPLICATE_FUNC);
@@ -25,6 +26,8 @@ public class ErrorHandle {
                 return "Incompatible type ";
             case UNDEFINED_VAR:
                 return "Undefined variable ";
+            case UNDEFINED_FUNC:
+                return "Undefined function";
             case INCORRECT_NUM_PARAM:
                 return "Incorrect number of parameters ";
             case NO_RETURN_GLOBAL_SCOPE:

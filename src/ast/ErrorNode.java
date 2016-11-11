@@ -1,7 +1,6 @@
 package ast;
 
 import errorHandling.ErrorHandle;
-import errorHandling.ErrorType;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;

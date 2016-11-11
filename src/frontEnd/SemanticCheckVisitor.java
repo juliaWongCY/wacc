@@ -622,11 +622,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.exprR, ((ErrorNode)exprR).getErrorType());
         }
 
-        if (!(exprL instanceof IntLiterNode)) {
+        if (!exprL.equals(new IntType())) {
             return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
-        if (!(exprR instanceof IntLiterNode)) {
+        if (!exprR.equals(new IntType())) {
             return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 

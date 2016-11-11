@@ -100,15 +100,21 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
         newSymbolTable();
 
-        ASTNode stat = visit(ctx.stat());
+        ASTNode statNode = visit(ctx.stat());
 
-        if( !(stat instanceof StatementNode)){
-            return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
+        if( !(statNode instanceof StatementNode)){
+            return handleError(ctx.stat(), ((ErrorNode)statNode).getErrorType());
         }
 
+        try {
+            BasicParser.Return_statContext stat = getActualRetContext(ctx.stat());
+            return handleError(stat, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+        } catch (ClassCastException e) {
+            // do nothing as it should not find return statement in global scope
+        }
 
         popSymbolTable();
-        return new ScopingStatNode((StatementNode) stat);
+        return new ScopingStatNode((StatementNode) statNode);
     }
 
     @Override
@@ -170,26 +176,18 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // set program node's statement node
         ASTNode statementNode = visit(statement);
         if (statementNode instanceof StatementNode) {
-            StatementNode originalSNode = (StatementNode) statementNode;
-            int counter = 0;
-            while (statementNode instanceof SequentialStatNode) {
-                if (((SequentialStatNode) statementNode).getSndStat() instanceof ReturnStatNode) {
-                    return handleError(getSctx(counter, (BasicParser.Sequential_statContext) statement), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-                }
-                counter += 1;
-                statementNode = ((SequentialStatNode) statementNode).getFstStat();
+            try {
+                BasicParser.Return_statContext stat = getActualRetContext(statement);
+                return handleError(stat, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+            } catch (ClassCastException e) {
+                // do nothing as it should not find return statement in global scope
             }
-            if (statementNode instanceof ReturnStatNode) {
-                return handleError(getSctx(counter, (BasicParser.Sequential_statContext) statement), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-                //System.err.println("return statement not allowed in global scope");
-            }
-            programNode.setStatementNode(originalSNode);
+            programNode.setStatementNode((StatementNode) statementNode);
             return programNode;
+        } else {
+            // reaching here means the statement node cannot be correctly constructed
+            return handleError(statement, ((ErrorNode)statementNode).getErrorType());
         }
-
-        // reaching here means the statement node cannot be correctly constructed
-        return handleError(statement, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-
     }
 
     private ParserRuleContext getSctx(int i, BasicParser.Sequential_statContext ctx) {

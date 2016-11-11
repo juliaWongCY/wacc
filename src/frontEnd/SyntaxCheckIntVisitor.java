@@ -21,16 +21,10 @@ public class SyntaxCheckIntVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     public Boolean visitInt_liter(BasicParser.Int_literContext ctx) {
-        System.out.println(ctx.getText());
-        TerminalNode sign = ctx.intliter().sign().MINUS();
         TerminalNode int_liter = ctx.intliter().INTEGER();
         try {
-            if (sign != null) {
-                String intRes = "-" + int_liter.getText();
-                Integer.parseInt(intRes);
-            } else {
                 Integer.parseInt(int_liter.getText());
-            }
+
         } catch (NumberFormatException e) {
             ErrorHandle errType = new ErrorHandle(ErrorType.INTEGER_OVERFLOW);
             int line = int_liter.getSymbol().getLine();

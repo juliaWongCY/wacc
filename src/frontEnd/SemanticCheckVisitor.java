@@ -502,23 +502,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if(targetType != null && rhsType != null){
             if(node instanceof AssignRightNode && !(node instanceof ArgListNode)) {
                 if (node instanceof NewPairAsRNode) {
-                    try {
-                        if (!(targetType.equals(new PairType()))) {
-                            //TODO
-                            System.err.println("target type is not pair type");
-                            return false;
-                        }
-                        PairType pType = (PairType) targetType;
-                        if (pType.getFstExprType() != ((NewPairAsRNode) node).getFstType(symbolTable)
-                                ||pType.getSndExprType() != ((NewPairAsRNode) node).getSndType(symbolTable)) {
-                            //TODO
-                            System.err.println("target pair elements mismatched with assignments");
-                            return false;
-                        }
-
-                    } catch (SemanticException e) {
-                        e.printStackTrace();
-                        System.err.println(e);
+                    if (!(targetType instanceof PairType)) {
+                        //TODO
+                        System.err.println("target type is not pair type");
+                        return false;
+                    }
+                    PairType lhsType = (PairType) targetType;
+                    if (!(lhsType.equals(rhsType))) {
+                        //TODO
+                        System.err.println("target pair elements mismatched with assignments");
                         return false;
                     }
                     return true;

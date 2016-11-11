@@ -1,18 +1,20 @@
-# creates a pair which is returned from a function
+# a simple increment function definition and usage
 
 # Output:
-# 10
+# 1
+# 4
 
 # Program:
 
 begin
-
-  pair(int, int) getPair() is
-    pair(int, int) p = newpair(10,15);
-    return p
+  int inc(int x) is
+    return x + 1
   end
-
-  pair(int, int) p = call getPair();
-  int x = fst p;
+  int x = 0 ;
+  x = call inc(x) ;
+  println x ;
+  x = call inc(x) ;
+  x = call inc(x) ;
+  x = call inc(x) ;
   println x
 end

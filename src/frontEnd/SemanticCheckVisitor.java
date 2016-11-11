@@ -949,6 +949,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
         StatementNode stat = null;
         ASTNode s = visit(ctx.stat());
+
         if (s instanceof StatementNode) {
             if (s instanceof SequentialStatNode
                     && (((SequentialStatNode)s).getSndStat() instanceof ExitStatNode

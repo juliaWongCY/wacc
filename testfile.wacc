@@ -1,3 +1,14 @@
+# array literals are not first-class expressions
+
+# Output:
+# #syntax_error#
+
+# Exit:
+# 100
+
+# Program:
+
 begin
-  bool a = 5
+  int[] b = [1, 2, 3] ++ [4] ;
+	println b[3]
 end

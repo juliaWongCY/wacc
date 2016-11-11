@@ -693,7 +693,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         try {
             Type exprLType = exprL.getNodeType(symbolTable);
-            if (!exprLType.equals(new IntType()) || !exprLType.equals(new CharType())) {
+            if (!(exprLType.equals(new IntType()) || exprLType.equals(new CharType()))) {
                 return handleError(ctx.exprL, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         } catch (SemanticException e) {
@@ -702,7 +702,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         try {
             Type exprRType = exprR.getNodeType(symbolTable);
-            if (!exprRType.equals(new IntType()) || !exprRType.equals(new CharType())) {
+            if (!(exprRType.equals(new IntType()) || exprRType.equals(new CharType()))) {
                 return handleError(ctx.exprR, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
         } catch (SemanticException e) {

@@ -1,4 +1,4 @@
-# trying to return from the main program
+# variable names are case sensitive in all possible ways
 
 # Output:
 # #semantic_error#
@@ -9,6 +9,12 @@
 # Program:
 
 begin
-  return 42 ;
-  println "should not get here"
+  int number = 42 ;
+  println NUMBER ;
+
+  int INDEX = 0 ;
+  println index ;
+
+  int miXed = 3 ;
+  println MIxED
 end

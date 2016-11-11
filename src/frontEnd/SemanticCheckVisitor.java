@@ -783,7 +783,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         Type exprType = null;
 
         if(!(expr instanceof ExpressionNode)){
-            handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.expr(), ((ErrorNode) expr).getErrorType());
             //System.err.println("Please put an expression(pair) to free.");
         }
 
@@ -795,7 +795,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         if(!(exprType instanceof PairType)){
-            handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+            return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             //System.err.println("Free is used to free the heap memory for pairType");
         }
 
@@ -987,9 +987,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (pairElem instanceof PairElemNode) {
             return new PairElemAsLNode((PairElemNode) pairElem);
         }
-        handleError(ctx.pairElem(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        return handleError(ctx.pairElem(), ((ErrorNode) pairElem).getErrorType());
         //System.err.println("required pairElemNode not found");
-        return null;
     }
 
     @Override

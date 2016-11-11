@@ -21,14 +21,28 @@ public class SyntaxCheckIntVisitor extends BasicParserBaseVisitor<Boolean> {
 
     @Override
     public Boolean visitInt_liter(BasicParser.Int_literContext ctx) {
-        TerminalNode int_liter = ctx.intliter().INTEGER();
-        try {
-                Integer.parseInt(int_liter.getText());
+//        TerminalNode int_liter = ctx.intliter().INTEGER();
+//        try {
+//                Integer.parseInt(int_liter.getText());
+//
+//        } catch (NumberFormatException e) {
+//            ErrorHandle errType = new ErrorHandle(ErrorType.INTEGER_OVERFLOW);
+//            int line = int_liter.getSymbol().getLine();
+//            int charI = int_liter.getSymbol().getCharPositionInLine();
+//            handleError(line, charI, errType);
+//            return false;
+//        } catch (NullPointerException e) {
+//            return visitChildren(ctx);
+//        }
+//        return true;
 
+        String int_liter = ctx.getText();
+        try {
+            Integer.parseInt(int_liter);
         } catch (NumberFormatException e) {
             ErrorHandle errType = new ErrorHandle(ErrorType.INTEGER_OVERFLOW);
-            int line = int_liter.getSymbol().getLine();
-            int charI = int_liter.getSymbol().getCharPositionInLine();
+            int line = ctx.intliter().INTEGER().getSymbol().getLine();
+            int charI = ctx.intliter().INTEGER().getSymbol().getCharPositionInLine();
             handleError(line, charI, errType);
             return false;
         } catch (NullPointerException e) {

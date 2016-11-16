@@ -229,13 +229,13 @@ Semantic Error detected at line 11: 2-- Incompatible type
 ================================================
 ./example/valid/while/whileCount.wacc
 
-Semantic Error detected at line 22: 12-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/while/fibonacciIterative.wacc
 
-Semantic Error detected at line 16: 10-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
@@ -247,35 +247,27 @@ Semantic Error detected at line 16: 10-- Undefined variable
 ================================================
 ./example/valid/function/simple_functions/functionReturnPair.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/sameArgName.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionManyArguments.wacc
 
-Semantic Error detected at line 17: 12-- Undefined variable 
-Semantic Error detected at line 19: 12-- Undefined variable 
-Semantic Error detected at line 21: 12-- Undefined variable 
-Semantic Error detected at line 23: 12-- Undefined variable 
-Semantic Error detected at line 25: 12-- Undefined variable 
-Semantic Error detected at line 27: 12-- Undefined variable 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionSimple.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
@@ -290,59 +282,59 @@ Semantic Error detected at line 117: 2-- Incompatible type
 ================================================
 ./example/valid/function/simple_functions/functionUpdateParameter.wacc
 
-Semantic Error detected at line 16: 12-- Undefined variable 
-Semantic Error detected at line 19: 12-- Undefined variable 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 26: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 26: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 23: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/negFunction.wacc
 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 14: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 14: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/incFunction.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionDeclaration.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciFullRec.wacc
 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+Semantic Error detected at line 26: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 26: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 24: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciRecursive.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printInputTriangle.wacc
 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
+Semantic Error detected at line 27: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 27: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 26: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printTriangle.wacc
 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
@@ -364,16 +356,17 @@ Semantic Error detected at line 49: 1-- Incompatible type
 ================================================
 ./example/valid/function/nested_functions/simpleRecursion.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 19: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 19: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 19: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/mutualRecursion.wacc
 
-Semantic Error detected at line 30: 14-- Undefined variable 
-Semantic Error detected at line 24: 2-- Incompatible type 
-Semantic Error detected at line 24: 2-- Incompatible type 
+Semantic Error detected at line 43: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 43: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 43: 2-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
@@ -589,19 +582,7 @@ Semantic Error detected at line 24: 2-- Incompatible type
 ================================================
 ./example/valid/scope/printAllTypes.wacc
 
-Semantic Error detected at line 53: 28-- Undefined variable 
-Semantic Error detected at line 55: 28-- Undefined variable 
-Semantic Error detected at line 59: 28-- Undefined variable 
-Semantic Error detected at line 61: 28-- Undefined variable 
-Semantic Error detected at line 75: 26-- Undefined variable 
-Semantic Error detected at line 81: 26-- Undefined variable 
-Semantic Error detected at line 88: 24-- Undefined variable 
-Semantic Error detected at line 95: 22-- Undefined variable 
-Semantic Error detected at line 97: 22-- Undefined variable 
-Semantic Error detected at line 101: 20-- Undefined variable 
-Semantic Error detected at line 103: 20-- Undefined variable 
-Semantic Error detected at line 112: 16-- Undefined variable 
-Semantic Error detected at line 114: 16-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
@@ -991,7 +972,7 @@ Semantic Error detected at line 114: 16-- Undefined variable
 ================================================
 ./example/valid/pairs/linkedList.wacc
 
-Semantic Error detected at line 19: 12-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
@@ -1138,7 +1119,7 @@ Semantic Error detected at line 16: 2-- Incompatible type
 ================================================
 ./example/valid/IO/IOLoop.wacc
 
-Semantic Error detected at line 20: 12-- Undefined variable 
+
 ================================================
 ================================================
 ================================================

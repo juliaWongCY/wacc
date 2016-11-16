@@ -1008,19 +1008,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // compare expected and actual return type
         try {
             Type fType = symbolTable.lookUpFunction(fname);
-            if (((FunctionType)fType).getReturnType() != actualRetType) {
+            if (!((FunctionType)fType).getReturnType().equals(actualRetType)) {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE) ;
             }
         } catch (SemanticException e) {
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC) ;
         }
 
-        ASTNode pNode = visit(ctx.paramList());
+        BasicParser.ParamListContext pctx = ctx.paramList();
 
-        if (pNode instanceof ParamListNode) {
-            paramListNode = (ParamListNode) pNode;
-        } else {
-            return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
+        ASTNode pNode;
+        if (pctx != null) {
+            pNode = visit(ctx.paramList());
+            if (pNode instanceof ParamListNode) {
+                paramListNode = (ParamListNode) pNode;
+            } else {
+                return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
+            }
         }
 
         popSymbolTable();

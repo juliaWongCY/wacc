@@ -83,7 +83,7 @@ public class SymbolTable {
         if (getParent() == null) {
             return varTable.containsKey(var);
         } else {
-            return varTable.containsKey(var) || getParent().hasFunction(var);
+            return varTable.containsKey(var) || getParent().hasVariable(var);
         }
     }
 

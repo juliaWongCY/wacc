@@ -9,7 +9,6 @@ import ast.expression.*;
 import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
-import errorHandling.ErrorType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
@@ -192,8 +191,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                         return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
                 }
             }
+            symbolTable.clearParamsInVarTable();
         }
-        symbolTable.clearVarTable();
 
         List<FunctionNode> functions = new ArrayList<>();
         for (BasicParser.FuncContext fctx : fctxs) {

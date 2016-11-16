@@ -87,7 +87,7 @@ public class SymbolTable {
         }
     }
 
-    public void clearVarTable() {
+    public void clearParamsInVarTable() {
         varTable.clear();
     }
 

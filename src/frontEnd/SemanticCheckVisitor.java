@@ -1214,6 +1214,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if (ctx.baseType() != null) { // baseType
             BasicParser.BaseTypeContext btctx = ctx.baseType();
+            if (btctx.STRING() != null) {
+                return new ArrayType(new CharType());
+            }
             return identifyBaseType(btctx);
         }
 
@@ -1260,9 +1263,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return new IntType();
         }
 
-        if (ctx.STRING() != null) {
-            return new StringType();
-        }
+//        if (ctx.STRING() != null) {
+//            return new StringType();
+//        }
 
         System.err.println("Incompatible type -- unknown base type");
         return null;

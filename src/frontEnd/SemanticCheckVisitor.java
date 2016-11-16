@@ -228,13 +228,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new ExitStatNode((ExpressionNode) exitCode);
     }
 
-    // type does not return ASTNode
-    @Override
-    public ASTNode visitType(@NotNull BasicParser.TypeContext ctx) {
-        //We just need to visit the children type.
-        return visitChildren(ctx);
-    }
-
     @Override
     public ASTNode visitSkip_stat(@NotNull BasicParser.Skip_statContext ctx) {
         return new SkipStatNode();
@@ -261,12 +254,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.assignRHS(), ((ErrorNode)assignRhs).getErrorType());
             //System.err.println("type mismatch");
         }
-    }
-
-    // do not need this as we won't use this visit function.
-    @Override
-    public ASTNode visitBaseType(@NotNull BasicParser.BaseTypeContext ctx) {
-        return super.visitBaseType(ctx);
     }
 
     @Override
@@ -441,12 +428,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         return new PrintlnStatNode((ExpressionNode) expr);
-    }
-
-    // don't need visit_type method
-    @Override
-    public ASTNode visitArrayType(@NotNull BasicParser.ArrayTypeContext ctx) {
-        return super.visitArrayType(ctx);
     }
 
     @Override
@@ -922,18 +903,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitPairType(@NotNull BasicParser.PairTypeContext ctx) {
-        //[DL] We probably do not need this visit function.
-        return super.visitPairType(ctx);
-    }
-
-    @Override
-    public ASTNode visitPairElemType(@NotNull BasicParser.PairElemTypeContext ctx) {
-        //[DL] We probably do not need this visit function.
-      return super.visitPairElemType(ctx);
-    }
-
-    @Override
     public ASTNode visitArrayElem(@NotNull BasicParser.ArrayElemContext ctx) {
         String id = ctx.name.getText();
         IdentNode identNode = new IdentNode(id);
@@ -1055,22 +1024,37 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx) {
-        ASTNode statFst = visit(ctx.stat(0));
-        ASTNode statSnd = visit(ctx.stat(1));
-
-        if (statFst instanceof StatementNode) {
-            if (statSnd instanceof StatementNode) {
-                return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
+    public ASTNode visitStatList(@NotNull BasicParser.StatListContext ctx) {
+        List<BasicParser.StatContext> sctxs = ctx.stat();
+        List<StatementNode> nodes = new ArrayList<>();
+        for (BasicParser.StatContext sctx : sctxs) {
+            ASTNode statNode = visit(sctx);
+            if (statNode instanceof StatementNode) {
+                nodes.add((StatementNode) statNode);
             } else {
-                System.err.println("Incompatible type in second sequential statement.");
-                return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+                return handleError(sctx, ((ErrorNode)statNode).getErrorType());
             }
-        } else {
-            System.err.println("Incompatible type in first sequential statement.");
-            return handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
+        return new StatListNode(nodes);
     }
+
+    //    @Override
+//    public ASTNode visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx) {
+//        ASTNode statFst = visit(ctx.stat(0));
+//        ASTNode statSnd = visit(ctx.stat(1));
+//
+//        if (statFst instanceof StatementNode) {
+//            if (statSnd instanceof StatementNode) {
+//                return new SequentialStatNode((StatementNode) statFst, (StatementNode) statSnd);
+//            } else {
+//                System.err.println("Incompatible type in second sequential statement.");
+//                return handleError(ctx.stat(1), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+//            }
+//        } else {
+//            System.err.println("Incompatible type in first sequential statement.");
+//            return handleError(ctx.stat(0), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+//        }
+//    }
 
     // todo: [DL] changed pairelem so need review here
     @Override

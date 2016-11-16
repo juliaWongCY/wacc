@@ -142,64 +142,73 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
+        // TODO: create super symbolTable
+        // TODO: save functions delcaration to symboltable
+        // TODO: ensure statlist is well formed
+        // TODO: return a new program node
 
-        // initiate and getting initial variable
         symbolTable = new SymbolTable();
-        ProgramNode programNode = new ProgramNode();
-        List<BasicParser.FuncContext> functions = ctx.func();
-        BasicParser.StatContext statement = ctx.stat();
 
-        // populate the list of function nodes in program node
-        BasicParser.FuncContext fctx = null;
-        try {
-            for (BasicParser.FuncContext f : functions) {
-                fctx = f;
-                FunctionNode fn;
-                ASTNode node = visitFunc(f);
-                if (node instanceof FunctionNode) {
-                    fn = (FunctionNode) node;
-                    symbolTable.addFunction(fn.getFunctionName(), fn.getNodeType(symbolTable));
-                    programNode.addFunction(fn);
-                } else {
-                    handleError(fctx, ((ErrorNode)node).getErrorType());
+        List<BasicParser.FuncContext> fctxs = ctx.func();
+
+        for (BasicParser.FuncContext fctx : fctxs) {
+            String funcName = fctx.IDENT().getText();
+            Type retType = identifyType(fctx.type());
+            List<Type> paramTypes = null;
+            ASTNode paramListNode = visit(fctx.paramList());
+            try {
+                if (paramListNode != null) {
+                    paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
                 }
+                if (retType != null) {
+                    symbolTable.addFunction(funcName, new FunctionType(retType ,paramTypes));
+                } else {
+                    return handleError(fctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
+                }
+            } catch (SemanticException e) {
+                if (paramListNode instanceof ErrorNode) {
+                    return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
+                } else {
+                    return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
+                }
+            } catch (NullPointerException e) {
             }
-        } catch (SemanticException e) {
-            return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
-            //TODO: what error??
-           // System.err.println("Cannot add function to symbol table");
         }
 
-        // set program node's statement node
-        ASTNode statementNode = visit(statement);
-        if (statementNode instanceof StatementNode) {
-            if (getActualRetContext(statement) != null) {
-                return handleError(getActualRetContext(ctx.stat()), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-            }
-            programNode.setStatementNode((StatementNode) statementNode);
-            return programNode;
-        } else {
-            // reaching here means the statement node cannot be correctly constructed
-            return handleError(statement, ((ErrorNode)statementNode).getErrorType());
-        }
-    }
-
-    private ParserRuleContext getSctx(int i, BasicParser.Sequential_statContext ctx) {
-        ParserRuleContext retCtx = ctx;
-        for (int j = 0; j < 0; j++) {
-            retCtx = ((BasicParser.Sequential_statContext)retCtx).stat(0);
-        }
-        if (retCtx instanceof BasicParser.Return_statContext) {
-            return retCtx;
-        } else {
-            BasicParser.Sequential_statContext s = (BasicParser.Sequential_statContext)retCtx;
-            if (s.stat(0) instanceof BasicParser.Return_statContext) {
-                return s.stat(0);
+        List<FunctionNode> functions = new ArrayList<>();
+        for (BasicParser.FuncContext fctx : fctxs) {
+            ASTNode fnode = visit(fctx);
+            if (fnode instanceof FunctionNode) {
+                functions.add((FunctionNode) fnode);
             } else {
-                return s.stat(1);
+                return handleError(fctx, ((ErrorNode)fnode).getErrorType());
             }
         }
+
+        ASTNode statListNode = visit(ctx.statList());
+        if (!(statListNode instanceof StatListNode)) {
+            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType())
+        }
+
+        return new ProgramNode(functions, (StatListNode) statListNode);
     }
+
+//    private ParserRuleContext getSctx(int i, BasicParser.Sequential_statContext ctx) {
+//        ParserRuleContext retCtx = ctx;
+//        for (int j = 0; j < 0; j++) {
+//            retCtx = ((BasicParser.Sequential_statContext)retCtx).stat(0);
+//        }
+//        if (retCtx instanceof BasicParser.Return_statContext) {
+//            return retCtx;
+//        } else {
+//            BasicParser.Sequential_statContext s = (BasicParser.Sequential_statContext)retCtx;
+//            if (s.stat(0) instanceof BasicParser.Return_statContext) {
+//                return s.stat(0);
+//            } else {
+//                return s.stat(1);
+//            }
+//        }
+//    }
 
     @Override
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
@@ -940,72 +949,76 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
-        newSymbolTable();
+        // TODO: create a new symbol table for local variable
+        // TODO: check the first return has actual type same with expected from parent(program) symboltable
+        // TODO: return a new funcNode
+        symbolTable = new SymbolTable(symbolTable);
 
-        Type retType = identifyType(ctx.type());
-        if (retType == null) {
-            System.err.println("cannot recognize return type");
-            return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        }
-        IdentNode functionId = new IdentNode(ctx.IDENT().getText());
-        ParamListNode params = null;
-        if (ctx.paramList() == null) {
-            try {
-                symbolTable.addFunction(functionId.getId(), new FunctionType(retType));
-            } catch (SemanticException e) {
-                System.err.println("should not reach this");
-                return null;
-            }
+        String fname = ctx.IDENT().getText();
+        Type actualRetType = null;
+        StatListNode statListNode = null;
+        ParamListNode paramListNode = null;
+
+        // get statList
+        ASTNode sNode = visit(ctx.statList());
+        if (sNode instanceof StatListNode) {
+            statListNode = (StatListNode) sNode;
         } else {
-            ASTNode node = visit(ctx.paramList());
-            if (node instanceof ParamListNode) {
-                params = (ParamListNode) node;
-            }
-            try {
-                symbolTable.addFunction(functionId.getId(), new FunctionType(retType, params.getNodeTypes(symbolTable)));
-            } catch (SemanticException e) {
-                return handleError(ctx.paramList(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
+            return handleError(ctx.statList(), ((ErrorNode)sNode).getErrorType());
+        }
+
+        // get acutal return type
+        List<StatementNode> sNodes = statListNode.getStatList();
+        for (StatementNode node : sNodes) {
+            if (node instanceof ReturnStatNode) {
+               try {
+                   actualRetType = ((ReturnStatNode) node).getReturnType(symbolTable);
+               } catch (SemanticException e) {
+                   List<BasicParser.StatContext> stats = ctx.statList().stat();
+                   ParserRuleContext rctx = null;
+                   for (BasicParser.StatContext stat : stats) {
+                       if (stat instanceof BasicParser.Return_statContext);
+                   }
+                   return handleError(rctx, ((ErrorNode)node).getErrorType());
+               }
+
             }
         }
 
-        ASTNode stat = visit(ctx.stat());
-
-        if (!(stat instanceof StatementNode)) {
-            return handleError(ctx.stat(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
-        }
-
-        BasicParser.Return_statContext rctx = getActualRetContext(ctx.stat());
-        Type actualRetType;
-        ASTNode node = null;
+        // compare expected and actual return type
         try {
-            node          = visit(rctx.expr());
-            actualRetType = node.getNodeType(symbolTable);
-        } catch (SemanticException e) {
-            popSymbolTable();
-            return handleError(rctx, ((ErrorNode)node).getErrorType());
-        }
-        if (!actualRetType.equals(retType)) {
-            popSymbolTable();
-            return handleEAError(rctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE, retType, actualRetType);
-        }
-
-        popSymbolTable();
-        return new FunctionNode(retType, functionId, params, (StatementNode) stat);
-    }
-
-    private BasicParser.Return_statContext getActualRetContext(ParserRuleContext ctx) {
-        BasicParser.Return_statContext rctx = null;
-        while (ctx instanceof BasicParser.Sequential_statContext) {
-            if (((BasicParser.Sequential_statContext)ctx).stat(1) instanceof BasicParser.Return_statContext) {
-                rctx = (BasicParser.Return_statContext) ((BasicParser.Sequential_statContext)ctx).stat(1);
+            Type fType = symbolTable.lookUpFunction(fname);
+            if (((FunctionType)fType).getReturnType() != actualRetType) {
+                return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE) ;
             }
-            ctx = ((BasicParser.Sequential_statContext)ctx).stat(0);
+        } catch (SemanticException e) {
+            return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC) ;
         }
-        if (ctx instanceof BasicParser.Return_statContext) {
-            rctx = (BasicParser.Return_statContext) ctx;
+
+        ASTNode pNode = visit(ctx.paramList());
+
+        if (pNode instanceof ParamListNode) {
+            paramListNode = (ParamListNode) pNode;
+        } else {
+            return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
         }
-        return rctx;
+
+        return new FunctionNode(actualRetType, new IdentNode(fname), paramListNode, statListNode);
     }
+
+//    private BasicParser.Return_statContext getActualRetContext(ParserRuleContext ctx) {
+//        BasicParser.Return_statContext rctx = null;
+//        while (ctx instanceof BasicParser.Sequential_statContext) {
+//            if (((BasicParser.Sequential_statContext)ctx).stat(1) instanceof BasicParser.Return_statContext) {
+//                rctx = (BasicParser.Return_statContext) ((BasicParser.Sequential_statContext)ctx).stat(1);
+//            }
+//            ctx = ((BasicParser.Sequential_statContext)ctx).stat(0);
+//        }
+//        if (ctx instanceof BasicParser.Return_statContext) {
+//            rctx = (BasicParser.Return_statContext) ctx;
+//        }
+//        return rctx;
+//    }
 
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {

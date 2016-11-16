@@ -19,6 +19,7 @@ src/ast/statement/ReturnStatNode.java
 src/ast/statement/SequentialStatNode.java
 src/ast/statement/PrintlnStatNode.java
 src/ast/statement/DeclareStatNode.java
+src/ast/statement/StatListNode.java
 src/ast/statement/ScopingStatNode.java
 src/ast/statement/StatementNode.java
 src/ast/statement/SkipStatNode.java

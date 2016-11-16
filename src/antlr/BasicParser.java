@@ -1116,8 +1116,8 @@ public class BasicParser extends Parser {
 	public static class Scope_statContext extends StatContext {
 		public TerminalNode BEGIN() { return getToken(BasicParser.BEGIN, 0); }
 		public TerminalNode END() { return getToken(BasicParser.END, 0); }
-		public StatContext stat() {
-			return getRuleContext(StatContext.class,0);
+		public StatListContext statList() {
+			return getRuleContext(StatListContext.class,0);
 		}
 		public Scope_statContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
@@ -1132,10 +1132,10 @@ public class BasicParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public TerminalNode DO() { return getToken(BasicParser.DO, 0); }
-		public StatContext stat() {
-			return getRuleContext(StatContext.class,0);
-		}
 		public TerminalNode WHILE() { return getToken(BasicParser.WHILE, 0); }
+		public StatListContext statList() {
+			return getRuleContext(StatListContext.class,0);
+		}
 		public While_statContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -1168,6 +1168,9 @@ public class BasicParser extends Parser {
 		}
 	}
 	public static class If_statContext extends StatContext {
+		public StatListContext statList(int i) {
+			return getRuleContext(StatListContext.class,i);
+		}
 		public TerminalNode FI() { return getToken(BasicParser.FI, 0); }
 		public TerminalNode ELSE() { return getToken(BasicParser.ELSE, 0); }
 		public TerminalNode IF() { return getToken(BasicParser.IF, 0); }
@@ -1175,11 +1178,8 @@ public class BasicParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public TerminalNode THEN() { return getToken(BasicParser.THEN, 0); }
-		public StatContext stat(int i) {
-			return getRuleContext(StatContext.class,i);
-		}
-		public List<StatContext> stat() {
-			return getRuleContexts(StatContext.class);
+		public List<StatListContext> statList() {
+			return getRuleContexts(StatListContext.class);
 		}
 		public If_statContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
@@ -1331,9 +1331,9 @@ public class BasicParser extends Parser {
 				setState(188); match(IF);
 				setState(189); expr(0);
 				setState(190); match(THEN);
-				setState(191); stat();
+				setState(191); statList();
 				setState(192); match(ELSE);
-				setState(193); stat();
+				setState(193); statList();
 				setState(194); match(FI);
 				}
 				break;
@@ -1344,7 +1344,7 @@ public class BasicParser extends Parser {
 				setState(196); match(WHILE);
 				setState(197); expr(0);
 				setState(198); match(DO);
-				setState(199); stat();
+				setState(199); statList();
 				setState(200); match(DONE);
 				}
 				break;
@@ -1353,7 +1353,7 @@ public class BasicParser extends Parser {
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(202); match(BEGIN);
-				setState(203); stat();
+				setState(203); statList();
 				setState(204); match(END);
 				}
 				break;
@@ -2293,11 +2293,11 @@ public class BasicParser extends Parser {
 		"\23\2\2\u00b5\u00d1\5.\30\2\u00b6\u00b7\7\24\2\2\u00b7\u00d1\5.\30\2\u00b8"+
 		"\u00b9\7\25\2\2\u00b9\u00d1\5.\30\2\u00ba\u00bb\7\26\2\2\u00bb\u00d1\5"+
 		".\30\2\u00bc\u00bd\7\27\2\2\u00bd\u00d1\5.\30\2\u00be\u00bf\7\30\2\2\u00bf"+
-		"\u00c0\5.\30\2\u00c0\u00c1\7\31\2\2\u00c1\u00c2\5(\25\2\u00c2\u00c3\7"+
-		"\32\2\2\u00c3\u00c4\5(\25\2\u00c4\u00c5\7\33\2\2\u00c5\u00d1\3\2\2\2\u00c6"+
+		"\u00c0\5.\30\2\u00c0\u00c1\7\31\2\2\u00c1\u00c2\5&\24\2\u00c2\u00c3\7"+
+		"\32\2\2\u00c3\u00c4\5&\24\2\u00c4\u00c5\7\33\2\2\u00c5\u00d1\3\2\2\2\u00c6"+
 		"\u00c7\7\34\2\2\u00c7\u00c8\5.\30\2\u00c8\u00c9\7\35\2\2\u00c9\u00ca\5"+
-		"(\25\2\u00ca\u00cb\7\36\2\2\u00cb\u00d1\3\2\2\2\u00cc\u00cd\7\37\2\2\u00cd"+
-		"\u00ce\5(\25\2\u00ce\u00cf\7 \2\2\u00cf\u00d1\3\2\2\2\u00d0\u00a8\3\2"+
+		"&\24\2\u00ca\u00cb\7\36\2\2\u00cb\u00d1\3\2\2\2\u00cc\u00cd\7\37\2\2\u00cd"+
+		"\u00ce\5&\24\2\u00ce\u00cf\7 \2\2\u00cf\u00d1\3\2\2\2\u00d0\u00a8\3\2"+
 		"\2\2\u00d0\u00a9\3\2\2\2\u00d0\u00ae\3\2\2\2\u00d0\u00b2\3\2\2\2\u00d0"+
 		"\u00b4\3\2\2\2\u00d0\u00b6\3\2\2\2\u00d0\u00b8\3\2\2\2\u00d0\u00ba\3\2"+
 		"\2\2\u00d0\u00bc\3\2\2\2\u00d0\u00be\3\2\2\2\u00d0\u00c6\3\2\2\2\u00d0"+

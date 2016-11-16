@@ -4,20 +4,16 @@
 Semantic Error detected at line 43: 16-- Duplicated identifier name in the same scope 
 Incompatible type : non paramNode returned from param context
 Semantic Error detected at line 43: 16-- Incompatible type 
-meow rofl
 Semantic Error detected at line 43: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/ticTacToe.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 130: 23-- Duplicated identifier name in the same scope 
+Incompatible type : non paramNode returned from param context
+Semantic Error detected at line 130: 23-- Incompatible type 
+Semantic Error detected at line 130: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -26,7 +22,6 @@ Exception in thread "main" java.lang.NullPointerException
 Semantic Error detected at line 25: 14-- Duplicated identifier name in the same scope 
 Incompatible type : non paramNode returned from param context
 Semantic Error detected at line 25: 14-- Incompatible type 
-meow rofl
 Semantic Error detected at line 25: 1-- Incompatible type 
 ================================================
 ================================================
@@ -252,13 +247,8 @@ Semantic Error detected at line 16: 10-- Undefined variable
 ================================================
 ./example/valid/function/simple_functions/functionReturnPair.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 10: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -284,13 +274,8 @@ Semantic Error detected at line 15: 2-- Incompatible type
 ================================================
 ./example/valid/function/simple_functions/functionSimple.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 9: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -299,7 +284,6 @@ Exception in thread "main" java.lang.NullPointerException
 Semantic Error detected at line 117: 16-- Duplicated identifier name in the same scope 
 Incompatible type : non paramNode returned from param context
 Semantic Error detected at line 117: 16-- Incompatible type 
-meow rofl
 Semantic Error detected at line 117: 2-- Incompatible type 
 ================================================
 ================================================
@@ -329,13 +313,8 @@ Semantic Error detected at line 10: 2-- Incompatible type
 ================================================
 ./example/valid/function/simple_functions/functionDeclaration.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 9: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
@@ -369,25 +348,17 @@ Semantic Error detected at line 16: 2-- Incompatible type
 ================================================
 ./example/valid/function/nested_functions/functionConditionalReturn.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 9: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fixedPointRealArithmetic.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 49: 30-- Duplicated identifier name in the same scope 
+Incompatible type : non paramNode returned from param context
+Semantic Error detected at line 49: 30-- Incompatible type 
+Semantic Error detected at line 49: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================

@@ -167,28 +167,30 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             String funcName = fctx.IDENT().getText();
             Type retType = identifyType(fctx.type());
             List<Type> paramTypes = null;
-            ASTNode paramListNode = visit(fctx.paramList());
-            try {
-                if (paramListNode != null) {
+            BasicParser.ParamListContext pctx = fctx.paramList();
+            ASTNode paramListNode;
+            if (pctx == null ) {
+                try {
+                    symbolTable.addFunction(funcName, new FunctionType(retType));
+                } catch (SemanticException e) {
+                    return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
+                }
+            } else {
+                paramListNode = visit(fctx.paramList());
+                try {
                     if (paramListNode instanceof ParamListNode) {
                         paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
                     } else {
-                        System.err.println("meow rofl");
                         return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
                     }
+                    if (retType != null) {
+                        symbolTable.addFunction(funcName, new FunctionType(retType ,paramTypes));
+                    } else {
+                        return handleError(fctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
+                    }
+                } catch (SemanticException e) {
+                        return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
                 }
-                if (retType != null) {
-                    symbolTable.addFunction(funcName, new FunctionType(retType ,paramTypes));
-                } else {
-                    return handleError(fctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC);
-                }
-            } catch (SemanticException e) {
-                if (paramListNode instanceof ErrorNode) {
-                    return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
-                } else {
-                    return handleError(fctx, ErrorHandle.ERRORTYPE_DUPLICATE_FUNC);
-                }
-            } catch (NullPointerException e) {
             }
         }
 

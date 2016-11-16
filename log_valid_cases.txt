@@ -1,267 +1,18 @@
 ================================================
 ./example/valid/advanced/binarySortTree.wacc
 
-Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1012)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:158)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
+Semantic Error detected at line 43: 16-- Duplicated identifier name in the same scope 
+Incompatible type : non paramNode returned from param context
+Semantic Error detected at line 43: 16-- Incompatible type 
+Semantic Error detected at line 43: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/ticTacToe.wacc
 
-cannot get func type
-Semantic Error detected at line 90: 11-- Undefined function
-Semantic Error detected at line 90: 11-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 90: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 93: 6-- Undefined function
-Semantic Error detected at line 93: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 96: 6-- Undefined function
-Semantic Error detected at line 96: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 83: 2-- Incompatible type 
-Semantic Error detected at line 83: 2-- Incompatible type 
-Semantic Error detected at line 82: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 109: 11-- Undefined function
-Semantic Error detected at line 109: 11-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 109: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 111: 6-- Undefined function
-Semantic Error detected at line 111: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 113: 6-- Undefined function
-Semantic Error detected at line 113: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 103: 2-- Incompatible type 
-Semantic Error detected at line 103: 2-- Incompatible type 
-Semantic Error detected at line 102: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 141: 13-- Undefined function
-Semantic Error detected at line 141: 13-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 141: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 136: 3-- Incompatible type 
-Semantic Error detected at line 136: 3-- Incompatible type 
-Incompatible type in second sequential statement.
-Semantic Error detected at line 135: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 131: 2-- Incompatible type 
-Semantic Error detected at line 131: 2-- Incompatible type 
-Semantic Error detected at line 130: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 159: 14-- Undefined function
-Semantic Error detected at line 159: 14-- Undefined function
-Cannot get exprType in return statement.
-Semantic Error detected at line 161: 10-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 159: 3-- Incompatible type 
-Semantic Error detected at line 159: 3-- Incompatible type 
-Semantic Error detected at line 158: 2-- Incompatible type 
-Semantic Error detected at line 157: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 182: 31-- Undefined function
-Semantic Error detected at line 182: 31-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 182: 3-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 183: 14-- Undefined function
-Semantic Error detected at line 183: 14-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 181: 2-- Incompatible type 
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 185: 28-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 181: 2-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 186: 9-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 181: 2-- Incompatible type 
-Semantic Error detected at line 181: 2-- Incompatible type 
-Semantic Error detected at line 179: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 191: 27-- Undefined function
-Semantic Error detected at line 191: 27-- Undefined function
-cannot get func type
-Semantic Error detected at line 192: 30-- Undefined function
-Semantic Error detected at line 192: 30-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 191: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 193: 14-- Undefined function
-Semantic Error detected at line 193: 14-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 191: 2-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 194: 9-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 191: 2-- Incompatible type 
-Semantic Error detected at line 191: 2-- Incompatible type 
-Semantic Error detected at line 190: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 202: 30-- Undefined function
-Semantic Error detected at line 202: 30-- Undefined function
-Cannot get assignment type in assign statement.
-Semantic Error detected at line 203: 27-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 202: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 202: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 202: 2-- Incompatible type 
-Semantic Error detected at line 202: 2-- Incompatible type 
-Semantic Error detected at line 200: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 213: 26-- Undefined function
-Semantic Error detected at line 213: 26-- Undefined function
-cannot get func type
-Semantic Error detected at line 214: 26-- Undefined function
-Semantic Error detected at line 214: 26-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 213: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 215: 26-- Undefined function
-Semantic Error detected at line 215: 26-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 213: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 213: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 213: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 213: 2-- Incompatible type 
-Semantic Error detected at line 213: 2-- Incompatible type 
-Semantic Error detected at line 211: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 237: 24-- Undefined function
-Semantic Error detected at line 237: 24-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 237: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 239: 13-- Undefined function
-Semantic Error detected at line 239: 13-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 232: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 245: 12-- Undefined function
-Semantic Error detected at line 245: 12-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 245: 3-- Incompatible type 
-Semantic Error detected at line 245: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 232: 2-- Incompatible type 
-Semantic Error detected at line 232: 2-- Incompatible type 
-Semantic Error detected at line 231: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 265: 11-- Undefined function
-Semantic Error detected at line 265: 11-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 265: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 266: 6-- Undefined function
-Semantic Error detected at line 266: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 253: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 267: 6-- Undefined function
-Semantic Error detected at line 267: 6-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 253: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 253: 2-- Incompatible type 
-Semantic Error detected at line 253: 2-- Incompatible type 
-Semantic Error detected at line 252: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 282: 15-- Undefined function
-Semantic Error detected at line 282: 15-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 282: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 283: 15-- Undefined function
-Semantic Error detected at line 283: 15-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 274: 2-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 284: 19-- Undefined function
-Semantic Error detected at line 284: 19-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 274: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 274: 2-- Incompatible type 
-Semantic Error detected at line 274: 2-- Incompatible type 
-Semantic Error detected at line 273: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 293: 29-- Undefined function
-Semantic Error detected at line 293: 29-- Undefined function
-cannot get func type
-Semantic Error detected at line 294: 12-- Undefined function
-Semantic Error detected at line 294: 12-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 293: 3-- Incompatible type 
-Semantic Error detected at line 295: 56-- Undefined variable 
 Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitAssignr_call(SemanticCheckVisitor.java:1156)
-	at frontEnd.SemanticCheckVisitor.visitAssignr_call(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Assignr_callContext.accept(BasicParser.java:1414)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:247)
-	at frontEnd.SemanticCheckVisitor.visitDeclare_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Declare_statContext.accept(BasicParser.java:1132)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1060)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:1070)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1059)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:1070)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1059)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:1070)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:1059)
-	at frontEnd.SemanticCheckVisitor.visitSequential_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$Sequential_statContext.accept(BasicParser.java:1070)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:360)
-	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1182)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1002)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:158)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
@@ -271,105 +22,10 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ./example/valid/advanced/hashTable.wacc
 
-cannot get func type
-Semantic Error detected at line 26: 14-- Undefined function
-Semantic Error detected at line 26: 14-- Undefined function
-cannot get func type
-Semantic Error detected at line 27: 25-- Undefined function
-Semantic Error detected at line 27: 25-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 26: 2-- Incompatible type 
-Cannot get exprType in return statement.
-Semantic Error detected at line 28: 9-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 26: 2-- Incompatible type 
-Semantic Error detected at line 26: 2-- Incompatible type 
+Semantic Error detected at line 25: 14-- Duplicated identifier name in the same scope 
+Incompatible type : non paramNode returned from param context
+Semantic Error detected at line 25: 14-- Incompatible type 
 Semantic Error detected at line 25: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 34: 14-- Undefined function
-Semantic Error detected at line 34: 14-- Undefined function
-cannot get func type
-Semantic Error detected at line 35: 25-- Undefined function
-Semantic Error detected at line 35: 25-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 34: 2-- Incompatible type 
-Semantic error
-Semantic Error detected at line 41: 40-- Undefined variable 
-Semantic Error detected at line 41: 34-- Undefined variable 
-Semantic Error detected at line 41: 23-- Undefined variable 
-Semantic error
-Semantic Error detected at line 42: 9-- Undefined variable 
-Semantic Error detected at line 42: 3-- Undefined variable 
-Semantic Error detected at line 42: 3-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 41: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 41: 3-- Incompatible type 
-Semantic Error detected at line 41: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 34: 2-- Incompatible type 
-Semantic Error detected at line 34: 2-- Incompatible type 
-Semantic Error detected at line 33: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 50: 14-- Undefined function
-Semantic Error detected at line 50: 14-- Undefined function
-cannot get func type
-Semantic Error detected at line 51: 25-- Undefined function
-Semantic Error detected at line 51: 25-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 50: 2-- Incompatible type 
-Semantic error
-Semantic Error detected at line 57: 9-- Undefined variable 
-Semantic Error detected at line 57: 3-- Undefined variable 
-cannot get func type
-Semantic Error detected at line 57: 18-- Undefined function
-Semantic Error detected at line 57: 3-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 57: 3-- Incompatible type 
-Semantic Error detected at line 57: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 50: 2-- Incompatible type 
-Semantic Error detected at line 50: 2-- Incompatible type 
-Semantic Error detected at line 49: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 85: 16-- Undefined function
-Semantic Error detected at line 85: 16-- Undefined function
-Semantic Error detected at line 86: 15-- Undefined variable 
-Semantic Error detected at line 86: 9-- Undefined variable 
-Semantic Error detected at line 86: 9-- Undefined variable 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 85: 3-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 85: 3-- Incompatible type 
-Semantic Error detected at line 85: 3-- Incompatible type 
-Incompatible type in second sequential statement.
-Semantic Error detected at line 84: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 81: 2-- Incompatible type 
-Semantic Error detected at line 81: 2-- Incompatible type 
-Semantic Error detected at line 80: 1-- Incompatible type 
-cannot get func type
-Semantic Error detected at line 97: 20-- Undefined function
-Semantic Error detected at line 97: 20-- Undefined function
-Incompatible type in first sequential statement.
-Semantic Error detected at line 97: 6-- Incompatible type 
-Semantic Error detected at line 97: 6-- Incompatible type 
-Incompatible type in second sequential statement.
-Semantic Error detected at line 96: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 94: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 94: 2-- Incompatible type 
-Semantic Error detected at line 94: 2-- Incompatible type 
-Semantic Error detected at line 93: 1-- Incompatible type 
-Exception in thread "main" java.lang.NullPointerException
-	at type.PairType.equals(PairType.java:64)
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1018)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:158)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
-	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
-	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
-	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -417,7 +73,28 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ./example/valid/array/array.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:337)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1142)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -425,21 +102,35 @@ Exception in thread "main" java.lang.NullPointerException
 
 Different types in target and assign value
 Semantic Error detected at line 13: 9-- Incompatible type 
-Incompatible type in second sequential statement.
 Semantic Error detected at line 13: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 11: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 11: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 11: 2-- Incompatible type 
 Semantic Error detected at line 11: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/array/arrayPrint.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:337)
+	at frontEnd.SemanticCheckVisitor.visitWhile_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$While_statContext.accept(BasicParser.java:1142)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -601,87 +292,189 @@ Semantic Error detected at line 16: 10-- Undefined variable
 ================================================
 ./example/valid/function/simple_functions/functionReturnPair.wacc
 
-
+Exception in thread "main" java.lang.NullPointerException
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/sameArgName.wacc
 
-
+Semantic Error detected at line 9: 2-- Incompatible type 
+Semantic Error detected at line 9: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionManyArguments.wacc
 
-
+Semantic Error detected at line 17: 12-- Undefined variable 
+Semantic Error detected at line 19: 12-- Undefined variable 
+Semantic Error detected at line 21: 12-- Undefined variable 
+Semantic Error detected at line 23: 12-- Undefined variable 
+Semantic Error detected at line 25: 12-- Undefined variable 
+Semantic Error detected at line 27: 12-- Undefined variable 
+Semantic Error detected at line 15: 2-- Incompatible type 
+Semantic Error detected at line 15: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionSimple.wacc
 
-
+Exception in thread "main" java.lang.NullPointerException
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/asciiTable.wacc
 
-
+Semantic Error detected at line 117: 16-- Duplicated identifier name in the same scope 
+Incompatible type : non paramNode returned from param context
+Semantic Error detected at line 117: 16-- Incompatible type 
+Semantic Error detected at line 117: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionUpdateParameter.wacc
 
-
+Semantic Error detected at line 16: 12-- Undefined variable 
+Semantic Error detected at line 19: 12-- Undefined variable 
+Semantic Error detected at line 14: 2-- Incompatible type 
+Semantic Error detected at line 14: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/negFunction.wacc
 
-
+Semantic Error detected at line 11: 2-- Incompatible type 
+Semantic Error detected at line 11: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/incFunction.wacc
 
-
+Semantic Error detected at line 10: 2-- Incompatible type 
+Semantic Error detected at line 10: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionDeclaration.wacc
 
-
+Exception in thread "main" java.lang.NullPointerException
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciFullRec.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciRecursive.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printInputTriangle.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printTriangle.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/functionConditionalReturn.wacc
 
 Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1012)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:158)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
@@ -692,8 +485,8 @@ Exception in thread "main" java.lang.NullPointerException
 ./example/valid/function/nested_functions/fixedPointRealArithmetic.wacc
 
 Exception in thread "main" java.lang.NullPointerException
-	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1012)
-	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:158)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:170)
 	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
 	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
 	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
@@ -703,26 +496,48 @@ Exception in thread "main" java.lang.NullPointerException
 ================================================
 ./example/valid/function/nested_functions/simpleRecursion.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/mutualRecursion.wacc
 
-cannot get func type
-Semantic Error detected at line 31: 14-- Undefined function
-Semantic Error detected at line 31: 14-- Undefined function
-Incompatible type in second sequential statement.
-Semantic Error detected at line 31: 6-- Incompatible type 
-Semantic Error detected at line 29: 6-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 25: 4-- Incompatible type 
-Semantic Error detected at line 25: 4-- Incompatible type 
-Semantic Error detected at line 24: 2-- Incompatible type 
-Semantic Error detected at line 43: 2-- Duplicated identifier name in the same scope 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 43: 2-- Incompatible type 
-Semantic Error detected at line 43: 2-- Incompatible type 
+Semantic Error detected at line 30: 14-- Undefined variable 
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:994)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:196)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -866,67 +681,242 @@ Semantic Error detected at line 43: 2-- Incompatible type
 ================================================
 ./example/valid/if/if5.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/if3.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/if1.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/ifTrue.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/if4.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/whitespace.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/if6.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/ifBasic.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/if2.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/if/ifFalse.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
 ./example/valid/scope/ifNested2.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:387)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:388)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:387)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:387)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -980,7 +970,28 @@ Semantic Error detected at line 114: 16-- Undefined variable
 ================================================
 ./example/valid/scope/ifNested1.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:387)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -1124,7 +1135,20 @@ Semantic Error detected at line 114: 16-- Undefined variable
 ================================================
 ./example/valid/expressions/boolExpr1.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -1160,7 +1184,20 @@ Semantic Error detected at line 114: 16-- Undefined variable
 ================================================
 ./example/valid/expressions/intExpr1.wacc
 
-
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -1454,21 +1491,20 @@ Semantic Error detected at line 19: 12-- Undefined variable
 ================================================
 ./example/valid/IO/print/multipleStringsAssignment.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 29: 10-- Incompatible type 
-Incompatible type in second sequential statement.
-Semantic Error detected at line 29: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 16: 2-- Incompatible type 
-Incompatible type in first sequential statement.
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
+Exception in thread "main" java.lang.ClassCastException: ast.statement.StatListNode cannot be cast to ast.ErrorNode
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:398)
+	at frontEnd.SemanticCheckVisitor.visitIf_stat(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$If_statContext.accept(BasicParser.java:1187)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:1065)
+	at frontEnd.SemanticCheckVisitor.visitStatList(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$StatListContext.accept(BasicParser.java:1026)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:204)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:20)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================

@@ -101,17 +101,29 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
         newSymbolTable();
 
-        ASTNode statNode = visit(ctx.stat());
+        ASTNode statListNode = visit(ctx.statList());
 
-        if( !(statNode instanceof StatementNode)){
-            return handleError(ctx.stat(), ((ErrorNode)statNode).getErrorType());
+        if( !(statListNode instanceof StatListNode)){
+            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
         }
 
-        if (getActualRetContext(ctx.stat()) != null) {
-            return handleError(getActualRetContext(ctx.stat()), ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+        List<StatementNode> sNodes = ((StatListNode) statListNode).getStatList();
+        for (StatementNode sNode : sNodes) {
+            if (sNode instanceof ReturnStatNode) {
+                List<BasicParser.StatContext> stats = ctx.statList().stat();
+                ParserRuleContext rctx = null;
+                for (BasicParser.StatContext stat : stats) {
+                    if (stat instanceof BasicParser.Return_statContext) {
+                        rctx = stat;
+                        break;
+                    }
+                }
+                return handleError(rctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+            }
         }
+
         popSymbolTable();
-        return new ScopingStatNode((StatementNode) statNode);
+        return new ScopingStatNode((StatListNode) statListNode);
     }
 
     @Override
@@ -158,7 +170,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             ASTNode paramListNode = visit(fctx.paramList());
             try {
                 if (paramListNode != null) {
-                    paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
+                    if (paramListNode instanceof ParamListNode) {
+                        paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
+                    } else {
+                        return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
+                    }
                 }
                 if (retType != null) {
                     symbolTable.addFunction(funcName, new FunctionType(retType ,paramTypes));
@@ -186,8 +202,23 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         ASTNode statListNode = visit(ctx.statList());
-        if (!(statListNode instanceof StatListNode)) {
-            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType())
+        if (statListNode instanceof StatListNode) {
+            List<StatementNode> sNodes = ((StatListNode) statListNode).getStatList();
+            for (StatementNode sNode : sNodes) {
+                if (sNode instanceof ReturnStatNode) {
+                    List<BasicParser.StatContext> stats = ctx.statList().stat();
+                    ParserRuleContext rctx = null;
+                    for (BasicParser.StatContext stat : stats) {
+                        if (stat instanceof BasicParser.Return_statContext) {
+                            rctx = stat;
+                            break;
+                        }
+                    }
+                    return handleError(rctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+                }
+            }
+        } else {
+            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
         }
 
         return new ProgramNode(functions, (StatListNode) statListNode);
@@ -303,15 +334,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         ASTNode cond = visit(ctx.expr());
         Type condType;
-        ASTNode stat = visit(ctx.stat());
+        ASTNode statListNode = visit(ctx.statList());
 
         if(!(cond instanceof ExpressionNode)){
             return handleError(ctx.expr(), ((ErrorNode)cond).getErrorType());
             //System.err.println("Incompatible type in While.");
         }
 
-        if(!(stat instanceof StatementNode)){
-            return handleError(ctx.stat(), ((ErrorNode)stat).getErrorType());
+        if(!(statListNode instanceof StatListNode)){
+            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
             //System.err.println("Incompatible type in While.");
         }
 
@@ -329,15 +360,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         /*
         try{
-            stat.getNodeType(symbolTable);
+            statListNode.getNodeType(symbolTable);
         } catch (SemanticException e){
-            System.err.println("Should not reach here since stat is an instance of StatementNode and getNodeType should return StatType directly");
-            return handleError(ctx.stat(), ErrorHandle.UNDEFINED);
+            System.err.println("Should not reach here since statListNode is an instance of StatementNode and getNodeType should return StatType directly");
+            return handleError(ctx.statListNode(), ErrorHandle.UNDEFINED);
         }
         */
 
         popSymbolTable();
-        return new WhileStatNode((ExpressionNode) cond, (StatementNode) stat);
+        return new WhileStatNode((ExpressionNode) cond, (StatListNode) statListNode);
     }
 
     @Override
@@ -353,8 +384,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitIf_stat(@NotNull BasicParser.If_statContext ctx) {
         ASTNode cond = visit(ctx.expr());
-        ASTNode statIF = visit(ctx.stat(0));
-        ASTNode statELSE = visit(ctx.stat(1));
+        ASTNode statListIF = visit(ctx.statList(0));
+        ASTNode statListELSE = visit(ctx.statList(1));
 
         Type condType;
 
@@ -363,13 +394,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             //System.err.println("Incompatible type in condition expr in If statement");
         }
 
-        if(!(statIF instanceof StatementNode)){
-            return handleError(ctx.stat(0), ((ErrorNode)statIF).getErrorType());
+        if(!(statListIF instanceof StatementNode)){
+            return handleError(ctx.statList(0), ((ErrorNode)statListIF).getErrorType());
             //System.err.println("Incompatible type in IF stat body in if statement");
         }
 
-        if(!(statELSE instanceof StatementNode)){
-            return handleError(ctx.stat(1), ((ErrorNode)statELSE).getErrorType());
+        if(!(statListELSE instanceof StatementNode)){
+            return handleError(ctx.statList(1), ((ErrorNode)statListELSE).getErrorType());
             //System.err.println("Incompatible type in Else stat body in if statement");
         }
 
@@ -385,7 +416,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        return new IfStatNode((ExpressionNode) cond, (StatementNode) statIF, (StatementNode) statELSE);
+        return new IfStatNode((ExpressionNode) cond, (StatListNode) statListIF, (StatListNode) statListELSE);
     }
 
     @Override
@@ -977,7 +1008,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                    List<BasicParser.StatContext> stats = ctx.statList().stat();
                    ParserRuleContext rctx = null;
                    for (BasicParser.StatContext stat : stats) {
-                       if (stat instanceof BasicParser.Return_statContext);
+                       if (stat instanceof BasicParser.Return_statContext) {
+                           rctx = stat;
+                           break;
+                       }
                    }
                    return handleError(rctx, ((ErrorNode)node).getErrorType());
                }
@@ -1003,22 +1037,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
         }
 
+        popSymbolTable();
         return new FunctionNode(actualRetType, new IdentNode(fname), paramListNode, statListNode);
     }
-
-//    private BasicParser.Return_statContext getActualRetContext(ParserRuleContext ctx) {
-//        BasicParser.Return_statContext rctx = null;
-//        while (ctx instanceof BasicParser.Sequential_statContext) {
-//            if (((BasicParser.Sequential_statContext)ctx).stat(1) instanceof BasicParser.Return_statContext) {
-//                rctx = (BasicParser.Return_statContext) ((BasicParser.Sequential_statContext)ctx).stat(1);
-//            }
-//            ctx = ((BasicParser.Sequential_statContext)ctx).stat(0);
-//        }
-//        if (ctx instanceof BasicParser.Return_statContext) {
-//            rctx = (BasicParser.Return_statContext) ctx;
-//        }
-//        return rctx;
-//    }
 
     @Override
     public ASTNode visitParamList(@NotNull BasicParser.ParamListContext ctx) {

@@ -552,7 +552,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        return new ReadStatNode((ExpressionNode) expr);
+        return new ReturnStatNode((ExpressionNode) expr);
     }
 
     @Override

@@ -193,6 +193,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 }
             }
         }
+        symbolTable.clearVarTable();
 
         List<FunctionNode> functions = new ArrayList<>();
         for (BasicParser.FuncContext fctx : fctxs) {
@@ -969,12 +970,24 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // TODO: create a new symbol table for local variable
         // TODO: check the first return has actual type same with expected from parent(program) symboltable
         // TODO: return a new funcNode
-        symbolTable = new SymbolTable(symbolTable);
+        newSymbolTable();
 
         String fname = ctx.IDENT().getText();
         Type actualRetType = null;
         StatListNode statListNode = null;
         ParamListNode paramListNode = null;
+
+        BasicParser.ParamListContext pctx = ctx.paramList();
+
+        ASTNode pNode;
+        if (pctx != null) {
+            pNode = visit(ctx.paramList());
+            if (pNode instanceof ParamListNode) {
+                paramListNode = (ParamListNode) pNode;
+            } else {
+                return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
+            }
+        }
 
         // get statList
         ASTNode sNode = visit(ctx.statList());
@@ -1015,17 +1028,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC) ;
         }
 
-        BasicParser.ParamListContext pctx = ctx.paramList();
 
-        ASTNode pNode;
-        if (pctx != null) {
-            pNode = visit(ctx.paramList());
-            if (pNode instanceof ParamListNode) {
-                paramListNode = (ParamListNode) pNode;
-            } else {
-                return handleError(ctx.paramList(), ((ErrorNode)pNode).getErrorType());
-            }
-        }
 
         popSymbolTable();
         return new FunctionNode(actualRetType, new IdentNode(fname), paramListNode, statListNode);
@@ -1324,10 +1327,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     private void popSymbolTable() {
-        if (symbolTable.getParent() != null) {
-            symbolTable = symbolTable.getParent();
-        } else {
+        if (symbolTable.getParent() == null) {
             System.err.println("error in finding symbol table parent");
+        } else {
+            symbolTable = symbolTable.getParent();
         }
     }
 

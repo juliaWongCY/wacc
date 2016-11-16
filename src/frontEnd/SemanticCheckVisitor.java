@@ -173,6 +173,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                     if (paramListNode instanceof ParamListNode) {
                         paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
                     } else {
+                        System.err.println("meow rofl");
                         return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
                     }
                 }
@@ -223,23 +224,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         return new ProgramNode(functions, (StatListNode) statListNode);
     }
-
-//    private ParserRuleContext getSctx(int i, BasicParser.Sequential_statContext ctx) {
-//        ParserRuleContext retCtx = ctx;
-//        for (int j = 0; j < 0; j++) {
-//            retCtx = ((BasicParser.Sequential_statContext)retCtx).stat(0);
-//        }
-//        if (retCtx instanceof BasicParser.Return_statContext) {
-//            return retCtx;
-//        } else {
-//            BasicParser.Sequential_statContext s = (BasicParser.Sequential_statContext)retCtx;
-//            if (s.stat(0) instanceof BasicParser.Return_statContext) {
-//                return s.stat(0);
-//            } else {
-//                return s.stat(1);
-//            }
-//        }
-//    }
 
     @Override
     public ASTNode visitExit_stat(@NotNull BasicParser.Exit_statContext ctx) {
@@ -394,12 +378,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             //System.err.println("Incompatible type in condition expr in If statement");
         }
 
-        if(!(statListIF instanceof StatementNode)){
+        if(!(statListIF instanceof StatListNode)){
             return handleError(ctx.statList(0), ((ErrorNode)statListIF).getErrorType());
             //System.err.println("Incompatible type in IF stat body in if statement");
         }
 
-        if(!(statListELSE instanceof StatementNode)){
+        if(!(statListELSE instanceof StatListNode)){
             return handleError(ctx.statList(1), ((ErrorNode)statListELSE).getErrorType());
             //System.err.println("Incompatible type in Else stat body in if statement");
         }

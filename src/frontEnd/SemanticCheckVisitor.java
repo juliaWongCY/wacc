@@ -649,7 +649,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             symbolTable.addVariable(ident, paramType);
         } catch (SemanticException e){
             return handleError(ctx, ErrorHandle.ERRORTYPE_DUPLICATE_IDENT);
-            //System.err.println("Variable with same identifier is already declared in current scope");
         }
         return new ParamNode(paramType, new IdentNode(ident));
 
@@ -903,25 +902,21 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public ASTNode visitScope_stat(@NotNull BasicParser.Scope_statContext ctx) {
         newSymbolTable();
 
-        ASTNode statListNode = visit(ctx.statList());
+        ParserRuleContext sctx = ctx.statList();
+        ASTNode statListNode = visit(sctx);
 
         if( !(statListNode instanceof StatListNode)){
             return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
         }
 
-        List<StatementNode> sNodes = ((StatListNode) statListNode).getStatList();
-        for (StatementNode sNode : sNodes) {
-            if (sNode instanceof ReturnStatNode) {
-                List<BasicParser.StatContext> stats = ctx.statList().stat();
-                ParserRuleContext rctx = null;
-                for (BasicParser.StatContext stat : stats) {
-                    if (stat instanceof BasicParser.Return_statContext) {
-                        rctx = stat;
-                        break;
-                    }
-                }
-                return handleError(rctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
+        if (statListNode instanceof StatListNode) {
+            // check if statList contains return stat
+            Type retType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
+            if (retType != null) {
+                return handleError(sctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
             }
+        } else {
+            return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
         }
 
         popSymbolTable();
@@ -993,9 +988,6 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
-        // TODO: create a new symbol table for local variable
-        // TODO: check the first return has actual type same with expected from parent(program) symboltable
-        // TODO: return a new funcNode
         newSymbolTable();
 
         String fname = ctx.IDENT().getText();
@@ -1016,7 +1008,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         // get statList
-        ASTNode sNode = visit(ctx.statList());
+        ParserRuleContext sctx = ctx.statList();
+                ASTNode sNode = visit(sctx);
         if (sNode instanceof StatListNode) {
             statListNode = (StatListNode) sNode;
         } else {
@@ -1024,25 +1017,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         }
 
         // get acutal return type
-        List<StatementNode> sNodes = statListNode.getStatList();
-        for (StatementNode node : sNodes) {
-            if (node instanceof ReturnStatNode) {
-                try {
-                    actualRetType = ((ReturnStatNode) node).getReturnType(symbolTable);
-                } catch (SemanticException e) {
-                    List<BasicParser.StatContext> stats = ctx.statList().stat();
-                    ParserRuleContext rctx = null;
-                    for (BasicParser.StatContext stat : stats) {
-                        if (stat instanceof BasicParser.Return_statContext) {
-                            rctx = stat;
-                            break;
-                        }
-                    }
-                    return handleError(rctx, ((ErrorNode)node).getErrorType());
-                }
-
-            }
-        }
+        actualRetType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
 
         // compare expected and actual return type
         try {
@@ -1062,13 +1037,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitProgram(@NotNull BasicParser.ProgramContext ctx) {
-        // TODO: create super symbolTable
-        // TODO: save functions delcaration to symboltable
-        // TODO: ensure statlist is well formed
-        // TODO: return a new program node
 
         symbolTable = new SymbolTable();
 
+        // add function declaration to program symbol table
         List<BasicParser.FuncContext> fctxs = ctx.func();
 
         for (BasicParser.FuncContext fctx : fctxs) {
@@ -1103,6 +1075,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             symbolTable.clearParamsInVarTable();
         }
 
+        // visit and parse functions
         List<FunctionNode> functions = new ArrayList<>();
         for (BasicParser.FuncContext fctx : fctxs) {
             ASTNode fnode = visit(fctx);
@@ -1113,21 +1086,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         }
 
-        ASTNode statListNode = visit(ctx.statList());
+        // visit statlist
+        ParserRuleContext sctx = ctx.statList();
+        ASTNode statListNode = visit(sctx);
         if (statListNode instanceof StatListNode) {
-            List<StatementNode> sNodes = ((StatListNode) statListNode).getStatList();
-            for (StatementNode sNode : sNodes) {
-                if (sNode instanceof ReturnStatNode) {
-                    List<BasicParser.StatContext> stats = ctx.statList().stat();
-                    ParserRuleContext rctx = null;
-                    for (BasicParser.StatContext stat : stats) {
-                        if (stat instanceof BasicParser.Return_statContext) {
-                            rctx = stat;
-                            break;
-                        }
-                    }
-                    return handleError(rctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
-                }
+            // check if statList contains return stat
+            Type retType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
+            if (retType != null) {
+                return handleError(sctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
             }
         } else {
             return handleError(ctx.statList(), ((ErrorNode)statListNode).getErrorType());
@@ -1137,7 +1103,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
 
-    /////////////////////////// helper method//////////////////////////////////
+    /////////////////////////// helper method //////////////////////////////////
+
+    // get Type from typeContext
     private Type identifyType(BasicParser.TypeContext ctx) {
         // determine whether it's baseType, arrayType or pairType
 
@@ -1233,6 +1201,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return null;
     }
 
+    // ensure the LHS and RHS of assignment and declaration are of same type
     private boolean operandsTypeCheck(Type targetType, AssignRightNode node) {
         Type rhsType;
         try{
@@ -1275,6 +1244,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return false;
     }
 
+    // handle semantic error
     private ASTNode handleEAError(ParserRuleContext ctx, ErrorHandle errorType, Type exp, Type act){
         hasSemanticError = true;
         String errorMSG = errorType.getErrorMsg();
@@ -1299,17 +1269,69 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return hasSemanticError;
     }
 
+    // create new symbol table with parent as current symbol table
     private void newSymbolTable() {
         SymbolTable st = new SymbolTable(symbolTable);
         symbolTable = st;
     }
 
+    // discard current symbol table and set current table as its parent
     private void popSymbolTable() {
         if (symbolTable.getParent() == null) {
             System.err.println("error in finding symbol table parent");
         } else {
             symbolTable = symbolTable.getParent();
         }
+    }
+
+    // get actual return type from statlist, two arguments should be the same, the second is to identify where does the error (if any) occurs
+    private Type getRetTypeInStatList(BasicParser.StatListContext ctx, ParserRuleContext errorCtx) {
+        List<BasicParser.StatContext> stats = ctx.stat();
+        for (BasicParser.StatContext stat : stats) {
+            if (stat instanceof BasicParser.Return_statContext) {
+                ASTNode node = visit((BasicParser.Return_statContext) stat);
+                if (node instanceof ReturnStatNode) {
+                    try {
+                        return node.getNodeType(symbolTable);
+                    } catch (SemanticException e) {
+                        System.err.println(e);
+                    }
+                    errorCtx = stat;
+                    return null;
+                }
+
+                if (stat instanceof BasicParser.If_statContext) {
+                    Type trueType = getRetTypeInStatList(
+                            ((BasicParser.If_statContext) stat).statList(0),
+                            ((BasicParser.If_statContext) stat).statList(0));
+                    Type falseType = getRetTypeInStatList(
+                            ((BasicParser.If_statContext) stat).statList(1),
+                            ((BasicParser.If_statContext) stat).statList(1));
+                    if (trueType.equals(falseType) && trueType != null) {
+                        return trueType;
+                    }
+                }
+
+                if (stat instanceof BasicParser.While_statContext) {
+                    Type type = getRetTypeInStatList(
+                            ((BasicParser.While_statContext) stat).statList(),
+                            ((BasicParser.While_statContext) stat).statList());
+                    if (type != null) {
+                        return type;
+                    }
+                }
+
+                if (stat instanceof BasicParser.Scope_statContext) {
+                    Type type = getRetTypeInStatList(
+                            ((BasicParser.Scope_statContext) stat).statList(),
+                            ((BasicParser.Scope_statContext) stat).statList());
+                    if (type != null) {
+                        return type;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }

@@ -24,7 +24,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     public SemanticCheckVisitor(SymbolTable symbolTable) {
     }
 
-    /////////////////////////assignment LHS and RHS////////////////////////////////////
+    ///////////////////////// assignment LHS and RHS ////////////////////////////////////
 
     @Override
     public ASTNode visitAssignl_arrayelem(@NotNull BasicParser.Assignl_arrayelemContext ctx) {

@@ -2,6 +2,7 @@ package frontEnd;
 
 import antlr.BasicParser;
 import antlr.BasicParserBaseVisitor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 
 public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> {
@@ -30,7 +31,7 @@ public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> 
 
     @Override
     public Boolean visitFunc(BasicParser.FuncContext ctx) {
-        boolean result = visit(ctx.stat());
+        boolean result = visit(ctx.statList());
         if (!result) {
             System.err.println("Function '" + ctx.IDENT().getText() + "' is not ended with a return or an exit statement.");
         }
@@ -38,8 +39,8 @@ public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> 
     }
 
     @Override
-    public Boolean visitSequential_stat(BasicParser.Sequential_statContext ctx) {
-        return visit(ctx.stat(1));
+    public Boolean visitStatList(@NotNull BasicParser.StatListContext ctx) {
+        return visit(ctx.stat(ctx.stat().size() - 1));
     }
 
     @Override
@@ -54,6 +55,6 @@ public class SyntaxCheckLastStatVisitor extends BasicParserBaseVisitor<Boolean> 
 
     @Override
     public Boolean visitIf_stat(BasicParser.If_statContext ctx) {
-        return visit(ctx.stat(0)) && visit(ctx.stat(1));
+        return visit(ctx.statList(0)) && visit(ctx.statList(1));
     }
 }

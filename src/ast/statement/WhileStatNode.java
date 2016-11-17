@@ -11,10 +11,10 @@ public class WhileStatNode implements StatementNode {
 
 
     private ExpressionNode expr;
-    private StatementNode stat;
+    private StatListNode stat;
 
     public WhileStatNode(ExpressionNode expr,
-                         StatementNode stat){
+                         StatListNode stat){
         this.expr = expr;
         this.stat = stat;
     }
@@ -23,7 +23,7 @@ public class WhileStatNode implements StatementNode {
         return expr;
     }
 
-    public StatementNode getBody(){
+    public StatListNode getBody(){
         return stat;
     }
 

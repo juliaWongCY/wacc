@@ -39,23 +39,24 @@ baseType : INT | BOOL | CHAR | STRING;
 
 
 // EOF indicates that the program must consume to the end of the input.
-program : BEGIN (func)* stat END EOF;
+program : BEGIN (func)* statList END EOF;
 
-func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS stat END;
+func : type IDENT OPEN_PARENTHESES ( paramList )? CLOSE_PARENTHESES IS statList END;
 
-stat : SKIP_                        #skip_stat
-| type IDENT ASSIGN assignRHS       #declare_stat
-| assignLHS ASSIGN assignRHS        #assign_stat
-| READ assignLHS                    #read_stat
-| FREE expr                         #free_stat
-| RETURN expr                       #return_stat
-| EXIT expr                         #exit_stat
-| PRINT expr                        #print_stat
-| PRINTLN expr                      #println_stat
-| IF expr THEN stat ELSE stat FI    #if_stat
-| WHILE expr DO stat DONE           #while_stat
-| BEGIN stat END                    #scope_stat
-| stat SEMICOLON stat               #sequential_stat
+statList : stat (SEMICOLON stat)*;
+
+stat : SKIP_                                #skip_stat
+| type IDENT ASSIGN assignRHS               #declare_stat
+| assignLHS ASSIGN assignRHS                #assign_stat
+| READ assignLHS                            #read_stat
+| FREE expr                                 #free_stat
+| RETURN expr                               #return_stat
+| EXIT expr                                 #exit_stat
+| PRINT expr                                #print_stat
+| PRINTLN expr                              #println_stat
+| IF expr THEN statList ELSE statList FI    #if_stat
+| WHILE expr DO statList DONE               #while_stat
+| BEGIN statList END                        #scope_stat
 ;
 
 assignRHS : expr                                                #assignr_expr

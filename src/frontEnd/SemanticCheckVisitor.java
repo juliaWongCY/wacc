@@ -916,7 +916,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (statListNode instanceof StatListNode) {
             // check if statList contains return stat
             Type retType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
-            if (retType != null) {
+            if (retType != null && !retType.equals(new StatementType())) {
                 return handleError(sctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
             }
         } else {
@@ -1026,7 +1026,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         // compare expected and actual return type
         try {
             Type fType = symbolTable.lookUpFunction(fname);
-            if (!((FunctionType)fType).getReturnType().equals(actualRetType)) {
+            if (!((FunctionType)fType).getReturnType().equals(actualRetType)
+                    && !actualRetType.equals(new StatementType())) {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE) ;
             }
         } catch (SemanticException e) {
@@ -1096,7 +1097,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         if (statListNode instanceof StatListNode) {
             // check if statList contains return stat
             Type retType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
-            if (retType != null) {
+            if (retType != null && !retType.equals(new StatementType())) {
                 return handleError(sctx, ErrorHandle.ERRORTYPE_NO_RETURN_GLOBAL_SCOPE);
             }
         } else {
@@ -1319,8 +1320,16 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                         ((BasicParser.If_statContext) stat).statList(1),
                         ((BasicParser.If_statContext) stat).statList(1));
                 popSymbolTable();
-                if (trueType != null && falseType != null && trueType.equals(falseType)) {
-                    return trueType;
+                if (trueType != null && falseType != null) {
+                    if (trueType.equals(falseType)) {
+                        return trueType;
+                    }
+                    if (trueType.equals(new StatementType())) {
+                        return falseType;
+                    }
+                    if (falseType.equals(new StatementType())) {
+                        return trueType;
+                    }
                 }
             }
 
@@ -1346,6 +1355,10 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 if (type != null) {
                     return type;
                 }
+            }
+
+            if (stat instanceof BasicParser.Exit_statContext) {
+                return new StatementType();
             }
 
         }

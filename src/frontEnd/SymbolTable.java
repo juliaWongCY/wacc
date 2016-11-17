@@ -33,7 +33,7 @@ public class SymbolTable {
     }
 
     public void addFunction(String func, Type retType) throws SemanticException{
-        if (functionTable.containsKey(func)) {
+        if (hasFunction(func)) {
             throw new SemanticException("Function with same identifier is already declared");
         } else {
             functionTable.put(func, retType);
@@ -83,8 +83,12 @@ public class SymbolTable {
         if (getParent() == null) {
             return varTable.containsKey(var);
         } else {
-            return varTable.containsKey(var) || getParent().hasFunction(var);
+            return varTable.containsKey(var) || getParent().hasVariable(var);
         }
+    }
+
+    public void clearParamsInVarTable() {
+        varTable.clear();
     }
 
 

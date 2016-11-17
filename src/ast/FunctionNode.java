@@ -2,6 +2,7 @@ package ast;
 
 import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
+import ast.statement.StatListNode;
 import ast.statement.StatementNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
@@ -14,13 +15,13 @@ public class FunctionNode implements ASTNode {
     private Type type;
     private IdentNode functionName;
     private ParamListNode paramList;
-    private StatementNode bodyStat;
+    private StatListNode bodyStat;
 
     //Constructor
     public FunctionNode(Type type,
                         IdentNode functionName,
                         ParamListNode paramList,
-                        StatementNode bodyStat){
+                        StatListNode bodyStat){
         if (paramList == null) {
             this.type = new FunctionType(type);
         } else {
@@ -44,7 +45,7 @@ public class FunctionNode implements ASTNode {
         return paramList;
     }
 
-    public StatementNode getStatement(){
+    public StatListNode getStatement(){
         return bodyStat;
     }
 

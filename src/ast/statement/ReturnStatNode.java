@@ -14,6 +14,10 @@ public class ReturnStatNode implements StatementNode {
         this.expr = expr;
     }
 
+    public Type getReturnType(SymbolTable symbolTable) throws SemanticException {
+        return expr.getNodeType(symbolTable);
+    }
+
     /*The type of the expression given to the return statement must match
      the return type of the function */
     @Override

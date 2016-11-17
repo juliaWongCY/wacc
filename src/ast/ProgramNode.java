@@ -1,5 +1,6 @@
 package ast;
 
+import ast.statement.StatListNode;
 import ast.statement.StatementNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
@@ -7,45 +8,28 @@ import type.StatementType;
 import type.Type;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProgramNode implements ASTNode {
     
-    private ArrayList<FunctionNode> functions;
-    private StatementNode statement;
+    private List<FunctionNode> functions;
+    private StatListNode statListNode;
 
-    public ProgramNode() {
-        this.functions = new ArrayList<>();
-        this.statement = null;
+    public ProgramNode(List<FunctionNode> functions, StatListNode statListNode) {
+        this.functions = functions;
+        this.statListNode = statListNode;
     }
 
-    public void addFunction(FunctionNode func) {
-        functions.add(func);
-    }
-
-    public void setStatementNode(StatementNode statement) {
-        this.statement = statement;
-    }
-
-    public ArrayList<FunctionNode> getFunctionNodes(){
+    public List<FunctionNode> getFunctionNodes(){
         return functions;
     }
 
-    public StatementNode getStatementNode(){
-        return statement;
+    public StatListNode getStatListNode() {
+        return statListNode;
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        for (FunctionNode f : functions) {
-            f.getNodeType(st);
-        }
-        if (!(statement.getNodeType(st) instanceof StatementType)) {
-            throw new SemanticException
-                    ("Type error in statement" + statement +
-                            ", expecting statement type -" +
-                            " actual type is" + statement.getNodeType(st));
-        }
-
         return null;
     }
 

@@ -7,42 +7,14 @@
 ================================================
 ./example/valid/advanced/ticTacToe.wacc
 
-Semantic Error detected at line 534: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 534: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 522: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 517: 1-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 517: 1-- Incompatible type 
+Semantic Error detected at line 517: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/hashTable.wacc
 
-Cannot get exprType in return statement.
-Semantic Error detected at line 204: 11-- Undefined variable 
-Semantic Error detected at line 300: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 300: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 302: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 302: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 304: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 304: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 306: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 306: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 308: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 308: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 308: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 307: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 306: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 305: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 304: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 303: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 302: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 301: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 300: 3-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 299: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 299: 7-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 297: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 296: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 295: 1-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 291: 1-- Duplicated identifier name in the same scope 
+
 ================================================
 ================================================
 ================================================

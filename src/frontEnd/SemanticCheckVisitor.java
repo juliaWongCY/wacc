@@ -765,8 +765,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitIf_stat(@NotNull BasicParser.If_statContext ctx) {
         ASTNode cond = visit(ctx.expr());
+        newSymbolTable();
         ASTNode statListIF = visit(ctx.statList(0));
+        popSymbolTable();
+        newSymbolTable();
         ASTNode statListELSE = visit(ctx.statList(1));
+        popSymbolTable();
 
         Type condType;
 
@@ -1302,30 +1306,43 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
 
             if (stat instanceof BasicParser.If_statContext) {
+                newSymbolTable();
+                visit(((BasicParser.If_statContext) stat).statList(0));
                 Type trueType = getRetTypeInStatList(
                         ((BasicParser.If_statContext) stat).statList(0),
                         ((BasicParser.If_statContext) stat).statList(0));
+                popSymbolTable();
+
+                newSymbolTable();
+                visit(((BasicParser.If_statContext) stat).statList(1));
                 Type falseType = getRetTypeInStatList(
                         ((BasicParser.If_statContext) stat).statList(1),
                         ((BasicParser.If_statContext) stat).statList(1));
+                popSymbolTable();
                 if (trueType != null && falseType != null && trueType.equals(falseType)) {
                     return trueType;
                 }
             }
 
             if (stat instanceof BasicParser.While_statContext) {
+                newSymbolTable();
+                visit(((BasicParser.While_statContext) stat).statList());
                 Type type = getRetTypeInStatList(
                         ((BasicParser.While_statContext) stat).statList(),
                         ((BasicParser.While_statContext) stat).statList());
+                popSymbolTable();
                 if (type != null) {
                     return type;
                 }
             }
 
             if (stat instanceof BasicParser.Scope_statContext) {
+                newSymbolTable();
+                visit(((BasicParser.Scope_statContext) stat).statList());
                 Type type = getRetTypeInStatList(
                         ((BasicParser.Scope_statContext) stat).statList(),
                         ((BasicParser.Scope_statContext) stat).statList());
+                popSymbolTable();
                 if (type != null) {
                     return type;
                 }

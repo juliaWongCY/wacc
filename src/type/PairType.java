@@ -6,16 +6,9 @@ public class PairType extends Type {
     private Type fstExprType;
     private Type sndExprType;
 
-    // for nested pair
+    // for pair literal - pair literal only used in declaration of newpair
     public PairType() {
-        isLiter     = false;
-        fstExprType = null;
-        sndExprType = null;
-    }
-
-    // for pair literal
-    public PairType(boolean isLiter) {
-        this.isLiter = true;
+        isLiter     = true;
         fstExprType = null;
         sndExprType = null;
     }
@@ -38,7 +31,7 @@ public class PairType extends Type {
         return isLiter;
     }
 
-    public void setLiter(boolean liter) {
+    public void setLiter() {
         isLiter = true;
         fstExprType = null;
         sndExprType = null;
@@ -57,15 +50,23 @@ public class PairType extends Type {
     @Override
     public boolean equals(Object obj) {
         boolean isEqual =  super.equals(obj);
-        if (isLiter) {
-            if (isEqual) {
-                PairType t = (PairType)obj;
-                isEqual = ((getFstExprType() instanceof PairType && t.getFstExprType() instanceof PairType)
-                        || getFstExprType().equals(t.getFstExprType()))
-                        && ((getSndExprType() instanceof PairType && t.getSndExprType() instanceof PairType)
-                        || getSndExprType().equals(t.getSndExprType()));
+        if (isEqual) {
+            PairType t = (PairType)obj;
+            if (!isLiter() && !(t.isLiter())) {
+                isEqual = getFstExprType().equals(t.getFstExprType())
+                        && getSndExprType().equals(t.getSndExprType());
             }
         }
+
+//        if (isEqual && isLiter) {
+//                PairType t = (PairType)obj;
+//                isEqual = ((getFstExprType() instanceof PairType && t.getFstExprType() instanceof PairType)
+//                        || getFstExprType().equals(t.getFstExprType()))
+//                        && ((getSndExprType() instanceof PairType && t.getSndExprType() instanceof PairType)
+//                        || getSndExprType().equals(t.getSndExprType()));
+//        }
+
+
         return isEqual;
     }
 }

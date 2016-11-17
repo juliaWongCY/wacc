@@ -1308,7 +1308,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 Type falseType = getRetTypeInStatList(
                         ((BasicParser.If_statContext) stat).statList(1),
                         ((BasicParser.If_statContext) stat).statList(1));
-                if (trueType != null && trueType.equals(falseType)) {
+                if (trueType != null && falseType != null && trueType.equals(falseType)) {
                     return trueType;
                 }
             }

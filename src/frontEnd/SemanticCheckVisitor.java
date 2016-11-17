@@ -1285,51 +1285,52 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
     }
 
     // get actual return type from statlist, two arguments should be the same, the second is to identify where does the error (if any) occurs
-    private Type getRetTypeInStatList(BasicParser.StatListContext ctx, ParserRuleContext errorCtx) {
+    private Type getRetTypeInStatList(@NotNull BasicParser.StatListContext ctx, @NotNull ParserRuleContext errorCtx) {
         List<BasicParser.StatContext> stats = ctx.stat();
         for (BasicParser.StatContext stat : stats) {
             if (stat instanceof BasicParser.Return_statContext) {
                 ASTNode node = visit((BasicParser.Return_statContext) stat);
                 if (node instanceof ReturnStatNode) {
                     try {
-                        return node.getNodeType(symbolTable);
+                        return ((ReturnStatNode) node).getReturnType(symbolTable);
                     } catch (SemanticException e) {
                         System.err.println(e);
                     }
                     errorCtx = stat;
                     return null;
                 }
+            }
 
-                if (stat instanceof BasicParser.If_statContext) {
-                    Type trueType = getRetTypeInStatList(
-                            ((BasicParser.If_statContext) stat).statList(0),
-                            ((BasicParser.If_statContext) stat).statList(0));
-                    Type falseType = getRetTypeInStatList(
-                            ((BasicParser.If_statContext) stat).statList(1),
-                            ((BasicParser.If_statContext) stat).statList(1));
-                    if (trueType.equals(falseType) && trueType != null) {
-                        return trueType;
-                    }
-                }
-
-                if (stat instanceof BasicParser.While_statContext) {
-                    Type type = getRetTypeInStatList(
-                            ((BasicParser.While_statContext) stat).statList(),
-                            ((BasicParser.While_statContext) stat).statList());
-                    if (type != null) {
-                        return type;
-                    }
-                }
-
-                if (stat instanceof BasicParser.Scope_statContext) {
-                    Type type = getRetTypeInStatList(
-                            ((BasicParser.Scope_statContext) stat).statList(),
-                            ((BasicParser.Scope_statContext) stat).statList());
-                    if (type != null) {
-                        return type;
-                    }
+            if (stat instanceof BasicParser.If_statContext) {
+                Type trueType = getRetTypeInStatList(
+                        ((BasicParser.If_statContext) stat).statList(0),
+                        ((BasicParser.If_statContext) stat).statList(0));
+                Type falseType = getRetTypeInStatList(
+                        ((BasicParser.If_statContext) stat).statList(1),
+                        ((BasicParser.If_statContext) stat).statList(1));
+                if (trueType != null && trueType.equals(falseType)) {
+                    return trueType;
                 }
             }
+
+            if (stat instanceof BasicParser.While_statContext) {
+                Type type = getRetTypeInStatList(
+                        ((BasicParser.While_statContext) stat).statList(),
+                        ((BasicParser.While_statContext) stat).statList());
+                if (type != null) {
+                    return type;
+                }
+            }
+
+            if (stat instanceof BasicParser.Scope_statContext) {
+                Type type = getRetTypeInStatList(
+                        ((BasicParser.Scope_statContext) stat).statList(),
+                        ((BasicParser.Scope_statContext) stat).statList());
+                if (type != null) {
+                    return type;
+                }
+            }
+
         }
         return null;
     }

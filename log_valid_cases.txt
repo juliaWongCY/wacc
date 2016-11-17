@@ -1,22 +1,33 @@
 ================================================
 ./example/valid/advanced/binarySortTree.wacc
 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/ticTacToe.wacc
 
-Semantic Error detected at line 42: 1-- Incompatible type 
-Semantic Error detected at line 42: 1-- Incompatible type 
+Semantic Error detected at line 534: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 534: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 522: 2-- Duplicated identifier name in the same scope 
+Semantic Error detected at line 517: 1-- Duplicated identifier name in the same scope 
 ================================================
 ================================================
 ================================================
 ./example/valid/advanced/hashTable.wacc
 
-Semantic Error detected at line 14: 1-- Incompatible type 
-Semantic Error detected at line 14: 1-- Incompatible type 
+Exception in thread "main" java.lang.NullPointerException
+	at type.PairType.equals(PairType.java:64)
+	at frontEnd.SemanticCheckVisitor.getRetTypeInStatList(SemanticCheckVisitor.java:1311)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:1020)
+	at frontEnd.SemanticCheckVisitor.visitFunc(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$FuncContext.accept(BasicParser.java:969)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:1081)
+	at frontEnd.SemanticCheckVisitor.visitProgram(SemanticCheckVisitor.java:19)
+	at antlr.BasicParser$ProgramContext.accept(BasicParser.java:904)
+	at org.antlr.v4.runtime.tree.AbstractParseTreeVisitor.visit(AbstractParseTreeVisitor.java:44)
+	at Main.main(Main.java:54)
 ================================================
 ================================================
 ================================================
@@ -238,120 +249,103 @@ Semantic Error detected at line 14: 1-- Incompatible type
 ================================================
 ./example/valid/function/simple_functions/functionReturnPair.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/sameArgName.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionManyArguments.wacc
 
-Semantic Error detected at line 15: 2-- Incompatible type 
-Semantic Error detected at line 15: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionSimple.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/asciiTable.wacc
 
-Semantic Error detected at line 107: 2-- Incompatible type 
-Semantic Error detected at line 107: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionUpdateParameter.wacc
 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/negFunction.wacc
 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/incFunction.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/simple_functions/functionDeclaration.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciFullRec.wacc
 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fibonacciRecursive.wacc
 
-Semantic Error detected at line 10: 2-- Incompatible type 
-Semantic Error detected at line 10: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printInputTriangle.wacc
 
-Semantic Error detected at line 11: 2-- Incompatible type 
-Semantic Error detected at line 11: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/printTriangle.wacc
 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/functionConditionalReturn.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/fixedPointRealArithmetic.wacc
 
-Semantic Error detected at line 15: 1-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/simpleRecursion.wacc
 
-Semantic Error detected at line 9: 2-- Incompatible type 
-Semantic Error detected at line 9: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
 ./example/valid/function/nested_functions/mutualRecursion.wacc
 
-Semantic Error detected at line 24: 2-- Incompatible type 
-Semantic Error detected at line 24: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================

@@ -27,6 +27,8 @@ def compileCase (casePath)
  
 end
 
+puts`make`
+
 File.delete($log) if File.exist?($log)
 file = File.new($log, "a+")
 file.close

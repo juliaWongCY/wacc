@@ -8,13 +8,13 @@ import type.Type;
 public class ScopingStatNode implements StatementNode {
 
 
-    private StatementNode stat;
+    private StatListNode stat;
 
-    public ScopingStatNode(StatementNode stat) {
+    public ScopingStatNode(StatListNode stat) {
         this.stat = stat;
     }
 
-    public StatementNode getchildrenStat(){
+    public StatListNode getchildrenStat(){
         return stat;
     }
 

@@ -2,6 +2,8 @@ package ast.expression;
 
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.ArrayType;
+import type.CharType;
 import type.StringType;
 import type.Type;
 
@@ -19,7 +21,8 @@ public class StringLiterNode implements ExpressionNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        StringType stringType = new StringType();
-        return stringType.getType();
+//        StringType stringType = new StringType();
+//        return stringType.getType();
+        return new ArrayType(new CharType());
     }
 }

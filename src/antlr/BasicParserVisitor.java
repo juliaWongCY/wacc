@@ -82,6 +82,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclare_stat(@NotNull BasicParser.Declare_statContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BasicParser#statList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatList(@NotNull BasicParser.StatListContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code while_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -115,13 +121,6 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssign_stat(@NotNull BasicParser.Assign_statContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code sequential_stat}
-	 * labeled alternative in {@link BasicParser#stat}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSequential_stat(@NotNull BasicParser.Sequential_statContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code bool_liter}
 	 * labeled alternative in {@link BasicParser#expr}.

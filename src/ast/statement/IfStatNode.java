@@ -9,13 +9,13 @@ import type.Type;
 public class IfStatNode implements StatementNode {
 
     private ExpressionNode expr;
-    private StatementNode statThenBody;
-    private StatementNode statElseBody;
+    private StatListNode statThenBody;
+    private StatListNode statElseBody;
 
 
     public IfStatNode(ExpressionNode expr,
-                      StatementNode statThenBody,
-                      StatementNode statElseBody) {
+                      StatListNode statThenBody,
+                      StatListNode statElseBody) {
         this.expr = expr;
         this.statThenBody = statThenBody;
         this.statElseBody = statElseBody;
@@ -25,11 +25,11 @@ public class IfStatNode implements StatementNode {
         return expr;
     }
 
-    public StatementNode getStatThenBody(){
+    public StatListNode getStatThenBody(){
         return statThenBody;
     }
 
-    public StatementNode getStatElseBody(){
+    public StatListNode getStatElseBody(){
         return statElseBody;
     }
 

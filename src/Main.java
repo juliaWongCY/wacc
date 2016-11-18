@@ -1,5 +1,7 @@
 import antlr.BasicLexer;
 import antlr.BasicParser;
+import ast.ASTNode;
+import backEnd.CodeGenerator;
 import frontEnd.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -29,6 +31,7 @@ public class Main {
             System.exit(1);
         }
 
+
         BasicLexer lexer = new BasicLexer(inputFile);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -51,10 +54,16 @@ public class Main {
 
 
         SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
-        semanticCheckVisitor.visit(tree);
+        ASTNode ast = semanticCheckVisitor.visit(tree);
         if (semanticCheckVisitor.hasSemanticError()) {
             System.exit(200);
         }
+
+        //Back-end
+        CodeGenerator codeGenerator = new CodeGenerator(ast);
+        codeGenerator.generateCode();
+
+
 
     }
 

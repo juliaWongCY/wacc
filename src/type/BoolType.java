@@ -6,4 +6,8 @@ public class BoolType extends Type {
 
     }
 
+    @Override
+    public String getTypeInString() {
+        return "bool";
+    }
 }

@@ -6,5 +6,8 @@ public class CharType extends Type {
 
     }
 
-
+    @Override
+    public String getTypeInString() {
+        return "char";
+    }
 }

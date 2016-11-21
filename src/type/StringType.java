@@ -7,6 +7,11 @@ public class StringType extends Type {
     }
 
     @Override
+    public String getTypeInString() {
+        return "string";
+    }
+
+    @Override
     public Type getType() {
         return new ArrayType(new CharType());
     }

@@ -21,6 +21,11 @@ public class ArrayType extends Type {
     }
 
     @Override
+    public String getTypeInString() {
+        return "array";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         boolean isEqual = super.equals(obj);
         if (isEqual) {

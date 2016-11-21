@@ -1,4 +1,6 @@
 begin
-  int a = 1;
-  print a
+  pair(int, bool) a = newpair (1, true);
+  pair(int, bool) b = newpair (1, false);
+  pair(int, bool)[] i = [a, b]
+
 end

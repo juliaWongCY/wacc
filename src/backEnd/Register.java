@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Register {
 
+    //For param, we will put on the stack??`
+
 
     RegisterARM armReg;
     List<RegisterARM> regInUsed = new ArrayList<>();

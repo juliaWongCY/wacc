@@ -2,6 +2,7 @@ import antlr.BasicLexer;
 import antlr.BasicParser;
 import ast.ASTNode;
 import backEnd.CodeGenerator;
+import backEnd.RegisterARM;
 import frontEnd.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -62,8 +63,6 @@ public class Main {
         //Back-end
         CodeGenerator codeGenerator = new CodeGenerator(ast);
         codeGenerator.generateCode();
-
-
 
     }
 

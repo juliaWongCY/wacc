@@ -2,7 +2,6 @@ package backEnd;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Register {
 
@@ -18,7 +17,7 @@ public class Register {
         return armReg;
     }
 
-    public RegisterARM getStckPtrReg(){
+    public RegisterARM getStackPtrReg(){
         return RegisterARM.SP;
     }
 
@@ -34,8 +33,13 @@ public class Register {
         regInUsed.add(reg);
     }
 
+    public void removeRegInUsedList(RegisterARM reg){
+        regInUsed.remove(reg);
+    }
 
-
+    public void clearRegInUsed(){
+        regInUsed.clear();
+    }
 
     public static void saveReg(){
 

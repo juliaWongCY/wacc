@@ -38,9 +38,4 @@ public class WhileStatNode implements StatementNode {
         StatementType stat = new StatementType();
         return stat.getType();
     }
-
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

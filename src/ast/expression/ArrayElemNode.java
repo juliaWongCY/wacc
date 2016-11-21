@@ -30,8 +30,4 @@ public class ArrayElemNode implements ExpressionNode {
         return type;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

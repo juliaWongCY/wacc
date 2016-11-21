@@ -21,8 +21,4 @@ public class PairLiterNode implements ExpressionNode {
         return new PairType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

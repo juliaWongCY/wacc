@@ -58,8 +58,4 @@ public class UnaryOprNode implements ExpressionNode {
 
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

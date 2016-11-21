@@ -30,8 +30,4 @@ public class StringLiterNode implements ExpressionNode {
         return new ArrayType(new CharType());
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

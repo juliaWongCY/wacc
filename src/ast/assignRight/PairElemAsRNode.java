@@ -28,8 +28,4 @@ public class PairElemAsRNode implements AssignRightNode {
         return pairElemNode.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

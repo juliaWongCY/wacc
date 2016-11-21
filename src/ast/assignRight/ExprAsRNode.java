@@ -23,8 +23,4 @@ public class ExprAsRNode implements AssignRightNode {
         return expr.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

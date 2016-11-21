@@ -28,8 +28,4 @@ public class IntLiterNode implements ExpressionNode {
         return intType.getType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

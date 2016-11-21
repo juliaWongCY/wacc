@@ -52,9 +52,4 @@ public class CallAsRNode implements AssignRightNode {
             throw new SemanticException("Call not apply to function type");
         }
     }
-
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

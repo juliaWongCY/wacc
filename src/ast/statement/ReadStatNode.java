@@ -30,8 +30,4 @@ public class ReadStatNode implements StatementNode {
         return stat.getType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

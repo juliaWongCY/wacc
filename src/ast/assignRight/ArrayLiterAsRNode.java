@@ -38,8 +38,4 @@ public class ArrayLiterAsRNode implements AssignRightNode {
         }
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

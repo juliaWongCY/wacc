@@ -33,8 +33,4 @@ public class StatListNode implements ASTNode{
         return new StatementType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

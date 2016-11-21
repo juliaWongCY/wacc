@@ -1,9 +1,6 @@
 begin
-  int f(int f) is
-    return f
-  end
-  
-  int f = call f(99);
-  f = call f(99); # the added line
-  println f
+  pair(int, bool) a = newpair (1, true);
+  pair(int, bool) b = newpair (1, false);
+  pair(int, bool)[] i = [a, b]
+
 end

@@ -2,20 +2,14 @@ package backEnd;
 
 import ast.ASTNode;
 
+import java.util.ArrayList;
+
 public class CodeGenerator {
 
-    private ASTNode astnode;
-
-    public CodeGenerator(ASTNode astNode) {
-        this.astnode = astNode;
-    }
-
-    public String generateCode() {
-
-        //Return all the instructions in the assembly file.
-        return null;
-        //return "Instruction";
-
+    public List<AssemblyLine> generateCode(ASTNode programNode) {
+        AssemblyCode assemblyCode = progNode.transNode(new AssemblyCode(),
+                new Register(), new ArrayList<Label>());
+        return assemblyCode.toList();
     }
 
 }

@@ -58,8 +58,4 @@ public class FunctionNode implements ASTNode {
         return type;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

@@ -34,11 +34,4 @@ public class ProgramNode implements ASTNode {
         return null;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        originalInstructions.add(new Header(".text\n\n"), null);
-        originalInstructions.add(new Header(".global main\n"), null);
-
-        return originalInstructions;
-    }
 }

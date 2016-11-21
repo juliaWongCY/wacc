@@ -28,8 +28,4 @@ public class ErrorNode implements ASTNode {
         return null;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

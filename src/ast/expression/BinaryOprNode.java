@@ -72,9 +72,5 @@ public class BinaryOprNode implements ExpressionNode {
         throw new SemanticException("If none of the above, there is error.");
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }
 

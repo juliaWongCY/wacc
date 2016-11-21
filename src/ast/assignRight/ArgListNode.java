@@ -33,8 +33,5 @@ public class ArgListNode implements AssignRightNode {
                         + "\"getNodeTypes\" instead");
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
+
 }

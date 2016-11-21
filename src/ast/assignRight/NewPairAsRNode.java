@@ -42,8 +42,4 @@ public class NewPairAsRNode implements AssignRightNode {
         return pairType;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

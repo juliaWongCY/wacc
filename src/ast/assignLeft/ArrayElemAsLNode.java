@@ -23,8 +23,4 @@ public class ArrayElemAsLNode implements AssignLeftNode {
         return arrayElem.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

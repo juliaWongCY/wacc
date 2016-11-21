@@ -28,8 +28,4 @@ public class BoolLiterNode implements ExpressionNode {
         return boolType.getType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

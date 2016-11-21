@@ -25,10 +25,4 @@ public class ParamNode implements ASTNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         return type;
     }
-
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
-
 }

@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class AND {
+public class AND extends Instruction {
 
     private RegisterARM dst;
     private RegisterARM src1;

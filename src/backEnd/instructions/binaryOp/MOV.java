@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class MOV {
+public class MOV extends Instruction {
 
     protected RegisterARM dst;
     protected RegisterARM src;

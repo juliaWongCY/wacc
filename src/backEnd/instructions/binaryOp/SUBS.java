@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class SUBS {
+public class SUBS extends Instruction {
     /* SUBS is used for arithmetic subtraction.
        We need to check fo integer underflow.
      */

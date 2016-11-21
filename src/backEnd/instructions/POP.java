@@ -2,7 +2,7 @@ package backEnd.instructions;
 
 import backEnd.RegisterARM;
 
-public class POP {
+public class POP extends Instruction{
 
     private RegisterARM reg;
 

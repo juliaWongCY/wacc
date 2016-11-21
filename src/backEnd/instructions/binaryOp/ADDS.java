@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class ADDS {
+public class ADDS extends Instruction {
     /*ADDS is used for arithmetic addition.
       We need to check for integer overflow
 

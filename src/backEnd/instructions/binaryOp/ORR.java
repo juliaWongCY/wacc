@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class ORR {
+public class ORR extends Instruction {
     private RegisterARM dst;
     private RegisterARM src1;
     private RegisterARM src2;

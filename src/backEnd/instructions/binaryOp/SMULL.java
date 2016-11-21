@@ -1,8 +1,9 @@
 package backEnd.instructions.binaryOp;
 
 import backEnd.RegisterARM;
+import backEnd.instructions.Instruction;
 
-public class SMULL {
+public class SMULL extends Instruction {
     /*
       Multiplying signed long
      */

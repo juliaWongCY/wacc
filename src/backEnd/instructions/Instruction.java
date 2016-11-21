@@ -1,6 +1,8 @@
 package backEnd.instructions;
 
-public abstract class Instruction {
+import backEnd.AssemblyLine;
+
+public abstract class Instruction extends AssemblyLine {
 
     /*
       When the {S} is present, we updates the condition flags (N, Z, C, V)

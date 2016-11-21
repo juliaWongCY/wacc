@@ -2,7 +2,7 @@ package backEnd.instructions;
 
 import backEnd.RegisterARM;
 
-public class PUSH {
+public class PUSH extends Instruction {
 
     private RegisterARM reg;
 

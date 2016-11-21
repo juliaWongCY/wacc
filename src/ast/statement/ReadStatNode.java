@@ -1,9 +1,14 @@
 package ast.statement;
 
 import ast.ASTNode;
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
+
+import java.util.List;
 
 public class ReadStatNode implements StatementNode {
 
@@ -23,5 +28,10 @@ public class ReadStatNode implements StatementNode {
 
         StatementType stat = new StatementType();
         return stat.getType();
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

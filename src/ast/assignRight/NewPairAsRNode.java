@@ -1,10 +1,15 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
+
+import java.util.List;
 
 public class NewPairAsRNode implements AssignRightNode {
 
@@ -35,5 +40,10 @@ public class NewPairAsRNode implements AssignRightNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         PairType pairType = new PairType(getFstType(st), getSndType(st));
         return pairType;
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

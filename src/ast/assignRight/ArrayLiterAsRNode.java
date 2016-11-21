@@ -1,6 +1,9 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
@@ -33,5 +36,10 @@ public class ArrayLiterAsRNode implements AssignRightNode {
             }
             return new ArrayType(type);
         }
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

@@ -1,11 +1,16 @@
 package ast.expression;
 
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
 import type.CharType;
 import type.StringType;
 import type.Type;
+
+import java.util.List;
 
 public class StringLiterNode implements ExpressionNode {
 
@@ -24,5 +29,10 @@ public class StringLiterNode implements ExpressionNode {
 //        StringType stringType = new StringType();
 //        return stringType.getType();
         return new ArrayType(new CharType());
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

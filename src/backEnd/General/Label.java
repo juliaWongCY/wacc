@@ -2,7 +2,7 @@ package backEnd.General;
 
 import backEnd.AssemblyLine;
 
-public class Label extends AssemblyLine{
+public class Label {
 
     protected String name;
 

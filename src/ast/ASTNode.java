@@ -1,7 +1,7 @@
 package ast;
 
 import backEnd.AssemblyCode;
-import backEnd.General.Label;
+import backEnd.general.Label;
 import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;

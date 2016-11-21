@@ -1,4 +1,4 @@
-package backEnd.General;
+package backEnd.general;
 
 public class Header extends Label {
 

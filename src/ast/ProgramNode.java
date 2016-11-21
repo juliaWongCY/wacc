@@ -1,17 +1,14 @@
 package ast;
 
 import ast.statement.StatListNode;
-import ast.statement.StatementNode;
 import backEnd.AssemblyCode;
-import backEnd.General.Header;
-import backEnd.General.Label;
+import backEnd.general.Header;
+import backEnd.general.Label;
 import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
-import type.StatementType;
 import type.Type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramNode implements ASTNode {

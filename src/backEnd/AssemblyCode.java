@@ -1,6 +1,6 @@
 package backEnd;
 
-import backEnd.General.Label;
+import backEnd.general.Label;
 import backEnd.Instructions.Instruction;
 
 import java.util.HashMap;

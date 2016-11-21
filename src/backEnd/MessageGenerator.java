@@ -1,6 +1,6 @@
 package backEnd;
 
-import backEnd.General.Label;
+import backEnd.general.Label;
 import type.Type;
 
 public class MessageGenerator {

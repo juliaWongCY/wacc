@@ -1,7 +1,7 @@
 package backEnd;
 
 import ast.ASTNode;
-import backEnd.General.Label;
+import backEnd.general.Label;
 
 import java.util.List;
 import java.util.ArrayList;

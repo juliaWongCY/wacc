@@ -1,6 +1,4 @@
-package backEnd.General;
-
-import backEnd.AssemblyLine;
+package backEnd.general;
 
 public class Label {
 

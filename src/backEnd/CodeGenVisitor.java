@@ -1,5 +1,6 @@
 package backEnd;
 
+import ast.ASTNode;
 import backEnd.general.Label;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarSymbolTable;
@@ -13,155 +14,155 @@ public class CodeGenVisitor {
     private List<Label> labels;
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
-    public AssemblyCode visitArrayElemAsLNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitArrayElemAsLNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitIdentAsLNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitIdentAsLNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPairElemAsLNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPairElemAsLNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitArgListNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitArgListNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitArrayLiterAsRNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitArrayLiterAsRNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitCallAsRNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitExprAsRNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitExprAsRNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitNewPairAsRNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitNewPairAsRNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPairElemAsRNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPairElemAsRNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
     //////////////////////expression///////////////////////////////////////////////////////
 
-    public AssemblyCode visitArrayElemNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitBinaryOprNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitBinaryOprNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitBoolLiterNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitBoolLiterNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitCharLiterNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitCharLiterNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitIdentNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitIdentNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitIntLiterNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitIntLiterNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPairElemNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPairLiterNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPairLiterNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitStringLiterNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitStringLiterNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitUnaryOprNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitUnaryOprNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
     ////////////////////////////////parameter/////////////////////////////
 
-    public AssemblyCode visitParamListNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitParamListNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitParamNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitParamNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
     /////////////////////////////////statement//////////////////////////////
 
-    public AssemblyCode visitAssignStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitDeclareStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitDeclareStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitExitStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitFreeStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitIfStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitIfStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPrintlnStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitPrintStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitReadStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitReadStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitReturnStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitScopingStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitScopingStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitSkipStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitSkipStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitStatListNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitStatListNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitWhileStatNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitWhileStatNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
     ////////////////////////////function and program//////////////////////////////////////
 
-    public AssemblyCode visitFunctionNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 
-    public AssemblyCode visitProgramNode(AssemblyCode originalInstructions, List<Register> registers){
+    public AssemblyCode visitProgramNode(ASTNode node, AssemblyCode originalInstructions, List<Register> registers){
         return null;
     }
 

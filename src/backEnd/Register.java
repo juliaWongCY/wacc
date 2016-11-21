@@ -6,16 +6,13 @@ import java.util.List;
 public class Register {
 
 
-    RegisterARM armReg;
+//    RegisterARM armReg;
     List<RegisterARM> regInUsed = new ArrayList<>();
 
-    public Register(RegisterARM armReg) {
-        this.armReg = armReg;
-    }
+//    public Register(RegisterARM armReg) {
+//        this.armReg = armReg;
+//    }
 
-    public RegisterARM getArmReg() {
-        return armReg;
-    }
 
     public RegisterARM getStackPtrReg(){
         return RegisterARM.SP;

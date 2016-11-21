@@ -1,5 +1,6 @@
 package backEnd;
 
+import backEnd.General.Label;
 import type.Type;
 
 public class MessageGenerator {
@@ -9,10 +10,15 @@ public class MessageGenerator {
         switch(typeInString) {
             case "int": return generateIntTypeMessage(instructions);
         }
+
+        return null;
     }
 
-    public AssemblyCode generateIntTypeMessage(AssemblyCode instructions) {
-        instructions.add;
+    public AssemblyCode generateIntTypeMessage(AssemblyCode originalInstructions) {
+        originalInstructions.add(new Label("msg_" + originalInstructions.getNumberOfMessage()),
+                null);
+
+        return null;
     }
 
 }

@@ -58,8 +58,8 @@ public class Main {
         }
 
         //Back-end
-        CodeGenerator codeGenerator = new CodeGenerator(ast);
-        codeGenerator.generateCode();
+//        CodeGenerator codeGenerator = new CodeGenerator(ast);
+//        codeGenerator.generateCode();
 
 
 

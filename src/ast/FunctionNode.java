@@ -4,10 +4,15 @@ import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
 import ast.statement.StatListNode;
 import ast.statement.StatementNode;
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.FunctionType;
 import type.Type;
+
+import java.util.List;
 
 public class FunctionNode implements ASTNode {
 
@@ -52,5 +57,10 @@ public class FunctionNode implements ASTNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         return type;
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

@@ -1,7 +1,7 @@
 package backEnd;
 
 import backEnd.general.Label;
-import backEnd.Instructions.Instruction;
+import backEnd.instructions.Instruction;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

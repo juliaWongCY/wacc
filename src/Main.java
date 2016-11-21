@@ -41,8 +41,6 @@ public class Main {
 
         ParseTree tree = parser.program();
 
-        SymbolTable symbolTable = new SymbolTable(null);
-
         if (parser.getNumberOfSyntaxErrors() > 0) {
             System.exit(100);
         }
@@ -54,7 +52,7 @@ public class Main {
         }
 
 
-        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor(symbolTable);
+        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor();
         ASTNode ast = semanticCheckVisitor.visit(tree);
         if (semanticCheckVisitor.hasSemanticError()) {
             System.exit(200);

@@ -6,6 +6,10 @@ public abstract class Type {
         return this;
     }
 
+    public String getTypeInString() {
+        return null;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

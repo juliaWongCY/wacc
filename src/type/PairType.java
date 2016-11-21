@@ -69,4 +69,9 @@ public class PairType extends Type {
 
         return isEqual;
     }
+
+    @Override
+    public String getTypeInString() {
+        return "string";
+    }
 }

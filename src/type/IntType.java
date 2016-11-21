@@ -6,4 +6,8 @@ public class IntType extends Type {
 
     }
 
+    @Override
+    public String getTypeInString() {
+        return "int";
+    }
 }

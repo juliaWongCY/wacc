@@ -24,5 +24,10 @@ public class FunctionType extends Type{
     public List<Type> getParams() {
         return params;
     }
+
+    @Override
+    public String getTypeInString() {
+        return "func";
+    }
 }
 

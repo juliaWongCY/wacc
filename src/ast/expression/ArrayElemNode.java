@@ -1,5 +1,8 @@
 package ast.expression;
 
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
@@ -25,5 +28,10 @@ public class ArrayElemNode implements ExpressionNode {
             counter--;
         }
         return type;
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

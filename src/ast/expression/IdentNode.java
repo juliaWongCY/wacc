@@ -1,8 +1,13 @@
 package ast.expression;
 
+import backEnd.AssemblyCode;
+import backEnd.General.Label;
+import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
+
+import java.util.List;
 
 public class IdentNode implements ExpressionNode {
 
@@ -25,5 +30,10 @@ public class IdentNode implements ExpressionNode {
             throw new SemanticException("This " + id + " not an identifier.");
         }
 
+    }
+
+    @Override
+    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
+        return null;
     }
 }

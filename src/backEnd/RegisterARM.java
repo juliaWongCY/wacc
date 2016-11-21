@@ -7,10 +7,10 @@ public enum RegisterARM {
 }
 
 /*
-    R0 - R12: general-purpose registers to hold either data or address claue
-    R13     : Stack Pointer
-    R14     : Link Register
-    R15     : Program Counter (word-aligned)
+    R0 - R12: general-purpose registers to hold either data or address clause
+    R13 (SP): Stack Pointer
+    R14 (LR): Link Register
+    R15 (PC): Program Counter (word-aligned)
     CPSR    : Current Program Status Register. Contain condition code flags, status bits and current mode bits.
     SPSR    : Saved Program Status Register. Contains the condition code flags, status bits and current mode bits.
      */

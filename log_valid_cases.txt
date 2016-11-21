@@ -1,764 +1,1134 @@
 ================================================
-./example/invalid/syntaxErr/array/arrayExpr.wacc
+./example/valid/pairs/printNull.wacc
 
-line 12:22 mismatched input '+' expecting {';', 'end'}
+
+================================================
+================================================
+================================================
+./example/valid/pairs/nestedPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair03.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/checkRefPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/linkedList.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/createPair02.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/readPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/printPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/printNullPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/writeFst.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/null.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/printPairOfNulls.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/writeSnd.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/free.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/pairs/createRefPair.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/notequalsExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/intCalc.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longSplitExpr2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negDivisorDiv.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/minusPlusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longSplitExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/andExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/plusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/greaterEqExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/stringEqualsExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longExpr3.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/multNoWhitespaceExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negDivisorMod.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/lessExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/sequentialCount.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/equalsExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/orExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/notExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negBothDiv.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/lessEqExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/ordAndchrExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/plusMinusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negDividendDiv.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/longExpr2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/minusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/multExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/intExpr1.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/plusNoWhitespaceExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/boolCalc.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/plusPlusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/charComparisonExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/boolExpr1.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/divExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/minusNoWhitespaceExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negBothMod.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/minusMinusExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/lessCharExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/modExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/negDividendMod.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/expressions/greaterExpr.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/negIntDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/capCharDeclaration.wacc
+
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/variables/badintAssignments.wacc
+./example/valid/variables/manyVariables.wacc
 
-line 12:13 extraneous input '0' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 13:11 extraneous input 'A4' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+
+================================================
+================================================
+================================================
+./example/valid/variables/boolDeclaration2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/zeroIntDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/intDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/longVarNames.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/_VarNames.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/puncCharDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/emptyStringDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/charDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/boolDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/stringDeclaration.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/variables/charDeclaration2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if3.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if4.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if6.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if1.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/whitespace.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/ifTrue.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/ifFalse.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/ifBasic.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if2.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/if/if5.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/modifyString.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/array.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayLength.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayEmpty.wacc
+
+
+================================================
+================================================
 ================================================
+./example/valid/array/arrayPrint.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arraySimple.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayBasic.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayLookup.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/printRef.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/array/arrayNested.wacc
+
+
+================================================
+================================================
+================================================
+./example/valid/basic/skip/commentInLine.wacc
+
+
 ================================================
 ================================================
-./example/invalid/syntaxErr/variables/varNoName.wacc
+================================================
+./example/valid/basic/skip/comment.wacc
+
 
-line 13:6 no viable alternative at input 'int='
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/variables/bigIntAssignment.wacc
+./example/valid/basic/skip/skip.wacc
 
-Syntax Error detected at line 12: 10-- Integer is out of range 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/dooErr.wacc
+./example/valid/basic/exit/exit-1.wacc
+
 
-line 12:14 mismatched input 'doo' expecting {'do', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/donoErr.wacc
+./example/valid/basic/exit/exitWrap.wacc
 
-line 14:2 mismatched input 'dono' expecting {';', 'done'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/whileNodone.wacc
+./example/valid/basic/exit/exitBasic.wacc
+
 
-line 14:0 mismatched input 'end' expecting {';', 'done'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/whilErr.wacc
+./example/valid/while/rmStyleAdd.wacc
 
-line 12:7 missing '=' at 'false'
-line 12:13 mismatched input 'do' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/while/whileNodo.wacc
+./example/valid/while/whileCount.wacc
+
 
-line 13:4 mismatched input 'skip' expecting {'do', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionMissingType.wacc
+./example/valid/while/rmStyleAddIO.wacc
 
-line 12:3 missing '=' at '('
-line 12:4 no viable alternative at input ')'
-line 12:6 mismatched input 'is' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 15:2 mismatched input 'int' expecting <EOF>
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/funcExpr2.wacc
+./example/valid/while/whileFalse.wacc
+
 
-line 17:13 mismatched input '(' expecting {'do', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionLateDefine.wacc
+./example/valid/while/max.wacc
 
-line 17:7 missing '=' at '('
-line 17:8 no viable alternative at input ')'
-line 17:10 mismatched input 'is' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 20:2 mismatched input 'int' expecting <EOF>
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionNoReturn.wacc
+./example/valid/while/whileBasic.wacc
+
 
-Function 'f' is not ended with a return or an exit statement.
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionMissingPType.wacc
+./example/valid/while/loopCharCondition.wacc
 
-line 12:8 extraneous input 'x' expecting ')'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/funcExpr.wacc
+./example/valid/while/fibonacciFullIt.wacc
+
 
-line 15:11 mismatched input '(' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionScopeDef.wacc
+./example/valid/while/min.wacc
 
-line 13:9 missing '=' at '('
-line 13:10 no viable alternative at input ')'
-line 13:12 mismatched input 'is' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 17:4 mismatched input 'int' expecting {';', 'end'}
-line 20:0 extraneous input 'end' expecting <EOF>
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/mutualRecursionNoReturn.wacc
+./example/valid/while/fibonacciIterative.wacc
+
 
-Function 'r2' is not ended with a return or an exit statement.
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/thisIsNotC.wacc
+./example/valid/while/whileBoolFlip.wacc
 
-line 12:12 extraneous input '*' expecting IDENT
-line 13:4 no viable alternative at input '*'
-line 13:9 no viable alternative at input '*'
-line 17:2 mismatched input 'int' expecting <EOF>
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionConditionalNoReturn.wacc
+./example/valid/while/loopIntCondition.wacc
+
 
-Function 'f' is not ended with a return or an exit statement.
-Function 'g' is not ended with a return or an exit statement.
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/badlyPlaced.wacc
+./example/valid/sequence/intLeadingZeros.wacc
 
-line 11:0 missing 'begin' at 'int'
-line 18:0 missing 'end' at '<EOF>'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/badlyNamed.wacc
+./example/valid/sequence/basicSeq.wacc
+
 
-line 12:6 missing '=' at '('
-line 12:7 no viable alternative at input ')'
-line 12:9 mismatched input 'is' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 16:2 mismatched input 'int' expecting <EOF>
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionMissingParam.wacc
+./example/valid/sequence/exitSimple.wacc
 
-line 12:21 no viable alternative at input ')'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionJunkAfterReturn.wacc
+./example/valid/sequence/intAssignment.wacc
+
 
-Function 'f' is not ended with a return or an exit statement.
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/functionMissingCall.wacc
+./example/valid/sequence/basicSeq2.wacc
 
-line 15:11 mismatched input '(' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/function/noBodyAfterFuncs.wacc
+./example/valid/sequence/boolAssignment.wacc
+
 
-line 15:0 extraneous input 'end' expecting {'fst', 'snd', 'pair', 'bool', 'char', 'string', 'int', 'skip', 'read', 'free', 'return', 'exit', 'print', 'println', 'if', 'while', 'begin', IDENT}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/if/ifNothen.wacc
+./example/valid/sequence/charAssignment.wacc
 
-line 13:2 mismatched input 'else' expecting {'then', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/if/ifNoelse.wacc
+./example/valid/sequence/stringAssignment.wacc
+
 
-line 15:2 mismatched input 'fi' expecting {';', 'else'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/if/ifNofi.wacc
+./example/valid/runtimeErr/nullDereference/setNull2.wacc
 
-line 17:0 mismatched input 'end' expecting {';', 'fi'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/if/ifiErr.wacc
+./example/valid/runtimeErr/nullDereference/readNull1.wacc
+
 
-line 12:6 missing '=' at 'true'
-line 13:2 mismatched input 'then' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/expressions/missingOperand1.wacc
+./example/valid/runtimeErr/nullDereference/readNull2.wacc
 
-line 12:10 no viable alternative at input '*'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/expressions/missingOperand2.wacc
+./example/valid/runtimeErr/nullDereference/freeNull.wacc
+
 
-line 13:0 no viable alternative at input 'end'
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/expressions/printlnConcat.wacc
+./example/valid/runtimeErr/nullDereference/setNull1.wacc
 
-line 12:22 mismatched input '"World!"' expecting INTEGER
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/pairs/badLookup02.wacc
+./example/valid/runtimeErr/nullDereference/useNull2.wacc
+
 
-line 13:10 no viable alternative at input 'snd'
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/pairs/badLookup01.wacc
+./example/valid/runtimeErr/nullDereference/useNull1.wacc
 
-line 13:10 no viable alternative at input 'fst'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/sequence/endSeq.wacc
+./example/valid/runtimeErr/arrayOutOfBounds/arrayNegBounds.wacc
+
 
-line 11:14 extraneous input ';' expecting <EOF>
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/sequence/emptySeq.wacc
+./example/valid/runtimeErr/arrayOutOfBounds/arrayOutOfBoundsWrite.wacc
 
-line 11:6 mismatched input ';' expecting {'fst', 'snd', 'pair', 'bool', 'char', 'string', 'int', 'skip', 'read', 'free', 'return', 'exit', 'print', 'println', 'if', 'while', 'begin', IDENT}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/sequence/extraSeq.wacc
+./example/valid/runtimeErr/arrayOutOfBounds/arrayOutOfBounds.wacc
+
 
-line 11:12 no viable alternative at input 'end'
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/sequence/missingSeq.wacc
+./example/valid/runtimeErr/divideByZero/divZero.wacc
 
-line 13:2 extraneous input 'skip' expecting {';', 'end'}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/sequence/doubleSeq.wacc
+./example/valid/runtimeErr/divideByZero/modByZero.wacc
+
 
-line 12:7 no viable alternative at input ';'
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/badComment2.wacc
+./example/valid/runtimeErr/divideByZero/divideByZero.wacc
 
-line 12:19 missing '=' at 'I'
-line 12:21 mismatched input 'put' expecting {';', 'end', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '==', '!=', '&&', '||'}
-line 12:55 token recognition error at: '?'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/badEscape.wacc
+./example/valid/runtimeErr/doubleFrees/hiddenDoubleFree.wacc
+
 
-line 12:11 token recognition error at: ''\H'
-line 12:14 token recognition error at: ''\ne'
-line 14:0 missing 'end' at '<EOF>'
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/multipleBegins.wacc
+./example/valid/runtimeErr/doubleFrees/doubleFree.wacc
 
-line 15:0 mismatched input 'begin' expecting <EOF>
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/badComment.wacc
+./example/valid/runtimeErr/integerOverflow/intnegateOverflow3.wacc
+
 
-line 12:6 mismatched input ',' expecting '='
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/unescapedChar.wacc
+./example/valid/runtimeErr/integerOverflow/intnegateOverflow.wacc
 
-line 12:11 token recognition error at: ''"'
-line 12:13 token recognition error at: ''\ne'
-line 14:0 missing 'end' at '<EOF>'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/skpErr.wacc
+./example/valid/runtimeErr/integerOverflow/intnegateOverflow2.wacc
+
 
-line 11:10 mismatched input 'end' expecting '='
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/beginNoend.wacc
+./example/valid/runtimeErr/integerOverflow/intJustOverflow.wacc
 
-line 12:0 missing 'end' at '<EOF>'
+
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/bgnErr.wacc
+./example/valid/runtimeErr/integerOverflow/intnegateOverflow4.wacc
+
 
-line 11:0 missing 'begin' at 'bgn'
-line 11:4 mismatched input 'skip' expecting '='
 ================================================
 ================================================
 ================================================
-./example/invalid/syntaxErr/basic/noBody.wacc
+./example/valid/runtimeErr/integerOverflow/intmultOverflow.wacc
 
-line 11:6 mismatched input 'end' expecting {'fst', 'snd', 'pair', 'bool', 'char', 'string', 'int', 'skip', 'read', 'free', 'return', 'exit', 'print', 'println', 'if', 'while', 'begin', IDENT}
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr05.wacc
+./example/valid/runtimeErr/integerOverflow/intUnderflow.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr08.wacc
+./example/valid/runtimeErr/integerOverflow/intWayOverflow.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/caseMatters.wacc
+./example/valid/function/simple_functions/functionManyArguments.wacc
+
 
-line 16:0 no viable alternative at input 'end'
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr09.wacc
+./example/valid/function/simple_functions/functionUpdateParameter.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr04.wacc
+./example/valid/function/simple_functions/sameArgName.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/undeclaredVar.wacc
+./example/valid/function/simple_functions/functionSimple.wacc
 
-Cannot get target type in assign statement.
-Semantic Error detected at line 12: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr06.wacc
+./example/valid/function/simple_functions/asciiTable.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr03.wacc
+./example/valid/function/simple_functions/negFunction.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr01.wacc
+./example/valid/function/simple_functions/incFunction.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/doubleDeclare.wacc
+./example/valid/function/simple_functions/functionDeclaration.wacc
 
-Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 13: 2-- Duplicated identifier name in the same scope 
-Semantic Error detected at line 12: 2-- Duplicated identifier name in the same scope 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr02.wacc
+./example/valid/function/simple_functions/functionReturnPair.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr11.wacc
+./example/valid/function/nested_functions/fibonacciFullRec.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 13-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr07.wacc
+./example/valid/function/nested_functions/functionConditionalReturn.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr10.wacc
+./example/valid/function/nested_functions/printInputTriangle.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 13-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/undeclaredScopeVar.wacc
+./example/valid/function/nested_functions/fibonacciRecursive.wacc
+
 
-Cannot get target type in assign statement.
-Semantic Error detected at line 15: 2-- Undefined variable 
-Semantic Error detected at line 15: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/basicTypeErr12.wacc
+./example/valid/function/nested_functions/mutualRecursion.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 13-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/variables/undeclaredVarAccess.wacc
+./example/valid/function/nested_functions/fixedPointRealArithmetic.wacc
+
 
-Semantic Error detected at line 13: 10-- Undefined variable 
-Semantic Error detected at line 13: 6-- Undefined variable 
-Semantic Error detected at line 13: 6-- Undefined variable 
-Semantic Error detected at line 13: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/print/printTypeErr01.wacc
+./example/valid/function/nested_functions/printTriangle.wacc
 
-Semantic Error detected at line 14: 14-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/while/truErr.wacc
+./example/valid/function/nested_functions/simpleRecursion.wacc
+
 
-Cannot get condition's type.
-Semantic Error detected at line 12: 8-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/while/falsErr.wacc
+./example/valid/scope/indentationNotImportant.wacc
 
-Cannot get condition's type.
-Semantic Error detected at line 12: 8-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/while/whileIntCondition.wacc
+./example/valid/scope/scopeVars.wacc
+
 
-Semantic Error detected at line 12: 8-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/exit/globalReturn.wacc
+./example/valid/scope/scopeBasic.wacc
 
-Semantic Error detected at line 12: 2-- Cannot return from the global scope 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/exit/badCharExit.wacc
+./example/valid/scope/ifNested2.wacc
+
 
-Semantic Error detected at line 12: 7-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/exit/exitNonInt.wacc
+./example/valid/scope/printAllTypes.wacc
 
-Semantic Error detected at line 13: 7-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionAssign.wacc
+./example/valid/scope/intsAndKeywords.wacc
+
 
-Cannot get target type in assign statement.
-Semantic Error detected at line 16: 2-- Undefined variable 
-Semantic Error detected at line 16: 2-- Undefined variable 
-Semantic Error detected at line 16: 2-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionBadParam.wacc
+./example/valid/scope/scopeSimpleRedefine.wacc
 
-Semantic Error detected at line 16: 17-- Incompatible type (expected: type.IntType@7591083d)(actual: type.BoolType@77a567e1)
-Semantic Error detected at line 16: 10-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionOverArgs.wacc
+./example/valid/scope/scopeRedefine.wacc
+
 
-Semantic Error detected at line 15: 16-- Incorrect number of parameters 
-Semantic Error detected at line 15: 9-- Incorrect number of parameters 
-Semantic Error detected at line 15: 1-- Incorrect number of parameters 
-Semantic Error detected at line 15: 1-- Incorrect number of parameters 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionBadCall.wacc
+./example/valid/scope/scope.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 15: 10-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionRedefine.wacc
+./example/valid/scope/ifNested1.wacc
+
 
-Semantic Error detected at line 15: 2-- Duplicated function name in the same scope 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionBadArgUse.wacc
+./example/valid/advanced/ticTacToe.wacc
 
-Semantic Error detected at line 13: 13-- Incompatible type 
-Semantic Error detected at line 13: 13-- Incompatible type 
-Semantic Error detected at line 13: 13-- Incompatible type 
-Semantic Error detected at line 13: 4-- Incompatible type 
-Semantic Error detected at line 13: 4-- Incompatible type 
-Semantic Error detected at line 12: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionBadReturn.wacc
+./example/valid/advanced/binarySortTree.wacc
+
 
-Semantic Error detected at line 12: 1-- Incompatible type 
-Semantic Error detected at line 12: 1-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionSwapArgs.wacc
+./example/valid/advanced/hashTable.wacc
 
-Semantic Error detected at line 15: 16-- Incompatible type (expected: type.IntType@7591083d)(actual: type.BoolType@77a567e1)
-Semantic Error detected at line 15: 9-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
-Semantic Error detected at line 15: 1-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/funcVarAccess.wacc
+./example/valid/IO/IOSequence.wacc
+
 
-Cannot get target type in assign statement.
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 12: 1-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/function/functionUnderArgs.wacc
+./example/valid/IO/read/read.wacc
 
-Semantic Error detected at line 15: 16-- Incorrect number of parameters 
-Semantic Error detected at line 15: 9-- Incorrect number of parameters 
-Semantic Error detected at line 15: 1-- Incorrect number of parameters 
-Semantic Error detected at line 15: 1-- Incorrect number of parameters 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/read/readTypeErr01.wacc
+./example/valid/IO/read/echoBigInt.wacc
+
 
-Semantic Error detected at line 13: 7-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/if/ifIntCondition.wacc
+./example/valid/IO/read/echoPuncChar.wacc
 
-Semantic Error detected at line 12: 5-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/scope/badScopeRedefine.wacc
+./example/valid/IO/read/echoChar.wacc
+
 
-Different types in target and assign value
-Semantic Error detected at line 15: 8-- Incompatible type 
-Semantic Error detected at line 15: 4-- Incompatible type 
-Semantic Error detected at line 14: 4-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/boolOpTypeErr.wacc
+./example/valid/IO/read/echoNegInt.wacc
 
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 11-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/exprTypeErr.wacc
+./example/valid/IO/read/echoInt.wacc
+
 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/lessPairExpr.wacc
+./example/valid/IO/read/echoBigNegInt.wacc
 
-Semantic Error detected at line 16: 10-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 16: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/moreArrExpr.wacc
+./example/valid/IO/IOLoop.wacc
+
 
-Semantic Error detected at line 14: 10-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/intOpTypeErr.wacc
+./example/valid/IO/print/stringAssignmentWithPrint.wacc
 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/expressions/mixedOpTypeErr.wacc
+./example/valid/IO/print/printChar.wacc
+
 
-Semantic Error detected at line 12: 18-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/pairs/freeNonPair.wacc
+./example/valid/IO/print/multipleStringsAssignment.wacc
 
-Semantic Error detected at line 14: 7-- Incompatible type 
-Semantic Error detected at line 14: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/multiple/funcMess.wacc
+./example/valid/IO/print/printBool.wacc
+
 
-Cannot get target type in assign statement.
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 13: 4-- Undefined variable 
-Semantic Error detected at line 12: 2-- Undefined variable 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/multiple/multiTypeErrs.wacc
+./example/valid/IO/print/println.wacc
 
-Different types in target and assign value
-Semantic Error detected at line 12: 10-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/multiple/messyExpr.wacc
+./example/valid/IO/print/print.wacc
+
 
-Semantic Error detected at line 13: 16-- Incompatible type 
-Semantic Error detected at line 13: 29-- Incompatible type 
-Semantic Error detected at line 13: 11-- Incompatible type 
-Semantic Error detected at line 13: 10-- Incompatible type 
-Semantic Error detected at line 13: 10-- Incompatible type 
-Semantic Error detected at line 13: 10-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/multiple/multiCaseSensitivity.wacc
+./example/valid/IO/print/hashInProgram.wacc
 
-Semantic Error detected at line 13: 10-- Undefined variable 
-Semantic Error detected at line 16: 10-- Undefined variable 
-Semantic Error detected at line 19: 10-- Undefined variable 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/multiple/ifAndWhileErrs.wacc
+./example/valid/IO/print/printEscChar.wacc
 
-Semantic Error detected at line 13: 7-- Incompatible type 
-Semantic Error detected at line 13: 4-- Incompatible type 
-Semantic Error detected at line 13: 4-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
+
 ================================================
 ================================================
 ================================================
-./example/invalid/semanticErr/IO/readTypeErr.wacc
+./example/valid/IO/print/printInt.wacc
+
 
-Semantic Error detected at line 13: 7-- Incompatible type 
-Semantic Error detected at line 13: 2-- Incompatible type 
-Semantic Error detected at line 12: 2-- Incompatible type 
 ================================================
 ================================================

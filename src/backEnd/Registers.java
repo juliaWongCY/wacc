@@ -3,7 +3,7 @@ package backEnd;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Register {
+public class Registers {
 
     //For param, we will put on the stack??`
 
@@ -11,7 +11,7 @@ public class Register {
 //    RegisterARM armReg;
     List<RegisterARM> regInUsed = new ArrayList<>();
 
-//    public Register(RegisterARM armReg) {
+//    public Registers(RegisterARM armReg) {
 //        this.armReg = armReg;
 //    }
 

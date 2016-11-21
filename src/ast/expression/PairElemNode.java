@@ -1,14 +1,9 @@
 package ast.expression;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
-
-import java.util.List;
 
 public class PairElemNode implements ExpressionNode {
 

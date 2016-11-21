@@ -1,14 +1,9 @@
 package ast.expression;
 
 import ast.UnaryOpr;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
-
-import java.util.List;
 
 public class UnaryOprNode implements ExpressionNode {
 

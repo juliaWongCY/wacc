@@ -1,8 +1,5 @@
 package ast.expression;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;

@@ -3,15 +3,10 @@ package ast;
 import ast.expression.IdentNode;
 import ast.parameter.ParamListNode;
 import ast.statement.StatListNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.FunctionType;
 import type.Type;
-
-import java.util.List;
 
 public class FunctionNode implements ASTNode {
 

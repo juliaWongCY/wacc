@@ -1,10 +1,6 @@
 package ast;
 
 import ast.statement.StatListNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Header;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;

@@ -1,15 +1,10 @@
 package ast.expression;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
 import type.CharType;
 import type.Type;
-
-import java.util.List;
 
 public class StringLiterNode implements ExpressionNode {
 

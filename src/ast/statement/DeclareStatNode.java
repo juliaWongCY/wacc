@@ -2,15 +2,10 @@ package ast.statement;
 
 import ast.assignRight.AssignRightNode;
 import ast.expression.IdentNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.StatementType;
 import type.Type;
-
-import java.util.List;
 
 public class DeclareStatNode implements StatementNode {
 

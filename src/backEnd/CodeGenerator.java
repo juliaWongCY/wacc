@@ -2,9 +2,6 @@ package backEnd;
 
 import ast.ASTNode;
 
-/**
- * Created by hlf15 on 18/11/16.
- */
 public class CodeGenerator {
 
     private ASTNode astnode;

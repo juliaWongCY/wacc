@@ -1,3 +1,4 @@
 begin
-  print 123456789
+  char a = '\0';
+  print 'a'
 end

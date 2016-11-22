@@ -7,13 +7,13 @@ import type.Type;
 
 public class CharLiterNode implements ExpressionNode {
 
-    private final String value;
+    private final char value;
 
-    public CharLiterNode(String value) {
+    public CharLiterNode(char value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public char getValue() {
         return value;
     }
 

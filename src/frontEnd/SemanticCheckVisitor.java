@@ -223,7 +223,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitChar_liter(@NotNull BasicParser.Char_literContext ctx) {
-        return new CharLiterNode(ctx.getText());
+        return new CharLiterNode(ctx.getText().charAt(0));
     }
 
     @Override

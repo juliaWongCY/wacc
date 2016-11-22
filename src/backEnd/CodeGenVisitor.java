@@ -151,6 +151,12 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitCharLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        char character = ((CharLiterNode) node).getValue();
+
+        instructions.add(instructions.getCurrentLabel(),
+                Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character)));
+
         return instructions;
     }
 
@@ -162,7 +168,7 @@ public class CodeGenVisitor {
 
         instructions.add(instructions.getCurrentLabel(),
                 Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                        new Label(((IntLiterNode) node).getValue().toString()));
+                        new Label(((IntLiterNode) node).getValue().toString()))));
 
         return instructions;
     }
@@ -357,7 +363,7 @@ public class CodeGenVisitor {
             }
         }
 
-        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 0);
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 0));
         instructionsToBeAdded.add(new POP(registers.getPCReg()));
         instructionsToBeAdded.add(new HeaderInstr(".ltorg"));
 

@@ -8,7 +8,8 @@ public class MOV extends Instruction {
     protected RegisterARM dst;
     protected RegisterARM src;
 
-    protected int immNum;
+    protected Integer immNum;
+    protected char immChr;
 
     public MOV(RegisterARM dst, RegisterARM src) {
         this.dst = dst;
@@ -20,13 +21,20 @@ public class MOV extends Instruction {
         this.immNum = immNum;
     }
 
+    public MOV(RegisterARM dst, char immChr) {
+        this.dst = dst;
+        this.immChr = immChr;
+    }
+
 
     @Override
     public String toString(){
-        if(src != null){
+        if (src != null) {
             return ("MOV " + dst + ", " + src + "\n");
-        } else {
+        } else if (immNum != null) {
             return ("MOV " + dst + ", #" + immNum + "\n");
+        } else {
+            return ("MOV" + dst + ", #\'" + immChr + "\'\n");
         }
     }
 }

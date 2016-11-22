@@ -1,4 +1,4 @@
 begin
-  char a = '\0';
-  print 'a'
+  bool a = true;
+  print false
 end

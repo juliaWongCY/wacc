@@ -70,38 +70,65 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitIdentAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitPairElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitArgListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitArrayLiterAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitExprAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitNewPairAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitPairElemAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -143,10 +170,25 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitBoolLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        int res;
+
+        if (((BoolLiterNode) node).getValue()) {
+            res = 1;
+        } else {
+            res = 0;
+        }
+
+        instructions.add(instructions.getCurrentLabel(),
+                Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), res)));
+
         return instructions;
     }
 
@@ -161,6 +203,9 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitIdentNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -174,22 +219,37 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitPairLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitStringLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitUnaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitBinaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -205,6 +265,9 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitParamNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -255,10 +318,16 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitDeclareStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -285,30 +354,51 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitIfStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitReadStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     public static AssemblyCode visitScopingStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
@@ -327,12 +417,18 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitWhileStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 
     ////////////////////////////function and program//////////////////////////////////////
 
     public static AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        //TODO
+
         return instructions;
     }
 

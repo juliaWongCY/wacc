@@ -20,4 +20,13 @@ public class Label {
     public String toString() {
         return "\t" + name + ":\n";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Label) {
+            return ((Label) obj).getName().equals(this.getName());
+        }
+
+        return false;
+    }
 }

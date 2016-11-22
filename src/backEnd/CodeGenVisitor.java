@@ -248,7 +248,21 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitBinaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
+        RegisterARM exprLReg = registers.getNextAvailableVariableReg();
+        if (exprLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(exprLReg)));
+        }
+
+
+
+
         //TODO
+
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }

@@ -17,6 +17,18 @@ public class BinaryOprNode implements ExpressionNode {
         this.exprR = exprR;
     }
 
+    public ExpressionNode getExprL() {
+        return exprL;
+    }
+
+    public ExpressionNode getExprR() {
+        return exprR;
+    }
+
+    public BinaryOpr getBinaryOpr() {
+        return binaryOpr;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type tL = exprL.getNodeType(st);

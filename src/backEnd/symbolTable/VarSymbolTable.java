@@ -1,6 +1,7 @@
 package backEnd.symbolTable;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class VarSymbolTable {
@@ -50,6 +51,24 @@ public class VarSymbolTable {
             return null;
         } else {
             return parent.getVariable(varName);
+        }
+    }
+
+    public int getVarLocalSize() {
+        int size = 0;
+        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, Value> entry = iter.next();
+            size += entry.getValue().getTypeSize();
+        }
+        return getVarLocalSize();
+    }
+
+    public int getVarTotalSize() {
+        if (parent == null) {
+            return getVarLocalSize();
+        } else {
+            return getVarLocalSize() + parent.getVarTotalSize();
         }
     }
 }

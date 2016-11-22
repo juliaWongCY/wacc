@@ -57,4 +57,14 @@ public class Value {
         return elementIndicatorSnd;
     }
 
+    public int getTypeSize() {
+        if (!(isArray || isPair)
+                && (elementIndicator == BOOL_TYPE
+                || elementIndicator == CHAR_TYPE)) {
+            return 1;
+        } else {
+            return 4;
+        }
+    }
+
 }

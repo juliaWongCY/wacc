@@ -30,7 +30,7 @@ public class Registers {
 
     public RegisterARM getR0Reg() { return RegisterARM.R0; }
 
-    public RegisterARM getAvailaleVariableReg() {
+    public RegisterARM getNextAvailableVariableReg() {
         if (regInUsed.contains(RegisterARM.R4)) {
             return getNextAvailableReg();
         }

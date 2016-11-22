@@ -1,6 +1,8 @@
 package ast.statement;
 
 import ast.expression.ExpressionNode;
+import ast.expression.IntLiterNode;
+import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.StatementType;
@@ -17,6 +19,10 @@ public class ExitStatNode implements StatementNode {
 
     public ExpressionNode getExpr() {
         return expr;
+    }
+
+    public Integer getExitValue(VarSymbolTable varSymbolTable) {
+        return ((IntLiterNode) expr).getValue();
     }
 
 

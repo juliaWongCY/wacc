@@ -10,12 +10,14 @@ import ast.parameter.ParamListNode;
 import ast.parameter.ParamNode;
 import ast.statement.*;
 import backEnd.general.Label;
+import backEnd.instructions.Instruction;
 import backEnd.instructions.POP;
 import backEnd.instructions.PUSH;
 import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarSymbolTable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -247,10 +249,18 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
         if (((ExitStatNode) node).getExpr() instanceof IdentNode) {
-            instructions.add(instructions.getCurrentLabel(), Arrays.asList(
-                    new LDR(registers.getAvailaleVariableReg(), registers.getStackPtrReg())));
+
+
+            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+        } else {
+            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
+                    ((ExitStatNode) node).getExitValue(instructions.getVarSymbolTable())));
         }
+
+        return instructions;
     }
 
     public static AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {

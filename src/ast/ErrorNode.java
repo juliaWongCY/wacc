@@ -1,14 +1,9 @@
 package ast;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import errorHandling.ErrorHandle;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
-import java.util.List;
 
 public class ErrorNode implements ASTNode {
 
@@ -28,8 +23,4 @@ public class ErrorNode implements ASTNode {
         return null;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

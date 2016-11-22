@@ -1,14 +1,9 @@
 package ast.expression;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
-
-import java.util.List;
 
 public class PairElemNode implements ExpressionNode {
 
@@ -46,10 +41,5 @@ public class PairElemNode implements ExpressionNode {
             throw new SemanticException("Expression node not of required type pair");
         }
 
-    }
-
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
     }
 }

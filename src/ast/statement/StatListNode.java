@@ -1,9 +1,6 @@
 package ast.statement;
 
 import ast.ASTNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.StatementType;
@@ -33,8 +30,4 @@ public class StatListNode implements ASTNode{
         return new StatementType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

@@ -1,13 +1,8 @@
 package ast.expression;
 
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
-import java.util.List;
 
 public class IdentNode implements ExpressionNode {
 
@@ -32,8 +27,4 @@ public class IdentNode implements ExpressionNode {
 
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

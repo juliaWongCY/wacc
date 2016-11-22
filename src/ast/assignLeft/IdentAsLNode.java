@@ -1,14 +1,9 @@
 package ast.assignLeft;
 
 import ast.expression.IdentNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
-import java.util.List;
 
 public class IdentAsLNode implements AssignLeftNode {
 
@@ -23,12 +18,6 @@ public class IdentAsLNode implements AssignLeftNode {
         return id.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
-
     /* this is a wrapper node to contain the IdentExprNode */
-
 
 }

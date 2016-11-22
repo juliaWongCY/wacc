@@ -1,10 +1,6 @@
 package ast;
 
 import ast.statement.StatListNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Header;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
@@ -34,11 +30,4 @@ public class ProgramNode implements ASTNode {
         return null;
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        originalInstructions.add(new Header(".text\n\n"), null);
-        originalInstructions.add(new Header(".global main\n"), null);
-
-        return originalInstructions;
-    }
 }

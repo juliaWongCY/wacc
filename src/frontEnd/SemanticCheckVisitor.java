@@ -919,6 +919,8 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         return new WhileStatNode((ExpressionNode) cond, (StatListNode) statListNode);
     }
 
+    ////////////////////////////function and program//////////////////////////////////////
+
     @Override
     public ASTNode visitFunc(@NotNull BasicParser.FuncContext ctx) {
         newSymbolTable();

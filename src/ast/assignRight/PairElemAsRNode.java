@@ -1,14 +1,9 @@
 package ast.assignRight;
 
 import ast.expression.PairElemNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
-import java.util.List;
 
 public class PairElemAsRNode implements AssignRightNode {
 
@@ -28,8 +23,4 @@ public class PairElemAsRNode implements AssignRightNode {
         return pairElemNode.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

@@ -2,15 +2,10 @@ package ast.statement;
 
 import ast.assignLeft.AssignLeftNode;
 import ast.assignRight.AssignRightNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.StatementType;
 import type.Type;
-
-import java.util.List;
 
 public class AssignStatNode implements StatementNode {
 
@@ -42,8 +37,4 @@ public class AssignStatNode implements StatementNode {
         return stat.getType();
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

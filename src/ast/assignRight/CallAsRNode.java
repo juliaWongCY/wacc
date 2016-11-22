@@ -1,15 +1,10 @@
 package ast.assignRight;
 
 import ast.expression.IdentNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.FunctionType;
 import type.Type;
-
-import java.util.List;
 
 public class CallAsRNode implements AssignRightNode {
 
@@ -51,10 +46,5 @@ public class CallAsRNode implements AssignRightNode {
         } else {
             throw new SemanticException("Call not apply to function type");
         }
-    }
-
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
     }
 }

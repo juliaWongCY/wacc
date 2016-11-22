@@ -1,14 +1,9 @@
 package ast.expression;
 
 import ast.BinaryOpr;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
-
-import java.util.List;
 
 public class BinaryOprNode implements ExpressionNode {
 
@@ -72,9 +67,5 @@ public class BinaryOprNode implements ExpressionNode {
         throw new SemanticException("If none of the above, there is error.");
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }
 

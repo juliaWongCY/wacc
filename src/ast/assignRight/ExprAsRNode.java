@@ -1,14 +1,9 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
-import backEnd.AssemblyCode;
-import backEnd.general.Label;
-import backEnd.Register;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
-
-import java.util.List;
 
 public class ExprAsRNode implements AssignRightNode {
 
@@ -23,8 +18,4 @@ public class ExprAsRNode implements AssignRightNode {
         return expr.getNodeType(st);
     }
 
-    @Override
-    public AssemblyCode toAssemblyCode(AssemblyCode originalInstructions, Register registers, List<Label> labels) {
-        return null;
-    }
 }

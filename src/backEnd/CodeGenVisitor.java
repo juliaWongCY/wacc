@@ -266,6 +266,9 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BL(new Label("exit")));
 //        instructionsToBeAdded.add(new BL("exit"));
 
+        //Add the instructions to be added into the assembly code wrapper class.
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
         return instructions;
     }
 

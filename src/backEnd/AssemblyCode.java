@@ -36,6 +36,11 @@ public class AssemblyCode {
         return varSymbolTable;
     }
 
+    public int getVarSymbolTableLocalSize() {
+        return varSymbolTable.getVarLocalSize();
+    }
+
+
     public int getNumberOfMessage() {
         return numberOfMessage;
     }

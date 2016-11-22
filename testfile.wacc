@@ -1,5 +1,3 @@
 begin
-  int a = 21474836;
-  exit a
-
+  print 123456789
 end

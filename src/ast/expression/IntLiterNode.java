@@ -13,7 +13,7 @@ public class IntLiterNode implements ExpressionNode {
         this.value = value;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 

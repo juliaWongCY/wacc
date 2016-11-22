@@ -10,6 +10,7 @@ import ast.parameter.ParamListNode;
 import ast.parameter.ParamNode;
 import ast.statement.*;
 import backEnd.general.Label;
+import backEnd.instructions.ADD;
 import backEnd.instructions.Instruction;
 import backEnd.instructions.POP;
 import backEnd.instructions.PUSH;
@@ -158,6 +159,11 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitIntLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        instructions.add(instructions.getCurrentLabel(),
+                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                        new Label(((IntLiterNode) node).getValue().toString()));
+
         return instructions;
     }
 
@@ -343,14 +349,20 @@ public class CodeGenVisitor {
         //Visit StatListNode and return instructions
         instructions = visitStatListNode(((ProgramNode) node).getStatListNode(), instructions, registers);
 
-        instructions.add(instructions.getCurrentLabel(), Arrays.asList(
-                new LDR(registers.getR0Reg(), 0),
-                new POP(registers.getPCReg()),
-                new HeaderInstr(".ltorg")));
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
+        if (instructions.getVarSymbolTableLocalSize() > 0) {
+            for (int i = instructions.getVarSymbolTableLocalSize(); (0 < i) && (i < 1024) ; i -= 1024) {
+                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), i));
+            }
+        }
 
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 0);
+        instructionsToBeAdded.add(new POP(registers.getPCReg()));
+        instructionsToBeAdded.add(new HeaderInstr(".ltorg"));
 
-
+        //Add the instructions to be added into the assembly code wrapper class.
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }

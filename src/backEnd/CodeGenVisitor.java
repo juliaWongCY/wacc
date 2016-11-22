@@ -13,6 +13,8 @@ import backEnd.general.Label;
 import backEnd.instructions.Instruction;
 import backEnd.instructions.POP;
 import backEnd.instructions.PUSH;
+import backEnd.instructions.binaryOp.MOV;
+import backEnd.instructions.branch.BL;
 import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarSymbolTable;
@@ -259,6 +261,10 @@ public class CodeGenVisitor {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     ((ExitStatNode) node).getExitValue(instructions.getVarSymbolTable())));
         }
+
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableReg()));
+        instructionsToBeAdded.add(new BL(new Label("exit")));
+//        instructionsToBeAdded.add(new BL("exit"));
 
         return instructions;
     }

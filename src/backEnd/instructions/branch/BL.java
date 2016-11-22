@@ -1,8 +1,9 @@
 package backEnd.instructions.branch;
 
 import backEnd.general.Label;
+import backEnd.instructions.Instruction;
 
-public class BL {
+public class BL extends Instruction {
 
     protected Label label;
 

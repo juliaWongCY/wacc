@@ -168,11 +168,7 @@ public class CodeGenVisitor {
         return instructions;
     }
 
-<<<<<<< HEAD
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers){
-=======
-    public AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, List<Register> registers){
-
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
         List<FunctionNode> functions = ((ProgramNode) node).getFunctionNodes();
@@ -182,8 +178,6 @@ public class CodeGenVisitor {
         }
 
 
-
->>>>>>> dexter
         return instructions;
     }
 

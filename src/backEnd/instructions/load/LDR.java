@@ -2,8 +2,9 @@ package backEnd.instructions.load;
 
 import backEnd.RegisterARM;
 import backEnd.general.Label;
+import backEnd.instructions.Instruction;
 
-public class LDR {
+public class LDR extends Instruction {
 
     protected RegisterARM dst;
     protected RegisterARM src;

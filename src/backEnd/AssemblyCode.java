@@ -34,5 +34,13 @@ public class AssemblyCode {
         return numberOfMessage;
     }
 
+    public void returnMainLabel() {
+        currentLabel = new Label("main");
+    }
+
+    public Label getCurrentLabel() {
+        return currentLabel;
+    }
+
 
 }

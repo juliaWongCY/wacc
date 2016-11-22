@@ -10,9 +10,13 @@ import ast.parameter.ParamListNode;
 import ast.parameter.ParamNode;
 import ast.statement.*;
 import backEnd.general.Label;
+import backEnd.instructions.POP;
+import backEnd.instructions.PUSH;
+import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarSymbolTable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class CodeGenVisitor {
@@ -243,7 +247,10 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        return instructions;
+        if (((ExitStatNode) node).getExpr() instanceof IdentNode) {
+            instructions.add(instructions.getCurrentLabel(), Arrays.asList(
+                    new LDR(registers.getAvailaleVariableReg(), registers.getStackPtrReg())));
+        }
     }
 
     public static AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
@@ -275,6 +282,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitSkipStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        //No instructions are added.
         return instructions;
     }
 
@@ -298,13 +306,33 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
         List<FunctionNode> functions = ((ProgramNode) node).getFunctionNodes();
 
+        //Visit FunctionNode and return instructions
         for (FunctionNode f : functions) {
             instructions = visitFunctionNode(f, instructions, registers);
         }
+
+        instructions.returnMainLabel();
+
+        //PUSH {LR}
+        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
+
+        //Visit StatListNode and return instructions
+        instructions = visitStatListNode(((ProgramNode) node).getStatListNode(), instructions, registers);
+
+        instructions.add(instructions.getCurrentLabel(), Arrays.asList(
+                new LDR(registers.getR0Reg(), 0),
+                new POP(registers.getPCReg()),
+                new HeaderInstr(".ltorg")));
+
+
+
+
+
         return instructions;
     }
 

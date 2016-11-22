@@ -1,10 +1,7 @@
 package backEnd;
 
 import ast.ASTNode;
-import ast.FunctionNode;
-import ast.ProgramNode;
 import ast.statement.StatListNode;
-import backEnd.general.Header;
 import backEnd.general.Label;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarSymbolTable;
@@ -168,22 +165,7 @@ public class CodeGenVisitor {
         return instructions;
     }
 
-<<<<<<< HEAD
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers){
-=======
-    public AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, List<Register> registers){
-
-        instructions.add(new Header(".text\n\n"), null);
-        instructions.add(new Header(".global main\n"), null);
-        List<FunctionNode> functions = ((ProgramNode) node).getFunctionNodes();
-
-        for (FunctionNode f : functions) {
-            instructions = visitFunctionNode(f, instructions, registers);
-        }
-
-
-
->>>>>>> dexter
         return instructions;
     }
 

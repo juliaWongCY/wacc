@@ -65,6 +65,10 @@ public class Registers {
         return this;
     }
 
+    public void setRegNotInUse(RegisterARM reg) {
+        regInUsed.remove(reg);
+    }
+
     public void removeRegInUsedList(RegisterARM reg){
         regInUsed.remove(reg);
     }

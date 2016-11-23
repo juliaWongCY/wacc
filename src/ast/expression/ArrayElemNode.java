@@ -16,6 +16,14 @@ public class ArrayElemNode implements ExpressionNode {
         this.indexes = indexes;
     }
 
+    public IdentNode getArrayName() {
+        return arrayName;
+    }
+
+    public List<ExpressionNode> getIndexes() {
+        return indexes;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type = st.lookUpVariable(arrayName.getId());

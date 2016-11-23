@@ -175,7 +175,38 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
+        List<Instruction> arrayElemInstructions = new ArrayList<>();
+
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
+
+        ExpressionNode index = ((ArrayElemNode) node).getIndexes().get(0);
+
+        Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+        instructions = visitExpression(index, instructions, updatedRegisters);
+        registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
+
+        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg()));
+        arrayElemInstructions.add(new MOV(registers.getR0Reg(),
+                registers.getNextReg(registers.getNextAvailableVariableReg())));
+        arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
+
+        instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+
+        List<Instruction> runTimeInstructions = new ArrayList<>();
+        instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
+
+        List<Instruction> boundsInstructions = new ArrayList<>();
+        instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
+
+        arrayElemInstructions.add(new BL("p_check_array_bounds"));
         //TODO
+        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg(),
+                instructions.lookUpVar(((ArrayElemNode) node).getArrayName().getId())))
+
+
 
         return instructions;
     }

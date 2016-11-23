@@ -22,6 +22,7 @@ public class AssemblyCode {
     private int numberOfMessage = 0;
     private Label currentLabel = new Label("main");
     private int currentStackPtrPos = 0;
+    private int newLabels = 0;
     private MessageGenerator messageGenerator = new MessageGenerator();
 
 
@@ -130,6 +131,19 @@ public class AssemblyCode {
 
     public void setCurrentStackPtrPos(int currentStackPtrPos) {
         this.currentStackPtrPos = currentStackPtrPos;
+    }
+
+    public String getnextLabel() {
+        return "L" + newLabels;
+    }
+
+    public void updateCurrentLabel() {
+        currentLabel = new Label("L" + newLabels);
+        newLabels++;
+    }
+
+    public void setCurrentLabel(Label label) {
+        currentLabel = label;
     }
 
     public Value lookUpVar(String var){

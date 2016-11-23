@@ -12,9 +12,7 @@ import ast.statement.*;
 import backEnd.general.Label;
 import backEnd.instructions.*;
 import backEnd.instructions.binaryOp.*;
-import backEnd.instructions.branch.BL;
-import backEnd.instructions.branch.BLNE;
-import backEnd.instructions.branch.BLVS;
+import backEnd.instructions.branch.*;
 import backEnd.instructions.load.LDR;
 import backEnd.instructions.load.LDRSB;
 import backEnd.instructions.store.STR;
@@ -25,7 +23,6 @@ import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -837,11 +834,38 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitWhileStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        WhileStatNode whileStateNode = (WhileStatNode) node;
 
-        newSymbolTable();
+        String nextLabel = instructions.getnextLabel();
 
-        popSymbolTable();
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructionsToBeAdded.add(new B(nextLabel));
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+        instructions.updateCurrentLabel();
+
+        Label beforeWhile = instructions.getCurrentLabel();
+
+        instructions = visitExpression(whileStateNode.getCondition(), instructions, registers);
+
+        instructionsToBeAdded = new ArrayList<>();
+        instructionsToBeAdded.add(new CMP(registers.getNextAvailableVariableReg(), 1));
+
+        nextLabel = instructions.getnextLabel();
+        instructionsToBeAdded.add(new BEQ(nextLabel));
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        instructions.updateCurrentLabel();
+
+        instructions = visitStatListNode(whileStateNode.getBody(), instructions, registers);
+
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Arrays.asList(new B(beforeWhile.getName()))));
+
+        instructions.setCurrentLabel(beforeWhile);
+
+//        newSymbolTable();
+//        popSymbolTable();
         return instructions;
     }
 

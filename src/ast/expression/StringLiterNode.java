@@ -18,6 +18,10 @@ public class StringLiterNode implements ExpressionNode {
         return value;
     }
 
+    public int getStringSize(){
+        return value.length();
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
 //        StringType stringType = new StringType();

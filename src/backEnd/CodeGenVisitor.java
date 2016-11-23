@@ -235,13 +235,20 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitStringLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
+        StringLiterNode strNode = (StringLiterNode) node;
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
         instructions.add(instructions.getCurrentLabel(),
                 Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
                         new Label("msg_" + instructions.getNumberOfMessage()))));
 
-        //instructions.add();
+        instructionsToBeAdded.add(new HeaderInstr(".word ", strNode.getStringSize()));
+        instructionsToBeAdded.add(new HeaderInstr(".ascii"));
+        instructionsToBeAdded.add(new HeaderInstr(strNode.getValue()));
 
-        //TODO
+        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
+                instructionsToBeAdded);
+        
 
         return instructions;
     }

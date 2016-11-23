@@ -1,4 +1,0 @@
-begin
-  bool a = true;
-  print false
-end

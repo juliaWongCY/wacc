@@ -10,17 +10,17 @@ import ast.parameter.ParamListNode;
 import ast.parameter.ParamNode;
 import ast.statement.*;
 import backEnd.general.Label;
-import backEnd.instructions.ADD;
-import backEnd.instructions.Instruction;
-import backEnd.instructions.POP;
-import backEnd.instructions.PUSH;
-import backEnd.instructions.binaryOp.AND;
-import backEnd.instructions.binaryOp.MOV;
-import backEnd.instructions.binaryOp.ORR;
+import backEnd.instructions.*;
+import backEnd.instructions.binaryOp.*;
 import backEnd.instructions.branch.BL;
+import backEnd.instructions.branch.BLNE;
+import backEnd.instructions.branch.BLVS;
 import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
+import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
+import frontEnd.SemanticException;
+import type.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class CodeGenVisitor {
 
-    private static VarSymbolTable  varSymbolTable;
+    private static VarSymbolTable varSymbolTable;
     private static FuncSymbolTable funcSymbolTable;
     private static List<Label> labels;
 
@@ -44,7 +44,7 @@ public class CodeGenVisitor {
         if (node instanceof PairElemAsLNode) {
             return visitPairElemAsLNode(node, instructions, registers);
         }
-        System.err.println("unrecognized assign left node");
+        System.err.println("unrecognised assign left node");
         return null;
     }
 
@@ -167,7 +167,7 @@ public class CodeGenVisitor {
         if (node instanceof UnaryOprNode) {
             return visitUnaryOprNode(node, instructions, registers);
         }
-        System.err.println("unrecognized expression");
+        System.err.println("unrecognised expression");
         return null;
     }
 
@@ -189,7 +189,7 @@ public class CodeGenVisitor {
         }
 
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), res)));
+                new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), res))));
 
         return instructions;
     }
@@ -199,7 +199,7 @@ public class CodeGenVisitor {
         char character = ((CharLiterNode) node).getValue();
 
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character)));
+                new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character))));
 
         return instructions;
     }
@@ -214,8 +214,8 @@ public class CodeGenVisitor {
     public static AssemblyCode visitIntLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                        new Label(((IntLiterNode) node).getValue().toString()))));
+                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                        new Label(((IntLiterNode) node).getValue().toString())))));
 
         return instructions;
     }
@@ -267,12 +267,12 @@ public class CodeGenVisitor {
         instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
         RegisterARM exprLReg = registers.getNextAvailableVariableReg();
         if (exprLReg == RegisterARM.R10) {
-            instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(exprLReg)));
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(new PUSH(exprLReg))));
         }
 
         Registers updatedRegs = registers.addRegInUsedList(exprLReg);
 
-        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
+        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, updatedRegs);
         RegisterARM exprRReg = registers.getNextAvailableVariableReg();
 
         RegisterARM resultReg = exprLReg;
@@ -283,45 +283,100 @@ public class CodeGenVisitor {
             exprLReg = RegisterARM.R11;
         }
 
-        switch (((BinaryOprNode) node).getBinaryOpr()) {
-            case AND:
+        if (((BinaryOprNode) node).isLogical()) {
+            if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.AND) {
                 instructionsToBeAdded.add(new AND(resultReg, exprLReg, exprRReg));
-                break;
-            case OR:
+            } else if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.OR) {
                 instructionsToBeAdded.add(new ORR(resultReg, exprLReg, exprRReg));
-                break;
-            case PLUS:
-                instructionsToBeAdded.add();
-                break;
-            case DIV:
+            }
+        } else {
+            if (((BinaryOprNode) node).isComparison()) {
+                instructionsToBeAdded.add(new CMP(exprLReg, exprRReg));
+            } else {
                 instructions.add(new Header(".data"), null);
-                String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
+                String errorMessage;
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
+                } else {
+                    errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
+                }
+
                 instructions.getMessageGenerator().generatePrintStringTypeMessage(
                         instructions, errorMessage.length() - 2, errorMessage);
+            }
 
+            if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
+                instructionsToBeAdded.add(new MOVGT(resultReg, 1));
+                instructionsToBeAdded.add(new MOVLE(resultReg, 0));
+            } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GTE)) {
+                instructionsToBeAdded.add(new MOVGE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVLT(resultReg, 0));
+            } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LT)) {
+                instructionsToBeAdded.add(new MOVLT(resultReg, 1));
+                instructionsToBeAdded.add(new MOVGE(resultReg, 0));
+            } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LTE)) {
+                instructionsToBeAdded.add(new MOVLE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVGT(resultReg, 0));
+            } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.EQ)) {
+                instructionsToBeAdded.add(new MOVEQ(resultReg, 1));
+                instructionsToBeAdded.add(new MOVNE(resultReg, 0));
+            } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.NEQ)) {
+                instructionsToBeAdded.add(new MOVNE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVEQ(resultReg, 0));
+            } else {
                 Label printStringLabel = new Label("p_print_string");
-                instructionsToBeAdded.add(new MOV(registers.getR0Reg(), exprLReg));
-                instructionsToBeAdded.add(new MOV(registers.getR1Reg(), exprRReg));
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)) {
+                    instructionsToBeAdded.add(new ADDS(resultReg, exprLReg, exprRReg));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
+                    instructionsToBeAdded.add(new SUBS(resultReg, exprLReg, exprRReg));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MULT)) {
+                    instructionsToBeAdded.add(new SMULL(exprLReg, exprRReg, exprLReg, exprRReg));
+                    instructionsToBeAdded.add(new CMP(exprRReg, exprLReg, "ASR", 31));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    instructionsToBeAdded.add(new MOV(registers.getR0Reg(), exprLReg));
+                    instructionsToBeAdded.add(new MOV(registers.getR1Reg(), exprRReg));
+                }
 
                 Label overflowLabel = new Label("p_throw_overflow_error");
-                Label checkDivideByZero = new Label("p_check_divide_by_zero");
-                instructionsToBeAdded.add(new BL(new Label("p_check_divide_by_zero")));
-                instructionsToBeAdded.add(new BL(new Label("__aeabi_idiv")));
 
-//                instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
-//                instructionsToBeAdded.add(new BL("__aeabi_idiv"));
-                instructionsToBeAdded.add(new MOV(resultReg, registers.getR0Reg()));
-                instructions.add(checkDivideByZero, Arrays.asList(new PUSH(RegisterARM.LR)));
-                instructions.add(checkDivideByZero,
-                        instructions.getMessageGenerator()
-                                .generateDivideByZeroInstrs(registers, instructions));
-                instructions.add(checkDivideByZero, Arrays.asList(new POP(RegisterARM.PC)));
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
+                    instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ||
+                        ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    Label checkDivideByZero = new Label("p_check_divide_by_zero");
+                    instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
+                    instructionsToBeAdded.add(new BL(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
+                            "__aeabi_idiv" : "__aeabi_idivmod"));
+                    instructionsToBeAdded.add(new MOV(resultReg,
+                            ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
+                                    registers.getR0Reg() : registers.getR1Reg()));
+                    instructions.add(checkDivideByZero, new ArrayList<Instruction>(Arrays.asList(
+                            new PUSH(RegisterARM.LR))));
+                    instructions.add(checkDivideByZero,
+                            instructions.getMessageGenerator()
+                                    .generateDivideByZeroInstrs(registers, instructions));
+                    instructions.add(checkDivideByZero, new ArrayList<Instruction>(Arrays.asList(
+                            new POP(RegisterARM.PC))));
+                } else {
+                    instructionsToBeAdded.add(new BLNE("p_throw_overflow_error"));
+                }
+
+                if (!(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD))) {
+                    instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
+                            registers, instructions));
+                }
 
                 instructions.add(
                         new Label("p_throw_runtime_error"),
                         instructions.getMessageGenerator().generateRuntimeInstrs(
                                 registers, instructions));
-                instructions.add(printStringLabel, Arrays.asList(new PUSH(RegisterARM.LR)));
+
+                instructions.add(printStringLabel, new ArrayList<Instruction>(Arrays.asList(
+                        new PUSH(RegisterARM.LR))));
                 instructions.add(
                         printStringLabel,
                         instructions.getMessageGenerator().generatePrintStringInstrs(
@@ -330,21 +385,17 @@ public class CodeGenVisitor {
                         printStringLabel,
                         new ArrayList<>(Arrays.asList(new ADD(
                                         registers.getR0Reg(), registers.getR0Reg(), 4),
-                                new BL(new Label("printf")))));
+                                new BL("printf"))));
                 instructions.add(printStringLabel,
                         instructions.getMessageGenerator()
                                 .generateEndPrintInstructions(instructions, registers));
 
+            }
 
         }
 
-
-
-        //TODO
-
-
+        registers.setRegNotInUse(resultReg);
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-
         return instructions;
     }
 
@@ -408,7 +459,7 @@ public class CodeGenVisitor {
         if (node instanceof WhileStatNode) {
             return visitWhileStatNode(node, instructions, registers);
         }
-        System.err.println("unrecognized statement node");
+        System.err.println("unrecognised statement node");
         return null;
     }
 
@@ -439,8 +490,7 @@ public class CodeGenVisitor {
         }
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableReg()));
-        instructionsToBeAdded.add(new BL(new Label("exit")));
-//        instructionsToBeAdded.add(new BL("exit"));
+        instructionsToBeAdded.add(new BL("exit"));
 
         //Add the instructions to be added into the assembly code wrapper class.
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -494,6 +544,10 @@ public class CodeGenVisitor {
 
         //TODO
 
+        newSymbolTable();
+        ScopingStatNode sNode = (ScopingStatNode) node;
+        instructions = visitStatListNode(sNode.getBody(), instructions, registers);
+        popSymbolTable();
         return instructions;
     }
 
@@ -515,6 +569,9 @@ public class CodeGenVisitor {
 
         //TODO
 
+        newSymbolTable();
+
+        popSymbolTable();
         return instructions;
     }
 
@@ -523,11 +580,29 @@ public class CodeGenVisitor {
     public static AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         //TODO
+        FunctionNode fNode = (FunctionNode) node;
+        VarSymbolTable paramSymbolTable = new VarSymbolTable();
+        String funcName = fNode.getFunctionName();
+        List<String> paramNames = fNode.getParamListNode().getParamNames();
+        List<Type> paramTypes = null;
+        try {
+            paramTypes = fNode.getParamListNode().getParamTypes();
+        } catch (SemanticException e) {
+            System.err.println("shouldn't reach here, as should be able to get params type");
+        }
+        for (int i = 0; i < paramNames.size(); i++) {
+            paramSymbolTable.addVariable(
+                    paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+        }
+        funcSymbolTable.addFunction(funcName, paramSymbolTable);
 
         return instructions;
     }
 
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        funcSymbolTable = new FuncSymbolTable();
+        varSymbolTable  = new VarSymbolTable();
 
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
@@ -538,10 +613,14 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-        instructions.returnMainLabel();
+//        instructions.returnMainLabel();
+//
+//        //PUSH {LR}
+//        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
 
         //PUSH {LR}
-        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(
+                new PUSH(registers.getLinkReg()))));
 
         //Visit StatListNode and return instructions
         instructions = visitStatListNode(((ProgramNode) node).getStatListNode(), instructions, registers);
@@ -562,6 +641,59 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
+    }
+
+    ////////////////////////////////////// helper method /////////////////////////////////////
+
+    // create new symbol table with parent as current symbol table
+    private static void newSymbolTable() {
+        VarSymbolTable vst = new VarSymbolTable(varSymbolTable);
+        varSymbolTable = vst;
+    }
+
+    // discard current symbol table and set current table as its parent
+    private static void popSymbolTable() {
+        if (varSymbolTable.getParent() == null) {
+            System.err.println("error in finding variable symbol table parent");
+        } else {
+            varSymbolTable = varSymbolTable.getParent();
+        }
+    }
+
+    private static Value covertParamToValue(String value, Type type) {
+        if (type instanceof ArrayType) {
+            int element = convertTypeToIndicator(((ArrayType) type).getElemType());
+            return new Value(value, true, element);
+        }
+        if (type instanceof PairType) {
+            int fst = convertTypeToIndicator(((PairType) type).getFstExprType());
+            int snd = convertTypeToIndicator(((PairType) type).getSndExprType());
+            return new Value(value, true, fst, snd);
+        }
+        return new Value(value, convertTypeToIndicator(type));
+    }
+
+    private static int convertTypeToIndicator(Type type) {
+        if (type instanceof IntType) {
+            return Value.INT_TYPE;
+        }
+        if (type instanceof BoolType) {
+            return Value.BOOL_TYPE;
+        }
+        if (type instanceof CharType) {
+            return Value.CHAR_TYPE;
+        }
+        if (type instanceof StringType) {
+            return Value.STRING_TYPE;
+        }
+        if (type instanceof ArrayType) {
+            return Value.ARRAY_TYPE;
+        }
+        if (type instanceof PairType) {
+            return Value.PAIR_TYPE;
+        }
+        System.err.println("unrecognised base type");
+        return -1;
     }
 
 }

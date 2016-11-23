@@ -25,7 +25,7 @@ public class FunctionNode implements ASTNode {
             this.type = new FunctionType(type);
         } else {
             try {
-                this.type = new FunctionType(type, paramList.getNodeTypes(null));
+                this.type = new FunctionType(type, paramList.getParamTypes());
             } catch (SemanticException e) {
                 System.err.println("Internal error in creating function node - " +
                         "paramList returned semanticException");

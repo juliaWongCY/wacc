@@ -5,21 +5,34 @@ import java.util.Map;
 
 public class FuncSymbolTable {
 
-    private Map<String, VarSymbolTable> funcTable;
+    private Map<String, Integer> retTypeTable;
+    private Map<String, VarSymbolTable> paramTable;
 
     public FuncSymbolTable() {
-        this.funcTable = new HashMap<>();
+        this.retTypeTable = new HashMap<>();
+        this.paramTable = new HashMap<>();
     }
 
-    public void addFunction(String funcName, VarSymbolTable table) {
-        funcTable.put(funcName, table);
+    public void addFunction(String funcName, Integer typeIndicator, VarSymbolTable table) {
+        retTypeTable.put(funcName, typeIndicator);
+        paramTable.put(funcName, table);
     }
 
-    public void getFunction(String funcName) {
-        if (funcTable.containsKey(funcName)) {
-            funcTable.get(funcName);
+    public Integer getFunctionRetType(String funcName) {
+        if (retTypeTable.containsKey(funcName)) {
+            return retTypeTable.get(funcName);
         } else {
             System.err.println("undefined function");
+            return null;
+        }
+    }
+
+    public VarSymbolTable getFunctionParams(String funcName) {
+        if (paramTable.containsKey(funcName)) {
+            return paramTable.get(funcName);
+        } else {
+            System.err.println("undefined function");
+            return null;
         }
     }
 }

@@ -37,4 +37,12 @@ public class NewPairAsRNode implements AssignRightNode {
         return pairType;
     }
 
+    public int getFstTypeIndicator() {
+        return fst.getTypeIndicator();
+    }
+
+    public int getSndTypeIndicator() {
+        return snd.getTypeIndicator();
+    }
+
 }

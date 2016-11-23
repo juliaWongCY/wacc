@@ -61,7 +61,7 @@ public class VarSymbolTable {
             Map.Entry<String, Value> entry = iter.next();
             size += entry.getValue().getTypeSize();
         }
-        return getVarLocalSize();
+        return size;
     }
 
     public int getVarTotalSize() {

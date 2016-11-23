@@ -75,6 +75,10 @@ public class AssemblyCode {
         return currentStackPtrPos;
     }
 
+    public void setCurrentStackPtrPos(int currentStackPtrPos) {
+        this.currentStackPtrPos = currentStackPtrPos;
+    }
+
     public Value lookUpVar(String var){
         return varSymbolTable.getVariable(var);
     }

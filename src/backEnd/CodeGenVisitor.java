@@ -73,10 +73,8 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
-
-        return instructions;
+        //TODO check if correct logic
+        return visitArrayElemNode(((ArrayElemAsLNode)node).getArrayElem(), instructions, registers);
     }
 
     public static AssemblyCode visitIdentAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
@@ -85,9 +83,8 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPairElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
-
-        return instructions;
+        //TODO check if correct logic
+        return visitPairElemNode(((PairElemAsLNode)node).getPairElemNode(), instructions, registers);
     }
 
     public static AssemblyCode visitArgListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
@@ -99,19 +96,19 @@ public class CodeGenVisitor {
             instructions = visitExpression(arg, instructions, registers);
 
             int exprType = arg.getTypeIndicator();
-            int spOffset = -1 * Util.getTypeSize(exprType);
+            int offset = -1 * Util.getTypeSize(exprType);
 
             if (exprType == Util.CHAR_TYPE || exprType == Util.BOOL_TYPE) {
                 instructions.add(instructions.getCurrentLabel(),
                         new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
-                                registers.getStackPtrReg(), spOffset, true, "B"))));
+                                registers.getStackPtrReg(), offset, true, "B"))));
             } else {
                 instructions.add(instructions.getCurrentLabel(),
                         new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
-                                registers.getStackPtrReg(), spOffset, true, ""))));
+                                registers.getStackPtrReg(), offset, true, ""))));
             }
 
-            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + spOffset);
+            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + offset);
         }
 
         return instructions;
@@ -160,10 +157,10 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        CallAsRNode callAsRNode = (CallAsRNode) node;
+        CallAsRNode cNode = (CallAsRNode) node;
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
-        instructions = visitArgListNode(callAsRNode.getArgList(), instructions, registers);
+        instructions = visitArgListNode(cNode.getArgList(), instructions, registers);
 
         //TODO: Donald
 
@@ -171,7 +168,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitExprAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        //TODO check if correct
+        //TODO check if correct logic
         return visitExpression(((ExprAsRNode)node).getExpr(), instructions, registers);
     }
 
@@ -211,10 +208,8 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPairElemAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
-
-        return instructions;
+        //TODO check if correct logic
+        return visitPairElemNode(((PairElemAsRNode)node).getPairElemNode(), instructions, registers);
     }
 
     //////////////////////expression///////////////////////////////////////////////////////

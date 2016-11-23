@@ -18,4 +18,7 @@ public class ArrayElemAsLNode implements AssignLeftNode {
         return arrayElem.getNodeType(st);
     }
 
+    public ArrayElemNode getArrayElem() {
+        return arrayElem;
+    }
 }

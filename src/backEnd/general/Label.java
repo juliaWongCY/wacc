@@ -1,6 +1,8 @@
 package backEnd.general;
 
-public class Label {
+import backEnd.AssemblyLine;
+
+public class Label extends AssemblyLine {
 
     protected String name;
 

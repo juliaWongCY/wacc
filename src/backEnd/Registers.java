@@ -9,7 +9,7 @@ public class Registers {
 
 
     RegisterARM armReg;
-    List<RegisterARM> regInUsed = new ArrayList<>();
+    List<RegisterARM> regInUsed = new ArrayList<RegisterARM>();
 
 //    public Registers(RegisterARM armReg) {
 //        this.armReg = armReg;
@@ -54,7 +54,8 @@ public class Registers {
 
     public RegisterARM getNextAvailableReg() {
         RegisterARM lastUsedReg = regInUsed.get(regInUsed.size() - 1);
-        return getNextReg(lastUsedReg);
+        RegisterARM nextReg = getNextReg(lastUsedReg);
+        return nextReg;
     }
 
     public RegisterARM getNextReg(RegisterARM reg) {

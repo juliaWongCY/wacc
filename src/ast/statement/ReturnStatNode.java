@@ -18,6 +18,10 @@ public class ReturnStatNode implements StatementNode {
         return expr.getNodeType(symbolTable);
     }
 
+    public ExpressionNode getExpr() {
+        return expr;
+    }
+
     /*The type of the expression given to the return statement must match
      the return type of the function */
     @Override

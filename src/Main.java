@@ -1,6 +1,7 @@
 import antlr.BasicLexer;
 import antlr.BasicParser;
 import ast.ASTNode;
+import backEnd.AssemblyLine;
 import backEnd.CodeGenerator;
 import backEnd.RegisterARM;
 import frontEnd.*;
@@ -10,6 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 
 public class Main {
@@ -22,8 +25,13 @@ public class Main {
 
         ANTLRInputStream inputFile = null;
 
+        String fileNameWithoutExtension = args[0].substring(args[0].lastIndexOf('/') + 1, args[0].length() - 5);
+
+        PrintWriter writer = null;
+
         try {
             inputFile = new ANTLRInputStream(new FileInputStream(args[0]));
+            writer = new PrintWriter(fileNameWithoutExtension + ".s", "UTF-8");
         } catch (FileNotFoundException e) {
             System.err.println("File not found");
             System.exit(1);
@@ -59,8 +67,14 @@ public class Main {
         }
 
         //Back-end
-//        CodeGenerator codeGenerator = new CodeGenerator(ast);
-//        codeGenerator.generateCode();
+        CodeGenerator codeGenerator = new CodeGenerator();
+        List<AssemblyLine> assemblyLines = codeGenerator.generateCode(ast);
+
+        for (AssemblyLine assemblyLine : assemblyLines) {
+            writer.write(assemblyLine.toString());
+        }
+
+        writer.close();
 
     }
 

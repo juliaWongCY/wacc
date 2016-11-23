@@ -1,7 +1,3 @@
 begin
-  if (true) then
-    int[] a = []
-  else
-    int[] b = [2000000]
-  fi
+  exit 1
 end

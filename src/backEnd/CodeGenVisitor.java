@@ -629,19 +629,21 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+
 
         return instructions;
     }
 
     public static AssemblyCode visitDeclareStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        List<Instruction> instructionsToBeAdded = new ArrayList<>();
-        DeclareStatNode nodeID = (DeclareStatNode) node;
-        AssignRightNode rhsNode = nodeID.getAssignRightNode();
-
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(
-                new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(), );
-        //TODO
+//        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+//        DeclareStatNode nodeID = (DeclareStatNode) node;
+//        AssignRightNode rhsNode = nodeID.getAssignRightNode();
+//
+//        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(
+//                new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(), );
+//        //TODO
 
         return instructions;
     }
@@ -654,11 +656,12 @@ public class CodeGenVisitor {
 
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
+            //TODO: BAD PROGRAMMING DESIGN!!!!!!!!!!
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
-                    ((ExitStatNode) node).getExitValue(instructions.getVarSymbolTable())));
+                    ((IntLiterNode) ((ExitStatNode) node).getExpr()).getValue()));
         }
 
-        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableReg()));
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("exit"));
 
         //Add the instructions to be added into the assembly code wrapper class.
@@ -751,7 +754,22 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        ReturnStatNode returnStatNode = (ReturnStatNode) node;
+
+        instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Arrays.asList(new MOV(registers.getR0Reg(),
+                        registers.getNextAvailableVariableReg()))));
+
+        if (varSymbolTable.getVarLocalSize() > 0) {
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(
+                            new ADD(registers.getStackPtrReg(),
+                                    registers.getStackPtrReg(),
+                                    varSymbolTable.getVarLocalSize()))));
+        }
+
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
 
         return instructions;
     }

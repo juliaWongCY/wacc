@@ -28,7 +28,13 @@ public class Registers {
         return RegisterARM.PC;
     }
 
+    //Return register
     public RegisterARM getR0Reg() { return RegisterARM.R0; }
+
+    //Param register
+    public RegisterARM getR1Reg() {
+        return RegisterARM.R1;
+    }
 
     public RegisterARM getNextAvailableVariableReg() {
         if (regInUsed.contains(RegisterARM.R4)) {
@@ -50,8 +56,13 @@ public class Registers {
         return RegisterARM.values()[reg.ordinal() + 1];
     }
 
-    public void addRegInUsedList(RegisterARM reg){
+//    public void addRegInUsedList(RegisterARM reg){
+//        regInUsed.add(reg);
+//    }
+
+    public Registers addRegInUsedList(RegisterARM reg){
         regInUsed.add(reg);
+        return this;
     }
 
     public void removeRegInUsedList(RegisterARM reg){

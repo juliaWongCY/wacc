@@ -14,7 +14,9 @@ import backEnd.instructions.ADD;
 import backEnd.instructions.Instruction;
 import backEnd.instructions.POP;
 import backEnd.instructions.PUSH;
+import backEnd.instructions.binaryOp.AND;
 import backEnd.instructions.binaryOp.MOV;
+import backEnd.instructions.binaryOp.ORR;
 import backEnd.instructions.branch.BL;
 import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
@@ -261,6 +263,73 @@ public class CodeGenVisitor {
             instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(exprLReg)));
         }
 
+        Registers updatedRegs = registers.addRegInUsedList(exprLReg);
+
+        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
+        RegisterARM exprRReg = registers.getNextAvailableVariableReg();
+
+        RegisterARM resultReg = exprLReg;
+
+        if (exprRReg == RegisterARM.R10 && exprLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<Instruction>(Arrays.asList(new POP(RegisterARM.R11))));
+            exprLReg = RegisterARM.R11;
+        }
+
+        switch (((BinaryOprNode) node).getBinaryOpr()) {
+            case AND:
+                instructionsToBeAdded.add(new AND(resultReg, exprLReg, exprRReg));
+                break;
+            case OR:
+                instructionsToBeAdded.add(new ORR(resultReg, exprLReg, exprRReg));
+                break;
+            case PLUS:
+                instructionsToBeAdded.add();
+                break;
+            case DIV:
+                instructions.add(new Header(".data"), null);
+                String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
+                instructions.getMessageGenerator().generatePrintStringTypeMessage(
+                        instructions, errorMessage.length() - 2, errorMessage);
+
+                Label printStringLabel = new Label("p_print_string");
+                instructionsToBeAdded.add(new MOV(registers.getR0Reg(), exprLReg));
+                instructionsToBeAdded.add(new MOV(registers.getR1Reg(), exprRReg));
+
+                Label overflowLabel = new Label("p_throw_overflow_error");
+                Label checkDivideByZero = new Label("p_check_divide_by_zero");
+                instructionsToBeAdded.add(new BL(new Label("p_check_divide_by_zero")));
+                instructionsToBeAdded.add(new BL(new Label("__aeabi_idiv")));
+
+//                instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
+//                instructionsToBeAdded.add(new BL("__aeabi_idiv"));
+                instructionsToBeAdded.add(new MOV(resultReg, registers.getR0Reg()));
+                instructions.add(checkDivideByZero, Arrays.asList(new PUSH(RegisterARM.LR)));
+                instructions.add(checkDivideByZero,
+                        instructions.getMessageGenerator()
+                                .generateDivideByZeroInstrs(registers, instructions));
+                instructions.add(checkDivideByZero, Arrays.asList(new POP(RegisterARM.PC)));
+
+                instructions.add(
+                        new Label("p_throw_runtime_error"),
+                        instructions.getMessageGenerator().generateRuntimeInstrs(
+                                registers, instructions));
+                instructions.add(printStringLabel, Arrays.asList(new PUSH(RegisterARM.LR)));
+                instructions.add(
+                        printStringLabel,
+                        instructions.getMessageGenerator().generatePrintStringInstrs(
+                                registers, instructions));
+                instructions.add(
+                        printStringLabel,
+                        new ArrayList<>(Arrays.asList(new ADD(
+                                        registers.getR0Reg(), registers.getR0Reg(), 4),
+                                new BL(new Label("printf")))));
+                instructions.add(printStringLabel,
+                        instructions.getMessageGenerator()
+                                .generateEndPrintInstructions(instructions, registers));
+
+
+        }
 
 
 

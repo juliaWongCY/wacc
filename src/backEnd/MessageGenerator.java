@@ -89,8 +89,8 @@ public class MessageGenerator {
 
 
 
-    public List<Instruction> generatePrintStringInstrs(Registers registers,
-                                                       AssemblyCode instructions) {
+    public List<Instruction> generatePrintStringInstructions(Registers registers,
+                                                             AssemblyCode instructions) {
         List<Instruction> printStringInstructions = new ArrayList<Instruction>();
 
         printStringInstructions.add(new LDR(registers.getR1Reg(), registers
@@ -115,20 +115,22 @@ public class MessageGenerator {
         divideByZeroInstrs.add(new CMP(registers.getR1Reg(), 0));
         divideByZeroInstrs.add(new LDREQ(registers.getR0Reg(), new Label(
                 "msg_" + (instructions.getNumberOfMessage() - 2))));
-        divideByZeroInstrs.add(new BLEQ(new Label("p_throw_runtime_error")));
-        //divideByZeroInstrs.add(new BLEQ("p_throw_runtime_error"));
+//        divideByZeroInstrs.add(new BLEQ(new Label("p_throw_runtime_error")));
+        divideByZeroInstrs.add(new BLEQ("p_throw_runtime_error"));
 
         return divideByZeroInstrs;
     }
 
 
     public List<Instruction> generateRuntimeInstrs(Registers registers,
-                                                   AssemblyCode origInstructions) {
+                                                   AssemblyCode instructions) {
         List<Instruction> runtimeInstrs = new ArrayList<Instruction>();
 
-        runtimeInstrs.add(new BL(new Label("p_print_string")));
+        runtimeInstrs.add(new BL("p_print_string"));
+//        runtimeInstrs.add(new BL(new Label("p_print_string")));
         runtimeInstrs.add(new MOV(registers.getR0Reg(), -1));
-        runtimeInstrs.add(new BL(new Label("exit")));
+        runtimeInstrs.add(new BL("exit"));
+//        runtimeInstrs.add(new BL(new Label("exit")));
         return runtimeInstrs;
     }
 
@@ -137,10 +139,22 @@ public class MessageGenerator {
         List<Instruction> endPrintInstructions = new ArrayList<Instruction>();
 
         endPrintInstructions.add(new MOV(registers.getR0Reg(), 0));
-        endPrintInstructions.add(new BL(new Label("fflush")));
+        endPrintInstructions.add(new BL("fflush"));
+//        endPrintInstructions.add(new BL(new Label("fflush")));
         endPrintInstructions.add(new POP(RegisterARM.PC));
 
         return endPrintInstructions;
+    }
+
+    public List<Instruction> generateOverflowInstructions(Registers registers,
+                                                          AssemblyCode instructions) {
+        List<Instruction> overflowInstructions = new ArrayList<Instruction>();
+
+        overflowInstructions.add(new LDR(registers.getR0Reg(), new Label(
+                "msg_" + (instructions.getNumberOfMessage() - 1))));
+        overflowInstructions.add(new BL("p_throw_runtime_error"));
+
+        return overflowInstructions;
     }
 
     /////////////////END OF GENERATE INSTRUCTIONS FUNCTIONS//////////////////////

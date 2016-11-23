@@ -29,6 +29,22 @@ public class BinaryOprNode implements ExpressionNode {
         return binaryOpr;
     }
 
+    public boolean isArithmetic() {
+        return binaryOpr == BinaryOpr.PLUS || binaryOpr == BinaryOpr.MINUS
+                || binaryOpr == BinaryOpr.MULT || binaryOpr == BinaryOpr.DIV
+                || binaryOpr == BinaryOpr.MOD;
+    }
+
+    public boolean isComparison() {
+        return binaryOpr == BinaryOpr.GT || binaryOpr == BinaryOpr.GTE
+                || binaryOpr == BinaryOpr.LT || binaryOpr == BinaryOpr.LTE
+                || binaryOpr == BinaryOpr.EQ || binaryOpr == BinaryOpr.NEQ;
+    }
+
+    public boolean isLogical() {
+        return binaryOpr == BinaryOpr.AND || binaryOpr == BinaryOpr.OR;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type tL = exprL.getNodeType(st);

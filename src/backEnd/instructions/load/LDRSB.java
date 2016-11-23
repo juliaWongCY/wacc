@@ -9,8 +9,15 @@ public class LDRSB extends LDR {
         super(dst, label);
     }
 
+    public LDRSB(RegisterARM dst, RegisterARM src, int constant) {
+        super(dst, src, constant);
+    }
+
     @Override
     public String toString(){
-        return ("LDRSB " + dst + ", =" + label.getName() + "\n" );
+        if(src == null){
+            return ("LDRSB " + dst + ", =" + label.getName() + "\n" );
+        }
+        return ("LDRSB " + dst + ", [" + src + ", #" + constant + "]\n" );
     }
 }

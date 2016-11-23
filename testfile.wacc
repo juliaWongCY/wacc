@@ -1,11 +1,5 @@
 begin
-<<<<<<< HEAD
-  bool a = true;
-  print false
-=======
-  int f(int x, int x) is
-    return 1
-  end
-  int a = call f(1, 3)
->>>>>>> donald
+  int a = 1;
+  a = -a;
+  println a
 end

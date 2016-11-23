@@ -15,6 +15,14 @@ public class UnaryOprNode implements ExpressionNode {
         this.expr = expr;
     }
 
+    public UnaryOpr getUnaryOpr() {
+        return unaryOpr;
+    }
+
+    public ExpressionNode getExpr() {
+        return expr;
+    }
+
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {

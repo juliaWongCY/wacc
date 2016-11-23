@@ -17,6 +17,7 @@ import backEnd.instructions.branch.BLNE;
 import backEnd.instructions.branch.BLVS;
 import backEnd.instructions.load.LDR;
 import backEnd.instructions.load.LDRSB;
+import backEnd.instructions.store.STR;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
@@ -111,6 +112,26 @@ public class CodeGenVisitor {
         int elementSize = Util.getTypeSize(aNode.getElementTypeIndicator());
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
                 constance + elementSize * aNode.getElements().size()));
+        instructionsToBeAdded.add(new BL("malloc"));
+        instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+
+        instructions.add(instructionsToBeAdded);
+
+        // add elements construction
+        int offset = 0;
+        Registers updatedRegs = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+
+        List<ExpressionNode> elems = aNode.getElements();
+        for (ExpressionNode elem : elems) {
+            offset += elementSize;
+            instructions = visitExpression(elem, instructions, updatedRegs);
+            instructionsToBeAdded.clear();
+            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+                    registers.getPreviousReg(registers.getNextAvailableVariableReg(), offset)));
+            instructions.add(instructionsToBeAdded);
+        }
+
+        
 
         return instructions;
     }

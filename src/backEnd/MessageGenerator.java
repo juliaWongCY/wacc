@@ -176,6 +176,16 @@ public class MessageGenerator {
         return nullReferenceInstructions;
     }
 
+    public List<Instruction> generateEndOfFunc(Registers registers) {
+        List<Instruction> instructionsToBeAdded = new ArrayList<Instruction>();
+        //TODO check if right
+        instructionsToBeAdded.add(new POP(registers.getPCReg()));
+        instructionsToBeAdded.add(new HeaderInstr("\t.ltorg"));
+
+        return instructionsToBeAdded;
+
+    }
+
     /////////////////END OF GENERATE INSTRUCTIONS FUNCTIONS//////////////////////
 
     //Helper function:

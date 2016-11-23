@@ -154,5 +154,9 @@ public class AssemblyCode {
         return variablePos - getCurrentStackPtrPos();
     }
 
+    public void addFuncLabel(String funcName) {
+        currentLabel = new Label("f_" + funcName);
+    }
+
 
 }

@@ -893,6 +893,14 @@ public class CodeGenVisitor {
                 Util.convertTypeToIndicator(fNode.getRetType()),
                 paramSymbolTable);
 
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructions.addFuncLabel(funcName);
+        instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
+        instructions.add(instructionsToBeAdded);
+        instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
+        instructions.add(instructions.getMessageGenerator().generateEndOfFunc(registers));
+        instructions.setCurrentStackPtrPos(0);
+
         return instructions;
     }
 

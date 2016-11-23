@@ -23,6 +23,14 @@ public class ArgListNode implements AssignRightNode {
         return types;
     }
 
+    public int getSize() {
+        return args.size();
+    }
+
+    public List<ExpressionNode> getArgs() {
+        return args;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         throw new SemanticException

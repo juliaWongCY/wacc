@@ -208,10 +208,12 @@ public class CodeGenVisitor {
         instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
-        //TODO
+        //TODO: I need to get a identifier type.
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
                 registers.getNextAvailableVariableReg(),
-                instructions.lookUpVar(((ArrayElemNode) node).getArrayName().getId())))
+                ));
+
+
 
 
 

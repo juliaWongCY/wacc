@@ -1,6 +1,7 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
@@ -36,6 +37,14 @@ public class ArgListNode implements AssignRightNode {
         throw new SemanticException
                 ("ArgListNode can contain multiple types, use method - "
                         + "\"getParamTypes\" instead");
+    }
+
+    public int getTypeSize() {
+        int size = 0;
+        for (ExpressionNode arg : args) {
+            size += Util.getTypeSize(arg.getTypeIndicator());
+        }
+        return size;
     }
 
 

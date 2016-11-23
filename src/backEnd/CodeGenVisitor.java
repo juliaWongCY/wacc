@@ -158,11 +158,20 @@ public class CodeGenVisitor {
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         CallAsRNode cNode = (CallAsRNode) node;
+        ArgListNode aNode = cNode.getArgList();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions = visitArgListNode(cNode.getArgList(), instructions, registers);
 
-        //TODO: Donald
+        String funcName = cNode.getFunctionId().getId();
+        instructionsToBeAdded.add(new BL("f_" + funcName));
+
+        if (aNode.getSize() != 0) {
+            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), aNode.getTypeSize()));
+        }
+        instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
+        instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        instructions.add(instructionsToBeAdded);
 
         return instructions;
     }

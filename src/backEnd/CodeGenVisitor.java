@@ -127,11 +127,18 @@ public class CodeGenVisitor {
             instructions = visitExpression(elem, instructions, updatedRegs);
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
-                    registers.getPreviousReg(registers.getNextAvailableVariableReg(), offset)));
+                    registers.getPreviousReg(registers.getNextAvailableVariableReg()), offset));
             instructions.add(instructionsToBeAdded);
         }
 
-        
+        // add instructions below array declaration
+        instructionsToBeAdded.clear();
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), elems.size()));
+        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+                    registers.getPreviousReg(registers.getNextAvailableVariableReg())));
+
+        instructions.add(instructionsToBeAdded);
+        registers.clearRegInUsed();
 
         return instructions;
     }

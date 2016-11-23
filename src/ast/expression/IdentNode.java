@@ -1,10 +1,11 @@
 package ast.expression;
 
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.Type;
 
-public class IdentNode implements ExpressionNode {
+public class IdentNode extends ExpressionNode {
 
     private final String id;
 
@@ -20,7 +21,9 @@ public class IdentNode implements ExpressionNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
 
         try {
-            return st.lookUpVariable(id);
+            Type type = st.lookUpVariable(id);
+            typeIndicator = Util.convertTypeToIndicator(type);
+            return type;
         } catch (SemanticException e) {
             throw new SemanticException("This " + id + " not an identifier.");
         }

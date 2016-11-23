@@ -1,11 +1,12 @@
 package ast.expression;
 
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.IntType;
 import type.Type;
 
-public class IntLiterNode implements ExpressionNode {
+public class IntLiterNode extends ExpressionNode {
 
     private final int value;
 
@@ -20,6 +21,7 @@ public class IntLiterNode implements ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         IntType intType = new IntType();
+        typeIndicator = Util.convertTypeToIndicator(intType);
         return intType.getType();
     }
 

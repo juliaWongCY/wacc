@@ -103,7 +103,14 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitArrayLiterAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        ArrayLiterAsRNode aNode = (ArrayLiterAsRNode) node;
+        int constance = 4;
+
+        // add instructions that are on top of array declaration
+        int elementSize = Util.getTypeSize(aNode.getElementTypeIndicator());
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
+                constance + elementSize * aNode.getElements().size()));
 
         return instructions;
     }
@@ -755,38 +762,17 @@ public class CodeGenVisitor {
 
     private static Value covertParamToValue(String value, Type type) {
         if (type instanceof ArrayType) {
-            int element = convertTypeToIndicator(((ArrayType) type).getElemType());
+            int element = Util.convertTypeToIndicator(((ArrayType) type).getElemType());
             return new Value(value, true, element, -1);  //TODO check stack ptr place
         }
         if (type instanceof PairType) {
-            int fst = convertTypeToIndicator(((PairType) type).getFstExprType());
-            int snd = convertTypeToIndicator(((PairType) type).getSndExprType());
+            int fst = Util.convertTypeToIndicator(((PairType) type).getFstExprType());
+            int snd = Util.convertTypeToIndicator(((PairType) type).getSndExprType());
             return new Value(value, true, fst, snd);
         }
-        return new Value(value, convertTypeToIndicator(type), -1); //TODO check stack ptr place
+        return new Value(value, Util.convertTypeToIndicator(type), -1); //TODO check stack ptr place
     }
 
-    private static int convertTypeToIndicator(Type type) {
-        if (type instanceof IntType) {
-            return Value.INT_TYPE;
-        }
-        if (type instanceof BoolType) {
-            return Value.BOOL_TYPE;
-        }
-        if (type instanceof CharType) {
-            return Value.CHAR_TYPE;
-        }
-        if (type instanceof StringType) {
-            return Value.STRING_TYPE;
-        }
-        if (type instanceof ArrayType) {
-            return Value.ARRAY_TYPE;
-        }
-        if (type instanceof PairType) {
-            return Value.PAIR_TYPE;
-        }
-        System.err.println("unrecognised base type");
-        return -1;
-    }
+
 
 }

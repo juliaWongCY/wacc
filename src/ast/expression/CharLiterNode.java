@@ -1,11 +1,12 @@
 package ast.expression;
 
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.CharType;
 import type.Type;
 
-public class CharLiterNode implements ExpressionNode {
+public class CharLiterNode extends ExpressionNode {
 
     private final char value;
 
@@ -20,6 +21,7 @@ public class CharLiterNode implements ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         CharType charType = new CharType();
+        typeIndicator = Util.convertTypeToIndicator(charType);
         return charType.getType();
     }
 

@@ -1,6 +1,7 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.ArrayType;
@@ -35,4 +36,15 @@ public class ArrayLiterAsRNode implements AssignRightNode {
         }
     }
 
+    public int getElementTypeIndicator() {
+        if (elements.isEmpty()) {
+            return Util.EMPTY_TYPE;
+        } else {
+            return elements.get(0).getTypeIndicator();
+        }
+    }
+
+    public List<ExpressionNode> getElements() {
+        return elements;
+    }
 }

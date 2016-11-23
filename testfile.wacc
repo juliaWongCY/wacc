@@ -1,5 +1,7 @@
 begin
-  int a = 1;
-  a = -a;
-  println a
+  if (true) then
+    int[] a = []
+  else
+    int[] b = [2000000]
+  fi
 end

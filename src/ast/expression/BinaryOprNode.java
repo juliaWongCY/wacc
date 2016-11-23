@@ -1,11 +1,12 @@
 package ast.expression;
 
 import ast.BinaryOpr;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
 
-public class BinaryOprNode implements ExpressionNode {
+public class BinaryOprNode extends ExpressionNode {
 
     private final BinaryOpr binaryOpr;
     private final ExpressionNode exprL;
@@ -61,6 +62,7 @@ public class BinaryOprNode implements ExpressionNode {
                 case PLUS:
                 case MINUS:
                     if (tL instanceof IntType) {
+                        typeIndicator = Util.INT_TYPE;
                         return intType.getType();
                     } else {
                         throw new SemanticException("Only IntLiter");
@@ -70,6 +72,7 @@ public class BinaryOprNode implements ExpressionNode {
                 case LT:
                 case LTE:
                     if (tL instanceof IntType || tL instanceof CharType) {
+                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;
@@ -78,12 +81,14 @@ public class BinaryOprNode implements ExpressionNode {
                     if (tL instanceof IntType || tL instanceof CharType ||
                             tL instanceof StringType || tL instanceof BoolType ||
                             tL instanceof PairType || tL instanceof ArrayType) {
+                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;
                 case AND:
                 case OR:
                     if (tL instanceof BoolType) {
+                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;

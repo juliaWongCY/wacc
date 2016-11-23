@@ -45,4 +45,8 @@ public class Util {
         }
     }
 
+    public static int getTypeSize(Type type) {
+        return getTypeSize(convertTypeToIndicator(type));
+    }
+
 }

@@ -16,6 +16,14 @@ public class NewPairAsRNode implements AssignRightNode {
         this.snd = snd;
     }
 
+    public ExpressionNode getFst() {
+        return fst;
+    }
+
+    public ExpressionNode getSnd() {
+        return snd;
+    }
+
     public Type getFstType(SymbolTable st) throws SemanticException {
         try {
             return fst.getNodeType(st);

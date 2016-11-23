@@ -18,6 +18,7 @@ import backEnd.instructions.branch.BLVS;
 import backEnd.instructions.load.LDR;
 import backEnd.instructions.load.LDRSB;
 import backEnd.instructions.store.STR;
+import backEnd.instructions.store.STRB;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
@@ -127,7 +128,7 @@ public class CodeGenVisitor {
             instructions = visitExpression(elem, instructions, updatedRegs);
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
-                    registers.getPreviousReg(registers.getNextAvailableVariableReg(), offset)));
+                    registers.getPreviousReg(registers.getNextAvailableVariableReg()), offset));
             instructions.add(instructionsToBeAdded);
         }
 
@@ -152,8 +153,36 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitNewPairAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        NewPairAsRNode nNode = (NewPairAsRNode) node;
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 8));
+        instructionsToBeAdded.add(new BL("malloc"));
+        instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
+        instructions = visitExpression(((NewPairAsRNode) node).getFst(), instructions, registers);
+
+        instructionsToBeAdded = new ArrayList<>();
+
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
+                Util.getTypeSize(nNode.getFst().getTypeIndicator())));
+        instructionsToBeAdded.add(new BL("malloc"));
+        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getLastUsedReg()));
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        instructions = visitExpression(((NewPairAsRNode) node).getSnd(), instructions, registers);
+
+        instructionsToBeAdded = new ArrayList<>();
+
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
+                Util.getTypeSize(nNode.getSnd().getTypeIndicator())));
+        instructionsToBeAdded.add(new BL("malloc"));
+        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+        
         return instructions;
     }
 

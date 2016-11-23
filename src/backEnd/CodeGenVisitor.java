@@ -208,14 +208,26 @@ public class CodeGenVisitor {
         instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
-        //TODO: I need to get a identifier type.
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
                 registers.getNextAvailableVariableReg(),
-                ));
+                Util.getTypeSize(
+                        (varSymbolTable.getVariable(((ArrayElemNode) node).getArrayName().getId())).getArrayElemType())));
+        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
+                registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg()));
 
+        instructions.add(instructions.getCurrentLabel(), arrayElemInstructions);
 
+        Label printString = new Label("p_print_string");
 
-
+        instructions.add(printString, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
+        instructions.add(printString, new ArrayList<>(Arrays.asList(
+                new ADD(registers.getR0Reg(), registers.getR0Reg(), 4), new BL("printf"))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         return instructions;
     }

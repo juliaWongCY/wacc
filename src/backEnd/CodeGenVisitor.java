@@ -282,7 +282,7 @@ public class CodeGenVisitor {
                 instructionsToBeAdded.add(new ORR(resultReg, exprLReg, exprRReg));
                 break;
             case PLUS:
-                instructionsToBeAdded.add();
+//                instructionsToBeAdded.add();
                 break;
             case DIV:
                 instructions.add(new Header(".data"), null);

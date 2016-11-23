@@ -29,7 +29,6 @@ public class Value {
     }
 
     // for pair type value, where the two indicators indicate the fst and snd elements respectively
-
     public Value(String value, boolean isPair, int elementIndicator, int elementIndicatorSnd) {
         this.value = value;
         this.isPair = true;

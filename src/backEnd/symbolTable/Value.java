@@ -4,6 +4,7 @@ import backEnd.Util;
 
 public class Value {
 
+    // TODO: refactor class to VarProperty, since doesn't need the value field
 
 
     private String value = null;
@@ -12,6 +13,24 @@ public class Value {
     private boolean isArray         = false;
     private boolean isPair          = false;
     private int locationInStack     = 0;
+
+    public Value(int elementIndicator, int locationInStack) {
+        this.elementIndicator = elementIndicator;
+        this.locationInStack = locationInStack;
+    }
+
+    public Value(boolean isArray, int elementIndicator, int locationInStack) {
+        this.elementIndicator = elementIndicator;
+        this.isArray = isArray;
+        this.locationInStack = locationInStack;
+    }
+
+    public Value(boolean isPair, int elementIndicator, int elementIndicatorSnd, int locationInStack) {
+        this.elementIndicator = elementIndicator;
+        this.elementIndicatorSnd = elementIndicatorSnd;
+        this.isPair = isPair;
+        this.locationInStack = locationInStack;
+    }
 
     // for base type value
     public Value(String value, int elementIndicator, int locationInStack) {

@@ -53,4 +53,7 @@ public class FunctionNode implements ASTNode {
         return type;
     }
 
+    public Type getRetType() {
+        return type;
+    }
 }

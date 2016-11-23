@@ -573,7 +573,12 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitDeclareStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        DeclareStatNode nodeID = (DeclareStatNode) node;
+        AssignRightNode rhsNode = nodeID.getAssignRightNode();
 
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(
+                new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(), );
         //TODO
 
         return instructions;

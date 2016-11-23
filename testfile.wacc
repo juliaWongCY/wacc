@@ -1,7 +1,7 @@
 begin
-  int a = 1;
-  while (a == 1) do
-    print a;
-    a = a + 1
-  done
+  if true then
+    print true
+  else
+    skip
+  fi
 end

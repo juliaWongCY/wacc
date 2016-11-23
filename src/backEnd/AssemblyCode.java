@@ -133,7 +133,7 @@ public class AssemblyCode {
         this.currentStackPtrPos = currentStackPtrPos;
     }
 
-    public String getnextLabel() {
+    public String getNextLabel() {
         return "L" + newLabels;
     }
 

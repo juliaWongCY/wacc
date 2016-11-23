@@ -80,9 +80,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitIdentAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
-
         return instructions;
     }
 
@@ -149,10 +146,8 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitExprAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
-
-        return instructions;
+        //TODO check if correct
+        return visitExpression(((ExprAsRNode)node).getExpr(), instructions, registers);
     }
 
     public static AssemblyCode visitNewPairAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {

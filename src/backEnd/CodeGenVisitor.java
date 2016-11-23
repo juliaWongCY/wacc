@@ -748,7 +748,39 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitIfStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        varSymbolTable.saveState();
+
+        IfStatNode ifStatNode = (IfStatNode) node;
+
+        instructions = visitExpression(ifStatNode.getCond(), instructions, registers);
+
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructionsToBeAdded.add(new CMP(registers.getNextAvailableVariableReg(), 0));
+        instructionsToBeAdded.add(new BEQ(instructions.getNextLabel()));
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
+
+        Label currentMainLabel = instructions.getCurrentLabel();
+
+        instructions.updateCurrentLabel();
+
+        instructions = visitStatListNode(ifStatNode.getStatElseBody(), instructions, registers);
+
+        String branchLabelName = instructions.getNextLabel();
+        instructions.add(currentMainLabel,
+                new ArrayList<>(Arrays.asList(new B(branchLabelName))));
+
+        if (!varSymbolTable.checkSameState()) {
+            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new ADD(registers.getStackPtrReg(),
+                            registers.getStackPtrReg(), diff))));
+        }
+
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Arrays.asList(new B(branchLabelName))));
+        instructions.updateCurrentLabel();
 
         return instructions;
     }
@@ -836,7 +868,7 @@ public class CodeGenVisitor {
 
         WhileStatNode whileStateNode = (WhileStatNode) node;
 
-        String nextLabel = instructions.getnextLabel();
+        String nextLabel = instructions.getNextLabel();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructionsToBeAdded.add(new B(nextLabel));
@@ -850,7 +882,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded = new ArrayList<>();
         instructionsToBeAdded.add(new CMP(registers.getNextAvailableVariableReg(), 1));
 
-        nextLabel = instructions.getnextLabel();
+        nextLabel = instructions.getNextLabel();
         instructionsToBeAdded.add(new BEQ(nextLabel));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);

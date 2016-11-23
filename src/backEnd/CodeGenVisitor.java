@@ -20,7 +20,10 @@ import backEnd.instructions.binaryOp.ORR;
 import backEnd.instructions.branch.BL;
 import backEnd.instructions.load.LDR;
 import backEnd.symbolTable.FuncSymbolTable;
+import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
+import frontEnd.SemanticException;
+import type.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +47,7 @@ public class CodeGenVisitor {
         if (node instanceof PairElemAsLNode) {
             return visitPairElemAsLNode(node, instructions, registers);
         }
-        System.err.println("unrecognized assign left node");
+        System.err.println("unrecognised assign left node");
         return null;
     }
 
@@ -167,7 +170,7 @@ public class CodeGenVisitor {
         if (node instanceof UnaryOprNode) {
             return visitUnaryOprNode(node, instructions, registers);
         }
-        System.err.println("unrecognized expression");
+        System.err.println("unrecognised expression");
         return null;
     }
 
@@ -396,7 +399,7 @@ public class CodeGenVisitor {
         if (node instanceof WhileStatNode) {
             return visitWhileStatNode(node, instructions, registers);
         }
-        System.err.println("unrecognized statement node");
+        System.err.println("unrecognised statement node");
         return null;
     }
 
@@ -482,6 +485,10 @@ public class CodeGenVisitor {
 
         //TODO
 
+        newSymbolTable();
+        ScopingStatNode sNode = (ScopingStatNode) node;
+        instructions = visitStatListNode(sNode.getBody(), instructions, registers);
+        popSymbolTable();
         return instructions;
     }
 
@@ -503,6 +510,9 @@ public class CodeGenVisitor {
 
         //TODO
 
+        newSymbolTable();
+
+        popSymbolTable();
         return instructions;
     }
 
@@ -511,11 +521,29 @@ public class CodeGenVisitor {
     public static AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         //TODO
+        FunctionNode fNode = (FunctionNode) node;
+        VarSymbolTable paramSymbolTable = new VarSymbolTable();
+        String funcName = fNode.getFunctionName();
+        List<String> paramNames = fNode.getParamListNode().getParamNames();
+        List<Type> paramTypes = null;
+        try {
+            paramTypes = fNode.getParamListNode().getParamTypes();
+        } catch (SemanticException e) {
+            System.err.println("shouldn't reach here, as should be able to get params type");
+        }
+        for (int i = 0; i < paramNames.size(); i++) {
+            paramSymbolTable.addVariable(
+                    paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+        }
+        funcSymbolTable.addFunction(funcName, paramSymbolTable);
 
         return instructions;
     }
 
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        funcSymbolTable = new FuncSymbolTable();
+        varSymbolTable  = new VarSymbolTable();
 
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
@@ -526,10 +554,12 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-        instructions.returnMainLabel();
+//        instructions.returnMainLabel();
+//
+//        //PUSH {LR}
+//        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
 
-        //PUSH {LR}
-        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
+        instructions.add(Arrays.asList(new PUSH(registers.getLinkReg())));
 
         //Visit StatListNode and return instructions
         instructions = visitStatListNode(((ProgramNode) node).getStatListNode(), instructions, registers);
@@ -550,6 +580,59 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
+    }
+
+    ////////////////////////////////////// helper method /////////////////////////////////////
+
+    // create new symbol table with parent as current symbol table
+    private static void newSymbolTable() {
+        VarSymbolTable vst = new VarSymbolTable(varSymbolTable);
+        varSymbolTable = vst;
+    }
+
+    // discard current symbol table and set current table as its parent
+    private static void popSymbolTable() {
+        if (varSymbolTable.getParent() == null) {
+            System.err.println("error in finding variable symbol table parent");
+        } else {
+            varSymbolTable = varSymbolTable.getParent();
+        }
+    }
+
+    private static Value covertParamToValue(String value, Type type) {
+        if (type instanceof ArrayType) {
+            int element = convertTypeToIndicator(((ArrayType) type).getElemType());
+            return new Value(value, true, element);
+        }
+        if (type instanceof PairType) {
+            int fst = convertTypeToIndicator(((PairType) type).getFstExprType());
+            int snd = convertTypeToIndicator(((PairType) type).getSndExprType());
+            return new Value(value, true, fst, snd);
+        }
+        return new Value(value, convertTypeToIndicator(type));
+    }
+
+    private static int convertTypeToIndicator(Type type) {
+        if (type instanceof IntType) {
+            return Value.INT_TYPE;
+        }
+        if (type instanceof BoolType) {
+            return Value.BOOL_TYPE;
+        }
+        if (type instanceof CharType) {
+            return Value.CHAR_TYPE;
+        }
+        if (type instanceof StringType) {
+            return Value.STRING_TYPE;
+        }
+        if (type instanceof ArrayType) {
+            return Value.ARRAY_TYPE;
+        }
+        if (type instanceof PairType) {
+            return Value.PAIR_TYPE;
+        }
+        System.err.println("unrecognised base type");
+        return -1;
     }
 
 }

@@ -20,4 +20,8 @@ public class ParamNode implements ASTNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         return type;
     }
+
+    public String getParamName() {
+        return paramName.getId();
+    }
 }

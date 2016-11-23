@@ -207,6 +207,7 @@ public class CodeGenVisitor {
     public static AssemblyCode visitIdentNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         //TODO
+
         return instructions;
     }
 
@@ -228,8 +229,8 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPairLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
-
+        instructions.add(instructions.getCurrentLabel(),
+                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), 0))); //TODO: check the constant
         return instructions;
     }
 
@@ -248,7 +249,6 @@ public class CodeGenVisitor {
 
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 instructionsToBeAdded);
-        
 
         return instructions;
     }

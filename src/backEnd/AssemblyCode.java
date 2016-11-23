@@ -2,6 +2,7 @@ package backEnd;
 
 import backEnd.general.Label;
 import backEnd.instructions.Instruction;
+import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class AssemblyCode {
     private VarSymbolTable varSymbolTable = new VarSymbolTable();
     private int numberOfMessage = 0;
     private Label currentLabel = new Label("main");
-
+    private int currentStackPtrPos = 0;
     private MessageGenerator messageGenerator = new MessageGenerator();
 
     public List<AssemblyLine> toList() {
@@ -66,6 +67,18 @@ public class AssemblyCode {
 
     public MessageGenerator getMessageGenerator() {
         return messageGenerator;
+    }
+
+    public int getCurrentStackPtrPos(){
+        return currentStackPtrPos;
+    }
+
+    public Value lookUpVar(String var){
+        return varSymbolTable.getVariable(var);
+    }
+    public int getPositionInStack(String var) {
+        int variablePos = lookUpVar(var).getLocationInStack();
+        return variablePos - getCurrentStackPtrPos();
     }
 
 

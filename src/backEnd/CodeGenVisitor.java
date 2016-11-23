@@ -16,12 +16,14 @@ import backEnd.instructions.branch.BL;
 import backEnd.instructions.branch.BLNE;
 import backEnd.instructions.branch.BLVS;
 import backEnd.instructions.load.LDR;
+import backEnd.instructions.load.LDRSB;
 import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.Value;
 import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -206,7 +208,21 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitIdentNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        //TODO : double check the position in stack
+        IdentNode nodeID = (IdentNode) node;
+        int nodeType = varSymbolTable.getVariable(nodeID.getId()).getValueType();
+
+        if(nodeType == 0 | nodeType == 3 | nodeType == 4 | nodeType == 5){
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                            registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
+        }
+
+        if(nodeType == 1 | nodeType == 2){
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new LDRSB(registers.getNextAvailableVariableReg(),
+                            registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
+        }
 
         return instructions;
     }
@@ -663,14 +679,14 @@ public class CodeGenVisitor {
     private static Value covertParamToValue(String value, Type type) {
         if (type instanceof ArrayType) {
             int element = convertTypeToIndicator(((ArrayType) type).getElemType());
-            return new Value(value, true, element);
+            return new Value(value, true, element, -1);  //TODO check stack ptr place
         }
         if (type instanceof PairType) {
             int fst = convertTypeToIndicator(((PairType) type).getFstExprType());
             int snd = convertTypeToIndicator(((PairType) type).getSndExprType());
             return new Value(value, true, fst, snd);
         }
-        return new Value(value, convertTypeToIndicator(type));
+        return new Value(value, convertTypeToIndicator(type), -1); //TODO check stack ptr place
     }
 
     private static int convertTypeToIndicator(Type type) {

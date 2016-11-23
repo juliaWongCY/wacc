@@ -14,27 +14,31 @@ public class Value {
     private int elementIndicatorSnd = -1;
     private boolean isArray         = false;
     private boolean isPair          = false;
+    private int locationInStack     = 0;
 
     // for base type value
-    public Value(String value, int elementIndicator) {
+    public Value(String value, int elementIndicator, int locationInStack) {
         this.value = value;
         this.elementIndicator = elementIndicator;
+        this.locationInStack = locationInStack;
     }
 
     // for array type value, where the indicator indicates the element type
-    public Value(String value, boolean isArray, int elementIndicator) {
+    public Value(String value, boolean isArray, int elementIndicator, int locationInStack) {
         this.value = value;
         this.isArray = true;
         this.elementIndicator = elementIndicator;
+        this.locationInStack = locationInStack;
     }
 
     // for pair type value, where the two indicators indicate the fst and snd elements respectively
 
-    public Value(String value, boolean isPair, int elementIndicator, int elementIndicatorSnd) {
+    public Value(String value, boolean isPair, int elementIndicator, int elementIndicatorSnd, int locationInStack) {
         this.value = value;
         this.isPair = true;
         this.elementIndicator = elementIndicator;
         this.elementIndicatorSnd = elementIndicatorSnd;
+        this.locationInStack = locationInStack;
     }
 
     public String getValue() {
@@ -55,6 +59,10 @@ public class Value {
 
     public int getSndElemType() {
         return elementIndicatorSnd;
+    }
+
+    public int getLocationInStack(){
+        return locationInStack;
     }
 
     public int getTypeSize() {

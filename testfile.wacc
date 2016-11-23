@@ -1,5 +1,6 @@
 begin
-  int a = 21474836;
-  exit a
-
+  int f(int x, int x) is
+    return 1
+  end
+  int a = call f(1, 3)
 end

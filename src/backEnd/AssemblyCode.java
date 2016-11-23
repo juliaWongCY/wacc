@@ -32,6 +32,17 @@ public class AssemblyCode {
 
     }
 
+    public void add(List<Instruction> instructions) {
+        instructionsPerLabel.put(getCurrentLabel(), instructions);
+
+        // redundant?
+        if (currentLabel.isMessage()) {
+            numberOfMessage++;
+        }
+    }
+
+
+
     public VarSymbolTable getVarSymbolTable() {
         return varSymbolTable;
     }

@@ -24,7 +24,7 @@ public class Value {
     // for array type value, where the indicator indicates the element type
     public Value(String value, boolean isArray, int elementIndicator) {
         this.value = value;
-        this.isArray = isArray;
+        this.isArray = true;
         this.elementIndicator = elementIndicator;
     }
 
@@ -32,7 +32,7 @@ public class Value {
 
     public Value(String value, boolean isPair, int elementIndicator, int elementIndicatorSnd) {
         this.value = value;
-        this.isPair = isPair;
+        this.isPair = true;
         this.elementIndicator = elementIndicator;
         this.elementIndicatorSnd = elementIndicatorSnd;
     }

@@ -993,7 +993,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 paramListNode = visit(fctx.paramList());
                 try {
                     if (paramListNode instanceof ParamListNode) {
-                        paramTypes = ((ParamListNode) paramListNode).getNodeTypes(symbolTable);
+                        paramTypes = ((ParamListNode) paramListNode).getParamTypes();
                     } else {
                         return handleError(fctx, ((ErrorNode) paramListNode).getErrorType());
                     }

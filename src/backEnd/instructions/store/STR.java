@@ -10,7 +10,9 @@ public class STR extends Instruction{
     protected RegisterARM src;
     protected Label label;
     protected int constant;
-
+    protected int offset;
+    protected boolean writeAddress;
+    protected String string;
 
     public STR(RegisterARM dst, RegisterARM src) {
         this.dst = dst;
@@ -23,8 +25,20 @@ public class STR extends Instruction{
         this.constant = constant;
     }
 
+    public STR(RegisterARM dst, RegisterARM src, int offset, boolean writeAddress, String string) {
+        this.dst = dst;
+        this.src = src;
+        this.offset = offset;
+        this.writeAddress = writeAddress;
+        this.string = string;
+
+    }
+
     @Override
     public String toString() {
+        if (writeAddress) {
+            return "STR" + string + " " + dst + ", [" + src + ", #" + offset + "]!\n";
+        }
         if (constant > 0) {
             //eg. LDR r1, [sp, #12] to move the stack pointer
             return ("STR " + dst + ", [" + src + ", #" + constant + "]\n");

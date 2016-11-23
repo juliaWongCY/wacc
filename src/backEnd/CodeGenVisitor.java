@@ -271,8 +271,55 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitUnaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
+        instructions = visitExpression(((UnaryOprNode) node).getExpr(), instructions, registers);
+
+        UnaryOpr unaryOpr = ((UnaryOprNode) node).getUnaryOpr();
+
+        switch (unaryOpr) {
+            case NOT:
+                instructionsToBeAdded.add(new EOR(registers.getNextAvailableVariableReg(), 1));
+                break;
+            case NEG:
+                String errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
+                instructions.getMessageGenerator().generatePrintStringTypeMessage(
+                        instructions, errorMessage.length() - 2, errorMessage);
+
+                Label printStringLabel = new Label("p_print_string");
+                instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
+                        registers.getNextAvailableVariableReg(), 0));
+
+                Label overflowLabel = new Label("p_throw_overflow_error");
+                instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
+                instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
+                        registers, instructions));
+                instructions.add(new Label("p_throw_runtime_error"),
+                        instructions.getMessageGenerator().generateRuntimeInstrs(registers, instructions));
+
+                instructions.add(printStringLabel, new ArrayList<Instruction>(
+                        Arrays.asList(new PUSH(registers.getLinkReg()))));
+                instructions.add(printStringLabel, instructions.getMessageGenerator().generatePrintStringInstructions(
+                        registers, instructions));
+                instructions.add(printStringLabel,
+                        new ArrayList<>(Arrays.asList(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                                new BL("printf"))));
+                instructions.add(printStringLabel,
+                        instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+                break;
+            case LEN:
+                instructions.add(instructions.getCurrentLabel(),
+                        new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()),
+                                new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()))));
+                break;
+            case ORD:
+            case CHR:
+                break;
+            default:
+                System.err.println("NEVER");
+        }
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         return instructions;
     }
 
@@ -395,7 +442,7 @@ public class CodeGenVisitor {
                         new PUSH(RegisterARM.LR))));
                 instructions.add(
                         printStringLabel,
-                        instructions.getMessageGenerator().generatePrintStringInstrs(
+                        instructions.getMessageGenerator().generatePrintStringInstructions(
                                 registers, instructions));
                 instructions.add(
                         printStringLabel,

@@ -89,8 +89,8 @@ public class MessageGenerator {
 
 
 
-    public List<Instruction> generatePrintStringInstrs(Registers registers,
-                                                       AssemblyCode instructions) {
+    public List<Instruction> generatePrintStringInstructions(Registers registers,
+                                                             AssemblyCode instructions) {
         List<Instruction> printStringInstructions = new ArrayList<Instruction>();
 
         printStringInstructions.add(new LDR(registers.getR1Reg(), registers

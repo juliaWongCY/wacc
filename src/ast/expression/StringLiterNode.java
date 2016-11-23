@@ -29,4 +29,8 @@ public class StringLiterNode implements ExpressionNode {
         return new ArrayType(new CharType());
     }
 
+    public String getTypeInString() {
+        return "string";
+    }
+
 }

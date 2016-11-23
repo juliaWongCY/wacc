@@ -260,8 +260,7 @@ public class CodeGenVisitor {
                         new Label("msg_" + instructions.getNumberOfMessage()))));
 
         instructionsToBeAdded.add(new HeaderInstr(".word ", strNode.getStringSize()));
-        instructionsToBeAdded.add(new HeaderInstr(".ascii"));
-        instructionsToBeAdded.add(new HeaderInstr(strNode.getValue()));
+        instructionsToBeAdded.add(new HeaderInstr(".ascii" +  strNode.getValue()));
 
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 instructionsToBeAdded);

@@ -21,19 +21,27 @@ public class ParamListNode implements ASTNode{
         return params;
     }
 
-    public List<Type> getNodeTypes(SymbolTable st) throws SemanticException {
-        ArrayList<Type> types = new ArrayList<>();
+    public List<Type> getParamTypes() throws SemanticException {
+        List<Type> types = new ArrayList<>();
         for (ParamNode p : params) {
-            types.add(p.getNodeType(st));
+            types.add(p.getNodeType(null));
         }
         return types;
+    }
+
+    public List<String> getParamNames() {
+        List<String> names = new ArrayList<>();
+        for (ParamNode p : params) {
+            names.add(p.getParamName());
+        }
+        return names;
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         throw new SemanticException
                 ("ParamListNode can contain multiple types, use method - "
-                + "\"getNodeTypes\" instead");
+                + "\"getParamTypes\" instead");
     }
 
 

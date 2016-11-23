@@ -71,4 +71,8 @@ public class VarSymbolTable {
             return getVarLocalSize() + parent.getVarTotalSize();
         }
     }
+
+    public VarSymbolTable getParent() {
+        return parent;
+    }
 }

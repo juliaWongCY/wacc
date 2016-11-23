@@ -25,4 +25,7 @@ public class ScopingStatNode implements StatementNode {
         return stat.getType();
     }
 
+    public StatListNode getBody() {
+        return stat;
+    }
 }

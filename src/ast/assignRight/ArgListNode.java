@@ -27,7 +27,7 @@ public class ArgListNode implements AssignRightNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         throw new SemanticException
                 ("ArgListNode can contain multiple types, use method - "
-                        + "\"getNodeTypes\" instead");
+                        + "\"getParamTypes\" instead");
     }
 
 

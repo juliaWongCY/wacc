@@ -1,11 +1,12 @@
 package ast.expression;
 
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
 
-public class PairLiterNode implements ExpressionNode {
+public class PairLiterNode extends ExpressionNode {
 
     public PairLiterNode() {
         //PairLiter = null
@@ -13,6 +14,7 @@ public class PairLiterNode implements ExpressionNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
+        typeIndicator = Util.PAIR_TYPE;
         return new PairType();
     }
 

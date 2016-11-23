@@ -1,11 +1,13 @@
 package ast.expression;
 
+import ast.UnaryOpr;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
 import type.Type;
 
-public class PairElemNode implements ExpressionNode {
+public class PairElemNode extends ExpressionNode {
 
     private ExpressionNode expressionNode;
     private boolean isFirst;
@@ -32,11 +34,14 @@ public class PairElemNode implements ExpressionNode {
         } else {
             Type t = expressionNode.getNodeType(st);
             if (t instanceof PairType) {
+                Type type;
                 if (isFirst) {
-                    return ((PairType) t).getFstExprType();
+                    type = ((PairType) t).getFstExprType();
                 } else {
-                    return ((PairType) t).getSndExprType();
+                    type = ((PairType) t).getSndExprType();
                 }
+                typeIndicator = Util.convertTypeToIndicator(type);
+                return type;
             }
             throw new SemanticException("Expression node not of required type pair");
         }

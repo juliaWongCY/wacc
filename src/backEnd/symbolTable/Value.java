@@ -1,17 +1,14 @@
 package backEnd.symbolTable;
 
+import backEnd.Util;
+
 public class Value {
 
-    public static final int INT_TYPE    = 0;
-    public static final int BOOL_TYPE   = 1;
-    public static final int CHAR_TYPE   = 2;
-    public static final int STRING_TYPE = 3;
-    public static final int ARRAY_TYPE  = 4;
-    public static final int PAIR_TYPE   = 5;
+
 
     private String value = null;
-    private int elementIndicator    = -1;
-    private int elementIndicatorSnd = -1;
+    private int elementIndicator    = Util.EMPTY_TYPE;
+    private int elementIndicatorSnd = Util.EMPTY_TYPE;
     private boolean isArray         = false;
     private boolean isPair          = false;
     private int locationInStack     = 0;
@@ -65,10 +62,8 @@ public class Value {
     }
 
     public int getTypeSize() {
-        if (!(isArray || isPair)
-                && (elementIndicator == BOOL_TYPE
-                || elementIndicator == CHAR_TYPE)) {
-            return 1;
+        if (!(isArray || isPair)) {
+            return Util.getTypeSize(elementIndicator);
         } else {
             return 4;
         }

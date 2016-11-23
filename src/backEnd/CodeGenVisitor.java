@@ -163,7 +163,12 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        CallAsRNode callAsRNode = (CallAsRNode) node;
+
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructions = visitArgListNode(callAsRNode.getArgList(), instructions, registers);
+
+        //TODO: Donald
 
         return instructions;
     }

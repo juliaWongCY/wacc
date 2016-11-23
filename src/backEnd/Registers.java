@@ -36,6 +36,10 @@ public class Registers {
         return RegisterARM.R1;
     }
 
+    public RegisterARM getPreviousReg(RegisterARM reg) {
+        return RegisterARM.values()[reg.ordinal() - 1];
+    }
+
     public RegisterARM getNextAvailableVariableReg() {
         if (regInUsed.contains(RegisterARM.R4)) {
             return getNextAvailableReg();

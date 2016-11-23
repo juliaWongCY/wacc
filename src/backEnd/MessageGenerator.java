@@ -157,6 +157,15 @@ public class MessageGenerator {
         return overflowInstructions;
     }
 
+    public AssemblyCode generateArrayOutOfBoundsMessage(AssemblyCode instructions) {
+        instructions = generatePrintStringTypeMessage(instructions, 44,
+                "\"ArrayIndexOutOfBoundsError: negative index\\n\0\"");
+        instructions = generatePrintStringTypeMessage(instructions, 45,
+                "\"ArrayIndexOutOfBoundsError: index too large\\n\0\"");
+
+        return instructions;
+    }
+
     /////////////////END OF GENERATE INSTRUCTIONS FUNCTIONS//////////////////////
 
     //Helper function:

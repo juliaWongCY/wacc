@@ -203,7 +203,52 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        List<Instruction> arrayElemInstructions = new ArrayList<>();
+
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
+
+        ExpressionNode index = ((ArrayElemNode) node).getIndexes().get(0);
+
+        Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+        instructions = visitExpression(index, instructions, updatedRegisters);
+        registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
+
+        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg()));
+        arrayElemInstructions.add(new MOV(registers.getR0Reg(),
+                registers.getNextReg(registers.getNextAvailableVariableReg())));
+        arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
+
+        instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+
+        List<Instruction> runTimeInstructions = new ArrayList<>();
+        instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
+
+        List<Instruction> boundsInstructions = new ArrayList<>();
+        instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
+
+        arrayElemInstructions.add(new BL("p_check_array_bounds"));
+        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg(),
+                Util.getTypeSize(
+                        (varSymbolTable.getVariable(((ArrayElemNode) node).getArrayName().getId())).getArrayElemType())));
+        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
+                registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg()));
+
+        instructions.add(instructions.getCurrentLabel(), arrayElemInstructions);
+
+        Label printString = new Label("p_print_string");
+
+        instructions.add(printString, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
+        instructions.add(printString, new ArrayList<>(Arrays.asList(
+                new ADD(registers.getR0Reg(), registers.getR0Reg(), 4), new BL("printf"))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         return instructions;
     }

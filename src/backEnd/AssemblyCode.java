@@ -53,5 +53,9 @@ public class AssemblyCode {
         return currentLabel;
     }
 
+    public MessageGenerator getMessageGenerator() {
+        return messageGenerator;
+    }
+
 
 }

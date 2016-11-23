@@ -1,8 +1,17 @@
 package backEnd;
 
+import backEnd.general.Header;
 import backEnd.general.HeaderInstr;
 import backEnd.general.Label;
+import backEnd.instructions.ADD;
+import backEnd.instructions.CMP;
 import backEnd.instructions.Instruction;
+import backEnd.instructions.POP;
+import backEnd.instructions.binaryOp.MOV;
+import backEnd.instructions.branch.BL;
+import backEnd.instructions.branch.BLEQ;
+import backEnd.instructions.load.LDR;
+import backEnd.instructions.load.LDREQ;
 import type.Type;
 
 import java.util.ArrayList;
@@ -58,6 +67,17 @@ public class MessageGenerator {
         return instructions;
     }
 
+    public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions,
+                                                       int stringSize, String string) {
+        instructions.add(new Header(".data"), null);
+        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
+                headerMessages("\t.word", stringSize, "\t.ascii " + string));
+        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
+                headerMessages(HEADER_WORD, 5, ".ascii \"%.*s\0\""));
+
+        return instructions;
+    }
+
     public AssemblyCode generatePrintArrayPairTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 3, "\"%p\0\""));
@@ -65,7 +85,65 @@ public class MessageGenerator {
         return instructions;
     }
 
+
+
+
+
+    public List<Instruction> generatePrintStringInstrs(Registers registers,
+                                                       AssemblyCode instructions) {
+        List<Instruction> printStringInstructions = new ArrayList<Instruction>();
+
+        printStringInstructions.add(new LDR(registers.getR1Reg(), registers
+                .getR0Reg()));
+        printStringInstructions.add(new ADD(RegisterARM.R2, registers.getR0Reg(),
+                4));
+        printStringInstructions.add(new LDR(registers.getR0Reg(),
+                new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
+
+        return printStringInstructions;
+    }
+
+
     /////////////////END OF PRINT TYPE MESSAGE FUNCTIONS//////////////////////
+
+
+    /////////////////START OF GENERATE INSTRUCTIONS FUNCTIONS/////////////////
+
+    public List<Instruction> generateDivideByZeroInstrs(Registers registers, AssemblyCode instructions) {
+        List<Instruction> divideByZeroInstrs = new ArrayList<Instruction>();
+
+        divideByZeroInstrs.add(new CMP(registers.getR1Reg(), 0));
+        divideByZeroInstrs.add(new LDREQ(registers.getR0Reg(), new Label(
+                "msg_" + (instructions.getNumberOfMessage() - 2))));
+        divideByZeroInstrs.add(new BLEQ(new Label("p_throw_runtime_error")));
+        //divideByZeroInstrs.add(new BLEQ("p_throw_runtime_error"));
+
+        return divideByZeroInstrs;
+    }
+
+
+    public List<Instruction> generateRuntimeInstrs(Registers registers,
+                                                   AssemblyCode origInstructions) {
+        List<Instruction> runtimeInstrs = new ArrayList<Instruction>();
+
+        runtimeInstrs.add(new BL(new Label("p_print_string")));
+        runtimeInstrs.add(new MOV(registers.getR0Reg(), -1));
+        runtimeInstrs.add(new BL(new Label("exit")));
+        return runtimeInstrs;
+    }
+
+    public List<Instruction> generateEndPrintInstructions(
+            AssemblyCode instructions, Registers registers) {
+        List<Instruction> endPrintInstructions = new ArrayList<Instruction>();
+
+        endPrintInstructions.add(new MOV(registers.getR0Reg(), 0));
+        endPrintInstructions.add(new BL(new Label("fflush")));
+        endPrintInstructions.add(new POP(RegisterARM.PC));
+
+        return endPrintInstructions;
+    }
+
+    /////////////////END OF GENERATE INSTRUCTIONS FUNCTIONS//////////////////////
 
     //Helper function:
     public List<Instruction> headerMessages(String word, int messageLength, String output) {

@@ -640,7 +640,54 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructionsToBeAdded.addAll(instructions.getMessageGenerator().generateNullReferenceInstructions(
+                registers, instructions));
+
+        instructions.add(new Header(".data"), null);
+        String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\"";
+        instructions.getMessageGenerator().generatePrintStringTypeMessage(
+                instructions, errorMessage.length() - 2, errorMessage);
+
+        Label printFreePair = new Label("p_free_pair");
+        instructions.add(printFreePair, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructions.add(printFreePair,
+                instructions.getMessageGenerator().generateRuntimeInstrs(registers, instructions));
+
+        List<Instruction> printFreePairInstructions = new ArrayList<>();
+        printFreePairInstructions.add(new PUSH(registers.getR0Reg()));
+        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg()));
+        printFreePairInstructions.add(new BL("free"));
+        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getStackPtrReg()));
+        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg(), 4));
+        printFreePairInstructions.add(new BL("free"));
+        printFreePairInstructions.add(new POP(registers.getR0Reg()));
+        printFreePairInstructions.add(new BL("free"));
+        printFreePairInstructions.add(new POP(registers.getPCReg()));
+        instructions.add(printFreePair, printFreePairInstructions);;
+
+        Label printThrowRunTime = new Label("p_throw_runtime_error");
+
+        List<Instruction> printThrowRunTimeInstructions = new ArrayList<>();
+        printThrowRunTimeInstructions.add(new BL("p_print_string"));
+        printThrowRunTimeInstructions.add(new MOV(registers.getR0Reg(), -1));
+        printThrowRunTimeInstructions.add(new BL("exit"));
+        instructions.add(printThrowRunTime, printFreePairInstructions);
+
+        Label printString = new Label("p_print_string");
+        instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
+                new PUSH(registers.getLinkReg()))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
+        instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
+                new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                new BL("printf"))));
+        instructions.add(printString,
+                instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+
+        instructions = visitExpression(((FreeStatNode) node).getExpr(), instructions, registers);
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }

@@ -166,6 +166,16 @@ public class MessageGenerator {
         return instructions;
     }
 
+    public List<Instruction> generateNullReferenceInstructions(Registers registers, AssemblyCode instructions) {
+        List<Instruction> nullReferenceInstructions = new ArrayList<>();
+        nullReferenceInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getStackPtrReg()));
+        nullReferenceInstructions.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        nullReferenceInstructions.add(new BL("p_free_pair"));
+
+        return nullReferenceInstructions;
+    }
+
     /////////////////END OF GENERATE INSTRUCTIONS FUNCTIONS//////////////////////
 
     //Helper function:

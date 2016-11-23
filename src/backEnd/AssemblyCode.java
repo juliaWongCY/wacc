@@ -77,6 +77,7 @@ public class AssemblyCode {
         }
     }
 
+
     private boolean hasThatLabel(Label label, List<Instruction> instructions) {
         Iterator<Entry<Label, List<Instruction>>> entryIterator = instructionsPerLabel.entrySet().iterator();
 
@@ -125,6 +126,10 @@ public class AssemblyCode {
 
     public int getCurrentStackPtrPos(){
         return currentStackPtrPos;
+    }
+
+    public void setCurrentStackPtrPos(int currentStackPtrPos) {
+        this.currentStackPtrPos = currentStackPtrPos;
     }
 
     public Value lookUpVar(String var){

@@ -9,6 +9,8 @@ public class VarSymbolTable {
     private VarSymbolTable parent;
     private Map<String, Value> varTable;
 
+    private int state = -1;
+
     public VarSymbolTable() {
         parent = null;
         this.varTable = new HashMap<>();
@@ -74,5 +76,17 @@ public class VarSymbolTable {
 
     public VarSymbolTable getParent() {
         return parent;
+    }
+
+    public void saveState() {
+        state = varTable.size();
+    }
+
+    public boolean checkSameState() {
+        return varTable.size() == state;
+    }
+
+    public int getState() {
+        return state;
     }
 }

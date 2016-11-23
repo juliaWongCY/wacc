@@ -780,7 +780,18 @@ public class CodeGenVisitor {
 
         newSymbolTable();
         ScopingStatNode sNode = (ScopingStatNode) node;
+        varSymbolTable.saveState();
         instructions = visitStatListNode(sNode.getBody(), instructions, registers);
+
+        //If size of SymbolTable is NOT the same
+        if (!varSymbolTable.checkSameState()) {
+            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new ADD(registers.getStackPtrReg(),
+                            registers.getStackPtrReg(), diff))));
+            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + diff);
+        }
+
         popSymbolTable();
         return instructions;
     }

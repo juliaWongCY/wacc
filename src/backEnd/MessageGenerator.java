@@ -3,10 +3,8 @@ package backEnd;
 import backEnd.general.Header;
 import backEnd.general.HeaderInstr;
 import backEnd.general.Label;
-import backEnd.instructions.ADD;
-import backEnd.instructions.CMP;
-import backEnd.instructions.Instruction;
-import backEnd.instructions.POP;
+import backEnd.instructions.*;
+import backEnd.instructions.binaryOp.ADDS;
 import backEnd.instructions.binaryOp.MOV;
 import backEnd.instructions.branch.BL;
 import backEnd.instructions.branch.BLEQ;
@@ -109,7 +107,7 @@ public class MessageGenerator {
 
     /////////////////START OF GENERATE INSTRUCTIONS FUNCTIONS/////////////////
 
-    public List<Instruction> generateDivideByZeroInstrs(Registers registers, AssemblyCode instructions) {
+    public List<Instruction> generateDivideByZeroInstructions(Registers registers, AssemblyCode instructions) {
         List<Instruction> divideByZeroInstrs = new ArrayList<Instruction>();
 
         divideByZeroInstrs.add(new CMP(registers.getR1Reg(), 0));
@@ -122,8 +120,8 @@ public class MessageGenerator {
     }
 
 
-    public List<Instruction> generateRuntimeInstrs(Registers registers,
-                                                   AssemblyCode instructions) {
+    public List<Instruction> generateRuntimeInstructions(Registers registers,
+                                                         AssemblyCode instructions) {
         List<Instruction> runtimeInstrs = new ArrayList<Instruction>();
 
         runtimeInstrs.add(new BL("p_print_string"));
@@ -174,6 +172,28 @@ public class MessageGenerator {
         nullReferenceInstructions.add(new BL("p_free_pair"));
 
         return nullReferenceInstructions;
+    }
+
+    public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions) {
+        List<Instruction> nullPointerInstructions = new ArrayList<>();
+        nullPointerInstructions.add(new PUSH(registers.getLinkReg()));
+        nullPointerInstructions.add(new CMP(registers.getR0Reg(), 0));
+        nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+        nullPointerInstructions.add(new BLEQ("p_throw_runtime_error"));
+        nullPointerInstructions.add(new POP(registers.getPCReg()));
+
+        instructions.add(new Label("p_check_null_pointer"), nullPointerInstructions);
+
+        instructions.add(new Label("p_throw_runtime_error"), generateRuntimeInstructions(registers, instructions));
+
+        List<Instruction> printStringInstructions= new ArrayList<>();
+        printStringInstructions.addAll(generatePrintStringInstructions(registers, instructions));
+        printStringInstructions.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
+        printStringInstructions.add(new BL("printf"));
+        printStringInstructions.addAll(generateEndPrintInstructions(instructions, registers));
+
+        instructions.add(new Label("p_print_string"), printStringInstructions);
+        return instructions;
     }
 
     public List<Instruction> generateEndOfFunc(Registers registers) {

@@ -368,8 +368,24 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        PairElemNode pNode = (PairElemNode) node;
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        instructions.getMessageGenerator().
+                generatePrintStringTypeMessage(
+                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
+        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+        instructions.add(instructionsToBeAdded);
+        instructionsToBeAdded.clear();
 
+        instructions = visitExpression(pNode.getExpressionNode(), instructions, registers);
+
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructionsToBeAdded.add(new BL("p_check_null_pointer"));
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg())); //todo: check
+
+        instructions.add(instructionsToBeAdded);
+        instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);
+        
         return instructions;
     }
 
@@ -424,7 +440,7 @@ public class CodeGenVisitor {
                 instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
                         registers, instructions));
                 instructions.add(new Label("p_throw_runtime_error"),
-                        instructions.getMessageGenerator().generateRuntimeInstrs(registers, instructions));
+                        instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
 
                 instructions.add(printStringLabel, new ArrayList<Instruction>(
                         Arrays.asList(new PUSH(registers.getLinkReg()))));
@@ -549,7 +565,7 @@ public class CodeGenVisitor {
                             new PUSH(RegisterARM.LR))));
                     instructions.add(checkDivideByZero,
                             instructions.getMessageGenerator()
-                                    .generateDivideByZeroInstrs(registers, instructions));
+                                    .generateDivideByZeroInstructions(registers, instructions));
                     instructions.add(checkDivideByZero, new ArrayList<Instruction>(Arrays.asList(
                             new POP(RegisterARM.PC))));
                 } else {
@@ -564,7 +580,7 @@ public class CodeGenVisitor {
 
                 instructions.add(
                         new Label("p_throw_runtime_error"),
-                        instructions.getMessageGenerator().generateRuntimeInstrs(
+                        instructions.getMessageGenerator().generateRuntimeInstructions(
                                 registers, instructions));
 
                 instructions.add(printStringLabel, new ArrayList<Instruction>(Arrays.asList(
@@ -730,7 +746,7 @@ public class CodeGenVisitor {
         Label printFreePair = new Label("p_free_pair");
         instructions.add(printFreePair, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
         instructions.add(printFreePair,
-                instructions.getMessageGenerator().generateRuntimeInstrs(registers, instructions));
+                instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
 
         List<Instruction> printFreePairInstructions = new ArrayList<>();
         printFreePairInstructions.add(new PUSH(registers.getR0Reg()));

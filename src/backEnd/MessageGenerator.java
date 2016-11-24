@@ -10,6 +10,7 @@ import backEnd.instructions.branch.BL;
 import backEnd.instructions.branch.BLEQ;
 import backEnd.instructions.load.LDR;
 import backEnd.instructions.load.LDREQ;
+import backEnd.instructions.load.LDRNE;
 import type.Type;
 
 import java.util.ArrayList;
@@ -36,10 +37,79 @@ public class MessageGenerator {
         }
     }
 
+    public List<Instruction> printInstrTypeMessage(int typeCode, AssemblyCode instructions, Registers registers){
+        switch(typeCode){
+            case Util.INT_TYPE:
+                return printIntInstrMessage(registers, instructions);
+            case Util.BOOL_TYPE:
+                return printBoolInstrMessage(registers, instructions);
+            case Util.STRING_TYPE:
+                return printStringInstrMessage(registers, instructions);
+            case Util.ARRAY_TYPE:
+            case Util.PAIR_TYPE:
+                return printReferenceInstrMessage(registers, instructions);
+            default:
+                return null;
+        }
+    }
+
 
 
 
     /////////////////START OF PRINT TYPE MESSAGE FUNCTIONS//////////////////////
+
+    ////////////////For print and println instructions/////////////////////////
+    public AssemblyCode generateNewLine(AssemblyCode instructions){
+        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
+                headerMessages(HEADER_WORD, 1, ".ascii \"\\0\""));
+
+        return instructions;
+    }
+
+    public List<Instruction> printIntInstrMessage(Registers registers, AssemblyCode instructions){
+        List<Instruction> printInt = new ArrayList<>();
+
+        printInt.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
+        printInt.add(new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
+
+        return printInt;
+    }
+
+    public List<Instruction> printBoolInstrMessage(Registers registers, AssemblyCode instructions){
+        List<Instruction> printBool = new ArrayList<>();
+
+        printBool.add(new CMP(registers.getR0Reg(), 0));
+        printBool.add(new LDRNE(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+        printBool.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
+
+        return printBool;
+
+    }
+
+    public List<Instruction> printStringInstrMessage(Registers registers, AssemblyCode instructions){
+        List<Instruction> printString = new ArrayList<>();
+
+        printString.add(new LDR(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        printString.add(new ADD(registers.getNextReg(RegisterARM.R1), registers.getR0Reg(), 4));
+        printString.add(new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
+
+        return printString;
+
+    }
+
+    public List<Instruction> printReferenceInstrMessage(Registers registers, AssemblyCode instructions){
+        List<Instruction> printRef = new ArrayList<>();
+
+        printRef.add(new MOV(registers.getR1Reg(), registers.getR1Reg()));
+        printRef.add(new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
+
+        return printRef;
+
+    }
+
+
+
+    ///////////////For printing header messages////////////////////////////////
 
     public AssemblyCode generatePrintIntTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),

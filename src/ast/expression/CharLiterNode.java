@@ -18,6 +18,7 @@ public class CharLiterNode extends ExpressionNode {
 
     public CharLiterNode(String value) {
         this.value = value;
+        typeIndicator = Util.CHAR_TYPE;
     }
 
     public char getValue() {
@@ -27,7 +28,6 @@ public class CharLiterNode extends ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         CharType charType = new CharType();
-        typeIndicator = Util.convertTypeToIndicator(charType);
         return charType.getType();
     }
 

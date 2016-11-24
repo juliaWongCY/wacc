@@ -1,5 +1,5 @@
 begin
-  int a = 1;
-  println a
-
+  while (true) do
+    int a = 1
+  done
 end

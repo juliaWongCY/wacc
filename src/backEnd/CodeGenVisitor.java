@@ -870,11 +870,7 @@ public class CodeGenVisitor {
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
-        try {
-            printExp.getNodeType(null);
-        } catch (SemanticException e) {
-            e.printStackTrace();
-        }
+
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
@@ -939,11 +935,6 @@ public class CodeGenVisitor {
 
         }
 
-
-
-
-
-        
         return instructions;
     }
 
@@ -954,6 +945,13 @@ public class CodeGenVisitor {
 
         PrintStatNode printNode = (PrintStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
+
+        try {
+            printExp.getNodeType(null);
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
+
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
@@ -975,6 +973,9 @@ public class CodeGenVisitor {
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
+
+        instructions.returnMainLabel();
+
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         if(typeIndicator != Util.CHAR_TYPE){
@@ -1010,7 +1011,7 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
-                    registers.getStackPtrReg(), instructions.getPositionInStack(target.getId().getId())));
+                    registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack()));
             instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
             instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
@@ -1079,6 +1080,7 @@ public class CodeGenVisitor {
     public static AssemblyCode visitStatListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         StatListNode sNode = (StatListNode) node;
         List<StatementNode> sNodes  = sNode.getStatList();
+
         for (StatementNode sn : sNodes) {
             instructions = visitStatementNode(sn, instructions, registers);
         }

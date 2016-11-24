@@ -803,7 +803,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             }
         }
 
-        return new PrintlnStatNode((ExpressionNode) expr);
+        return new PrintStatNode((ExpressionNode) expr);
     }
 
     @Override

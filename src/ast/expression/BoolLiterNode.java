@@ -11,6 +11,7 @@ public class BoolLiterNode extends ExpressionNode {
     private final boolean value;
 
     public BoolLiterNode(boolean value) {
+        typeIndicator = Util.BOOL_TYPE;
         this.value = value;
     }
 
@@ -21,7 +22,6 @@ public class BoolLiterNode extends ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         BoolType boolType = new BoolType();
-        typeIndicator = Util.convertTypeToIndicator(boolType);
         return boolType.getType();
     }
 

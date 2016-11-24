@@ -170,7 +170,7 @@ public class CodeGenVisitor {
         }
         instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }
@@ -374,7 +374,7 @@ public class CodeGenVisitor {
                 generatePrintStringTypeMessage(
                         instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
         instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
 
         instructions = visitExpression(pNode.getExpressionNode(), instructions, registers);
@@ -383,7 +383,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
         instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg())); //todo: check
 
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);
         
         return instructions;
@@ -833,11 +833,15 @@ public class CodeGenVisitor {
 
         instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
 
+        newSymbolTable();
         Label currentMainLabel = instructions.getCurrentLabel();
+        popSymbolTable();
 
         instructions.updateCurrentLabel();
 
+        newSymbolTable();
         instructions = visitStatListNode(ifStatNode.getStatElseBody(), instructions, registers);
+        popSymbolTable();
 
         String branchLabelName = instructions.getNextLabel();
         instructions.add(currentMainLabel,
@@ -869,11 +873,7 @@ public class CodeGenVisitor {
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
-        try {
-            printExp.getNodeType(null);
-        } catch (SemanticException e) {
-            e.printStackTrace();
-        }
+
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
@@ -978,7 +978,10 @@ public class CodeGenVisitor {
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
+
+
         instructions.returnMainLabel();
+
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         if(typeIndicator != Util.CHAR_TYPE){
@@ -1019,13 +1022,13 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
-                    registers.getStackPtrReg(), instructions.getPositionInStack(target.getId().getId())));
+                    registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack()));
             instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
             instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
         }
 
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions.add(readLabel, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
         instructionsToBeAdded.clear();
         instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
@@ -1088,6 +1091,7 @@ public class CodeGenVisitor {
     public static AssemblyCode visitStatListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         StatListNode sNode = (StatListNode) node;
         List<StatementNode> sNodes  = sNode.getStatList();
+
         for (StatementNode sn : sNodes) {
             instructions = visitStatementNode(sn, instructions, registers);
         }
@@ -1119,15 +1123,15 @@ public class CodeGenVisitor {
 
         instructions.updateCurrentLabel();
 
+        newSymbolTable();
         instructions = visitStatListNode(whileStateNode.getBody(), instructions, registers);
+        popSymbolTable();
 
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Arrays.asList(new B(beforeWhile.getName()))));
 
         instructions.setCurrentLabel(beforeWhile);
 
-//        newSymbolTable();
-//        popSymbolTable();
         return instructions;
     }
 
@@ -1158,9 +1162,9 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
-        instructions.add(instructions.getMessageGenerator().generateEndOfFunc(registers));
+        instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);
 
         return instructions;

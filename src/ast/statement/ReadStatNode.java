@@ -1,6 +1,6 @@
 package ast.statement;
 
-import ast.ASTNode;
+import ast.assignLeft.AssignLeftNode;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.*;
@@ -10,11 +10,10 @@ public class ReadStatNode implements StatementNode {
     /* the read statement can only handle character or integer input
      a read statement can only target a program variable, an array element or a pair element.*/
 
-    private ASTNode assignLHS;
-    private String id;
+    private AssignLeftNode target;
 
-    public ReadStatNode(ASTNode assignLHS) {
-        this.assignLHS = assignLHS;
+    public ReadStatNode(AssignLeftNode target) {
+        this.target = target;
     }
 
 
@@ -23,6 +22,10 @@ public class ReadStatNode implements StatementNode {
 
         StatementType stat = new StatementType();
         return stat.getType();
+    }
+
+    public AssignLeftNode getTarget() {
+        return target;
     }
 
     @Override

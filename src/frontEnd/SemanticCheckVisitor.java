@@ -834,7 +834,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try{
             assignLHSType = assignLHS.getNodeType(symbolTable);
             if (assignLHSType.equals(new IntType()) || assignLHSType.equals(new CharType())) {
-                return new ReadStatNode(assignLHS);
+                return new ReadStatNode((AssignLeftNode) assignLHS);
             } else {
                 return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }

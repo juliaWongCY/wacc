@@ -211,6 +211,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
+        try {
+            identNode.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
         return new ArrayElemNode(identNode, indexes);
     }
 
@@ -228,6 +233,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitIdent(@NotNull BasicParser.IdentContext ctx) {
+
         return new IdentNode(ctx.IDENT().getText());
     }
 
@@ -674,12 +680,14 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if (assignRhs instanceof AssignRightNode) {
             if (operandsTypeCheck(variableType, (AssignRightNode) assignRhs)) {
+                IdentNode iNode = new IdentNode(ident);
                 try {
                     symbolTable.addVariable(ident, variableType);
+                    iNode.getNodeType(symbolTable);
                 } catch (SemanticException e){
                     return handleError(ctx, ErrorHandle.ERRORTYPE_DUPLICATE_IDENT);
                 }
-                return new DeclareStatNode(variableType, new IdentNode(ident), (AssignRightNode) assignRhs);
+                return new DeclareStatNode(variableType, iNode, (AssignRightNode) assignRhs);
             } else {
                 return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }
@@ -782,8 +790,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             if (!symbolTable.hasVariable(((IdentNode) expr).getId())) {
                 handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
+            // for back end to get right type indicator
+            try {
+                expr.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+                e.printStackTrace();
+            }
         }
-
         return new PrintlnStatNode((ExpressionNode) expr);
 
     }

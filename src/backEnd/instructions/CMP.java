@@ -34,6 +34,6 @@ public class CMP extends Instruction {
             }
             return ("\t\tCMP " + dst + ", " + src + "\n");
         }
-        return ("\t\tCMP " + dst + ", " + constant + "\n");
+        return ("\t\tCMP " + dst + ", #" + constant + "\n");
     }
 }

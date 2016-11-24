@@ -406,7 +406,7 @@ public class CodeGenVisitor {
                         new Label("msg_" + instructions.getNumberOfMessage()))));
 
         instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
-        instructionsToBeAdded.add(new HeaderInstr("\t.ascii" +  strNode.getValue()));
+        instructionsToBeAdded.add(new HeaderInstr("\t.ascii " +  strNode.getValue()));
 
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 instructionsToBeAdded);

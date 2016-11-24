@@ -674,12 +674,15 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
 
         if (assignRhs instanceof AssignRightNode) {
             if (operandsTypeCheck(variableType, (AssignRightNode) assignRhs)) {
+                IdentNode iNode = new IdentNode(ident);
                 try {
                     symbolTable.addVariable(ident, variableType);
+                    iNode.getNodeType(symbolTable);
+
                 } catch (SemanticException e){
                     return handleError(ctx, ErrorHandle.ERRORTYPE_DUPLICATE_IDENT);
                 }
-                return new DeclareStatNode(variableType, new IdentNode(ident), (AssignRightNode) assignRhs);
+                return new DeclareStatNode(variableType, iNode, (AssignRightNode) assignRhs);
             } else {
                 return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
             }

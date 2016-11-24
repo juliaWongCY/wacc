@@ -862,7 +862,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        //TODO
 
         List<Instruction> instructionsToBeAddedMain = new ArrayList<>();
         List<Instruction> instructionsToBeAddedTypeLabel = new ArrayList<>();

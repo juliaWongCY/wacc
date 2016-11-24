@@ -1,7 +1,3 @@
 begin
-  if true then
-    print true
-  else
-    skip
-  fi
+  exit 1
 end

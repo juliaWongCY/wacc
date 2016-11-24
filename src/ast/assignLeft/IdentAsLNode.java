@@ -13,6 +13,10 @@ public class IdentAsLNode implements AssignLeftNode {
         this.id = id;
     }
 
+    public IdentNode getId() {
+        return id;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         return id.getNodeType(st);

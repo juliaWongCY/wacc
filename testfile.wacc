@@ -1,5 +1,3 @@
 begin
-  int a = 1;
-  println a
-
+  println 1
 end

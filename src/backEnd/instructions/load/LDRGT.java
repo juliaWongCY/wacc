@@ -11,6 +11,6 @@ public class LDRGT extends LDR {
 
     @Override
     public String toString(){
-        return ("LDRGT " + dst + ", =" + label.getName() + "\n" );
+        return ("\t\tLDRGT " + dst + ", =" + label.getName() + "\n" );
     }
 }

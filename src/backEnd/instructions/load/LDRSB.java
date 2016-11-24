@@ -16,8 +16,8 @@ public class LDRSB extends LDR {
     @Override
     public String toString(){
         if(src == null){
-            return ("LDRSB " + dst + ", =" + label.getName() + "\n" );
+            return ("\t\tLDRSB " + dst + ", =" + label.getName() + "\n" );
         }
-        return ("LDRSB " + dst + ", [" + src + ", #" + constant + "]\n" );
+        return ("\t\tLDRSB " + dst + ", [" + src + ", #" + constant + "]\n" );
     }
 }

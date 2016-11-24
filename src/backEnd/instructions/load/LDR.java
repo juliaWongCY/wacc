@@ -38,18 +38,18 @@ public class LDR extends Instruction {
         if(src != null){
             if(constant > 0){
                 //eg. LDR r1, [sp, #12] to move the stack pointer
-                return ("LDR " + dst + ", [" + src + ", #" + constant + "]\n" );
+                return ("\t\tLDR " + dst + ", [" + src + ", #" + constant + "]\n" );
             }
             //eg. LDR r1, [r4]
-            return ("LDR " + dst + ", [" + src + "]\n" );
+            return ("\t\tLDR " + dst + ", [" + src + "]\n" );
         }
 
         if(label != null){
             // eg. LDR r1, =msg_1
-            return ("LDR " + dst + ", =" + label.getName() + "\n" );
+            return ("\t\tLDR " + dst + ", =" + label.getName() + "\n" );
         } else {
             //eg. LDR r1, =0
-            return ("LDR " + dst + ", =" + constant + "\n");
+            return ("\t\tLDR " + dst + ", =" + constant + "\n");
         }
     }
 }

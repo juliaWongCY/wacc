@@ -13,6 +13,7 @@ public class StringLiterNode extends ExpressionNode {
 
     public StringLiterNode(String value) {
         this.value = value;
+        typeIndicator = Util.STRING_TYPE;
     }
 
     public String getValue() {
@@ -27,7 +28,6 @@ public class StringLiterNode extends ExpressionNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
 //        StringType stringType = new StringType();
 //        return stringType.getType();
-        typeIndicator = Util.STRING_TYPE;
         return new ArrayType(new CharType());
     }
 

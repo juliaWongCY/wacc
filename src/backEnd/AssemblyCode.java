@@ -69,16 +69,6 @@ public class AssemblyCode {
 
     }
 
-    public void add(List<Instruction> instructions) {
-        instructionsPerLabel.put(getCurrentLabel(), instructions);
-
-        // redundant?
-        if (currentLabel.isMessage()) {
-            numberOfMessage++;
-        }
-    }
-
-
     private boolean hasThatLabel(Label label, List<Instruction> instructions) {
         Iterator<Entry<Label, List<Instruction>>> entryIterator = instructionsPerLabel.entrySet().iterator();
 

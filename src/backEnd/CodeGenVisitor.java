@@ -727,7 +727,7 @@ public class CodeGenVisitor {
 
         // construct value to put in variable symbol table
 
-        Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
+        Value val = convertAssignRHSToValue(rhsNode, Math.abs(instructions.getCurrentStackPtrPos()));
 
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
@@ -953,12 +953,6 @@ public class CodeGenVisitor {
 
         PrintStatNode printNode = (PrintStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
-
-        try {
-            printExp.getNodeType(null);
-        } catch (SemanticException e) {
-            e.printStackTrace();
-        }
 
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);

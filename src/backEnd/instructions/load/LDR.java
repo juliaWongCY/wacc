@@ -9,7 +9,7 @@ public class LDR extends Instruction {
     protected RegisterARM dst;
     protected RegisterARM src;
     protected Label label;
-    protected int constant;
+    protected Integer constant;
 
     public LDR(RegisterARM dst, RegisterARM src) {
         this.dst = dst;
@@ -26,7 +26,7 @@ public class LDR extends Instruction {
         this.label = label;
     }
 
-    public LDR(RegisterARM dst, RegisterARM src, int constant) {
+    public LDR(RegisterARM dst, RegisterARM src, Integer constant) {
         this.dst = dst;
         this.src = src;
         this.constant = constant;
@@ -36,7 +36,7 @@ public class LDR extends Instruction {
     @Override
     public String toString(){
         if(src != null){
-            if(constant > 0){
+            if(constant != null){
                 //eg. LDR r1, [sp, #12] to move the stack pointer
                 return ("\t\tLDR " + dst + ", [" + src + ", #" + constant + "]\n" );
             }

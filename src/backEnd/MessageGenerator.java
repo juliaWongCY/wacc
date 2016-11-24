@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MessageGenerator {
 
-    private static final String HEADER_WORD = ".word";
+    private static final String HEADER_WORD = "\t.word";
 
     public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
         switch(typeCode) {
@@ -61,7 +61,7 @@ public class MessageGenerator {
     ////////////////For print and println instructions/////////////////////////
     public AssemblyCode generateNewLine(AssemblyCode instructions){
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 1, ".ascii \"\\0\""));
+                headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
 
         return instructions;
     }
@@ -113,23 +113,23 @@ public class MessageGenerator {
 
     public AssemblyCode generatePrintIntTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 3, ".ascii \"%d\0\""));
+                headerMessages(HEADER_WORD, 3, "\t.ascii \"%d\\0\""));
 
         return instructions;
     }
 
     public AssemblyCode generatePrintBoolTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 5, ".ascii \"true\0\""));
+                headerMessages(HEADER_WORD, 5, "\t.ascii \"true\\0\""));
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 6, ".ascii \"false\0\""));
+                headerMessages(HEADER_WORD, 6, "\t.ascii \"false\\0\""));
 
         return instructions;
     }
 
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 5, ".ascii \"%.*s\0\""));
+                headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s\\0\""));
 
         return instructions;
     }
@@ -140,14 +140,14 @@ public class MessageGenerator {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages("\t.word", stringSize, "\t.ascii " + string));
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 5, ".ascii \"%.*s\0\""));
+                headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s" + "\\0" + "\""));
 
         return instructions;
     }
 
     public AssemblyCode generatePrintArrayPairTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 3, "\"%p\0\""));
+                headerMessages(HEADER_WORD, 3, "\t\"%p\\0\""));
 
         return instructions;
     }
@@ -226,9 +226,9 @@ public class MessageGenerator {
 
     public AssemblyCode generateArrayOutOfBoundsMessage(AssemblyCode instructions) {
         instructions = generatePrintStringTypeMessage(instructions, 44,
-                "\"ArrayIndexOutOfBoundsError: negative index\\n\0\"");
+                "\"ArrayIndexOutOfBoundsError: negative index\\n\\0\"");
         instructions = generatePrintStringTypeMessage(instructions, 45,
-                "\"ArrayIndexOutOfBoundsError: index too large\\n\0\"");
+                "\"ArrayIndexOutOfBoundsError: index too large\\n\\0\"");
 
         return instructions;
     }

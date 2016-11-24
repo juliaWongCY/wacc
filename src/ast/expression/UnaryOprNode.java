@@ -14,6 +14,17 @@ public class UnaryOprNode extends ExpressionNode {
     public UnaryOprNode(UnaryOpr unaryOpr, ExpressionNode expr) {
         this.unaryOpr = unaryOpr;
         this.expr = expr;
+        switch (unaryOpr) {
+            case NOT:
+                typeIndicator = Util.BOOL_TYPE;
+            case NEG:
+            case LEN:
+            case ORD:
+                typeIndicator = Util.INT_TYPE;
+            case CHR:
+                typeIndicator = Util.CHAR_TYPE;
+            default: //Should never reach here
+        }
     }
 
     public UnaryOpr getUnaryOpr() {

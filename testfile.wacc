@@ -2,8 +2,9 @@
 
 # Output:
 # Hello World!
+# evaluating less-than on characters
 
-# Program:
+
 
 begin
   println "Hello World!"

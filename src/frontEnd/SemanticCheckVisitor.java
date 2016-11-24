@@ -815,7 +815,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
                 handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
         }
-
+        try {
+            expr.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
         return new PrintStatNode((ExpressionNode) expr);
     }
 

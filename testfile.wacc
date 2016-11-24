@@ -1,4 +1,4 @@
 begin
-  print 1
+  print 'a'
 end
 

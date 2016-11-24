@@ -873,7 +873,12 @@ public class CodeGenVisitor {
 
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
-        ExpressionNode printExp = printNode.getExpr();
+        ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
+        try {
+            printExp.getNodeType(null);
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
@@ -904,11 +909,12 @@ public class CodeGenVisitor {
             //We do not need a new label when printing a char
             instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
         } else {
-            instructions.add(labels.get(0), instructionsToBeAddedPrintLabel);
+            instructions.add(labelList.get(0), instructionsToBeAddedPrintLabel);
             instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
         }
 
         // We need to visit the expression node inside print statement
+//        instructions = visitExpression(printNode.getExpr(), instructions, registers);
         instructions = visitExpression(printExp, instructions, registers);
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 

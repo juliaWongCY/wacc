@@ -1,11 +1,14 @@
-# simple println statement
+# string assignment followed by print
 
 # Output:
-# Hello World!
-# evaluating less-than on characters
+# foo
+# bar
 
-
+# Program:
 
 begin
-  println "Hello World!"
+  string s = "foo" ;
+  println s ;
+  s = "bar" ;
+  println s
 end

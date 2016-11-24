@@ -902,12 +902,15 @@ public class CodeGenVisitor {
 
         instructionsToBeAddedPrintLabel.add(new PUSH(registers.getLinkReg()));
 
-        if(typeIndicator == Util.CHAR_TYPE){
-            //We do not need a new label when printing a char
-            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
-        } else {
-            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
-        }
+        instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
+
+
+//        if(typeIndicator == Util.CHAR_TYPE){
+//            //We do not need a new label when printing a char
+//            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
+//        } else {
+//            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
+//        }
 
         // We need to visit the expression node inside print statement
 //        instructions = visitExpression(printNode.getExpr(), instructions, registers);
@@ -927,11 +930,12 @@ public class CodeGenVisitor {
                 new BL(typeIndicator == Util.CHAR_TYPE ? "puts" : "printf")
         )));
 
-        instructions.add(labelPrintln, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        instructions.add(labelPrintType, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         if(typeIndicator != Util.CHAR_TYPE){
             instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
                     new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))),
                     new BL("puts")
             )));
 
@@ -977,7 +981,6 @@ public class CodeGenVisitor {
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
-
 
         instructions.returnMainLabel();
 

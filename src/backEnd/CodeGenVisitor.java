@@ -856,13 +856,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
-
-        return instructions;
-    }
-
-    public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         //TODO
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
@@ -881,7 +874,37 @@ public class CodeGenVisitor {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
             labels.add(new Label("p_print_" + exprType));
             instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
-            //TODO: changing the generatePrintTypeMessage func??
+            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+            //TODO: still need to add another instructions?
+        }
+
+        instructionsToBeAdded.add(new BL("p_print_ln"));
+        labels.add(new Label("p_print_ln"));
+
+        //TODO: not done
+
+
+        return instructions;
+    }
+
+    public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+        PrintStatNode printNode = (PrintStatNode) node;
+        ExpressionNode printExp = printNode.getExpr();
+        int typeIndicator = printExp.getTypeIndicator();
+        String exprType = convertTypeToString(typeIndicator);
+
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+
+        //When it is a char
+        if(typeIndicator == 2){
+            instructionsToBeAdded.add(new BL("putchar"));
+        } else {
+            instructionsToBeAdded.add(new BL("p_print_" + exprType));
+            labels.add(new Label("p_print_" + exprType));
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
             //TODO: still need to add another instructions?
         }

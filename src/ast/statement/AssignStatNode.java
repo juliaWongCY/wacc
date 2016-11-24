@@ -21,6 +21,8 @@ public class AssignStatNode implements StatementNode {
         this.assignLHS = assignLHS;
     }
 
+
+
     //These functions will be useful for backend
     public AssignRightNode getAssignRHS(){
         return assignRHS;
@@ -35,6 +37,11 @@ public class AssignStatNode implements StatementNode {
 
         StatementType stat = new StatementType();
         return stat.getType();
+    }
+
+    @Override
+    public int getTypeIndicator() {
+        return -1;
     }
 
 }

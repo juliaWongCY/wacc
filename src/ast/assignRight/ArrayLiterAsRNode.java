@@ -36,6 +36,11 @@ public class ArrayLiterAsRNode implements AssignRightNode {
         }
     }
 
+    @Override
+    public int getTypeIndicator() {
+        return Util.ARRAY_TYPE;
+    }
+
     public int getElementTypeIndicator() {
         if (elements.isEmpty()) {
             return Util.EMPTY_TYPE;

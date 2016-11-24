@@ -23,4 +23,9 @@ public class PairElemAsRNode implements AssignRightNode {
         return pairElemNode.getNodeType(st);
     }
 
+    @Override
+    public int getTypeIndicator() {
+        return pairElemNode.getTypeIndicator();
+    }
+
 }

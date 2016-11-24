@@ -18,6 +18,11 @@ public class ExprAsRNode implements AssignRightNode {
         return expr.getNodeType(st);
     }
 
+    @Override
+    public int getTypeIndicator() {
+        return expr.getTypeIndicator();
+    }
+
     public ExpressionNode getExpr() {
         return expr;
     }

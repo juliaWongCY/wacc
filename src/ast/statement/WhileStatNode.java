@@ -33,4 +33,9 @@ public class WhileStatNode implements StatementNode {
         StatementType stat = new StatementType();
         return stat.getType();
     }
+
+    @Override
+    public int getTypeIndicator() {
+        return -1;
+    }
 }

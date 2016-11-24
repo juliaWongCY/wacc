@@ -39,6 +39,11 @@ public class CallAsRNode implements AssignRightNode {
     }
 
     @Override
+    public int getTypeIndicator() {
+        return functionId.getTypeIndicator();
+    }
+
+    @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type = st.lookUpFunction(functionId.getId()); // return the return type of the function, instead of its parameters
         if (type instanceof FunctionType) {

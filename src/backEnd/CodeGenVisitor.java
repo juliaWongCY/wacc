@@ -673,9 +673,40 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
+        AssignStatNode assignStatNode = (AssignStatNode) node;
+
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
+        int type = Util.getTypeSize(assignStatNode.getAssignRHS().getTypeIndicator());
 
+        if (type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
+            instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+        } else {
+            if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
+                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
+                        //TODO
+                        ));
+            } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
+            } else {
+                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+            }
+        }
+
+        instructions = visitAssignRightNode(assignStatNode.getAssignRHS(), instructions, registers);
+
+        if (assignStatNode.getAssignLHS() instanceof PairElemAsLNode) {
+            registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+            instructions = visitAssignLeftNode(assignStatNode.getAssignLHS(), instructions, registers);
+            registers.clearRegInUsed();
+        }
+
+        if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
+            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+                    registers.getNextReg(registers.getNextAvailableVariableReg())));
+            visitAssignLeftNode(assignStatNode.getAssignLHS(), instructions, registers);
+        }
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }

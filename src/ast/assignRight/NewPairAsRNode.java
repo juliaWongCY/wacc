@@ -1,6 +1,7 @@
 package ast.assignRight;
 
 import ast.expression.ExpressionNode;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.PairType;
@@ -43,6 +44,11 @@ public class NewPairAsRNode implements AssignRightNode {
     public Type getNodeType(SymbolTable st) throws SemanticException {
         PairType pairType = new PairType(getFstType(st), getSndType(st));
         return pairType;
+    }
+
+    @Override
+    public int getTypeIndicator() {
+        return Util.PAIR_TYPE;
     }
 
     public int getFstTypeIndicator() {

@@ -47,5 +47,10 @@ public class ArgListNode implements AssignRightNode {
         return size;
     }
 
+    @Override
+    public int getTypeIndicator() {
+        return -1;
+    }
+
 
 }

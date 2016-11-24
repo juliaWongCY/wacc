@@ -41,4 +41,9 @@ public class IfStatNode implements StatementNode {
         return stat.getType();
     }
 
+    @Override
+    public int getTypeIndicator() {
+        return -1;
+    }
+
 }

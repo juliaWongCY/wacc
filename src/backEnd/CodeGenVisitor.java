@@ -73,7 +73,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        //TODO check if correct logic
+        //CHECKED
         return visitArrayElemNode(((ArrayElemAsLNode)node).getArrayElem(), instructions, registers);
     }
 
@@ -82,8 +82,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPairElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO check if correct logic
+        //CHECKED
         return visitPairElemNode(((PairElemAsLNode)node).getPairElemNode(), instructions, registers);
     }
 
@@ -620,7 +619,7 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitParamNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        //Seems like it doesn't require anything.
 
         return instructions;
     }
@@ -934,8 +933,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitScopingStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        //TODO
 
         newSymbolTable();
         ScopingStatNode sNode = (ScopingStatNode) node;

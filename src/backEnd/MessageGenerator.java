@@ -20,17 +20,16 @@ public class MessageGenerator {
 
     private static final String HEADER_WORD = ".word";
 
-    public AssemblyCode generatePrintTypeMessage(Type type, AssemblyCode instructions) {
-        String typeInString = type.getTypeInString();
-        switch(typeInString) {
-            case "int":
+    public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
+        switch(typeCode) {
+            case Util.INT_TYPE:
                 return generatePrintIntTypeMessage(instructions);
-            case "bool":
+            case Util.BOOL_TYPE:
                 return generatePrintBoolTypeMessage(instructions);
-            case "string":
+            case Util.STRING_TYPE:
                 return generatePrintStringTypeMessage(instructions);
-            case "array":
-            case "pair":
+            case Util.ARRAY_TYPE:
+            case Util.PAIR_TYPE:
                 return generatePrintArrayPairTypeMessage(instructions);
             default:
                 return instructions;

@@ -12,7 +12,7 @@ public class POP extends Instruction{
 
     @Override
     public String toString(){
-        return ("POP {" + reg + "}\n");
+        return ("\t\tPOP {" + reg + "}\n");
     }
 
 

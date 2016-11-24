@@ -18,6 +18,6 @@ public class SUB extends Instruction {
 
     @Override
     public String toString(){
-        return ("SUB " + dst + ", " + src + ", #" + shiftAmount + "\n");
+        return ("\t\tSUB " + dst + ", " + src + ", #" + shiftAmount + "\n");
     }
 }

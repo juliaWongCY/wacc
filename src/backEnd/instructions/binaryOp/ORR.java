@@ -16,7 +16,7 @@ public class ORR extends Instruction {
 
     @Override
     public String toString(){
-        return ("ORR " + dst + ", " + src1 + ", " + src2 + "\n");
+        return ("\t\tORR " + dst + ", " + src1 + ", " + src2 + "\n");
     }
 }
 

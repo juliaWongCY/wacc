@@ -10,6 +10,6 @@ public class MOVGE extends MOV {
 
     @Override
     public String toString(){
-        return ("MOVGE " + dst + ", #" + immNum + "\n");
+        return ("\t\tMOVGE " + dst + ", #" + immNum + "\n");
     }
 }

@@ -37,13 +37,13 @@ public class STR extends Instruction{
     @Override
     public String toString() {
         if (writeAddress) {
-            return "STR" + string + " " + dst + ", [" + src + ", #" + offset + "]!\n";
+            return "\t\tSTR" + string + " " + dst + ", [" + src + ", #" + offset + "]!\n";
         }
         if (constant > 0) {
             //eg. LDR r1, [sp, #12] to move the stack pointer
-            return ("STR " + dst + ", [" + src + ", #" + constant + "]\n");
+            return ("\t\tSTR " + dst + ", [" + src + ", #" + constant + "]\n");
         }
         //eg. LDR r1, [r4]
-        return ("STR " + dst + ", [" + src + "]\n");
+        return ("\t\tSTR " + dst + ", [" + src + "]\n");
     }
 }

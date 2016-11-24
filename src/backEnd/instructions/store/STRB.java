@@ -10,7 +10,7 @@ public class STRB extends STR {
 
     @Override
     public String toString() {
-      return ("STRB " + dst + ", [" + src + "]\n");
+      return ("\t\tSTRB " + dst + ", [" + src + "]\n");
     }
 
 }

@@ -126,7 +126,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BL("malloc"));
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
 
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         // add elements construction
         int offset = 0;
@@ -139,7 +139,7 @@ public class CodeGenVisitor {
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
                     registers.getPreviousReg(registers.getNextAvailableVariableReg()), offset));
-            instructions.add(instructionsToBeAdded);
+            instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         }
 
         // add instructions below array declaration
@@ -148,7 +148,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
                     registers.getPreviousReg(registers.getNextAvailableVariableReg())));
 
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         registers.clearRegInUsed();
 
         return instructions;
@@ -208,8 +208,9 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
                 Util.getTypeSize(nNode.getSnd().getTypeIndicator())));
         instructionsToBeAdded.add(new BL("malloc"));
-        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
-        instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        registers.clearRegInUsed();
+        instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         
         return instructions;
@@ -404,8 +405,8 @@ public class CodeGenVisitor {
                 Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
                         new Label("msg_" + instructions.getNumberOfMessage()))));
 
-        instructionsToBeAdded.add(new HeaderInstr(".word ", strNode.getStringSize()));
-        instructionsToBeAdded.add(new HeaderInstr(".ascii" +  strNode.getValue()));
+        instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
+        instructionsToBeAdded.add(new HeaderInstr("\t.ascii" +  strNode.getValue()));
 
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 instructionsToBeAdded);
@@ -718,10 +719,12 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new SUB(registers.getStackPtrReg(),
                 registers.getStackPtrReg(), Util.getTypeSize(typeIndicator)));
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() - Util.getTypeSize(typeIndicator));
 
-        instructions = visitExpression(rhsNode, instructions, registers);
+        //TODO: The following line causes error.
+        instructions = visitAssignRightNode(rhsNode, instructions, registers);
+//        instructions = visitExpression(rhsNode, instructions, registers);
 
         // construct value to put in variable symbol table
 
@@ -735,7 +738,7 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         }
-        instructions.add(instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }
@@ -1098,7 +1101,7 @@ public class CodeGenVisitor {
 //        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
 
         //PUSH {LR}
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(
                 new PUSH(registers.getLinkReg()))));
 
         //Visit StatListNode and return instructions
@@ -1106,8 +1109,9 @@ public class CodeGenVisitor {
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        if (instructions.getVarSymbolTableLocalSize() > 0) {
-            for (int i = instructions.getVarSymbolTableLocalSize(); (0 < i) && (i < 1024) ; i -= 1024) {
+        if (varSymbolTable.getVarLocalSize() > 0) {
+//        if (instructions.getVarSymbolTableLocalSize() > 0) {
+            for (int i = varSymbolTable.getVarLocalSize(); (0 < i) && (i < 1024) ; i -= 1024) {
                 instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), i));
             }
         }

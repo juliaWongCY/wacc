@@ -11,6 +11,6 @@ public class LDREQ extends LDR {
 
     @Override
     public String toString(){
-        return ("LDREQ " + dst + ", =" + label.getName() + "\n" );
+        return ("\t\tLDREQ " + dst + ", =" + label.getName() + "\n" );
     }
 }

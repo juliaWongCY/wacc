@@ -682,9 +682,9 @@ public class CodeGenVisitor {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
+                IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
-                        //TODO
-                        ));
+                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack()));
             } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));

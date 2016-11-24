@@ -1,3 +1,8 @@
 begin
-    pair(int, int) p = newpair(10, 3)
+    int a = 1;
+    if (a == 1) then
+        print 'a'
+    else
+        print false
+    fi
 end

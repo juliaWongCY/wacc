@@ -8,14 +8,20 @@ import type.Type;
 
 public class CharLiterNode extends ExpressionNode {
 
-    private final char value;
+//    private final char value;
 
-    public CharLiterNode(char value) {
+    private final String value;
+
+//    public CharLiterNode(char value) {
+//        this.value = value;
+//    }
+
+    public CharLiterNode(String value) {
         this.value = value;
     }
 
     public char getValue() {
-        return value;
+        return value.charAt(1);
     }
 
     @Override

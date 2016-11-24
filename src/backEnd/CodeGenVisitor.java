@@ -345,13 +345,13 @@ public class CodeGenVisitor {
         if(nodeType == Util.INT_TYPE | nodeType == Util.STRING_TYPE | nodeType == Util.ARRAY_TYPE | nodeType == Util.PAIR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                            registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
+                            registers.getStackPtrReg(), varSymbolTable.getVariable(nodeID.getId()).getLocationInStack()))));
         }
 
         if(nodeType == Util.BOOL_TYPE | nodeType == Util.CHAR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDRSB(registers.getNextAvailableVariableReg(),
-                            registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
+                            registers.getStackPtrReg(),  varSymbolTable.getVariable(nodeID.getId()).getLocationInStack()))));
         }
 
         return instructions;
@@ -722,9 +722,8 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() - Util.getTypeSize(typeIndicator));
 
-        //TODO: The following line causes error.
         instructions = visitAssignRightNode(rhsNode, instructions, registers);
-//        instructions = visitExpression(rhsNode, instructions, registers);
+
 
         // construct value to put in variable symbol table
 

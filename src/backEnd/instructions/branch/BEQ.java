@@ -8,6 +8,6 @@ public class BEQ extends BL {
 
     @Override
     public String toString() {
-        return "\t\tBEQ" + string + "\n";
+        return "\t\tBEQ " + string + "\n";
     }
 }

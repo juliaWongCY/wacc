@@ -1,8 +1,8 @@
 begin
     int a = 1;
     if (a == 1) then
-        print 'a'
+        a = 1
     else
-        print false
+        a = 2
     fi
 end

@@ -8,12 +8,12 @@ import type.*;
 public class ReadStatNode implements StatementNode {
 
     /* the read statement can only handle character or integer input
-     a read statement can only target a program variable, an array element or a pair element.*/
+     a read statement can only assignLHS a program variable, an array element or a pair element.*/
 
-    private AssignLeftNode target;
+    private AssignLeftNode assignLHS;
 
-    public ReadStatNode(AssignLeftNode target) {
-        this.target = target;
+    public ReadStatNode(AssignLeftNode assignLHS) {
+        this.assignLHS = assignLHS;
     }
 
 
@@ -24,8 +24,8 @@ public class ReadStatNode implements StatementNode {
         return stat.getType();
     }
 
-    public AssignLeftNode getTarget() {
-        return target;
+    public AssignLeftNode getAssignLHS() {
+        return assignLHS;
     }
 
     @Override

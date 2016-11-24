@@ -47,8 +47,8 @@ statList : stat (SEMICOLON stat)*;
 
 stat : SKIP_                                #skip_stat
 | type IDENT ASSIGN assignRHS               #declare_stat
-| target ASSIGN assignRHS                #assign_stat
-| READ target                            #read_stat
+| assignLHS ASSIGN assignRHS                #assign_stat
+| READ assignLHS                            #read_stat
 | FREE expr                                 #free_stat
 | RETURN expr                               #return_stat
 | EXIT expr                                 #exit_stat
@@ -66,7 +66,7 @@ assignRHS : expr                                                #assignr_expr
 | CALL IDENT OPEN_PARENTHESES (argList)? CLOSE_PARENTHESES      #assignr_call
 ;
 
-target : IDENT   #assignl_id
+assignLHS : IDENT   #assignl_id
 | arrayElem         #assignl_arrayelem
 | pairElem          #assignl_pairelem
 ;

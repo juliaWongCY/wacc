@@ -796,7 +796,7 @@ begin
 	# Place the given move of the currentTurn in the board. Return true.
 	bool placeMove(pair(pair, pair) board, char currentTurn, int moveRow, int moveColumn) is
 		
-		# Find the target row.
+		# Find the assignLHS row.
 		pair(pair, char) targetRow = null ;
 		if moveRow <= 2 then
 			pair(pair, pair) front = fst board ;
@@ -811,7 +811,7 @@ begin
 			targetRow = snd board
 		fi ;
 		
-		# Set the target cell
+		# Set the assignLHS cell
 		if moveColumn <= 2 then
 			pair(char, char) front = fst targetRow ;
 			if moveColumn == 1 then
@@ -857,7 +857,7 @@ begin
 	# column = 1, 2 or 3
 	char symbolAt(pair(pair, pair) board, int row, int column) is
 	
-		# Find the target row.
+		# Find the assignLHS row.
 		pair(pair, char) targetRow = null ;
 		if row <= 2 then
 			pair(pair, pair) front = fst board ;
@@ -872,7 +872,7 @@ begin
 			targetRow = snd board
 		fi ;
 		
-		# Now find the target cell.
+		# Now find the assignLHS cell.
 		char targetCell = '\0' ;
 		if column <= 2 then
 			pair(char, char) front = fst targetRow ;

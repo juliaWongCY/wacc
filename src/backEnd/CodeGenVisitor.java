@@ -992,8 +992,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         Label msgLabel = new Label("msg_" + instructions.getNumberOfMessage());
         Label readLabel = null;
-        if (rNode.getTarget() instanceof IdentAsLNode) {
-            IdentAsLNode target = (IdentAsLNode) rNode.getTarget();
+        if (rNode.getAssignLHS() instanceof IdentAsLNode) {
+            IdentAsLNode target = (IdentAsLNode) rNode.getAssignLHS();
             if (target.getId().getTypeIndicator() == Util.INT_TYPE) {
                 instructionsToBeAdded.add(new HeaderInstr("\t.word", 3));
             } else {

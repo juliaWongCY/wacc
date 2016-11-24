@@ -9,8 +9,7 @@ public class BLVS extends BL {
 
     @Override
     public String toString(){
-//        return ("BLVS " + label.getName() + "\n");
-        return ("BLVS " + string + "\n");
+        return ("\t\tBLVS " + string + "\n");
     }
 
 }

@@ -9,8 +9,7 @@ public class BLNE extends BL {
 
     @Override
     public String toString(){
-//        return ("BLNE " + label.getName() + "\n");
-        return ("BLNE " + string + "\n");
+        return ("\t\tBLNE " + string + "\n");
     }
 
 }

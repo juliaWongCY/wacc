@@ -8,7 +8,7 @@ public class B extends BL {
 
     @Override
     public String toString() {
-        return "B " + string + "\n";
+        return "\t\tB " + string + "\n";
     }
 
 }

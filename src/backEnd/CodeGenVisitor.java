@@ -342,13 +342,13 @@ public class CodeGenVisitor {
         IdentNode nodeID = (IdentNode) node;
         int nodeType = varSymbolTable.getVariable(nodeID.getId()).getValueType();
 
-        if(nodeType == 0 | nodeType == 3 | nodeType == 4 | nodeType == 5){
+        if(nodeType == Util.INT_TYPE | nodeType == Util.STRING_TYPE | nodeType == Util.ARRAY_TYPE | nodeType == Util.PAIR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
                             registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
         }
 
-        if(nodeType == 1 | nodeType == 2){
+        if(nodeType == Util.BOOL_TYPE | nodeType == Util.CHAR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDRSB(registers.getNextAvailableVariableReg(),
                             registers.getStackPtrReg(), instructions.getPositionInStack(nodeID.getId())))));
@@ -870,23 +870,35 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
 
-        //When it is a char
-        if(typeIndicator == 2){
+        if(typeIndicator == Util.CHAR_TYPE){
             instructionsToBeAdded.add(new BL("putchar"));
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
             labels.add(new Label("p_print_" + exprType));
             instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-            //TODO: still need to add another instructions?
+
+            instructions.add(new Label("p_print_" + exprType),
+                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+
+
         }
 
         instructionsToBeAdded.add(new BL("p_print_ln"));
         labels.add(new Label("p_print_ln"));
 
-        //TODO: not done
+        if(typeIndicator == Util.CHAR_TYPE){
+            //We do not need a new label when printing a char
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        } else {
+            instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        }
+
+        instructions = visitExpression(printExp, instructions, registers);
+        instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
 
+        
         return instructions;
     }
 
@@ -900,25 +912,30 @@ public class CodeGenVisitor {
         String exprType = convertTypeToString(typeIndicator);
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructions.add(new Header(".data\n\n"), null);
 
-        //When it is a char
-        if(typeIndicator == 2){
+
+        if(typeIndicator == Util.CHAR_TYPE){
+            // We do not need a new label when printing a char
             instructionsToBeAdded.add(new BL("putchar"));
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
             labels.add(new Label("p_print_" + exprType));
             instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-            //TODO: still need to add another instructions?
+
+            instructions.add(new Label("p_print_" + exprType),
+                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
-        //instructions = visitPrintStatNode(node, instructions, registers); //TODO: ???
+        instructions = visitExpression(printExp, instructions, registers);
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-        if(typeIndicator != 2){
+        if(typeIndicator != Util.CHAR_TYPE){
             instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(
                     new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                     new BL("printf"))));
+
             instructions.add(labels.get(0),
                     instructions.getMessageGenerator()
                             .generateEndPrintInstructions(instructions, registers));

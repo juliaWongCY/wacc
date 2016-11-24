@@ -877,7 +877,11 @@ public class CodeGenVisitor {
             labels.add(new Label("p_print_" + exprType));
             instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-            //TODO: still need to add another instructions?
+
+            instructions.add(new Label("p_print_" + exprType),
+                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+
+
         }
 
         instructionsToBeAdded.add(new BL("p_print_ln"));
@@ -894,10 +898,7 @@ public class CodeGenVisitor {
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
 
-
-
-
-
+        
         return instructions;
     }
 
@@ -924,8 +925,7 @@ public class CodeGenVisitor {
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
 
             instructions.add(new Label("p_print_" + exprType),
-                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers)
-            );
+                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
         instructions = visitExpression(printExp, instructions, registers);

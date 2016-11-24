@@ -19,6 +19,10 @@ public class PrintlnStatNode implements StatementNode {
         return stat.getType();
     }
 
+    public ExpressionNode getExpr() {
+        return expr;
+    }
+
     @Override
     public int getTypeIndicator() {
         return -1;

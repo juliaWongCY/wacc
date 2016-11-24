@@ -11,4 +11,3 @@ begin
   println s ;
   s = "bar" ;
   println s
-end

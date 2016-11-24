@@ -14,7 +14,7 @@ public class EOR extends Instruction {
 
     @Override
     public String toString(){
-        return ("EOR " + dst + ", " + dst + ", " + constant + "\n");
+        return ("\t\tEOR " + dst + ", " + dst + ", " + constant + "\n");
     }
 }
 

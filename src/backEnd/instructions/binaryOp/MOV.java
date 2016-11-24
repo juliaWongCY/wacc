@@ -30,11 +30,11 @@ public class MOV extends Instruction {
     @Override
     public String toString(){
         if (src != null) {
-            return ("MOV " + dst + ", " + src + "\n");
+            return ("\t\tMOV " + dst + ", " + src + "\n");
         } else if (immNum != null) {
-            return ("MOV " + dst + ", #" + immNum + "\n");
+            return ("\t\tMOV " + dst + ", #" + immNum + "\n");
         } else {
-            return ("MOV " + dst + ", #\'" + immChr + "\'\n");
+            return ("\t\tMOV " + dst + ", #\'" + immChr + "\'\n");
         }
     }
 }

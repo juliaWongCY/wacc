@@ -22,7 +22,7 @@ public class SMULL extends Instruction {
 
     @Override
     public String toString(){
-        return ("SMULL " + dst1 + ", " + dst2 + ", " + src1 + ", " + src2 + "\n");
+        return ("\t\tSMULL " + dst1 + ", " + dst2 + ", " + src1 + ", " + src2 + "\n");
     }
 
 

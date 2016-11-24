@@ -20,6 +20,6 @@ public class SUBS extends Instruction {
 
     @Override
     public String toString(){
-        return ("SUBS " + dst + ", " + src1 + ", " + src2 + "\n");
+        return ("\t\tSUBS " + dst + ", " + src1 + ", " + src2 + "\n");
     }
 }

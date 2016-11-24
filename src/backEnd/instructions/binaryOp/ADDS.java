@@ -21,6 +21,6 @@ public class ADDS extends Instruction {
 
     @Override
     public String toString(){
-        return ("ADDS " + dst + ", " + src1 + ", " + src2 + "\n");
+        return ("\t\tADDS " + dst + ", " + src1 + ", " + src2 + "\n");
     }
 }

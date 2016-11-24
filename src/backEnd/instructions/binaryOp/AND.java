@@ -17,6 +17,6 @@ public class AND extends Instruction {
 
     @Override
     public String toString(){
-        return ("AND " + dst + ", " + src1 + ", " + src2 + "\n");
+        return ("\t\tAND " + dst + ", " + src1 + ", " + src2 + "\n");
     }
 }

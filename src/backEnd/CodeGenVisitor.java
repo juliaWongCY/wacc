@@ -906,7 +906,6 @@ public class CodeGenVisitor {
             //We do not need a new label when printing a char
             instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
         } else {
-            //instructions.add(labelList.get(0), instructionsToBeAddedPrintLabel);
             instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
         }
 

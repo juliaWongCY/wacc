@@ -863,7 +863,7 @@ public class CodeGenVisitor {
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        PrintStatNode printNode = (PrintStatNode) node;
+        PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
@@ -880,8 +880,6 @@ public class CodeGenVisitor {
 
             instructions.add(new Label("p_print_" + exprType),
                     instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
-
-
         }
 
         instructionsToBeAdded.add(new BL("p_print_ln"));
@@ -894,8 +892,11 @@ public class CodeGenVisitor {
             instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
         }
 
+        // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
+
+
 
 
         
@@ -928,6 +929,7 @@ public class CodeGenVisitor {
                     instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
+        // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 

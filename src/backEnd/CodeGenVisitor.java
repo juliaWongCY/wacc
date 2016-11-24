@@ -862,7 +862,7 @@ public class CodeGenVisitor {
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        PrintStatNode printNode = (PrintStatNode) node;
+        PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);

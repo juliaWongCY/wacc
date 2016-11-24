@@ -1,25 +1,15 @@
-# simple input/output loop
+# evaluating less-than on characters
 
 # Output:
-# Please input an integer: #input#
-# echo input: #output#
-# Do you want to continue entering input?
-# (enter Y for 'yes' and N for 'no')
-# #input#
-# ...
+# true
+# false
 
 # Program:
 
 begin
-  char continue = 'Y' ;
-  int buff = 0 ;
-  while continue != 'N' do
-    print "Please input an integer: " ;
-    read buff ;
-    print "echo input: " ;
-    println buff ;
-    println "Do you want to continue entering input?" ;
-    println "(enter Y for \'yes\' and N for \'no\')" ;
-    read continue
-  done
+  char a = 'a' ;
+  char e = 'e' ;
+  char c = 'c' ;
+  println a < e ;
+  println e < c
 end

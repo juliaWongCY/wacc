@@ -16,6 +16,11 @@ public class BinaryOprNode extends ExpressionNode {
         this.binaryOpr = binaryOpr;
         this.exprL = exprL;
         this.exprR = exprR;
+        if (isArithmetic()) {
+            typeIndicator = Util.INT_TYPE;
+        } else {
+            typeIndicator = Util.BOOL_TYPE;
+        }
     }
 
     public ExpressionNode getExprL() {
@@ -62,7 +67,6 @@ public class BinaryOprNode extends ExpressionNode {
                 case PLUS:
                 case MINUS:
                     if (tL instanceof IntType) {
-                        typeIndicator = Util.INT_TYPE;
                         return intType.getType();
                     } else {
                         throw new SemanticException("Only IntLiter");
@@ -72,7 +76,6 @@ public class BinaryOprNode extends ExpressionNode {
                 case LT:
                 case LTE:
                     if (tL instanceof IntType || tL instanceof CharType) {
-                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;
@@ -81,14 +84,12 @@ public class BinaryOprNode extends ExpressionNode {
                     if (tL instanceof IntType || tL instanceof CharType ||
                             tL instanceof StringType || tL instanceof BoolType ||
                             tL instanceof PairType || tL instanceof ArrayType) {
-                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;
                 case AND:
                 case OR:
                     if (tL instanceof BoolType) {
-                        typeIndicator = Util.BOOL_TYPE;
                         return boolType.getType();
                     }
                     break;

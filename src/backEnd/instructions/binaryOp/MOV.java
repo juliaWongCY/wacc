@@ -34,7 +34,7 @@ public class MOV extends Instruction {
         } else if (immNum != null) {
             return ("MOV " + dst + ", #" + immNum + "\n");
         } else {
-            return ("MOV" + dst + ", #\'" + immChr + "\'\n");
+            return ("MOV " + dst + ", #\'" + immChr + "\'\n");
         }
     }
 }

@@ -49,4 +49,19 @@ public class Util {
         return getTypeSize(convertTypeToIndicator(type));
     }
 
+    public static String getBaseTypeString(int typeIndicator) {
+        switch (typeIndicator) {
+            case BOOL_TYPE:
+                return "bool";
+            case INT_TYPE:
+                return "int";
+            case CHAR_TYPE:
+                return "char";
+            case STRING_TYPE:
+                return "string";
+            default:
+                return "error";
+        }
+    }
+
 }

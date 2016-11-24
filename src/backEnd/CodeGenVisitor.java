@@ -988,8 +988,38 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitReadStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
+        ReadStatNode rNode = (ReadStatNode) node;
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        Label msgLabel = new Label("msg_" + instructions.getNumberOfMessage());
+        Label readLabel = null;
+        if (rNode.getTarget() instanceof IdentAsLNode) {
+            IdentAsLNode target = (IdentAsLNode) rNode.getTarget();
+            if (target.getId().getTypeIndicator() == Util.INT_TYPE) {
+                instructionsToBeAdded.add(new HeaderInstr("\t.word", 3));
+            } else {
+                instructionsToBeAdded.add(new HeaderInstr("\t.word", 4));
+            }
+            instructionsToBeAdded.add(new HeaderInstr("\t.ascii \"%d\\0\""));
+            instructions.add(msgLabel, instructionsToBeAdded);
+            //todo: assumed main label didn't get changed
+            instructionsToBeAdded.clear();
+            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
+                    registers.getStackPtrReg(), instructions.getPositionInStack(target.getId().getId())));
+            instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+            instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
+            readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
+        }
 
+        instructions.add(instructionsToBeAdded);
+        instructions.add(readLabel, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructionsToBeAdded.clear();
+        instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), msgLabel));
+        instructionsToBeAdded.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
+        instructionsToBeAdded.add(new BL("scanf"));
+        instructions.add(readLabel, instructionsToBeAdded);
+        instructions.add(readLabel, new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
+        
         return instructions;
     }
 

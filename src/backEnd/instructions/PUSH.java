@@ -12,7 +12,7 @@ public class PUSH extends Instruction {
 
     @Override
     public String toString(){
-        return ("PUSH {" + reg + "}\n");
+        return ("\t\tPUSH {" + reg + "}\n");
     }
 
 }

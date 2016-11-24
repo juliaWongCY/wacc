@@ -27,8 +27,8 @@ public class ADD extends Instruction {
     @Override
     public String toString(){
         if (shiftInstruction != null) {
-            return "ADD " + dst + ", " + src + ", " + src2 + ", " + shiftInstruction;
+            return "\t\tADD " + dst + ", " + src + ", " + src2 + ", " + shiftInstruction;
         }
-        return ("ADD " + dst + ", " + src + ", #" + shiftAmount + "\n");
+        return ("\t\tADD " + dst + ", " + src + ", #" + shiftAmount + "\n");
     }
 }

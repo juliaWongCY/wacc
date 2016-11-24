@@ -864,8 +864,42 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         //TODO
+
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+        PrintStatNode printNode = (PrintStatNode) node;
+        ExpressionNode printExp = printNode.getExpr();
+        int typeIndicator = printExp.getTypeIndicator();
+        String exprType = convertTypeToString(typeIndicator);
+
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+
+        //When it is a char
+        if(typeIndicator == 2){
+            instructionsToBeAdded.add(new BL("putchar"));
+        } else {
+            instructionsToBeAdded.add(new BL("p_print_" + exprType));
+            labels.add(new Label("p_print_" + exprType));
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+            //TODO: changing the generatePrintTypeMessage func??
+            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+            //TODO: still need to add another instructions?
+        }
+
+        //instructions = visitPrintStatNode(node, instructions, registers); //TODO: ???
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        if(typeIndicator != 2){
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(
+                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                    new BL("printf"))));
+            instructions.add(labels.get(0),
+                    instructions.getMessageGenerator()
+                            .generateEndPrintInstructions(instructions, registers));
+        }
+
+
 
         return instructions;
     }
@@ -1124,6 +1158,19 @@ public class CodeGenVisitor {
         }
         System.err.println("unrecognised assign rhs instance");
         return null;
+    }
+
+    private static String convertTypeToString(int typeIndicator){
+        switch (typeIndicator){
+            case 0: return "int";
+            case 1 : return "bool";
+            case 2: return "char";
+            case 3 : return "string";
+            case 4 : return "array";
+            case 5: return "pair";
+            default: return "No such type";
+        }
+
     }
 
 

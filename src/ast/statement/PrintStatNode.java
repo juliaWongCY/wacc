@@ -13,6 +13,10 @@ public class PrintStatNode implements StatementNode {
         this.expr = expr;
     }
 
+    public ExpressionNode getExpr() {
+        return expr;
+    }
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         StatementType stat = new StatementType();

@@ -100,7 +100,7 @@ public class MessageGenerator {
     public List<Instruction> printReferenceInstrMessage(Registers registers, AssemblyCode instructions){
         List<Instruction> printRef = new ArrayList<>();
 
-        printRef.add(new MOV(registers.getR1Reg(), registers.getR1Reg()));
+        printRef.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
         printRef.add(new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))));
 
         return printRef;

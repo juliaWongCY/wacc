@@ -379,7 +379,8 @@ public class CodeGenVisitor {
         instructions.getMessageGenerator().
                 generatePrintStringTypeMessage(
                         instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
-        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+//        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
 

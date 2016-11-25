@@ -1,7 +1,22 @@
+<<<<<<< HEAD
+=======
+# create a pair and write to its first element
+
+# Output:
+# 10
+# 42
+>>>>>>> donald
 
 # Program:
 begin
+<<<<<<< HEAD
 
   begin
     int x = 125end
+=======
+  pair(int, char) p = newpair(10, 'a') ;
+  int f = fst p ;
+  println f ;
+  fst p = 42
+>>>>>>> donald
 end

@@ -59,7 +59,15 @@ public class AssemblyCode {
 
     public void add(Label label, List<Instruction> instructions) {
 
-        if (!hasThatLabel(label, instructions)) {
+        if (hasThatLabel(label)) {
+            List<Instruction> storedInstructions = instructionsPerLabel.get(label);
+            for (Instruction instruction : instructions) {
+                Instruction i = instruction;
+                int a = 1;
+                storedInstructions.add(i);
+            }
+//            storedInstructions.addAll(instructions);
+        } else {
             instructionsPerLabel.put(label, instructions);
         }
 
@@ -69,23 +77,17 @@ public class AssemblyCode {
 
     }
 
-    private boolean hasThatLabel(Label label, List<Instruction> instructions) {
-        Iterator<Entry<Label, List<Instruction>>> entryIterator = instructionsPerLabel.entrySet().iterator();
-
-        while (entryIterator.hasNext()) {
-            Map.Entry<Label, List<Instruction>> entry = entryIterator.next();
-            if (entry.getKey().equals(new Label(label.getName()))) {
-               if (entry.getValue() != null) {
-                   List<Instruction> storedInstructions = entry.getValue();
-                   storedInstructions.addAll(instructions);
-                   instructionsPerLabel.put(entry.getKey(), storedInstructions);
-               }
-               return true;
-            }
-
-        }
-
-        return false;
+    private boolean hasThatLabel(Label label) {
+//        Iterator<Entry<Label, List<Instruction>>> entryIterator = instructionsPerLabel.entrySet().iterator();
+//
+//        while (entryIterator.hasNext()) {
+//            Map.Entry<Label, List<Instruction>> entry = entryIterator.next();
+//            if (entry.getKey().equals(label)) {
+//               return true;
+//            }
+//        }
+//        return false;
+        return instructionsPerLabel.containsKey(label);
     }
 
 

@@ -1180,10 +1180,8 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-//        instructions.returnMainLabel();
-//
-//        //PUSH {LR}
-//        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
+        instructions.returnMainLabel();
+
 
         //PUSH {LR}
         instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(

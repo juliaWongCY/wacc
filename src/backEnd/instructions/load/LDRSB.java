@@ -14,10 +14,15 @@ public class LDRSB extends LDR {
     }
 
     @Override
-    public String toString(){
-        if(src == null){
-            return ("\t\tLDRSB " + dst + ", =" + label.getName() + "\n" );
+    public String toString() {
+        if (src == null) {
+            return ("\t\tLDRSB " + dst + ", =" + label.getName() + "\n");
         }
-        return ("\t\tLDRSB " + dst + ", [" + src + ", #" + constant + "]\n" );
+        if (constant > 0) {
+            return ("\t\tLDRSB " + dst + ", [" + src + ", #" + constant + "]\n");
+        } else {
+            return ("\t\tLDRSB " + dst + ", [" + src + "]\n");
+        }
     }
+
 }

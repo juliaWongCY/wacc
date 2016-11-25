@@ -29,6 +29,7 @@ public class ArrayElemNode extends ExpressionNode {
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type = st.lookUpVariable(arrayName.getId());
+        typeIndicator = Util.convertTypeToIndicator(type);
         int counter = indexes.size();
         while (type instanceof ArrayType && counter > 0) {
             type = ((ArrayType) type).getElemType();

@@ -31,6 +31,11 @@ public class StringLiterNode extends ExpressionNode {
     }
 
     @Override
+    public String toString() {
+        return "value.toCharArray()";
+    }
+
+    @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
 //        StringType stringType = new StringType();
 //        return stringType.getType();

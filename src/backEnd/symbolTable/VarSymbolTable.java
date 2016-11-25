@@ -79,7 +79,7 @@ public class VarSymbolTable {
     }
 
     public void saveState() {
-        state = varTable.size();
+        state = getVarTotalSize();
     }
 
     public boolean checkSameState() {

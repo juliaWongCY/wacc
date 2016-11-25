@@ -1,22 +1,20 @@
-<<<<<<< HEAD
-=======
-# create a pair and write to its first element
+# a simple increment function definition and usage
 
 # Output:
-# 10
-# 42
->>>>>>> donald
+# 1
+# 4
 
 # Program:
-begin
-<<<<<<< HEAD
 
-  begin
-    int x = 125end
-=======
-  pair(int, char) p = newpair(10, 'a') ;
-  int f = fst p ;
-  println f ;
-  fst p = 42
->>>>>>> donald
+begin
+  int inc(int x) is
+    return x + 1
+  end
+  int x = 0 ;
+  x = call inc(x) ;
+  println x ;
+  x = call inc(x) ;
+  x = call inc(x) ;
+  x = call inc(x) ;
+  println x
 end

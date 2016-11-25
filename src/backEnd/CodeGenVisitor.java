@@ -23,6 +23,7 @@ import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -742,12 +743,18 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        List<Instruction> instructionsForBinOp = new ArrayList<>();
+
+        if(((ExitStatNode) node).getExpr() instanceof BinaryOprNode){
+            instructions = visitBinaryOprNode(((ExitStatNode) node).getExpr(), instructions, registers);
+            instructionsForBinOp.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+            instructionsForBinOp.add(new BL("exit"));
+            instructions.add(instructions.getCurrentLabel(), instructionsForBinOp);
+        }
 
         if (((ExitStatNode) node).getExpr() instanceof IdentNode) {
-
-
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
-        } else {
+        } else if(((ExitStatNode) node).getExpr() instanceof IntLiterNode){
             //TODO: BAD PROGRAMMING DESIGN!!!!!!!!!!
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     ((IntLiterNode) ((ExitStatNode) node).getExpr()).getValue()));
@@ -1320,8 +1327,16 @@ public class CodeGenVisitor {
             default: return "No such type";
         }
 
-    }
 
+    }
+//
+//    private static int calculateBinOp(BinaryOprNode node) {
+//        ExpressionNode lhs = node.getExprL();
+//        ExpressionNode rhs = node.getExprR();
+//        if (lhs instanceof IntLiterNode) {
+//
+//        }
+//    }
 
 
 }

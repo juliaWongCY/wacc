@@ -22,6 +22,9 @@ public class CharLiterNode extends ExpressionNode {
     }
 
     public char getValue() {
+        if (value.charAt(1) == '\\') {
+            return value.charAt(2);
+        }
         return value.charAt(1);
     }
 

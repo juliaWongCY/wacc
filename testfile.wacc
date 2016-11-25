@@ -1,16 +1,16 @@
-# Simple conditional statement with int comparison test
+<<<<<<< HEAD
+# echo the user's input int
 
 # Output:
-# correct
+# enter an integer to echo
+# #input#
+# #output#
 
 # Program:
 
 begin
-  int a = 13;	
-  if a == 13 
-  then 
-    println "correct"
-  else 
-    println "incorrect"
-  fi
+  int x = 1 ;
+  println "enter an integer to echo";
+  read x ;
+  println x
 end

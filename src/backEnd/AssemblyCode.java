@@ -141,6 +141,7 @@ public class AssemblyCode {
     public Value lookUpVar(String var){
         return varSymbolTable.getVariable(var);
     }
+
     public int getPositionInStack(String var) {
         int variablePos = lookUpVar(var).getLocationInStack();
         return variablePos - getCurrentStackPtrPos();

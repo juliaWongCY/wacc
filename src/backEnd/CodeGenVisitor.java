@@ -212,7 +212,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
                 Util.getTypeSize(nNode.getSnd().getTypeIndicator())));
         instructionsToBeAdded.add(new BL("malloc"));
-        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
         registers.clearRegInUsed();
         instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -874,6 +874,11 @@ public class CodeGenVisitor {
         PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
 
+        if (printExp instanceof PairLiterNode) {
+            instructions = visitPairElemNode(printExp, instructions, registers);
+            return instructions;
+        }
+
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
@@ -959,6 +964,11 @@ public class CodeGenVisitor {
 
         PrintStatNode printNode = (PrintStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
+
+        if (printExp instanceof PairLiterNode) {
+            instructions = visitPairElemNode(printExp, instructions, registers);
+            return instructions;
+        }
 
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);

@@ -248,6 +248,7 @@ public class MessageGenerator {
 
     public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions) {
         List<Instruction> nullPointerInstructions = new ArrayList<>();
+
         nullPointerInstructions.add(new PUSH(registers.getLinkReg()));
         nullPointerInstructions.add(new CMP(registers.getR0Reg(), 0));
         nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
@@ -258,7 +259,7 @@ public class MessageGenerator {
 
         instructions.add(new Label("p_throw_runtime_error"), generateRuntimeInstructions(registers, instructions));
 
-        List<Instruction> printStringInstructions= new ArrayList<>();
+        List<Instruction> printStringInstructions= new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg())));
         printStringInstructions.addAll(generatePrintStringInstructions(registers, instructions));
         printStringInstructions.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
         printStringInstructions.add(new BL("printf"));

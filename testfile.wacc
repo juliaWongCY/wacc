@@ -1,4 +1,4 @@
-# attempt out of bounds array access (this ought to seg fault or similar)
+# attempt dereference of a null pair by using it
 
 # Output:
 # #runtime_error#
@@ -9,7 +9,6 @@
 # Program:
 
 begin
-	int[] a = [43, 2, 18, 1] ;
-  int[] b = [1, 2, 3] ;
-  println a[-2]
+	pair(int, int) p = null ;
+	int x = snd p
 end

@@ -378,7 +378,7 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.getMessageGenerator().
                 generatePrintStringTypeMessage(
-                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\\0\""); // todo: check const
+                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
         instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -387,7 +387,8 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
-        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg())); //todo: check
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);

@@ -1,6 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # create a pair and write to its first element
+=======
+# attempt dereference of a null pair by reading into an element of it
+>>>>>>> dexter
 
 # Output:
 # 10
@@ -9,6 +13,7 @@
 
 # Program:
 begin
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   begin
@@ -19,4 +24,8 @@ begin
   println f ;
   fst p = 42
 >>>>>>> donald
+=======
+	pair(int, int) p = null ;
+	read fst p
+>>>>>>> dexter
 end

@@ -927,7 +927,7 @@ public class CodeGenVisitor {
         if(typeIndicator != Util.CHAR_TYPE){
             instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
                     new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                    new BL("printf")
+                    new BL("puts")
             )));
 
             instructions.add(labelPrintType, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));

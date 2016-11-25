@@ -1,5 +1,14 @@
+# integer variable declaration with leading zeroes
+
+# Output:
+# 42
+# 0
+
+# Program:
+
 begin
-    int a = 1;
-    int b = 2;
-    print b > a
+  int x = 0000000000000000000000000000000000000042 ;
+  int y = 0000000000000000000000000000000000000000 ;
+  println x ;
+  println y
 end

@@ -1,10 +1,13 @@
-# print the null reference
+# simple array assignment and lookup
 
 # Output:
-# (nil)
+# 42
 
 # Program:
 
 begin
-  println null
+  int[] a = [0] ;
+  a[0] = 42 ;
+  println a[0]
 end
+

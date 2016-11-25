@@ -89,25 +89,27 @@ public class CodeGenVisitor {
     public static AssemblyCode visitArgListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         ArgListNode argListNode = (ArgListNode) node;
-        for (int i = argListNode.getSize(); i >= 0; i--) {
-            ExpressionNode arg = argListNode.getArgs().get(i);
+        if (argListNode != null) {
+            for (int i = argListNode.getSize(); i >= 0; i--) {
+                ExpressionNode arg = argListNode.getArgs().get(i);
 
-            instructions = visitExpression(arg, instructions, registers);
+                instructions = visitExpression(arg, instructions, registers);
 
-            int exprType = arg.getTypeIndicator();
-            int offset = -1 * Util.getTypeSize(exprType);
+                int exprType = arg.getTypeIndicator();
+                int offset = -1 * Util.getTypeSize(exprType);
 
-            if (exprType == Util.CHAR_TYPE || exprType == Util.BOOL_TYPE) {
-                instructions.add(instructions.getCurrentLabel(),
-                        new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
-                                registers.getStackPtrReg(), offset, true, "B"))));
-            } else {
-                instructions.add(instructions.getCurrentLabel(),
-                        new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
-                                registers.getStackPtrReg(), offset, true, ""))));
+                if (exprType == Util.CHAR_TYPE || exprType == Util.BOOL_TYPE) {
+                    instructions.add(instructions.getCurrentLabel(),
+                            new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
+                                    registers.getStackPtrReg(), offset, true, "B"))));
+                } else {
+                    instructions.add(instructions.getCurrentLabel(),
+                            new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
+                                    registers.getStackPtrReg(), offset, true, ""))));
+                }
+
+                instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + offset);
             }
-
-            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + offset);
         }
 
         return instructions;
@@ -165,10 +167,12 @@ public class CodeGenVisitor {
         String funcName = cNode.getFunctionId().getId();
         instructionsToBeAdded.add(new BL("f_" + funcName));
 
-        if (aNode.getSize() != 0) {
-            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), aNode.getTypeSize()));
+        if (aNode != null) {
+            if (aNode.getSize() != 0) {
+                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), aNode.getTypeSize()));
+            }
+            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
         }
-        instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
@@ -1144,16 +1148,19 @@ public class CodeGenVisitor {
         FunctionNode fNode = (FunctionNode) node;
         VarSymbolTable paramSymbolTable = new VarSymbolTable();
         String funcName = fNode.getFunctionName();
-        List<String> paramNames = fNode.getParamListNode().getParamNames();
+        List<String> paramNames = null;
         List<Type> paramTypes = null;
-        try {
-            paramTypes = fNode.getParamListNode().getParamTypes();
-        } catch (SemanticException e) {
-            System.err.println("shouldn't reach here, as should be able to get params type");
-        }
-        for (int i = 0; i < paramNames.size(); i++) {
-            paramSymbolTable.addVariable(
-                    paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+        if (fNode.getParamListNode() != null) {
+            paramNames = fNode.getParamListNode().getParamNames();
+            try {
+                paramTypes = fNode.getParamListNode().getParamTypes();
+            } catch (SemanticException e) {
+                System.err.println("shouldn't reach here, as should be able to get params type");
+            }
+            for (int i = 0; i < paramNames.size(); i++) {
+                paramSymbolTable.addVariable(
+                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+            }
         }
         funcSymbolTable.addFunction(
                 funcName,

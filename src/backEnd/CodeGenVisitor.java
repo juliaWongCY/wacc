@@ -284,9 +284,11 @@ public class CodeGenVisitor {
         instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
 
         List<Instruction> runTimeInstructions = new ArrayList<>();
+        runTimeInstructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
         instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
 
         List<Instruction> boundsInstructions = new ArrayList<>();
+        boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(instructions, registers);
         instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));

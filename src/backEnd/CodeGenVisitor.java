@@ -883,11 +883,6 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
-//        if(printExp instanceof PairLiterNode){
-//            instructions = visitExpression(printExp, instructions, registers);
-//            return instructions;
-//        }
-
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
 
@@ -938,7 +933,6 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         //printings under the label p_print_println
-
         instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(
                 new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                 new BL(typeIndicator == Util.CHAR_TYPE ? "puts" : "printf")
@@ -1157,7 +1151,6 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-        //TODO
         FunctionNode fNode = (FunctionNode) node;
         VarSymbolTable paramSymbolTable = new VarSymbolTable();
         String funcName = fNode.getFunctionName();
@@ -1170,10 +1163,7 @@ public class CodeGenVisitor {
             } catch (SemanticException e) {
                 System.err.println("shouldn't reach here, as should be able to get params type");
             }
-//            for (int i = 0; i < paramNames.size(); i++) {
-//                paramSymbolTable.addVariable(
-//                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i), instructions.getCurrentStackPtrPos()));
-//            }
+
             paramSymbolTable.addVariable(paramNames.get(0), covertParamToValue(null, paramTypes.get(0), 4));
             for (int i = 1; i < paramNames.size(); i++) {
                 paramSymbolTable.addVariable(
@@ -1228,11 +1218,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
         if (varSymbolTable.getVarLocalSize() > 0) {
-//        if (instructions.getVarSymbolTableLocalSize() > 0) {
             int size = varSymbolTable.getVarTotalSize();
-//            for (int i = a; i / 1024 <= 1 && i > 0 ; i -= 1024) {
-//                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), ));
-//            }
+
             while (size > 1024) {
                 instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
                 size -= 1024;
@@ -1337,17 +1324,7 @@ public class CodeGenVisitor {
             case 5: return "pair";
             default: return "No such type";
         }
-
-
     }
-//
-//    private static int calculateBinOp(BinaryOprNode node) {
-//        ExpressionNode lhs = node.getExprL();
-//        ExpressionNode rhs = node.getExprR();
-//        if (lhs instanceof IntLiterNode) {
-//
-//        }
-//    }
 
 
 }

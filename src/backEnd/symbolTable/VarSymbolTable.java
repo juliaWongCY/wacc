@@ -21,7 +21,7 @@ public class VarSymbolTable {
         this.varTable = new HashMap<>();
     }
 
-    // spliting addVar and modVar to ensure the integrity of the symbol table
+    // splitting addVar and modVar to ensure the integrity of the symbol table
     // TODO: change back to just call put method after the entire backend working
 
     public void addVariable(String varName, Value value) {
@@ -79,7 +79,7 @@ public class VarSymbolTable {
     }
 
     public void saveState() {
-        state = varTable.size();
+        state = getVarTotalSize();
     }
 
     public boolean checkSameState() {

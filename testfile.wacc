@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 # a simple increment function definition and usage
 
 # Output:
 # 1
 # 4
+# variable scoping test that redefines a variable
+
+# Output:
+# true
+# 12
+
 
 # Program:
 
 begin
+
   int inc(int x) is
     return x + 1
   end

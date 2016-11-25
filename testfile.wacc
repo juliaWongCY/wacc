@@ -1,14 +1,31 @@
+<<<<<<< HEAD
 # integer variable declaration with leading zeroes
 
 # Output:
 # 42
 # 0
+=======
+# Simple conditional statement with int comparison test
+
+# Output:
+# correct
+>>>>>>> donald
 
 # Program:
 
 begin
+<<<<<<< HEAD
   int x = 0000000000000000000000000000000000000042 ;
   int y = 0000000000000000000000000000000000000000 ;
   println x ;
   println y
+=======
+  int a = 13;	
+  if a == 13 
+  then 
+    println "correct"
+  else 
+    println "incorrect"
+  fi
+>>>>>>> donald
 end

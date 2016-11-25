@@ -1,14 +1,11 @@
-# integer variable declaration with leading zeroes
+# print pair a null pair
 
 # Output:
-# 42
-# 0
+# (nil)
 
 # Program:
 
 begin
-  int x = 0000000000000000000000000000000000000042 ;
-  int y = 0000000000000000000000000000000000000000 ;
-  println x ;
-  println y
+  pair(pair, pair) p = null ;
+  println p
 end

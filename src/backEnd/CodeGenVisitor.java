@@ -1266,7 +1266,8 @@ public class CodeGenVisitor {
                 return varSymbolTable.getVariable(iNode.getId());
             }
             if (typeIndicator == Util.PAIR_TYPE) {
-                if (node instanceof PairLiterNode) {
+                if (node instanceof PairLiterNode
+                        || node instanceof ExprAsRNode && ((ExprAsRNode) node).getExpr() instanceof PairLiterNode) {
                     return new Value(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
                 }
                 if (node instanceof IdentNode) {

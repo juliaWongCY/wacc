@@ -1,17 +1,14 @@
-# Use a character as a loop condition. Enter the loop once only, then exit the loop.
+# a simple function definition and call
 
 # Output:
-# Change c
-# Should print "Change c" once before.
->>>>>>> dexter
+# 0
 
 # Program:
 
 begin
-	char c = '\0' ;
-	while c == '\0' do
-		c = 'a' ;
-		println "Change c"
-	done ;
-	println "Should print \"Change c\" once before."
+  int f() is
+    return 0
+  end
+  int x = call f() ;
+  println x
 end

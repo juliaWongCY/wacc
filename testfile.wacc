@@ -1,16 +1,5 @@
-<<<<<<< HEAD
-# echo the user's input int
-
-# Output:
-# enter an integer to echo
-# #input#
-# #output#
-
-# Program:
-
 begin
-  int x = 1 ;
-  println "enter an integer to echo";
-  read x ;
-  println x
+    int a = 1;
+    int b = 2;
+    print b > a
 end

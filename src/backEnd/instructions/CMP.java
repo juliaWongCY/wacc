@@ -30,7 +30,7 @@ public class CMP extends Instruction {
     public String toString(){
 
         if (string != null) {
-            return ("\t\tCMP" + dst + ", " + src + ", " + string + " #" + constant + "\n");
+            return ("\t\tCMP " + dst + ", " + src + ", " + string + " #" + constant + "\n");
         }
 
         if(src != null) {

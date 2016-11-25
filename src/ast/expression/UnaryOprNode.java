@@ -17,12 +17,15 @@ public class UnaryOprNode extends ExpressionNode {
         switch (unaryOpr) {
             case NOT:
                 typeIndicator = Util.BOOL_TYPE;
+                break;
             case NEG:
             case LEN:
             case ORD:
                 typeIndicator = Util.INT_TYPE;
+                break;
             case CHR:
                 typeIndicator = Util.CHAR_TYPE;
+                break;
             default: //Should never reach here
         }
     }

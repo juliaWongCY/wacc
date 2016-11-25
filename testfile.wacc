@@ -1,15 +1,22 @@
-# tests whether the compiler can handle long expressions with several variables
+# a simple negation function definition and usage
 
 # Output:
-# #empty#
+# true
+# false
+# true
 
-# Exit:
-# 153
+# Program:
 
 begin
-
-  int a = 1;
-  int b = 3;
-  exit a * b
-
+  bool neg(bool b) is
+    return !b
+  end
+  bool b = true ;
+  println b ;
+  b = call neg(b) ;
+  println b ;
+  b = call neg(b) ;
+  b = call neg(b) ;
+  b = call neg(b) ;
+  println b
 end

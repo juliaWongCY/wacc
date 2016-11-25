@@ -1170,7 +1170,7 @@ public class CodeGenVisitor {
             }
             for (int i = 0; i < paramNames.size(); i++) {
                 paramSymbolTable.addVariable(
-                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i), instructions));
             }
         }
         funcSymbolTable.addFunction(
@@ -1257,17 +1257,17 @@ public class CodeGenVisitor {
         }
     }
 
-    private static Value covertParamToValue(String value, Type type) {
+    private static Value covertParamToValue(String value, Type type, AssemblyCode instructions) {
         if (type instanceof ArrayType) {
             int element = Util.convertTypeToIndicator(((ArrayType) type).getElemType());
-            return new Value(value, true, element, -1);  //TODO check stack ptr place
+            return new Value(value, true, element, instructions.getCurrentStackPtrPos());  //TODO check stack ptr place
         }
         if (type instanceof PairType) {
             int fst = Util.convertTypeToIndicator(((PairType) type).getFstExprType());
             int snd = Util.convertTypeToIndicator(((PairType) type).getSndExprType());
-            return new Value(value, true, fst, snd);
+            return new Value(value, true, fst, snd, instructions.getCurrentStackPtrPos());
         }
-        return new Value(value, Util.convertTypeToIndicator(type), -1); //TODO check stack ptr place
+        return new Value(value, Util.convertTypeToIndicator(type), instructions.getCurrentStackPtrPos()); //TODO check stack ptr place
     }
 
     private static Value convertAssignRHSToValue(AssignRightNode node, int stackPtrPos) {

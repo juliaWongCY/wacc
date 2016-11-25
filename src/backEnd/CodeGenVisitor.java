@@ -905,43 +905,35 @@ public class CodeGenVisitor {
         instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
 
 
-//        if(typeIndicator == Util.CHAR_TYPE){
-//            //We do not need a new label when printing a char
-//            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
-//        } else {
-//            instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
-//        }
 
         // We need to visit the expression node inside print statement
-//        instructions = visitExpression(printNode.getExpr(), instructions, registers);
         instructions = visitExpression(printExp, instructions, registers);
+        //Add a new line
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
-
-        if(typeIndicator == Util.CHAR_TYPE){
-            instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
-                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1)))
-            )));
-        }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
-        instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
+        //printings under the label p_print_println
+        instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
+                new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))),
                 new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                 new BL(typeIndicator == Util.CHAR_TYPE ? "puts" : "printf")
         )));
 
-        instructions.add(labelPrintType, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        instructions.add(labelPrintln, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
+        //For types other than char. Printings under the label p_print_TYPE
         if(typeIndicator != Util.CHAR_TYPE){
-            instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
+            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
                     new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))),
-                    new BL("puts")
+                    new BL("printf")
             )));
 
-            instructions.add(labelPrintln, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+            instructions.add(labelPrintType, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         }
+
+
 
         return instructions;
     }

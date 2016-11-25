@@ -1,15 +1,14 @@
-# attempt out of bounds array access (this ought to seg fault or similar)
+# create a pair and write to its first element
 
 # Output:
-# #runtime_error#
-
-# Exit:
-# 255
+# 10
+# 42
 
 # Program:
 
 begin
-	int[] a = [43, 2, 18, 1] ;
-  int[] b = [1, 2, 3] ;
-  println a[-2]
+  pair(int, char) p = newpair(10, 'a') ;
+  int f = fst p ;
+  println f ;
+  fst p = 42
 end

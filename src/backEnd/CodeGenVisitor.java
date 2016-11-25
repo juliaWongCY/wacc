@@ -345,13 +345,13 @@ public class CodeGenVisitor {
         if(nodeType == Util.INT_TYPE | nodeType == Util.STRING_TYPE | nodeType == Util.ARRAY_TYPE | nodeType == Util.PAIR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                            registers.getStackPtrReg(), varSymbolTable.getVariable(nodeID.getId()).getLocationInStack()))));
+                            registers.getStackPtrReg(), varSymbolTable.getVariable(nodeID.getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
         }
 
         if(nodeType == Util.BOOL_TYPE | nodeType == Util.CHAR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new LDRSB(registers.getNextAvailableVariableReg(),
-                            registers.getStackPtrReg(),  varSymbolTable.getVariable(nodeID.getId()).getLocationInStack()))));
+                            registers.getStackPtrReg(),  varSymbolTable.getVariable(nodeID.getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
         }
 
         return instructions;
@@ -402,8 +402,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                        new Label("msg_" + instructions.getNumberOfMessage()))));
+                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                        new Label("msg_" + instructions.getNumberOfMessage())))));
 
         instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
         instructionsToBeAdded.add(new HeaderInstr("\t.ascii " +  strNode.getValue()));
@@ -480,7 +480,7 @@ public class CodeGenVisitor {
 
         Registers updatedRegs = registers.addRegInUsedList(exprLReg);
 
-        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, updatedRegs);
+        instructions = visitExpression(((BinaryOprNode) node).getExprR(), instructions, updatedRegs);
         RegisterARM exprRReg = registers.getNextAvailableVariableReg();
 
         RegisterARM resultReg = exprLReg;
@@ -685,7 +685,7 @@ public class CodeGenVisitor {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
-                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack()));
+                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
             } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
@@ -727,7 +727,7 @@ public class CodeGenVisitor {
 
         // construct value to put in variable symbol table
 
-        Value val = convertAssignRHSToValue(rhsNode, Math.abs(instructions.getCurrentStackPtrPos()));
+        Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
 
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
@@ -1018,7 +1018,7 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
-                    registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack()));
+                    registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
             instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
             instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
@@ -1180,10 +1180,8 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-//        instructions.returnMainLabel();
-//
-//        //PUSH {LR}
-//        instructions.add(instructions.getCurrentLabel(), Arrays.asList(new PUSH(registers.getLinkReg())));
+        instructions.returnMainLabel();
+
 
         //PUSH {LR}
         instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(

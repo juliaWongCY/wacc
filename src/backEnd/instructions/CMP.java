@@ -28,12 +28,15 @@ public class CMP extends Instruction {
 
     @Override
     public String toString(){
+
+        if (string != null) {
+            return ("\t\tCMP" + dst + ", " + src + ", " + string + " #" + constant + "\n");
+        }
+
         if(src != null) {
-            if (string != null) {
-                return ("\t\tCMP" + dst + ", " + src + ", " + string + " #" + constant + "\n");
-            }
             return ("\t\tCMP " + dst + ", " + src + "\n");
         }
+        
         return ("\t\tCMP " + dst + ", #" + constant + "\n");
     }
 }

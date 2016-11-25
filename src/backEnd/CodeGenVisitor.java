@@ -879,6 +879,11 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
+//        if(printExp instanceof PairLiterNode){
+//            instructions = visitExpression(printExp, instructions, registers);
+//            return instructions;
+//        }
+
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
 
@@ -970,6 +975,11 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
+        if(printExp instanceof PairLiterNode){
+            instructions = visitExpression(printExp, instructions, registers);
+            return instructions;
+        }
+
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
 
@@ -991,7 +1001,6 @@ public class CodeGenVisitor {
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
-
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         if(typeIndicator != Util.CHAR_TYPE){

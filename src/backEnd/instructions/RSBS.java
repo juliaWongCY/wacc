@@ -16,7 +16,7 @@ public class RSBS extends Instruction {
 
     @Override
     public String toString() {
-        return "\t\tRSBS" + dst + ", " + src + ", #" + constant + "\n";
+        return "\t\tRSBS " + dst + ", " + src + ", #" + constant + "\n";
     }
 
 }

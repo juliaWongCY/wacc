@@ -31,6 +31,11 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         ASTNode arrayElem = visit(ctx.arrayElem());
 
         if (arrayElem instanceof ArrayElemNode) {
+            try {
+                arrayElem.getNodeType(symbolTable);
+            } catch (SemanticException e) {
+
+            }
             return new ArrayElemAsLNode((ArrayElemNode) arrayElem);
         } else {
             return handleError(ctx.arrayElem(), ((ErrorNode)arrayElem).getErrorType());
@@ -216,7 +221,13 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         } catch (SemanticException e) {
             e.printStackTrace();
         }
-        return new ArrayElemNode(identNode, indexes);
+        ArrayElemNode aNode = new ArrayElemNode(identNode, indexes);
+        try {
+            aNode.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            e.printStackTrace();
+        }
+        return aNode;
     }
 
     @Override
@@ -790,12 +801,12 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             if (!symbolTable.hasVariable(((IdentNode) expr).getId())) {
                 handleError(ctx.expr(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
             }
-            // for back end to get right type indicator
-            try {
-                expr.getNodeType(symbolTable);
-            } catch (SemanticException e) {
-                e.printStackTrace();
-            }
+        }
+        // for back end to get right type indicator
+        try {
+            expr.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            e.printStackTrace();
         }
         return new PrintlnStatNode((ExpressionNode) expr);
 

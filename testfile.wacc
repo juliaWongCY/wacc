@@ -1,22 +1,15 @@
-# a simple negation function definition and usage
+# attempt out of bounds array access (this ought to seg fault or similar)
 
 # Output:
-# true
-# false
-# true
+# #runtime_error#
+
+# Exit:
+# 255
 
 # Program:
 
 begin
-  bool neg(bool b) is
-    return !b
-  end
-  bool b = true ;
-  println b ;
-  b = call neg(b) ;
-  println b ;
-  b = call neg(b) ;
-  b = call neg(b) ;
-  b = call neg(b) ;
-  println b
+	int[] a = [43, 2, 18, 1] ;
+  int[] b = [1, 2, 3] ;
+  println a[-2]
 end

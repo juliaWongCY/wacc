@@ -1,14 +1,17 @@
-# evaluating not
+# Use a character as a loop condition. Enter the loop once only, then exit the loop.
 
 # Output:
-# false
-# true
+# Change c
+# Should print "Change c" once before.
+>>>>>>> dexter
 
 # Program:
 
 begin
-  bool a = true ;
-  bool b = false ;
-  println !a ;
-  println !b
+	char c = '\0' ;
+	while c == '\0' do
+		c = 'a' ;
+		println "Change c"
+	done ;
+	println "Should print \"Change c\" once before."
 end

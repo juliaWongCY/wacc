@@ -436,8 +436,9 @@ public class CodeGenVisitor {
                 break;
             case NEG:
                 String errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
+                int size = errorMessage.length() - 3;
                 instructions.getMessageGenerator().generatePrintStringTypeMessage(
-                        instructions, errorMessage.length() - 2, errorMessage);
+                        instructions, size, errorMessage);
 
                 Label printStringLabel = new Label("p_print_string");
                 instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
@@ -520,7 +521,7 @@ public class CodeGenVisitor {
                 }
 
                 instructions.getMessageGenerator().generatePrintStringTypeMessage(
-                        instructions, errorMessage.length() - 2, errorMessage);
+                        instructions, errorMessage.length() - 3, errorMessage);
             }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
@@ -1224,6 +1225,7 @@ public class CodeGenVisitor {
         }
 
         instructions.returnMainLabel();
+//        instructions.setNumberOfMessage(0);
         varSymbolTable  = new VarSymbolTable();
 
 

@@ -133,7 +133,7 @@ public class MessageGenerator {
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions,
                                                        int stringSize, String string) {
         instructions.add(new Header(".data"), null);
-        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
+        instructions.add(new Label("msg_" + (instructions.getNumberOfMessage() - 1)),
                 headerMessages("\t.word", stringSize, "\t.ascii " + string));
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s" + "\\0" + "\""));
@@ -308,5 +308,7 @@ public class MessageGenerator {
         return new ArrayList<Instruction>(Arrays.asList(
                 new HeaderInstr(word, messageLength), new HeaderInstr((output))));
     }
+
+
 
 }

@@ -96,6 +96,9 @@ public class AssemblyCode {
         return varSymbolTable.getVarLocalSize();
     }
 
+    public void setNumberOfMessage(int numberOfMessage) {
+        this.numberOfMessage = numberOfMessage;
+    }
 
     public int getNumberOfMessage() {
         return numberOfMessage;
@@ -146,6 +149,7 @@ public class AssemblyCode {
     public void addFuncLabel(String funcName) {
         currentLabel = new Label("f_" + funcName);
     }
+
 
 
 }

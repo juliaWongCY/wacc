@@ -1,16 +1,11 @@
-# null pair assignment
+# basic character printing
 
 # Output:
-# (nil)
-# (nil)
+# A simple character example is f
 
 # Program:
 
 begin
-  pair(pair, pair) p = null ;
-  println p ;
-  p = null ;
-  println p
+  print "A simple character example is " ;
+  println 'f'
 end
-
-

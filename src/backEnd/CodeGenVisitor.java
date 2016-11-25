@@ -1192,7 +1192,7 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-        //instructions.returnMainLabel();
+        instructions.returnMainLabel();
 
 
         //PUSH {LR}

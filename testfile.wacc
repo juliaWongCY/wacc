@@ -1,11 +1,14 @@
-# print pair a null pair
+# evaluating not
 
 # Output:
-# (nil)
+# false
+# true
 
 # Program:
 
 begin
-  pair(pair, pair) p = null ;
-  println p
+  bool a = true ;
+  bool b = false ;
+  println !a ;
+  println !b
 end

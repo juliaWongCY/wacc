@@ -24,4 +24,8 @@ public class ParamNode implements ASTNode {
     public String getParamName() {
         return paramName.getId();
     }
+
+    public void setTypeIndicatior(Type type) {
+        paramName.setTypeIndicator(type);
+    }
 }

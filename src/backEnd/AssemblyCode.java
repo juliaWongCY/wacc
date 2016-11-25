@@ -25,8 +25,6 @@ public class AssemblyCode {
     private int newLabels = 0;
     private MessageGenerator messageGenerator = new MessageGenerator();
 
-
-
     public List<AssemblyLine> toList() {
 
         List<AssemblyLine> assemblyCode = new ArrayList<>();

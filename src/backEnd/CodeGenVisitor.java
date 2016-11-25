@@ -878,6 +878,7 @@ public class CodeGenVisitor {
         String exprType = convertTypeToString(typeIndicator);
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructions.add(new Header(".data"), null);
 
         if(typeIndicator == Util.CHAR_TYPE){
             instructionsToBeAddedMain.add(new BL("putchar"));
@@ -958,7 +959,7 @@ public class CodeGenVisitor {
         String exprType = convertTypeToString(typeIndicator);
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
-        instructions.add(new Header(".data\n\n"), null);
+        instructions.add(new Header(".data"), null);
 
 
         if(typeIndicator == Util.CHAR_TYPE){
@@ -1180,7 +1181,7 @@ public class CodeGenVisitor {
             instructions = visitFunctionNode(f, instructions, registers);
         }
 
-        instructions.returnMainLabel();
+        //instructions.returnMainLabel();
 
 
         //PUSH {LR}

@@ -90,7 +90,7 @@ public class CodeGenVisitor {
 
         ArgListNode argListNode = (ArgListNode) node;
         if (argListNode != null) {
-            for (int i = argListNode.getSize(); i >= 0; i--) {
+            for (int i = argListNode.getSize() - 1; i >= 0; i--) {
                 ExpressionNode arg = argListNode.getArgs().get(i);
 
                 instructions = visitExpression(arg, instructions, registers);
@@ -157,7 +157,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         CallAsRNode cNode = (CallAsRNode) node;
         ArgListNode aNode = cNode.getArgList();
 
@@ -1162,6 +1161,7 @@ public class CodeGenVisitor {
                 funcName,
                 Util.convertTypeToIndicator(fNode.getRetType()),
                 paramSymbolTable);
+        varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
@@ -1177,7 +1177,6 @@ public class CodeGenVisitor {
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         funcSymbolTable = new FuncSymbolTable();
-        varSymbolTable  = new VarSymbolTable();
 
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
@@ -1189,6 +1188,7 @@ public class CodeGenVisitor {
         }
 
         instructions.returnMainLabel();
+        varSymbolTable  = new VarSymbolTable();
 
 
         //PUSH {LR}

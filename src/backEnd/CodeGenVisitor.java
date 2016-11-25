@@ -873,12 +873,6 @@ public class CodeGenVisitor {
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
 
-        if (printNode.getExpr() instanceof PairLiterNode) {
-            instructions = visitPairLiterNode(printNode.getExpr(), instructions, registers);
-            return instructions;
-        }
-
-
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
 
 

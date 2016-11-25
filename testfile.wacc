@@ -9,3 +9,4 @@ begin
   pair(pair, pair) p = null ;
   println p
 end
+

@@ -31,6 +31,9 @@ public class Util {
         if (type instanceof PairType) {
             return PAIR_TYPE;
         }
+        if (type instanceof FunctionType) {
+            return convertTypeToIndicator(((FunctionType) type).getReturnType());
+        }
         System.err.println("unrecognised type");
         return -1;
     }

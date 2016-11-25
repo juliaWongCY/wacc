@@ -21,7 +21,13 @@ public class StringLiterNode extends ExpressionNode {
     }
 
     public int getStringSize(){
-        return value.length() - 2;
+        int numberOfEscapes = 0;
+        for (int i = 0; i < value.length() - 1; i++) {
+            if (value.charAt(i) == '\\' && value.charAt(i + 1) != '\\') {
+                numberOfEscapes++;
+            }
+        }
+        return value.length() - 2 - numberOfEscapes;
     }
 
     @Override

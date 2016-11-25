@@ -1216,9 +1216,16 @@ public class CodeGenVisitor {
 
         if (varSymbolTable.getVarLocalSize() > 0) {
 //        if (instructions.getVarSymbolTableLocalSize() > 0) {
-            for (int i = varSymbolTable.getVarLocalSize(); (0 < i) && (i < 1024) ; i -= 1024) {
-                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), i));
+            int size = varSymbolTable.getVarTotalSize();
+//            for (int i = a; i / 1024 <= 1 && i > 0 ; i -= 1024) {
+//                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), ));
+//            }
+            while (size > 1024) {
+                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
+                size -= 1024;
             }
+            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
+
         }
 
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 0));

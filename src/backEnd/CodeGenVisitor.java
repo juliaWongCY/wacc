@@ -169,8 +169,8 @@ public class CodeGenVisitor {
         if (aNode != null) {
             if (aNode.getSize() != 0) {
                 instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), aNode.getTypeSize()));
+                instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
             }
-            instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + aNode.getTypeSize());
         }
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -211,7 +211,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(),
                 Util.getTypeSize(nNode.getSnd().getTypeIndicator())));
         instructionsToBeAdded.add(new BL("malloc"));
-        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
         registers.clearRegInUsed();
         instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -271,7 +271,7 @@ public class CodeGenVisitor {
         ExpressionNode index = ((ArrayElemNode) node).getIndexes().get(0);
 
         Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
-        instructions = visitExpression(index, instructions, updatedRegisters);
+        instructions = visitExpression(index, instructions, updatedRegisters); // assign or just call?
         registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
 
         arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
@@ -338,6 +338,7 @@ public class CodeGenVisitor {
 
         return instructions;
     }
+//TODO oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
     public static AssemblyCode visitIdentNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
@@ -442,7 +443,8 @@ public class CodeGenVisitor {
                 instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
                 instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
                         registers, instructions));
-                instructions.add(new Label("p_throw_runtime_error"),
+                instructions.add(new Label("p_throw_r" +
+                                "untime_error"),
                         instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
 
                 instructions.add(printStringLabel, new ArrayList<Instruction>(
@@ -613,18 +615,11 @@ public class CodeGenVisitor {
     ////////////////////////////////parameter/////////////////////////////
 
     public static AssemblyCode visitParamListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        ParamListNode pNode = (ParamListNode) node;
-        List<ParamNode> pNodes = pNode.getParams();
-        for (ParamNode pn : pNodes) {
-            instructions = visitParamNode(pn, instructions, registers);
-        }
         return instructions;
     }
 
     public static AssemblyCode visitParamNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         //Seems like it doesn't require anything.
-
         return instructions;
     }
 

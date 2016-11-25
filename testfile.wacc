@@ -1,16 +1,36 @@
+<<<<<<< HEAD
 # variable scoping test that redefines a variable
 
 # Output:
 # true
 # 12
+=======
+# a simple increment function definition and usage
+
+# Output:
+# 1
+# 4
+>>>>>>> donald
 
 # Program:
 
 begin
+<<<<<<< HEAD
   int x = 12 ;
   begin
     bool x = true ;
     println x
   end ;
+=======
+  int inc(int x) is
+    return x + 1
+  end
+  int x = 0 ;
+  x = call inc(x) ;
+  println x ;
+  x = call inc(x) ;
+  x = call inc(x) ;
+  x = call inc(x) ;
+>>>>>>> donald
   println x
 end

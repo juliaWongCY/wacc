@@ -21,7 +21,7 @@ public class StringLiterNode extends ExpressionNode {
     }
 
     public int getStringSize(){
-        return value.length();
+        return value.length() - 2;
     }
 
     @Override

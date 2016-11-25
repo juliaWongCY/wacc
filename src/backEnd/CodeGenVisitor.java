@@ -23,6 +23,7 @@ import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -338,7 +339,6 @@ public class CodeGenVisitor {
 
         return instructions;
     }
-//TODO oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
     public static AssemblyCode visitIdentNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
@@ -742,12 +742,18 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        List<Instruction> instructionsForBinOp = new ArrayList<>();
+
+        if(((ExitStatNode) node).getExpr() instanceof BinaryOprNode){
+            instructions = visitBinaryOprNode(((ExitStatNode) node).getExpr(), instructions, registers);
+            instructionsForBinOp.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+            instructionsForBinOp.add(new BL("exit"));
+            instructions.add(instructions.getCurrentLabel(), instructionsForBinOp);
+        }
 
         if (((ExitStatNode) node).getExpr() instanceof IdentNode) {
-
-
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
-        } else {
+        } else if(((ExitStatNode) node).getExpr() instanceof IntLiterNode){
             //TODO: BAD PROGRAMMING DESIGN!!!!!!!!!!
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     ((IntLiterNode) ((ExitStatNode) node).getExpr()).getValue()));
@@ -1161,9 +1167,18 @@ public class CodeGenVisitor {
             } catch (SemanticException e) {
                 System.err.println("shouldn't reach here, as should be able to get params type");
             }
-            for (int i = 0; i < paramNames.size(); i++) {
+//            for (int i = 0; i < paramNames.size(); i++) {
+//                paramSymbolTable.addVariable(
+//                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i), instructions.getCurrentStackPtrPos()));
+//            }
+            paramSymbolTable.addVariable(paramNames.get(0), covertParamToValue(null, paramTypes.get(0), 4));
+            for (int i = 1; i < paramNames.size(); i++) {
                 paramSymbolTable.addVariable(
-                        paramNames.get(i), covertParamToValue(null, paramTypes.get(i)));
+                        paramNames.get(i),
+                        covertParamToValue(null, paramTypes.get(i),
+                                Util.getTypeSize(paramTypes.get(i - 1))
+                                + paramSymbolTable.getVariable(paramNames.get(i - 1)).getLocationInStack())
+                );
             }
         }
         funcSymbolTable.addFunction(
@@ -1250,17 +1265,17 @@ public class CodeGenVisitor {
         }
     }
 
-    private static Value covertParamToValue(String value, Type type) {
+    private static Value covertParamToValue(String value, Type type, int stackPos) {
         if (type instanceof ArrayType) {
             int element = Util.convertTypeToIndicator(((ArrayType) type).getElemType());
-            return new Value(value, true, element, -1);  //TODO check stack ptr place
+            return new Value(value, true, element, stackPos);  //TODO check stack ptr place
         }
         if (type instanceof PairType) {
             int fst = Util.convertTypeToIndicator(((PairType) type).getFstExprType());
             int snd = Util.convertTypeToIndicator(((PairType) type).getSndExprType());
-            return new Value(value, true, fst, snd);
+            return new Value(value, true, fst, snd, stackPos);
         }
-        return new Value(value, Util.convertTypeToIndicator(type), -1); //TODO check stack ptr place
+        return new Value(value, Util.convertTypeToIndicator(type), stackPos); //TODO check stack ptr place
     }
 
     private static Value convertAssignRHSToValue(AssignRightNode node, int stackPtrPos) {
@@ -1320,8 +1335,16 @@ public class CodeGenVisitor {
             default: return "No such type";
         }
 
-    }
 
+    }
+//
+//    private static int calculateBinOp(BinaryOprNode node) {
+//        ExpressionNode lhs = node.getExprL();
+//        ExpressionNode rhs = node.getExprR();
+//        if (lhs instanceof IntLiterNode) {
+//
+//        }
+//    }
 
 
 }

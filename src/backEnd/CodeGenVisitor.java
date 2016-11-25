@@ -865,11 +865,19 @@ public class CodeGenVisitor {
 
         List<Label> labels = new ArrayList<>();
 
+
         PrintlnStatNode printNode = (PrintlnStatNode) node;
+
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
+
 
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
+
+//        if(printExp instanceof PairLiterNode){
+//            instructions = visitExpression(printExp, instructions, registers);
+//            return instructions;
+//        }
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
@@ -954,8 +962,18 @@ public class CodeGenVisitor {
         PrintStatNode printNode = (PrintStatNode) node;
         ExpressionNode printExp = printNode.getExpr();
 
+        if (printExp instanceof PairLiterNode) {
+            instructions = visitPairElemNode(printExp, instructions, registers);
+            return instructions;
+        }
+
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
+
+        if(printExp instanceof PairLiterNode){
+            instructions = visitExpression(printExp, instructions, registers);
+            return instructions;
+        }
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
@@ -978,7 +996,6 @@ public class CodeGenVisitor {
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
-
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         if(typeIndicator != Util.CHAR_TYPE){

@@ -15,6 +15,7 @@ public class ArrayElemNode extends ExpressionNode {
     public ArrayElemNode(IdentNode arrayName, List<ExpressionNode> indexes) {
         this.arrayName = arrayName;
         this.indexes = indexes;
+        typeIndicator = Util.ARRAY_TYPE;
     }
 
     public IdentNode getArrayName() {
@@ -33,7 +34,6 @@ public class ArrayElemNode extends ExpressionNode {
             type = ((ArrayType) type).getElemType();
             counter--;
         }
-        typeIndicator = Util.convertTypeToIndicator(type);
         return type;
     }
 

@@ -76,6 +76,7 @@ public class Value {
         return elementIndicatorSnd;
     }
 
+
     public int getLocationInStack(){
         return locationInStack;
     }

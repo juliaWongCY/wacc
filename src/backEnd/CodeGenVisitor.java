@@ -402,8 +402,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                        new Label("msg_" + instructions.getNumberOfMessage()))));
+                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                        new Label("msg_" + instructions.getNumberOfMessage())))));
 
         instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
         instructionsToBeAdded.add(new HeaderInstr("\t.ascii " +  strNode.getValue()));

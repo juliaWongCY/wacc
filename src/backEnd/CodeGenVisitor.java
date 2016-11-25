@@ -1090,7 +1090,7 @@ public class CodeGenVisitor {
 
         //If size of SymbolTable is NOT the same
         if (!varSymbolTable.checkSameState()) {
-            int diff = varSymbolTable.getVarTotalSize() - varSymbolTable.getState() ;
+            int diff = Math.abs(varSymbolTable.getState() - varSymbolTable.getVarTotalSize());
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new ADD(registers.getStackPtrReg(),
                             registers.getStackPtrReg(), diff))));

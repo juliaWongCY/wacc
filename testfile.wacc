@@ -1,7 +1,16 @@
+# variable scoping test that redefines a variable
+
+# Output:
+# true
+# 12
 
 # Program:
-begin
 
+begin
+  int x = 12 ;
   begin
-    int x = 125end
+    bool x = true ;
+    println x
+  end ;
+  println x
 end

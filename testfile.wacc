@@ -1,29 +1,25 @@
-<<<<<<< HEAD
-# a simple increment function definition and usage
+# simple input/output loop
 
 # Output:
-# 1
-# 4
-# variable scoping test that redefines a variable
-
-# Output:
-# true
-# 12
-
+# Please input an integer: #input#
+# echo input: #output#
+# Do you want to continue entering input?
+# (enter Y for 'yes' and N for 'no')
+# #input#
+# ...
 
 # Program:
 
 begin
-
-  int inc(int x) is
-    return x + 1
-  end
-  int x = 0 ;
-  x = call inc(x) ;
-  #println x ;
-  #x = call inc(x) ;
-  #x = call inc(x) ;
-  #x = call inc(x) ;
-  #println x
-  skip
+  char continue = 'Y' ;
+  int buff = 0 ;
+  while continue != 'N' do
+    print "Please input an integer: " ;
+    read buff ;
+    print "echo input: " ;
+    println buff ;
+    println "Do you want to continue entering input?" ;
+    println "(enter Y for \'yes\' and N for \'no\')" ;
+    read continue
+  done
 end

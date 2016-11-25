@@ -1038,29 +1038,40 @@ public class CodeGenVisitor {
             instructions.add(msgLabel, instructionsToBeAdded);
             //todo: assumed main label didn't get changed
             instructionsToBeAdded.clear();
+
+            //instructions under L1
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
                     registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
             instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
             instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
+
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
             labels.add(readLabel);
+
         } else if (rNode.getAssignLHS() instanceof PairElemAsLNode) {
             PairElemAsLNode pairElem = (PairElemAsLNode) rNode.getAssignLHS();
             instructions = visitPairElemAsLNode(pairElem, instructions, registers);
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-//        instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
-//        instructionsToBeAdded.clear();
-//        instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
-//        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), msgLabel));
-//        instructionsToBeAdded.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
-//        instructionsToBeAdded.add(new BL("scanf"));
-        instructions.add(labels.get(0), instructionsToBeAdded);
-        instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
+
+
+        instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructionsToBeAdded.clear();
+        instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
+        instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), msgLabel));
+        instructionsToBeAdded.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
+        instructionsToBeAdded.add(new BL("scanf"));
+
+        //System.out.printf(labels.get(1).toString());
+        instructions.add(labels.get(1), instructionsToBeAdded);
+        instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
         
         return instructions;
     }
+
+
 
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 

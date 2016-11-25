@@ -31,8 +31,8 @@ public class AssemblyCode {
 
         List<AssemblyLine> assemblyCode = new ArrayList<>();
         List<AssemblyLine> allMessages = new ArrayList<>();
-
         Iterator<Entry<Label, List<Instruction>>> iter = instructionsPerLabel.entrySet().iterator();
+
 
         while (iter.hasNext()) {
             Map.Entry<Label, List<Instruction>> entry = iter.next();

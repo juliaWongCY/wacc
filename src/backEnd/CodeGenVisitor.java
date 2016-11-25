@@ -914,9 +914,16 @@ public class CodeGenVisitor {
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
+        if (typeIndicator != Util.CHAR_TYPE) {
+            instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
+                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
+        } else {
+            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
+                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
+        }
+
         //printings under the label p_print_println
         instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
-                new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))),
                 new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                 new BL(typeIndicator == Util.CHAR_TYPE ? "puts" : "printf")
         )));

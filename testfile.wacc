@@ -1,16 +1,10 @@
-# create a pair and write to its first element
+# print the null reference
 
 # Output:
-# 10
-# 42
+# (nil)
 
 # Program:
 
 begin
-  pair(int, char) p = newpair(10, 'a') ;
-  int f = fst p ;
-  println f ;
-  fst p = 42 ;
-  f = fst p ;
-  println f
+  println null
 end

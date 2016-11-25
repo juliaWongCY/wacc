@@ -872,12 +872,15 @@ public class CodeGenVisitor {
         List<Label> labels = new ArrayList<>();
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
+
+//        if (printNode.getExpr() instanceof PairLiterNode) {
+//            instructions = visitPairLiterNode(printNode.getExpr(), instructions, registers);
+//            return instructions;
+//        }
+
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
 
-        if (printExp instanceof PairLiterNode) {
-            instructions = visitPairElemNode(printExp, instructions, registers);
-            return instructions;
-        }
+
 
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);

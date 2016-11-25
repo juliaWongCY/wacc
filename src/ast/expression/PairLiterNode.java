@@ -10,11 +10,11 @@ public class PairLiterNode extends ExpressionNode {
 
     public PairLiterNode() {
         //PairLiter = null
+        typeIndicator = Util.PAIR_TYPE;
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        typeIndicator = Util.PAIR_TYPE;
         return new PairType();
     }
 

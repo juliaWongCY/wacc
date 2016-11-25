@@ -284,9 +284,11 @@ public class CodeGenVisitor {
         instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
 
         List<Instruction> runTimeInstructions = new ArrayList<>();
+        runTimeInstructions = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
         instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
 
         List<Instruction> boundsInstructions = new ArrayList<>();
+        boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(instructions, registers);
         instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
@@ -376,7 +378,7 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.getMessageGenerator().
                 generatePrintStringTypeMessage(
-                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\\0\""); // todo: check const
+                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
         instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -385,7 +387,8 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
-        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg())); //todo: check
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);

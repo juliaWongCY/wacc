@@ -30,4 +30,8 @@ public class IdentNode extends ExpressionNode {
 
     }
 
+    public void setTypeIndicator(Type type) {
+        typeIndicator = Util.convertTypeToIndicator(type);
+    }
+
 }

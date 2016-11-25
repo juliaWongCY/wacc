@@ -1,20 +1,15 @@
-# a simple increment function definition and usage
-
-# Output:
-# 1
-# 4
-
 # Program:
 
 begin
-  int inc(int x) is
-    return x + 1
-  end
-  int x = 0 ;
-  x = call inc(x) ;
-  println x ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  println x
+  char continue = 'Y' ;
+  int buff = 0 ;
+  while continue != 'N' do
+    print "Please input an integer: " ;
+    read buff ;
+    print "echo input: " ;
+    println buff ;
+    println "Do you want to continue entering input?" ;
+    println "(enter Y for \'yes\' and N for \'no\')" ;
+    read continue
+  done
 end

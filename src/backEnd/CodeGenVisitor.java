@@ -90,7 +90,7 @@ public class CodeGenVisitor {
 
         ArgListNode argListNode = (ArgListNode) node;
         if (argListNode != null) {
-            for (int i = argListNode.getSize(); i >= 0; i--) {
+            for (int i = argListNode.getSize() - 1; i >= 0; i--) {
                 ExpressionNode arg = argListNode.getArgs().get(i);
 
                 instructions = visitExpression(arg, instructions, registers);
@@ -157,7 +157,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitCallAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         CallAsRNode cNode = (CallAsRNode) node;
         ArgListNode aNode = cNode.getArgList();
 
@@ -868,11 +867,8 @@ public class CodeGenVisitor {
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         List<Instruction> instructionsToBeAddedMain = new ArrayList<>();
-        List<Instruction> instructionsToBeAddedTypeLabel = new ArrayList<>();
-        List<Instruction> instructionsToBeAddedPrintLabel = new ArrayList<>();
 
-        Label labelPrintln, labelPrintType = null;
-
+        List<Label> labels = new ArrayList<>();
 
         PrintlnStatNode printNode = (PrintlnStatNode) node;
         ExpressionNode printExp = (ExpressionNode) printNode.getExpr();
@@ -888,44 +884,41 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAddedMain.add(new BL("p_print_" + exprType));
 
-            labelPrintType = new Label("p_print_" + exprType); //0
+            labels.add(new Label("p_print_" + exprType));
 
-            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
 
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
 
-            instructions.add(labelPrintType,
+            instructions.add(labels.get(0),
                     instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
+
         instructionsToBeAddedMain.add(new BL("p_print_ln"));
-        labelPrintln = new Label("p_print_ln"); //1
+
+        labels.add(new Label("p_print_ln"));
 
         if (typeIndicator != Util.CHAR_TYPE) {
-            instructions.add(labelPrintln, new ArrayList<>(
+            instructions.add(labels.get(1), new ArrayList<>(
                     Arrays.asList(new PUSH(registers.getLinkReg()))));
         } else {
-            instructions.add(labelPrintType, new ArrayList<>(
+            instructions.add(labels.get(0), new ArrayList<>(
                     Arrays.asList(new PUSH(registers.getLinkReg()))));
         }
-
-
-//        instructionsToBeAddedPrintLabel.add(new PUSH(registers.getLinkReg()));
-
-//        instructions.add(labelPrintln, instructionsToBeAddedPrintLabel);
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
         //Add a new line
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
-//        instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
+
 
         if (typeIndicator != Util.CHAR_TYPE) {
-            instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
+            instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(
                     new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
         } else {
-            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
+            instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(
                     new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
         }
 
@@ -933,21 +926,24 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
         //printings under the label p_print_println
-        instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(
+
+        instructions.add(labels.get(0), new ArrayList<>(Arrays.asList(
                 new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                 new BL(typeIndicator == Util.CHAR_TYPE ? "puts" : "printf")
         )));
 
-        instructions.add(labelPrintType, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+
+        instructions.add(labels.get(0), instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         //For types other than char. Printings under the label p_print_TYPE
         if(typeIndicator != Util.CHAR_TYPE){
-            instructions.add(labelPrintln, new ArrayList<>(Arrays.asList(
-                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+
+            instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(
+            new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                     new BL("puts")
             )));
 
-            instructions.add(labelPrintln, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+            instructions.add(labels.get(1), instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         }
 
@@ -1162,6 +1158,7 @@ public class CodeGenVisitor {
                 funcName,
                 Util.convertTypeToIndicator(fNode.getRetType()),
                 paramSymbolTable);
+        varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
@@ -1177,7 +1174,6 @@ public class CodeGenVisitor {
     public static AssemblyCode visitProgramNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
         funcSymbolTable = new FuncSymbolTable();
-        varSymbolTable  = new VarSymbolTable();
 
         instructions.add(new Header(".text\n\n"), null);
         instructions.add(new Header(".global main\n"), null);
@@ -1189,6 +1185,7 @@ public class CodeGenVisitor {
         }
 
         instructions.returnMainLabel();
+        varSymbolTable  = new VarSymbolTable();
 
 
         //PUSH {LR}

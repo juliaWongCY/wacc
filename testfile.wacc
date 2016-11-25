@@ -1,4 +1,4 @@
-# attempt dereference of a null pair by using it
+# attempt dereference of a null pair by reading into an element of it
 
 # Output:
 # #runtime_error#
@@ -10,5 +10,5 @@
 
 begin
 	pair(int, int) p = null ;
-	int x = snd p
+	read fst p
 end

@@ -6,6 +6,7 @@ import backEnd.general.Label;
 import backEnd.instructions.*;
 import backEnd.instructions.binaryOp.ADDS;
 import backEnd.instructions.binaryOp.MOV;
+import backEnd.instructions.branch.BEQ;
 import backEnd.instructions.branch.BL;
 import backEnd.instructions.branch.BLEQ;
 import backEnd.instructions.load.LDR;
@@ -13,13 +14,12 @@ import backEnd.instructions.load.LDREQ;
 import backEnd.instructions.load.LDRNE;
 import type.Type;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MessageGenerator {
 
     private static final String HEADER_WORD = "\t.word";
+
 
     public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
         switch(typeCode) {
@@ -56,13 +56,13 @@ public class MessageGenerator {
 
 
 
+
     /////////////////START OF PRINT TYPE MESSAGE FUNCTIONS//////////////////////
 
     ////////////////For print and println instructions/////////////////////////
     public AssemblyCode generateNewLine(AssemblyCode instructions){
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
-
+                    headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
         return instructions;
     }
 
@@ -182,22 +182,31 @@ public class MessageGenerator {
         divideByZeroInstrs.add(new CMP(registers.getR1Reg(), 0));
         divideByZeroInstrs.add(new LDREQ(registers.getR0Reg(), new Label(
                 "msg_" + (instructions.getNumberOfMessage() - 2))));
-//        divideByZeroInstrs.add(new BLEQ(new Label("p_throw_runtime_error")));
         divideByZeroInstrs.add(new BLEQ("p_throw_runtime_error"));
 
         return divideByZeroInstrs;
     }
 
 
+    public List<Instruction> generateRuntimeErrorInstructions(Registers registers,
+                                                         AssemblyCode instructions) {
+        List<Instruction> runtimeErrorInstructions = new ArrayList<Instruction>();
+
+        runtimeErrorInstructions.add(new CMP(registers.getR0Reg(), 0));
+        runtimeErrorInstructions.add(new LDREQ(registers.getR0Reg(),
+                new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+        runtimeErrorInstructions.add(new BEQ("p_throw_runtime_error"));
+
+        return runtimeErrorInstructions;
+    }
+
     public List<Instruction> generateRuntimeInstructions(Registers registers,
                                                          AssemblyCode instructions) {
         List<Instruction> runtimeInstrs = new ArrayList<Instruction>();
 
         runtimeInstrs.add(new BL("p_print_string"));
-//        runtimeInstrs.add(new BL(new Label("p_print_string")));
         runtimeInstrs.add(new MOV(registers.getR0Reg(), -1));
         runtimeInstrs.add(new BL("exit"));
-//        runtimeInstrs.add(new BL(new Label("exit")));
         return runtimeInstrs;
     }
 

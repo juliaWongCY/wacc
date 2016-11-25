@@ -377,7 +377,7 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.getMessageGenerator().
                 generatePrintStringTypeMessage(
-                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
+                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\\0\""); // todo: check const
         instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -776,14 +776,14 @@ public class CodeGenVisitor {
                 registers, instructions));
 
         instructions.add(new Header(".data"), null);
-        String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\"";
+        String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
         instructions.getMessageGenerator().generatePrintStringTypeMessage(
-                instructions, errorMessage.length() - 2, errorMessage);
+                instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
 
         Label printFreePair = new Label("p_free_pair");
         instructions.add(printFreePair, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
         instructions.add(printFreePair,
-                instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
+                instructions.getMessageGenerator().generateRuntimeErrorInstructions(registers, instructions));
 
         List<Instruction> printFreePairInstructions = new ArrayList<>();
         printFreePairInstructions.add(new PUSH(registers.getR0Reg()));
@@ -803,7 +803,7 @@ public class CodeGenVisitor {
         printThrowRunTimeInstructions.add(new BL("p_print_string"));
         printThrowRunTimeInstructions.add(new MOV(registers.getR0Reg(), -1));
         printThrowRunTimeInstructions.add(new BL("exit"));
-        instructions.add(printThrowRunTime, printFreePairInstructions);
+        instructions.add(printThrowRunTime, printThrowRunTimeInstructions);
 
         Label printString = new Label("p_print_string");
         instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
@@ -1232,7 +1232,7 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 0));
         instructionsToBeAdded.add(new POP(registers.getPCReg()));
-        instructionsToBeAdded.add(new HeaderInstr(".ltorg"));
+        instructionsToBeAdded.add(new HeaderInstr("\t.ltorg"));
 
         //Add the instructions to be added into the assembly code wrapper class.
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);

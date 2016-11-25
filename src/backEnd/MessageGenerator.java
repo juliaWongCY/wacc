@@ -147,7 +147,7 @@ public class MessageGenerator {
 
     public AssemblyCode generatePrintArrayPairTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 3, "\t\"%p\\0\""));
+                headerMessages(HEADER_WORD, 3, "\t.ascii \"%p\\0\""));
 
         return instructions;
     }

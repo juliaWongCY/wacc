@@ -1041,10 +1041,12 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
 
             //instructions under L1
-            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
+
+                instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
                     registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
-            instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
-            instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
+                instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+                instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
+
 
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
             labels.add(readLabel);

@@ -409,15 +409,15 @@ public class CodeGenVisitor {
         StringLiterNode strNode = (StringLiterNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
-                        new Label("msg_" + instructions.getNumberOfMessage())))));
+            Label label = new Label("msg_" + instructions.getNumberOfMessage());
 
-        instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
-        instructionsToBeAdded.add(new HeaderInstr("\t.ascii " +  strNode.getValue()));
+            instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), label))));
 
-        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                instructionsToBeAdded);
+            instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
+            instructionsToBeAdded.add(new HeaderInstr("\t.ascii " + strNode.getValue()));
+
+            instructions.add(label, instructionsToBeAdded);
 
         return instructions;
     }
@@ -974,10 +974,10 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
-        if(printExp instanceof PairLiterNode){
-            instructions = visitExpression(printExp, instructions, registers);
-            return instructions;
-        }
+//        if(printExp instanceof PairLiterNode){
+//            instructions = visitExpression(printExp, instructions, registers);
+//            return instructions;
+//        }
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
@@ -988,7 +988,7 @@ public class CodeGenVisitor {
             instructionsToBeAddedMain.add(new BL("putchar"));
         } else {
             instructionsToBeAddedMain.add(new BL("p_print_" + exprType));
-            labelPrintType = new Label("p_print_" + exprType); //0
+            labelPrintType = new Label("p_print_" + exprType);
 
             instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
 

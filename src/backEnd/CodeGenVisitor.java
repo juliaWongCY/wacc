@@ -436,8 +436,9 @@ public class CodeGenVisitor {
                 break;
             case NEG:
                 String errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
+                int size = errorMessage.length() - 3;
                 instructions.getMessageGenerator().generatePrintStringTypeMessage(
-                        instructions, errorMessage.length() - 2, errorMessage);
+                        instructions, size, errorMessage);
 
                 Label printStringLabel = new Label("p_print_string");
                 instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
@@ -520,7 +521,7 @@ public class CodeGenVisitor {
                 }
 
                 instructions.getMessageGenerator().generatePrintStringTypeMessage(
-                        instructions, errorMessage.length() - 2, errorMessage);
+                        instructions, errorMessage.length() - 3, errorMessage);
             }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
@@ -1021,6 +1022,7 @@ public class CodeGenVisitor {
 
         ReadStatNode rNode = (ReadStatNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        List<Instruction> instructionsForHeader = new ArrayList<>();
 
         List<Label> labels = new ArrayList<>();
         labels.add(instructions.getCurrentLabel());
@@ -1030,14 +1032,13 @@ public class CodeGenVisitor {
         if (rNode.getAssignLHS() instanceof IdentAsLNode) {
             IdentAsLNode target = (IdentAsLNode) rNode.getAssignLHS();
             if (target.getId().getTypeIndicator() == Util.INT_TYPE) {
-                instructionsToBeAdded.add(new HeaderInstr("\t.word", 3));
+                instructionsForHeader.add(new HeaderInstr("\t.word", 3));
             } else {
-                instructionsToBeAdded.add(new HeaderInstr("\t.word", 4));
+                instructionsForHeader.add(new HeaderInstr("\t.word", 4));
             }
-            instructionsToBeAdded.add(new HeaderInstr("\t.ascii \"%d\\0\""));
-            instructions.add(msgLabel, instructionsToBeAdded);
+            instructionsForHeader.add(new HeaderInstr("\t.ascii \"%d\\0\""));
+            instructions.add(msgLabel, instructionsForHeader);
             //todo: assumed main label didn't get changed
-            instructionsToBeAdded.clear();
 
             //instructions under L1
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
@@ -1063,10 +1064,10 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(), msgLabel));
         instructionsToBeAdded.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
         instructionsToBeAdded.add(new BL("scanf"));
+        instructionsToBeAdded.add(new POP(registers.getPCReg()));
 
-        //System.out.printf(labels.get(1).toString());
         instructions.add(labels.get(1), instructionsToBeAdded);
-        instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
+        //instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
         
         return instructions;
     }
@@ -1225,6 +1226,7 @@ public class CodeGenVisitor {
         }
 
         instructions.returnMainLabel();
+//        instructions.setNumberOfMessage(0);
         varSymbolTable  = new VarSymbolTable();
 
 

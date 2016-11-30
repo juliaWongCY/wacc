@@ -56,6 +56,23 @@ public class VarSymbolTable {
         }
     }
 
+
+    public void clearVariables(){
+        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        Map<String, Value> newVarTable = new HashMap<>();
+        while(iter.hasNext()){
+            Map.Entry<String, Value> entry = iter.next();
+            if (entry.getKey().startsWith("f_inc")){
+                newVarTable.put(entry.getKey(), entry.getValue());
+            }
+
+        }
+        varTable = newVarTable;
+
+
+    }
+
+
     public int getVarLocalSize() {
         int size = 0;
         Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();

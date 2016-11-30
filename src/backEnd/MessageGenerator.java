@@ -15,6 +15,8 @@ import java.util.*;
 public class MessageGenerator {
 
     private static final String HEADER_WORD = "\t.word";
+    private boolean hasStringMsg  = false;
+    private boolean hasPrintlnMsg = false;
 
 
     public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
@@ -57,6 +59,7 @@ public class MessageGenerator {
 
     ////////////////For print and println instructions/////////////////////////
     public AssemblyCode generateNewLine(AssemblyCode instructions){
+        hasPrintlnMsg = true;
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                     headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
         return instructions;
@@ -124,6 +127,7 @@ public class MessageGenerator {
     }
 
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions) {
+        hasStringMsg = true;
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s\\0\""));
 
@@ -132,6 +136,7 @@ public class MessageGenerator {
 
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions,
                                                        int stringSize, String string) {
+        hasStringMsg = true;
         instructions.add(new Header(".data"), null);
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages("\t.word", stringSize, "\t.ascii " + string));
@@ -309,4 +314,14 @@ public class MessageGenerator {
                 new HeaderInstr(word, messageLength), new HeaderInstr((output))));
     }
 
+
+    ////////////////Helper function///////////////////////////////
+
+    public boolean hasStringMsg() {
+        return hasStringMsg;
+    }
+
+    public boolean hasPrintlnMsg() {
+        return hasPrintlnMsg;
+    }
 }

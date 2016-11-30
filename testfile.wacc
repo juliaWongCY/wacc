@@ -1,19 +1,15 @@
-# simple input/output loop
+# echo the user's input int
 
 # Output:
-# Please input an integer: #input#
-# echo input: #output#
-# Do you want to continue entering input?
-# (enter Y for 'yes' and N for 'no')
+# enter an integer to echo
 # #input#
-# ...
+# #output#
 
 # Program:
 
 begin
-    println buff ;
-    println "Do you want to continue entering input?" ;
-    println "(enter Y for \'yes\' and N for \'no\')" ;
-    read continue
-  done
+  int x = 1 ;
+  println "enter an integer to echo";
+  read x ;
+  println x
 end

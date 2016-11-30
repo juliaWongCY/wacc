@@ -32,6 +32,7 @@ public class CodeGenVisitor {
 
     private static VarSymbolTable varSymbolTable;
     private static FuncSymbolTable funcSymbolTable;
+
     //private static List<Label> labels;
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
@@ -405,6 +406,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitStringLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
 
         StringLiterNode strNode = (StringLiterNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
@@ -960,6 +962,7 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
+
         List<Instruction> instructionsToBeAddedMain = new ArrayList<>();
 
         Label labelPrintType = null;
@@ -979,6 +982,7 @@ public class CodeGenVisitor {
 //            instructions = visitExpression(printExp, instructions, registers);
 //            return instructions;
 //        }
+
 
         instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
@@ -1041,7 +1045,6 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
 
             //instructions under L1
-
                 instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
                     registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
                 instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
@@ -1059,7 +1062,6 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
 
-        instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
         instructionsToBeAdded.clear();
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getR0Reg()));

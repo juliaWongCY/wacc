@@ -11,8 +11,14 @@
 # Program:
 
 begin
+    bool a = true;
+    int b = 1;
+    int c = 2;
     print "a string" ;
     println "this is another string" ;
-    println "this is yet another string" ;
+    println "this yet another string" ;
+    println a ;
+    println b ;
+    println c ;
     println 'c'
 end

@@ -872,6 +872,8 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        // Todo: problem with duplicate messages should be caused message center not checking if that message is generated before
+
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         PrintlnStatNode pNode = (PrintlnStatNode) node;
@@ -910,7 +912,7 @@ public class CodeGenVisitor {
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
 
-        if (!instructions.getMessageGenerator().hasPrintlnMsg()) {
+//        if (!instructions.getMessageGenerator().hasPrintlnMsg()) {
             //Add a new line
             instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
@@ -943,7 +945,7 @@ public class CodeGenVisitor {
 
                 instructions.add(printlnLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
-            }
+//            }
         }
 
         return instructions;

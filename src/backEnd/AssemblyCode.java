@@ -150,6 +150,10 @@ public class AssemblyCode {
         currentLabel = new Label("f_" + funcName);
     }
 
+    public void clearVariable(AssemblyCode instructions){
+        varSymbolTable.clearVariables();
+    }
+
 
 
 }

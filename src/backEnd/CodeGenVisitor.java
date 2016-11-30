@@ -1087,13 +1087,13 @@ public class CodeGenVisitor {
                 new ArrayList<>(Arrays.asList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
 
-        if (varSymbolTable.getVarLocalSize() > 0) {
-            instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(
-                            new ADD(registers.getStackPtrReg(),
-                                    registers.getStackPtrReg(),
-                                    varSymbolTable.getVarLocalSize()))));
-        }
+//        if (varSymbolTable.getVarLocalSize() > 0) {
+//            instructions.add(instructions.getCurrentLabel(),
+//                    new ArrayList<>(Arrays.asList(
+//                            new ADD(registers.getStackPtrReg(),
+//                                    registers.getStackPtrReg(),
+//                                    varSymbolTable.getVarLocalSize()))));
+//        }
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
 
@@ -1181,6 +1181,7 @@ public class CodeGenVisitor {
         String funcName = fNode.getFunctionName();
         List<String> paramNames = null;
         List<Type> paramTypes = null;
+
         if (fNode.getParamListNode() != null) {
             paramNames = fNode.getParamListNode().getParamNames();
             try {
@@ -1212,6 +1213,7 @@ public class CodeGenVisitor {
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);
+//        instructions.clearVariable(instructions);
 
         return instructions;
     }

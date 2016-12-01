@@ -1,24 +1,9 @@
-# simple input/output loop
-
-# Output:
-# Please input an integer: #input#
-# echo input: #output#
-# Do you want to continue entering input?
-# (enter Y for 'yes' and N for 'no')
-# #input#
-# ...
-
-# Program:
-
 begin
-    bool a = true;
-    int b = 1;
-    int c = 2;
-    print "a string" ;
-    println "this is another string" ;
-    println "this yet another string" ;
-    println a ;
-    println b ;
-    println c ;
-    println 'c'
+    println "a string" ; println "another string"
+    ;
+    println 'c'; println 'd'
+    ;
+    int a = 1; int b = 2; println a; println b
+    ;
+    bool c = true; bool d = false; println c; println d
 end

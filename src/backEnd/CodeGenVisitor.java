@@ -286,9 +286,7 @@ public class CodeGenVisitor {
         instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
         instructions = generatePrintStringMessage(instructions, registers);
 
-        List<Instruction> runTimeInstructions = new ArrayList<>();
-        runTimeInstructions = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
-        instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
+        instructions = generateRuntimeErrorMessage(instructions, registers);
 
         List<Instruction> boundsInstructions = new ArrayList<>();
         boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(instructions, registers);
@@ -391,6 +389,8 @@ public class CodeGenVisitor {
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);
+        instructions = generateRuntimeErrorMessage(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
         
         return instructions;
     }
@@ -448,8 +448,7 @@ public class CodeGenVisitor {
                 instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
                 instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
                         registers, instructions));
-                instructions.add(new Label("p_throw_runtime_error"),
-                        instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
+                instructions = generateRuntimeErrorMessage(instructions, registers);
 
                 break;
             case LEN:
@@ -512,10 +511,8 @@ public class CodeGenVisitor {
 
                 instructions.getMessageGenerator().generatePrintErrorMessage(
                         instructions, errorMessage.length() - 3, errorMessage);
-                instructions.add(
-                        new Label("p_throw_runtime_error"),
-                        instructions.getMessageGenerator().generateRuntimeInstructions(
-                                registers, instructions));
+
+                instructions = generateRuntimeErrorMessage(instructions, registers);
 
                 instructions = generatePrintStringMessage(instructions, registers);
 
@@ -1334,6 +1331,16 @@ public class CodeGenVisitor {
                     new BL("printf")
             )));
             instructions.add(label, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        }
+        return instructions;
+    }
+
+    private static AssemblyCode generateRuntimeErrorMessage(AssemblyCode instructions, Registers registers) {
+        if (hasErrorMsgs[Util.RUNTIME_ERROR] == null) {
+            List<Instruction> runTimeInstructions
+                    = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
+            instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
+            hasErrorMsgs[Util.RUNTIME_ERROR] = 1;
         }
         return instructions;
     }

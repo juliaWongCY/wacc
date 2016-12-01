@@ -244,15 +244,6 @@ public class MessageGenerator {
 
         instructions.add(new Label("p_check_null_pointer"), nullPointerInstructions);
 
-        instructions.add(new Label("p_throw_runtime_error"), generateRuntimeInstructions(registers, instructions));
-
-        List<Instruction> printStringInstructions= new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg())));
-        printStringInstructions.addAll(generatePrintStringInstructions(registers, instructions));
-        printStringInstructions.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
-        printStringInstructions.add(new BL("printf"));
-        printStringInstructions.addAll(generateEndPrintInstructions(instructions, registers));
-
-        instructions.add(new Label("p_print_string"), printStringInstructions);
         return instructions;
     }
 

@@ -1,23 +1,19 @@
-# register machine style addition
+# find the max of two numbers
 
 # Output:
-# initial value of x: 3
-# (+)(+)(+)(+)(+)(+)(+)
-# final value of x: 10
+# max value = 17
 
 # Program:
 
 begin
-  int x = 3 ;
-  int y = 7 ;
-  print "initial value of x: " ;
-  println x ;
-  while y > 0 do
-    print "(+)" ;
-    x = x + 1 ;
-    y = y - 1
+  int i = 0 ;
+  int x = 10 ;
+  int y = 17 ;
+  while (y > 0 || x > 0) do
+    x = x - 1 ;
+    y = y - 1 ;
+    i = i + 1
   done ;
-  println "" ;
-  print "final value of x: " ;
-  println x
+  print "max value = ";
+  println i
 end

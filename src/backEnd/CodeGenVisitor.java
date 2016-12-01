@@ -552,7 +552,7 @@ public class CodeGenVisitor {
                     instructionsToBeAdded.add(new MOV(resultReg,
                             ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
                                     registers.getR0Reg() : registers.getR1Reg()));
-                    instructions = generateDivideByZeroInstr(instructions, registers);
+                    instructions = generateDivideByZeroError(instructions, registers);
                 } else {
                     instructionsToBeAdded.add(new BLNE("p_throw_overflow_error"));
                 }
@@ -1277,7 +1277,7 @@ public class CodeGenVisitor {
         return instructions;
     }
 
-    private static AssemblyCode generateDivideByZeroInstr(AssemblyCode instructions, Registers registers) {
+    private static AssemblyCode generateDivideByZeroError(AssemblyCode instructions, Registers registers) {
         if (hasErrorMsgs[Util.DIVIDE_ZERO_ERROR] == null) {
             String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
             int size = errorMessage.length() - 3;

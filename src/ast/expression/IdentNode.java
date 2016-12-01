@@ -3,6 +3,7 @@ package ast.expression;
 import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
+import type.FunctionType;
 import type.Type;
 
 public class IdentNode extends ExpressionNode {
@@ -22,6 +23,9 @@ public class IdentNode extends ExpressionNode {
 
         try {
             Type type = st.lookUpVariable(id);
+            if (type instanceof FunctionType) {
+                type = ((FunctionType) type).getReturnType();
+            }
             typeIndicator = Util.convertTypeToIndicator(type);
             return type;
         } catch (SemanticException e) {

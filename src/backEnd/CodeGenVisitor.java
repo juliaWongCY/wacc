@@ -875,7 +875,6 @@ public class CodeGenVisitor {
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         // Todo: problem with duplicate messages should be caused message center not checking if that message is generated before
 
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         PrintlnStatNode pNode = (PrintlnStatNode) node;
         ExpressionNode printExp = pNode.getExpr();
@@ -893,7 +892,6 @@ public class CodeGenVisitor {
             instructionsToBeAdded.add(new BL("putchar"));
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
-
 
             if (hasPrintTypes[typeIndicator] == null) {
                 instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
@@ -938,64 +936,102 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPrintStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
 
-
-        List<Instruction> instructionsToBeAddedMain = new ArrayList<>();
-
-        Label labelPrintType = null;
-
-        PrintStatNode printNode = (PrintStatNode) node;
-        ExpressionNode printExp = printNode.getExpr();
-
-        if (printExp instanceof PairLiterNode) {
-            instructions = visitPairElemNode(printExp, instructions, registers);
-            return instructions;
-        }
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        PrintStatNode pNode = (PrintStatNode) node;
+        ExpressionNode printExp = pNode.getExpr();
 
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
-//        if(printExp instanceof PairLiterNode){
-//            instructions = visitExpression(printExp, instructions, registers);
-//            return instructions;
-//        }
+        Label printTypeLabel = new Label("p_print_" + exprType);
+        Label printlnLabel = new Label("p_print_ln");
 
-
-        instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
 
-
         if(typeIndicator == Util.CHAR_TYPE){
-            // We do not need a new label when printing a char
-            instructionsToBeAddedMain.add(new BL("putchar"));
+            instructionsToBeAdded.add(new BL("putchar"));
         } else {
-            instructionsToBeAddedMain.add(new BL("p_print_" + exprType));
-            labelPrintType = new Label("p_print_" + exprType);
+            instructionsToBeAdded.add(new BL("p_print_" + exprType));
 
-            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+            if (hasPrintTypes[typeIndicator] == null) {
+                instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
+                hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
+                instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+                instructions.add(printTypeLabel,
+                        instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+                instructions.add(printTypeLabel, new ArrayList<>(Arrays.asList(
+                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                        new BL("printf")
+                )));
+                instructions.add(printTypeLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+            }
 
-            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-
-            instructions.add(labelPrintType,
-                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
-        instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
 
-        if(typeIndicator != Util.CHAR_TYPE){
-            instructions.add(labelPrintType,
-                    new ArrayList<>(Arrays.asList(
-                            new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                            new BL("printf")
-                    )));
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-            instructions.add(labelPrintType,
-                    instructions.getMessageGenerator()
-                            .generateEndPrintInstructions(instructions, registers));
-        }
-        
         return instructions;
+//        List<Instruction> instructionsToBeAddedMain = new ArrayList<>();
+//
+//        Label labelPrintType = null;
+//
+//        PrintStatNode printNode = (PrintStatNode) node;
+//        ExpressionNode printExp = printNode.getExpr();
+//
+//        if (printExp instanceof PairLiterNode) {
+//            instructions = visitPairElemNode(printExp, instructions, registers);
+//            return instructions;
+//        }
+//
+//        int typeIndicator = printExp.getTypeIndicator();
+//        String exprType = convertTypeToString(typeIndicator);
+//
+////        if(printExp instanceof PairLiterNode){
+////            instructions = visitExpression(printExp, instructions, registers);
+////            return instructions;
+////        }
+//
+//
+//        instructionsToBeAddedMain.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+//        instructions.add(new Header(".data"), null);
+//
+//
+//        if(typeIndicator == Util.CHAR_TYPE){
+//            // We do not need a new label when printing a char
+//            instructionsToBeAddedMain.add(new BL("putchar"));
+//        } else {
+//            instructionsToBeAddedMain.add(new BL("p_print_" + exprType));
+//            labelPrintType = new Label("p_print_" + exprType);
+//
+//            instructions.add(labelPrintType, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+//
+//            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+//
+//            instructions.add(labelPrintType,
+//                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+//        }
+//
+//        // We need to visit the expression node inside print statement
+//        instructions = visitExpression(printExp, instructions, registers);
+//        instructions.add(instructions.getCurrentLabel(), instructionsToBeAddedMain);
+//
+//        if(typeIndicator != Util.CHAR_TYPE){
+//            instructions.add(labelPrintType,
+//                    new ArrayList<>(Arrays.asList(
+//                            new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+//                            new BL("printf")
+//                    )));
+//
+//            instructions.add(labelPrintType,
+//                    instructions.getMessageGenerator()
+//                            .generateEndPrintInstructions(instructions, registers));
+//        }
+//
+//        return instructions;
     }
 
     public static AssemblyCode visitReadStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {

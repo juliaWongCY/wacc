@@ -33,7 +33,8 @@ public class CodeGenVisitor {
 
     //private static List<Label> labels;
     private static boolean hasPrintlnMsg = false;
-    private static Integer[] hasPrintTypes = new Integer[6];
+    private static Integer[] hasPrintTypes = new Integer[Util.NUMBER_OF_TYPE];
+    private static Integer[] hasErrorMsgs = new Integer[Util.NUMBER_OF_ERROR];
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
 
@@ -283,6 +284,19 @@ public class CodeGenVisitor {
         arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
 
         instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+        if (hasPrintTypes[Util.STRING_TYPE] == null) {
+            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+            Label printString = new Label("p_print_string");
+
+            instructions.add(printString, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+            instructions.add(printString,
+                    instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
+            instructions.add(printString, new ArrayList<>(Arrays.asList(
+                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4), new BL("printf"))));
+            instructions.add(printString,
+                    instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        }
 
         List<Instruction> runTimeInstructions = new ArrayList<>();
         runTimeInstructions = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
@@ -304,15 +318,6 @@ public class CodeGenVisitor {
 
         instructions.add(instructions.getCurrentLabel(), arrayElemInstructions);
 
-        Label printString = new Label("p_print_string");
-
-        instructions.add(printString, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
-        instructions.add(printString,
-                instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
-        instructions.add(printString, new ArrayList<>(Arrays.asList(
-                new ADD(registers.getR0Reg(), registers.getR0Reg(), 4), new BL("printf"))));
-        instructions.add(printString,
-                instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
         return instructions;
     }
@@ -378,8 +383,12 @@ public class CodeGenVisitor {
         PairElemNode pNode = (PairElemNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.getMessageGenerator().
-                generatePrintStringTypeMessage(
+                generatePrintErrorMessage(
                         instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
+        if (hasPrintTypes[Util.STRING_TYPE] == null) {
+            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+        }
 //        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -439,10 +448,23 @@ public class CodeGenVisitor {
             case NEG:
                 String errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
                 int size = errorMessage.length() - 3;
-                instructions.getMessageGenerator().generatePrintStringTypeMessage(
+                instructions.getMessageGenerator().generatePrintErrorMessage(
                         instructions, size, errorMessage);
+                if (hasPrintTypes[Util.STRING_TYPE] == null) {
+                    hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+                    instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+                    Label printStringLabel = new Label("p_print_string");
+                    instructions.add(printStringLabel, new ArrayList<Instruction>(
+                            Arrays.asList(new PUSH(registers.getLinkReg()))));
+                    instructions.add(printStringLabel, instructions.getMessageGenerator().generatePrintStringInstructions(
+                            registers, instructions));
+                    instructions.add(printStringLabel,
+                            new ArrayList<>(Arrays.asList(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                                    new BL("printf"))));
+                    instructions.add(printStringLabel,
+                            instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+                }
 
-                Label printStringLabel = new Label("p_print_string");
                 instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
                         registers.getNextAvailableVariableReg(), 0));
 
@@ -450,19 +472,9 @@ public class CodeGenVisitor {
                 instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
                 instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
                         registers, instructions));
-                instructions.add(new Label("p_throw_r" +
-                                "untime_error"),
+                instructions.add(new Label("p_throw_runtime_error"),
                         instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions));
 
-                instructions.add(printStringLabel, new ArrayList<Instruction>(
-                        Arrays.asList(new PUSH(registers.getLinkReg()))));
-                instructions.add(printStringLabel, instructions.getMessageGenerator().generatePrintStringInstructions(
-                        registers, instructions));
-                instructions.add(printStringLabel,
-                        new ArrayList<>(Arrays.asList(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                                new BL("printf"))));
-                instructions.add(printStringLabel,
-                        instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
                 break;
             case LEN:
                 instructions.add(instructions.getCurrentLabel(),
@@ -487,7 +499,7 @@ public class CodeGenVisitor {
         instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
         RegisterARM exprLReg = registers.getNextAvailableVariableReg();
         if (exprLReg == RegisterARM.R10) {
-            instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(new PUSH(exprLReg))));
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new PUSH(exprLReg))));
         }
 
         Registers updatedRegs = registers.addRegInUsedList(exprLReg);
@@ -499,7 +511,7 @@ public class CodeGenVisitor {
 
         if (exprRReg == RegisterARM.R10 && exprLReg == RegisterARM.R10) {
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<Instruction>(Arrays.asList(new POP(RegisterARM.R11))));
+                    new ArrayList<>(Arrays.asList(new POP(RegisterARM.R11))));
             exprLReg = RegisterARM.R11;
         }
 
@@ -522,8 +534,33 @@ public class CodeGenVisitor {
                     errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
                 }
 
-                instructions.getMessageGenerator().generatePrintStringTypeMessage(
+                instructions.getMessageGenerator().generatePrintErrorMessage(
                         instructions, errorMessage.length() - 3, errorMessage);
+                instructions.add(
+                        new Label("p_throw_runtime_error"),
+                        instructions.getMessageGenerator().generateRuntimeInstructions(
+                                registers, instructions));
+
+                if (hasPrintTypes[Util.STRING_TYPE] == null) {
+                    hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+                    instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+                    Label printStringLabel = new Label("p_print_string");
+
+                    instructions.add(printStringLabel, new ArrayList<Instruction>(Arrays.asList(
+                            new PUSH(RegisterARM.LR))));
+                    instructions.add(
+                            printStringLabel,
+                            instructions.getMessageGenerator().generatePrintStringInstructions(
+                                    registers, instructions));
+                    instructions.add(
+                            printStringLabel,
+                            new ArrayList<>(Arrays.asList(new ADD(
+                                            registers.getR0Reg(), registers.getR0Reg(), 4),
+                                    new BL("printf"))));
+                    instructions.add(printStringLabel,
+                            instructions.getMessageGenerator()
+                                    .generateEndPrintInstructions(instructions, registers));
+                }
             }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
@@ -545,7 +582,7 @@ public class CodeGenVisitor {
                 instructionsToBeAdded.add(new MOVNE(resultReg, 1));
                 instructionsToBeAdded.add(new MOVEQ(resultReg, 0));
             } else {
-                Label printStringLabel = new Label("p_print_string");
+
                 if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)) {
                     instructionsToBeAdded.add(new ADDS(resultReg, exprLReg, exprRReg));
                 } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
@@ -590,25 +627,7 @@ public class CodeGenVisitor {
                             registers, instructions));
                 }
 
-                instructions.add(
-                        new Label("p_throw_runtime_error"),
-                        instructions.getMessageGenerator().generateRuntimeInstructions(
-                                registers, instructions));
 
-                instructions.add(printStringLabel, new ArrayList<Instruction>(Arrays.asList(
-                        new PUSH(RegisterARM.LR))));
-                instructions.add(
-                        printStringLabel,
-                        instructions.getMessageGenerator().generatePrintStringInstructions(
-                                registers, instructions));
-                instructions.add(
-                        printStringLabel,
-                        new ArrayList<>(Arrays.asList(new ADD(
-                                        registers.getR0Reg(), registers.getR0Reg(), 4),
-                                new BL("printf"))));
-                instructions.add(printStringLabel,
-                        instructions.getMessageGenerator()
-                                .generateEndPrintInstructions(instructions, registers));
 
             }
 
@@ -783,8 +802,12 @@ public class CodeGenVisitor {
 
         instructions.add(new Header(".data"), null);
         String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
-        instructions.getMessageGenerator().generatePrintStringTypeMessage(
+        instructions.getMessageGenerator().generatePrintErrorMessage(
                 instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
+        if (hasPrintTypes[Util.STRING_TYPE] == null) {
+            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+        }
 
         Label printFreePair = new Label("p_free_pair");
         instructions.add(printFreePair, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
@@ -811,16 +834,19 @@ public class CodeGenVisitor {
         printThrowRunTimeInstructions.add(new BL("exit"));
         instructions.add(printThrowRunTime, printThrowRunTimeInstructions);
 
-        Label printString = new Label("p_print_string");
-        instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
-                new PUSH(registers.getLinkReg()))));
-        instructions.add(printString,
-                instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
-        instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
-                new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                new BL("printf"))));
-        instructions.add(printString,
-                instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        if (hasPrintTypes[Util.STRING_TYPE] == null) {
+            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
+            Label printString = new Label("p_print_string");
+            instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
+                    new PUSH(registers.getLinkReg()))));
+            instructions.add(printString,
+                    instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
+            instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
+                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                    new BL("printf"))));
+            instructions.add(printString,
+                    instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        }
 
         instructions = visitExpression(((FreeStatNode) node).getExpr(), instructions, registers);
 

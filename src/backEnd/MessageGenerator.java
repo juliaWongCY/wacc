@@ -4,11 +4,9 @@ import backEnd.general.Header;
 import backEnd.general.HeaderInstr;
 import backEnd.general.Label;
 import backEnd.instructions.*;
-import backEnd.instructions.binaryOp.ADDS;
 import backEnd.instructions.binaryOp.MOV;
 import backEnd.instructions.branch.*;
 import backEnd.instructions.load.*;
-import type.Type;
 
 import java.util.*;
 
@@ -125,13 +123,11 @@ public class MessageGenerator {
         return instructions;
     }
 
-    public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions,
-                                                       int stringSize, String string) {
+    public AssemblyCode generatePrintErrorMessage(AssemblyCode instructions,
+                                                  int messageSize, String message) {
         instructions.add(new Header(".data"), null);
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages("\t.word", stringSize, "\t.ascii " + string));
-        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s" + "\\0" + "\""));
+                headerMessages("\t.word", messageSize, "\t.ascii " + message));
         return instructions;
     }
 
@@ -141,8 +137,6 @@ public class MessageGenerator {
 
         return instructions;
     }
-
-
 
     public List<Instruction> generatePrintStringInstructions(Registers registers,
                                                              AssemblyCode instructions) {
@@ -221,9 +215,9 @@ public class MessageGenerator {
     }
 
     public AssemblyCode generateArrayOutOfBoundsMessage(AssemblyCode instructions) {
-        instructions = generatePrintStringTypeMessage(instructions, 44,
+        instructions = generatePrintErrorMessage(instructions, 44,
                 "\"ArrayIndexOutOfBoundsError: negative index\\n\\0\"");
-        instructions = generatePrintStringTypeMessage(instructions, 45,
+        instructions = generatePrintErrorMessage(instructions, 45,
                 "\"ArrayIndexOutOfBoundsError: index too large\\n\\0\"");
 
         return instructions;

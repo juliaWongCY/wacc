@@ -663,8 +663,11 @@ public class CodeGenVisitor {
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
-                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
-                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+
+                //TODO!!!
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+//                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
+//                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
             } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
@@ -1045,7 +1048,7 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Arrays.asList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
-
+///////////TODO!!!!!!
 //        if (varSymbolTable.getVarLocalSize() > 0) {
 //            instructions.add(instructions.getCurrentLabel(),
 //                    new ArrayList<>(Arrays.asList(

@@ -158,13 +158,15 @@ public class MessageGenerator {
 
     /////////////////START OF GENERATE INSTRUCTIONS FUNCTIONS/////////////////
 
-    public List<Instruction> generateDivideByZeroInstructions(Registers registers, AssemblyCode instructions) {
+    public List<Instruction> generateDivideByZeroInstructions(Registers registers, AssemblyCode instructions, int msgNum) {
         List<Instruction> divideByZeroInstrs = new ArrayList<Instruction>();
 
+        divideByZeroInstrs.add(new PUSH(registers.getLinkReg()));
         divideByZeroInstrs.add(new CMP(registers.getR1Reg(), 0));
         divideByZeroInstrs.add(new LDREQ(registers.getR0Reg(), new Label(
-                "msg_" + (instructions.getNumberOfMessage() - 2))));
+                "msg_" + msgNum)));
         divideByZeroInstrs.add(new BLEQ("p_throw_runtime_error"));
+        divideByZeroInstrs.add(new POP(RegisterARM.PC));
 
         return divideByZeroInstrs;
     }
@@ -204,11 +206,11 @@ public class MessageGenerator {
     }
 
     public List<Instruction> generateOverflowInstructions(Registers registers,
-                                                          AssemblyCode instructions) {
+                                                          AssemblyCode instructions, int msgNum) {
         List<Instruction> overflowInstructions = new ArrayList<Instruction>();
 
         overflowInstructions.add(new LDR(registers.getR0Reg(), new Label(
-                "msg_" + (instructions.getNumberOfMessage() - 1))));
+                "msg_" + msgNum)));
         overflowInstructions.add(new BL("p_throw_runtime_error"));
 
         return overflowInstructions;
@@ -243,16 +245,6 @@ public class MessageGenerator {
         nullPointerInstructions.add(new POP(registers.getPCReg()));
 
         instructions.add(new Label("p_check_null_pointer"), nullPointerInstructions);
-
-        instructions.add(new Label("p_throw_runtime_error"), generateRuntimeInstructions(registers, instructions));
-
-        List<Instruction> printStringInstructions= new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg())));
-        printStringInstructions.addAll(generatePrintStringInstructions(registers, instructions));
-        printStringInstructions.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
-        printStringInstructions.add(new BL("printf"));
-        printStringInstructions.addAll(generateEndPrintInstructions(instructions, registers));
-
-        instructions.add(new Label("p_print_string"), printStringInstructions);
         return instructions;
     }
 

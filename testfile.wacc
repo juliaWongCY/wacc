@@ -20,3 +20,4 @@ begin
   b = call neg(b) ;
   println b
 end
+

@@ -1,9 +1,0 @@
-begin
-    #println "a string" ; println "another string"
-
-    println 'c'; println 'd'
-
-    #int a = 1; int b = 2; println a; println b
-
-    #bool c = true; bool d = false; println c; println d
-end

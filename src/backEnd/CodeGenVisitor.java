@@ -6,8 +6,6 @@ import backEnd.general.*;
 import ast.assignLeft.*;
 import ast.assignRight.*;
 import ast.expression.*;
-import ast.parameter.ParamListNode;
-import ast.parameter.ParamNode;
 import ast.statement.*;
 import backEnd.general.Label;
 import backEnd.instructions.*;
@@ -33,6 +31,8 @@ public class CodeGenVisitor {
 
     private static VarSymbolTable varSymbolTable;
     private static FuncSymbolTable funcSymbolTable;
+
+    private static Integer printLnMsg = null;
 
     //private static List<Label> labels;
 
@@ -906,15 +906,12 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BL("p_print_ln"));
 
 
-        if (!instructions.getMessageGenerator().hasPrintlnMsg()) {
             instructions.add(printlnLabel, new ArrayList<>(
                     Collections.singletonList(new PUSH(registers.getLinkReg()))));
-        }
 
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
 
-//        if (!instructions.getMessageGenerator().hasPrintlnMsg()) {
             //Add a new line
             instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
@@ -947,7 +944,6 @@ public class CodeGenVisitor {
 
                 instructions.add(printlnLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
-//            }
         }
 
         return instructions;

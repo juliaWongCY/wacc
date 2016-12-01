@@ -15,8 +15,6 @@ import java.util.*;
 public class MessageGenerator {
 
     private static final String HEADER_WORD = "\t.word";
-    private boolean hasStringMsg  = false;
-    private boolean hasPrintlnMsg = false;
 
 
     public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
@@ -51,15 +49,10 @@ public class MessageGenerator {
         }
     }
 
-
-
-
-
     /////////////////START OF PRINT TYPE MESSAGE FUNCTIONS//////////////////////
 
     ////////////////For print and println instructions/////////////////////////
     public AssemblyCode generateNewLine(AssemblyCode instructions){
-        hasPrintlnMsg = true;
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                     headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
         return instructions;
@@ -129,8 +122,6 @@ public class MessageGenerator {
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s\\0\""));
-
-        hasStringMsg = true;
         return instructions;
     }
 
@@ -141,8 +132,6 @@ public class MessageGenerator {
                 headerMessages("\t.word", stringSize, "\t.ascii " + string));
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s" + "\\0" + "\""));
-
-        hasStringMsg = true;
         return instructions;
     }
 
@@ -211,7 +200,7 @@ public class MessageGenerator {
 
     public List<Instruction> generateEndPrintInstructions(
             AssemblyCode instructions, Registers registers) {
-        List<Instruction> endPrintInstructions = new ArrayList<Instruction>();
+        List<Instruction> endPrintInstructions = new ArrayList<>();
 
         endPrintInstructions.add(new MOV(registers.getR0Reg(), 0));
         endPrintInstructions.add(new BL("fflush"));
@@ -313,14 +302,4 @@ public class MessageGenerator {
                 new HeaderInstr(word, messageLength), new HeaderInstr((output))));
     }
 
-
-    ////////////////Helper function///////////////////////////////
-
-    public boolean hasStringMsg() {
-        return hasStringMsg;
-    }
-
-    public boolean hasPrintlnMsg() {
-        return hasPrintlnMsg;
-    }
 }

@@ -659,8 +659,16 @@ public class CodeGenVisitor {
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        int type = Util.getTypeSize(assignStatNode.getAssignRHS().getTypeIndicator());
+        //TODO: getting the right type??
 
+        int type;
+
+        if((assignStatNode.getAssignRHS()) instanceof CallAsRNode){
+            type = convertAssignRHSToValue(assignStatNode.getAssignRHS(), instructions.getCurrentStackPtrPos()).getValueType();
+        } else {
+            type = Util.getTypeSize(assignStatNode.getAssignRHS().getTypeIndicator());
+
+        }
         if (type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
@@ -668,9 +676,10 @@ public class CodeGenVisitor {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
 
                 //TODO!!!
-                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
-//                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
-//                        varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+//                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+                   registers.getStackPtrReg(),
+                   varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
             } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));

@@ -38,6 +38,7 @@ public class CallAsRNode implements AssignRightNode {
         this.argList = argList;
     }
 
+
     @Override
     public int getTypeIndicator() {
         return functionId.getTypeIndicator();

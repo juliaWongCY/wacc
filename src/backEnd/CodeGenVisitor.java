@@ -905,20 +905,21 @@ public class CodeGenVisitor {
 
         instructionsToBeAdded.add(new BL("p_print_ln"));
 
-
-            instructions.add(printlnLabel, new ArrayList<>(
-                    Collections.singletonList(new PUSH(registers.getLinkReg()))));
-
         // We need to visit the expression node inside print statement
         instructions = visitExpression(printExp, instructions, registers);
 
-            //Add a new line
-            instructions = instructions.getMessageGenerator().generateNewLine(instructions);
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-            instructions.add(printlnLabel, new ArrayList<>(Collections.singletonList(
+
+        instructions.add(printlnLabel, new ArrayList<>(
+                    Collections.singletonList(new PUSH(registers.getLinkReg()))));
+
+        //Add a new line
+        instructions = instructions.getMessageGenerator().generateNewLine(instructions);
+
+        instructions.add(printlnLabel, new ArrayList<>(Collections.singletonList(
                     new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
 
-            instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
             //printings under the label p_print_println
             if (typeIndicator == Util.CHAR_TYPE) {

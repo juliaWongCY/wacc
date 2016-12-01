@@ -894,13 +894,18 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
 
-            instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
 
             if (hasPrintTypes[typeIndicator] == null) {
+                instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
                 hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
                 instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
                 instructions.add(printTypeLabel,
                         instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+                instructions.add(printTypeLabel, new ArrayList<>(Arrays.asList(
+                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                        new BL("printf")
+                )));
+                instructions.add(printTypeLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
             }
 
         }
@@ -916,13 +921,9 @@ public class CodeGenVisitor {
         if (!hasPrintlnMsg) {
             instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
-            instructions.add(printlnLabel, new ArrayList<>(
-                    Collections.singletonList(new PUSH(registers.getLinkReg()))));
-
-            instructions.add(printlnLabel, new ArrayList<>(Collections.singletonList(
-                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
-
             instructions.add(printlnLabel, new ArrayList<>(Arrays.asList(
+                    new PUSH(registers.getLinkReg()),
+                    new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))),
                     new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
                     new BL("puts")
             )));

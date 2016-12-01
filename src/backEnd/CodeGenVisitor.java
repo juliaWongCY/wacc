@@ -21,7 +21,6 @@ import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,9 +31,9 @@ public class CodeGenVisitor {
     private static VarSymbolTable varSymbolTable;
     private static FuncSymbolTable funcSymbolTable;
 
-    private static Integer printLnMsg = null;
-
     //private static List<Label> labels;
+    private static boolean hasPrintlnMsg = false;
+    private static Integer[] hasPrintTypes = new Integer[6];
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
 
@@ -910,9 +909,11 @@ public class CodeGenVisitor {
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-
         instructions.add(printlnLabel, new ArrayList<>(
                     Collections.singletonList(new PUSH(registers.getLinkReg()))));
+        //Add a new line
+        if (!hasPrintlnMsg) {
+            instructions = instructions.getMessageGenerator().generateNewLine(instructions);
 
         //Add a new line
         instructions = instructions.getMessageGenerator().generateNewLine(instructions);
@@ -920,18 +921,12 @@ public class CodeGenVisitor {
         instructions.add(printlnLabel, new ArrayList<>(Collections.singletonList(
                     new LDR(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 1))))));
 
+            instructions.add(printlnLabel, new ArrayList<>(Arrays.asList(
+                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                    new BL("puts")
+            )));
 
-            //printings under the label p_print_println
-            if (typeIndicator == Util.CHAR_TYPE) {
-                instructions.add(printlnLabel, new ArrayList<>(Arrays.asList(
-                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                        new BL("puts"))));
-                instructions.add(printlnLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-            } else {
-                instructions.add(printTypeLabel, new ArrayList<>(Arrays.asList(
-                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                        new BL("printf"))));
-                instructions.add(printTypeLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+            instructions.add(printlnLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
             }
 
@@ -945,7 +940,9 @@ public class CodeGenVisitor {
 
                 instructions.add(printlnLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
 
+            hasPrintlnMsg =true;
         }
+
 
         return instructions;
     }

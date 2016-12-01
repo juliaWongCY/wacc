@@ -284,19 +284,7 @@ public class CodeGenVisitor {
         arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
 
         instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
-            Label printString = new Label("p_print_string");
-
-            instructions.add(printString, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
-            instructions.add(printString,
-                    instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
-            instructions.add(printString, new ArrayList<>(Arrays.asList(
-                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4), new BL("printf"))));
-            instructions.add(printString,
-                    instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-        }
+        instructions = generatePrintStringMessage(instructions, registers);
 
         List<Instruction> runTimeInstructions = new ArrayList<>();
         runTimeInstructions = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
@@ -450,20 +438,8 @@ public class CodeGenVisitor {
                 int size = errorMessage.length() - 3;
                 instructions.getMessageGenerator().generatePrintErrorMessage(
                         instructions, size, errorMessage);
-                if (hasPrintTypes[Util.STRING_TYPE] == null) {
-                    hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-                    instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
-                    Label printStringLabel = new Label("p_print_string");
-                    instructions.add(printStringLabel, new ArrayList<Instruction>(
-                            Arrays.asList(new PUSH(registers.getLinkReg()))));
-                    instructions.add(printStringLabel, instructions.getMessageGenerator().generatePrintStringInstructions(
-                            registers, instructions));
-                    instructions.add(printStringLabel,
-                            new ArrayList<>(Arrays.asList(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                                    new BL("printf"))));
-                    instructions.add(printStringLabel,
-                            instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-                }
+                instructions = generatePrintStringMessage(instructions, registers);
+
 
                 instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
                         registers.getNextAvailableVariableReg(), 0));
@@ -541,26 +517,8 @@ public class CodeGenVisitor {
                         instructions.getMessageGenerator().generateRuntimeInstructions(
                                 registers, instructions));
 
-                if (hasPrintTypes[Util.STRING_TYPE] == null) {
-                    hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-                    instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
-                    Label printStringLabel = new Label("p_print_string");
+                instructions = generatePrintStringMessage(instructions, registers);
 
-                    instructions.add(printStringLabel, new ArrayList<Instruction>(Arrays.asList(
-                            new PUSH(RegisterARM.LR))));
-                    instructions.add(
-                            printStringLabel,
-                            instructions.getMessageGenerator().generatePrintStringInstructions(
-                                    registers, instructions));
-                    instructions.add(
-                            printStringLabel,
-                            new ArrayList<>(Arrays.asList(new ADD(
-                                            registers.getR0Reg(), registers.getR0Reg(), 4),
-                                    new BL("printf"))));
-                    instructions.add(printStringLabel,
-                            instructions.getMessageGenerator()
-                                    .generateEndPrintInstructions(instructions, registers));
-                }
             }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
@@ -834,19 +792,7 @@ public class CodeGenVisitor {
         printThrowRunTimeInstructions.add(new BL("exit"));
         instructions.add(printThrowRunTime, printThrowRunTimeInstructions);
 
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-            Label printString = new Label("p_print_string");
-            instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
-                    new PUSH(registers.getLinkReg()))));
-            instructions.add(printString,
-                    instructions.getMessageGenerator().generatePrintStringInstructions(registers, instructions));
-            instructions.add(printString, new ArrayList<Instruction>(Arrays.asList(
-                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                    new BL("printf"))));
-            instructions.add(printString,
-                    instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-        }
+        instructions = generatePrintStringMessage(instructions, registers);
 
         instructions = visitExpression(((FreeStatNode) node).getExpr(), instructions, registers);
 
@@ -919,18 +865,7 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
 
-            if (hasPrintTypes[typeIndicator] == null) {
-                instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
-                hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
-                instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-                instructions.add(printTypeLabel,
-                        instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
-                instructions.add(printTypeLabel, new ArrayList<>(Arrays.asList(
-                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                        new BL("printf")
-                )));
-                instructions.add(printTypeLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-            }
+            instructions = generatePrintTypeMessage(instructions, registers, typeIndicator);
 
         }
 
@@ -980,18 +915,7 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAdded.add(new BL("p_print_" + exprType));
 
-            if (hasPrintTypes[typeIndicator] == null) {
-                instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
-                hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
-                instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
-                instructions.add(printTypeLabel,
-                        instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
-                instructions.add(printTypeLabel, new ArrayList<>(Arrays.asList(
-                        new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
-                        new BL("printf")
-                )));
-                instructions.add(printTypeLabel, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
-            }
+            instructions = generatePrintTypeMessage(instructions, registers, typeIndicator);
 
         }
 
@@ -1390,6 +1314,28 @@ public class CodeGenVisitor {
             case 5: return "pair";
             default: return "No such type";
         }
+    }
+
+    private static AssemblyCode generatePrintStringMessage(AssemblyCode instructions, Registers registers) {
+        return generatePrintTypeMessage(instructions, registers, Util.STRING_TYPE);
+    }
+
+    private static AssemblyCode generatePrintTypeMessage(AssemblyCode instructions, Registers registers, int typeIndicator) {
+        Label label = new Label("p_print_" + convertTypeToString(typeIndicator));
+
+        if (hasPrintTypes[typeIndicator] == null) {
+            instructions.add(label, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
+            hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
+            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+            instructions.add(label,
+                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+            instructions.add(label, new ArrayList<>(Arrays.asList(
+                    new ADD(registers.getR0Reg(), registers.getR0Reg(), 4),
+                    new BL("printf")
+            )));
+            instructions.add(label, instructions.getMessageGenerator().generateEndPrintInstructions(instructions, registers));
+        }
+        return instructions;
     }
 
 

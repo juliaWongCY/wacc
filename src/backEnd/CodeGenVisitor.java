@@ -896,10 +896,13 @@ public class CodeGenVisitor {
 
             instructions.add(printTypeLabel, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
 
-            instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+            if (hasPrintTypes[typeIndicator] == null) {
+                hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
+                instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
+                instructions.add(printTypeLabel,
+                        instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
+            }
 
-            instructions.add(printTypeLabel,
-                    instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
         }
 
         instructionsToBeAdded.add(new BL("p_print_ln"));

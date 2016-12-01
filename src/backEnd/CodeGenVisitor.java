@@ -369,8 +369,7 @@ public class CodeGenVisitor {
                 generatePrintErrorMessage(
                         instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+            instructions = generatePrintStringMessage(instructions, registers);
         }
 //        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
 
@@ -741,8 +740,7 @@ public class CodeGenVisitor {
         instructions.getMessageGenerator().generatePrintErrorMessage(
                 instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            hasPrintTypes[Util.STRING_TYPE] = instructions.getNumberOfMessage();
-            instructions = instructions.getMessageGenerator().generatePrintStringTypeMessage(instructions);
+            instructions = generatePrintStringMessage(instructions, registers);
         }
 
         Label printFreePair = new Label("p_free_pair");

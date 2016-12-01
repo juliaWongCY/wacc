@@ -4,13 +4,20 @@ import type.*;
 
 public class Util {
 
-    public static final int EMPTY_TYPE  = -1;
-    public static final int INT_TYPE    = 0;
-    public static final int BOOL_TYPE   = 1;
-    public static final int CHAR_TYPE   = 2;
-    public static final int STRING_TYPE = 3;
-    public static final int ARRAY_TYPE  = 4;
-    public static final int PAIR_TYPE   = 5;
+    public static final int NUMBER_OF_TYPE = 6;
+    public static final int EMPTY_TYPE     = -1;
+    public static final int INT_TYPE       = 0;
+    public static final int BOOL_TYPE      = 1;
+    public static final int CHAR_TYPE      = 2;
+    public static final int STRING_TYPE    = 3;
+    public static final int ARRAY_TYPE     = 4;
+    public static final int PAIR_TYPE      = 5;
+
+    public static final int NUMBER_OF_ERROR   = 4;
+    public static final int RUNTIME_ERROR     = 0;
+    public static final int OVERFLOW_ERROR    = 1;
+    public static final int DIVIDE_ZERO_ERROR = 2;
+    public static final int NULL_REF_ERROR    = 3;
 
     public static int convertTypeToIndicator(Type type) {
         if (type instanceof IntType) {

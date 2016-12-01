@@ -4,19 +4,15 @@ import backEnd.general.Header;
 import backEnd.general.HeaderInstr;
 import backEnd.general.Label;
 import backEnd.instructions.*;
-import backEnd.instructions.binaryOp.ADDS;
 import backEnd.instructions.binaryOp.MOV;
 import backEnd.instructions.branch.*;
 import backEnd.instructions.load.*;
-import type.Type;
 
 import java.util.*;
 
 public class MessageGenerator {
 
     private static final String HEADER_WORD = "\t.word";
-    private boolean hasStringMsg  = false;
-    private boolean hasPrintlnMsg = false;
 
 
     public AssemblyCode generatePrintTypeMessage(int typeCode, AssemblyCode instructions) {
@@ -51,15 +47,10 @@ public class MessageGenerator {
         }
     }
 
-
-
-
-
     /////////////////START OF PRINT TYPE MESSAGE FUNCTIONS//////////////////////
 
     ////////////////For print and println instructions/////////////////////////
     public AssemblyCode generateNewLine(AssemblyCode instructions){
-        hasPrintlnMsg = true;
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                     headerMessages(HEADER_WORD, 1, "\t.ascii \"\\0\""));
         return instructions;
@@ -129,20 +120,14 @@ public class MessageGenerator {
     public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions) {
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
                 headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s\\0\""));
-
-        hasStringMsg = true;
         return instructions;
     }
 
-    public AssemblyCode generatePrintStringTypeMessage(AssemblyCode instructions,
-                                                       int stringSize, String string) {
+    public AssemblyCode generatePrintErrorMessage(AssemblyCode instructions,
+                                                  int messageSize, String message) {
         instructions.add(new Header(".data"), null);
         instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages("\t.word", stringSize, "\t.ascii " + string));
-        instructions.add(new Label("msg_" + instructions.getNumberOfMessage()),
-                headerMessages(HEADER_WORD, 5, "\t.ascii \"%.*s" + "\\0" + "\""));
-
-        hasStringMsg = true;
+                headerMessages("\t.word", messageSize, "\t.ascii " + message));
         return instructions;
     }
 
@@ -152,8 +137,6 @@ public class MessageGenerator {
 
         return instructions;
     }
-
-
 
     public List<Instruction> generatePrintStringInstructions(Registers registers,
                                                              AssemblyCode instructions) {
@@ -211,7 +194,7 @@ public class MessageGenerator {
 
     public List<Instruction> generateEndPrintInstructions(
             AssemblyCode instructions, Registers registers) {
-        List<Instruction> endPrintInstructions = new ArrayList<Instruction>();
+        List<Instruction> endPrintInstructions = new ArrayList<>();
 
         endPrintInstructions.add(new MOV(registers.getR0Reg(), 0));
         endPrintInstructions.add(new BL("fflush"));
@@ -232,9 +215,9 @@ public class MessageGenerator {
     }
 
     public AssemblyCode generateArrayOutOfBoundsMessage(AssemblyCode instructions) {
-        instructions = generatePrintStringTypeMessage(instructions, 44,
+        instructions = generatePrintErrorMessage(instructions, 44,
                 "\"ArrayIndexOutOfBoundsError: negative index\\n\\0\"");
-        instructions = generatePrintStringTypeMessage(instructions, 45,
+        instructions = generatePrintErrorMessage(instructions, 45,
                 "\"ArrayIndexOutOfBoundsError: index too large\\n\\0\"");
 
         return instructions;
@@ -313,14 +296,4 @@ public class MessageGenerator {
                 new HeaderInstr(word, messageLength), new HeaderInstr((output))));
     }
 
-
-    ////////////////Helper function///////////////////////////////
-
-    public boolean hasStringMsg() {
-        return hasStringMsg;
-    }
-
-    public boolean hasPrintlnMsg() {
-        return hasPrintlnMsg;
-    }
 }

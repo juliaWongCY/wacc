@@ -284,15 +284,15 @@ public class CodeGenVisitor {
             hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
             hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
             instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+            List<Instruction> boundsInstructions = new ArrayList<>();
+            boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
+                    instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]);
+            instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
         }
         instructions = generatePrintStringMessage(instructions, registers);
 
         instructions = generateRuntimeErrorMessage(instructions, registers);
 
-        List<Instruction> boundsInstructions = new ArrayList<>();
-        boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
-                instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]);
-        instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),

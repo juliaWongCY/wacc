@@ -325,16 +325,9 @@ public class CodeGenVisitor {
 
         char character = ((CharLiterNode) node).getValue();
 
-        //TODO: hard-coded when inputting char!!!
-
-        if(character == '0'){
-            instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), 0))));
-        } else {
-
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character))));
-        }
+        
         return instructions;
     }
 
@@ -926,10 +919,13 @@ public class CodeGenVisitor {
             IdentAsLNode target = (IdentAsLNode) rNode.getAssignLHS();
             if (target.getId().getTypeIndicator() == Util.INT_TYPE) {
                 instructionsForHeader.add(new HeaderInstr("\t.word", 3));
+                instructionsForHeader.add(new HeaderInstr("\t.ascii \"%d\\0\""));
             } else {
                 instructionsForHeader.add(new HeaderInstr("\t.word", 4));
+                instructionsForHeader.add(new HeaderInstr("\t.ascii \"%c\\0\""));
+
             }
-            instructionsForHeader.add(new HeaderInstr("\t.ascii \"%d\\0\""));
+            //TODO: change the header for int and other type
             instructions.add(msgLabel, instructionsForHeader);
             //todo: assumed main label didn't get changed
 

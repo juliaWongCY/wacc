@@ -1,23 +1,15 @@
-# a simple negation function definition and usage
+# echo the user's input char
 
 # Output:
-# true
-# false
-# true
+# enter a character to echo
+# #input#
+# #output#
 
 # Program:
 
 begin
-  bool neg(bool b) is
-    return !b
-  end
-  bool b = true ;
-  println b ;
-  b = call neg(b) ;
-  println b ;
-  b = call neg(b) ;
-  b = call neg(b) ;
-  b = call neg(b) ;
-  println b
+	char c = '\0' ;
+  println "enter a character to echo";
+	read c ;
+	println c
 end
-

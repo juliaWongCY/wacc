@@ -325,9 +325,16 @@ public class CodeGenVisitor {
 
         char character = ((CharLiterNode) node).getValue();
 
-        instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character))));
+        //TODO: hard-coded when inputting char!!!
 
+        if(character == '0'){
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), 0))));
+        } else {
+
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character))));
+        }
         return instructions;
     }
 
@@ -968,6 +975,7 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Arrays.asList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
+
 ///////////TODO!!!!!!
 //        if (varSymbolTable.getVarLocalSize() > 0) {
 //            instructions.add(instructions.getCurrentLabel(),

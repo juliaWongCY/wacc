@@ -549,6 +549,9 @@ public class CodeGenVisitor {
                 } else if (bNode.getBinaryOpr().equals(BinaryOpr.DIV)) {
                     int constant = bNode.getExprLInt() / bNode.getExprRInt();
                     instructionsToBeAdded.add(new LDR(resultReg, constant));
+                } else if (bNode.getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    int constant = bNode.getExprLInt() % bNode.getExprRInt();
+                    instructionsToBeAdded.add(new LDR(resultReg, constant));
                 }
 
 //                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)

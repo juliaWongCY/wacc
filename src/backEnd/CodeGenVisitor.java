@@ -295,6 +295,8 @@ public class CodeGenVisitor {
 
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
+
+        //TODO: getting the wrong reg???
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
                 registers.getNextAvailableVariableReg(),
                 Util.getTypeSize(
@@ -413,6 +415,7 @@ public class CodeGenVisitor {
 
             instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), label))));
+
 
             instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
             instructionsToBeAdded.add(new HeaderInstr("\t.ascii " + strNode.getValue()));
@@ -675,9 +678,11 @@ public class CodeGenVisitor {
         }
 
         if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
-            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
-                    registers.getNextReg(registers.getNextAvailableVariableReg())));
+            registers.addRegInUsedList(registers.getNextAvailableVariableReg());
+//            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+//                    registers.getNextReg(registers.getNextAvailableVariableReg())));
             visitAssignLeftNode(assignStatNode.getAssignLHS(), instructions, registers);
+            registers.clearRegInUsed();
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);

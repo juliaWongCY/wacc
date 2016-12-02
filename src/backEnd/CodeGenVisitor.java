@@ -665,7 +665,10 @@ public class CodeGenVisitor {
             }
         }
 
+        //Todo attempted fix
         instructions = visitAssignRightNode(assignStatNode.getAssignRHS(), instructions, registers);
+
+        registers.addRegInUsedList(registers.getNextAvailableVariableReg());
 
         if (assignStatNode.getAssignLHS() instanceof PairElemAsLNode) {
             registers.addRegInUsedList(registers.getNextAvailableVariableReg());
@@ -680,6 +683,9 @@ public class CodeGenVisitor {
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        //Todo attempted fix
+        registers.popRegInUsedList();
 
         return instructions;
     }

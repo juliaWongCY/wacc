@@ -51,6 +51,23 @@ public class BinaryOprNode extends ExpressionNode {
         return binaryOpr == BinaryOpr.AND || binaryOpr == BinaryOpr.OR;
     }
 
+    public int getExprLInt() {
+        if (exprL.getTypeIndicator() == 0) {
+            return ((IntLiterNode) exprL).getValue();
+        } else {
+            return ((BinaryOprNode) exprL).getExprLInt();
+        }
+    }
+
+    public int getExprRInt() {
+        if (exprL.getTypeIndicator() == 0) {
+            return ((IntLiterNode) exprR).getValue();
+        } else {
+            return ((BinaryOprNode) exprR).getExprRInt();
+        }
+    }
+
+
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type tL = exprL.getNodeType(st);

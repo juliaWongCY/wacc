@@ -301,6 +301,9 @@ public class CodeGenVisitor {
                         (varSymbolTable.getVariable(((ArrayElemNode) node).getArrayName().getId())).getArrayElemType())));
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                 registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+
+        // todo attempted fix to not saving register
+        registers.popRegInUsedList();
         arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
                 registers.getNextAvailableVariableReg()));
 
@@ -665,10 +668,8 @@ public class CodeGenVisitor {
             }
         }
 
-        //Todo attempted fix
         instructions = visitAssignRightNode(assignStatNode.getAssignRHS(), instructions, registers);
 
-        registers.addRegInUsedList(registers.getNextAvailableVariableReg());
 
         if (assignStatNode.getAssignLHS() instanceof PairElemAsLNode) {
             registers.addRegInUsedList(registers.getNextAvailableVariableReg());
@@ -679,13 +680,13 @@ public class CodeGenVisitor {
         if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
                     registers.getNextReg(registers.getNextAvailableVariableReg())));
+            // todo attempted fix in not saving register
+            registers.addRegInUsedList(registers.getNextAvailableVariableReg());
             visitAssignLeftNode(assignStatNode.getAssignLHS(), instructions, registers);
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-        //Todo attempted fix
-        registers.popRegInUsedList();
 
         return instructions;
     }

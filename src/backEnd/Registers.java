@@ -79,7 +79,9 @@ public class Registers {
     }
 
     public void popRegInUsedList(){
-        regInUsed.remove(regInUsed.size() - 1);
+        if (!regInUsed.isEmpty()){
+            regInUsed.remove(regInUsed.size() - 1);
+        }
     }
 
     public void clearRegInUsed(){

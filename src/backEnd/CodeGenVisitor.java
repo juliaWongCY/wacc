@@ -280,13 +280,18 @@ public class CodeGenVisitor {
                 registers.getNextReg(registers.getNextAvailableVariableReg())));
         arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
 
-        instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+        if (hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] == null && hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] == null) {
+            hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
+            hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
+            instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+        }
         instructions = generatePrintStringMessage(instructions, registers);
 
         instructions = generateRuntimeErrorMessage(instructions, registers);
 
         List<Instruction> boundsInstructions = new ArrayList<>();
-        boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(instructions, registers);
+        boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
+                instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]);
         instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));

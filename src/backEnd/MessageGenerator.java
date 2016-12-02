@@ -259,20 +259,20 @@ public class MessageGenerator {
     }
 
     public List<Instruction> generateCheckArrayBoundsInstructions(
-            AssemblyCode instructions, Registers registers) {
+            AssemblyCode instructions, Registers registers, int msgNeg, int msgOOB) {
         List<Instruction> checkArrayBoundsInstructions = new ArrayList<>();
 
         checkArrayBoundsInstructions.add(new PUSH(registers.getLinkReg()));
         checkArrayBoundsInstructions.add(new CMP(registers.getR0Reg(), 0));
 
         checkArrayBoundsInstructions.add(new LDRLT(registers.getR0Reg(),
-                new Label("msg_" + (instructions.getNumberOfMessage() - 4))));
+                new Label("msg_" + msgNeg)));
         checkArrayBoundsInstructions.add(new BLLT("p_throw_runtime_error"));
         checkArrayBoundsInstructions.add(new LDR(registers.getR1Reg(), registers.getR1Reg()));
         checkArrayBoundsInstructions.add(new CMP(registers.getR0Reg(), registers.getR1Reg()));
 
         checkArrayBoundsInstructions.add(new LDRCS(registers.getR0Reg(),
-                new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+                new Label("msg_" + msgOOB)));
         checkArrayBoundsInstructions.add(new BLCS("p_throw_runtime_error"));
         checkArrayBoundsInstructions.add(new POP(registers.getPCReg()));
 

@@ -1,15 +1,25 @@
-# echo the user's input char
+# simple input/output loop
 
 # Output:
-# enter a character to echo
+# Please input an integer: #input#
+# echo input: #output#
+# Do you want to continue entering input?
+# (enter Y for 'yes' and N for 'no')
 # #input#
-# #output#
+# ...
 
 # Program:
 
 begin
-	char c = '\0' ;
-  println "enter a character to echo";
-	read c ;
-	println c
+  char continue = 'Y' ;
+  int buff = 0 ;
+  while continue != 'N' do
+    print "Please input an integer: " ;
+    read buff ;
+    print "echo input: " ;
+    println buff ;
+    println "Do you want to continue entering input?" ;
+    println "(enter Y for \'yes\' and N for \'no\')" ;
+    read continue
+  done
 end

@@ -100,11 +100,11 @@ public class CodeGenVisitor {
 
                 if (exprType == Util.CHAR_TYPE || exprType == Util.BOOL_TYPE) {
                     instructions.add(instructions.getCurrentLabel(),
-                            new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
+                            new ArrayList<>(Collections.singletonList(new STR(registers.getNextAvailableVariableReg(),
                                     registers.getStackPtrReg(), offset, true, "B"))));
                 } else {
                     instructions.add(instructions.getCurrentLabel(),
-                            new ArrayList<>(Arrays.asList(new STR(registers.getNextAvailableVariableReg(),
+                            new ArrayList<>(Collections.singletonList(new STR(registers.getNextAvailableVariableReg(),
                                     registers.getStackPtrReg(), offset, true, ""))));
                 }
 

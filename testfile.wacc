@@ -1,17 +1,22 @@
-# create and modify string
+# a simple recursive function
 
 # Output:
-# hello world!
-# Hello world!
-# Hi!
+# #empty#
 
 # Program:
 
 begin
-  string s = "hello world!" ;
-  println s ;
-  s[0] = 'H' ;
-  println s ;
-  s = "Hi!" ;
-  println s
+  int rec(int x) is
+    if x == 0
+    then
+      skip
+    else
+      int y = call rec(x - 1)
+    fi ;
+    return 42
+  end
+
+  int x = 0 ;
+  #x = call rec(8)
+  skip
 end

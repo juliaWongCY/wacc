@@ -173,6 +173,10 @@ public class CodeGenVisitor {
             }
         }
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
+//
+//        System.out.println(instructions.getCurrentLabel());
+//        System.out.println("instructions to be added: " + instructionsToBeAdded);
+
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
@@ -722,18 +726,25 @@ public class CodeGenVisitor {
 
 
         // construct value to put in variable symbol table
-
         Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
 
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
-        instructionsToBeAdded.clear();
+        //TODO: printing duplicate call instructions CHECK!!
+        //For non recursive cases
+        if(instructions.getCurrentLabel().equals(new Label("main"))){
+            instructionsToBeAdded.clear();
+        }
+
+
         if (typeIndicator == Util.CHAR_TYPE || typeIndicator == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         }
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+//        System.out.println(instructions.instructionsPerLabel);
 
         return instructions;
     }

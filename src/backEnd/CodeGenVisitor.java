@@ -68,7 +68,7 @@ public class CodeGenVisitor {
         if (node instanceof PairElemAsRNode) {
             return visitPairElemAsRNode(node, instructions, registers);
         }
-        System.err.println("unreognized assign right node");
+        System.err.println("unrecognised assign right node");
         return null;
     }
 
@@ -87,7 +87,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArgListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         ArgListNode argListNode = (ArgListNode) node;
         if (argListNode != null) {
             for (int i = argListNode.getSize() - 1; i >= 0; i--) {
@@ -116,7 +115,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayLiterAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         ArrayLiterAsRNode aNode = (ArrayLiterAsRNode) node;
         int constance = 4;
@@ -173,9 +171,6 @@ public class CodeGenVisitor {
             }
         }
         instructionsToBeAdded.add(new MOV(registers.getNextAvailableVariableReg(), registers.getR0Reg()));
-//
-//        System.out.println(instructions.getCurrentLabel());
-//        System.out.println("instructions to be added: " + instructionsToBeAdded);
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
@@ -188,7 +183,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitNewPairAsRNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         NewPairAsRNode nNode = (NewPairAsRNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructionsToBeAdded.add(new LDR(registers.getR0Reg(), 8));
@@ -266,71 +260,55 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        ArrayElemNode aNode = (ArrayElemNode) node;
+        int elemTypeSize = Util.getTypeSize(
+                (varSymbolTable.getVariable(aNode.getArrayName())).getArrayElemType());
 
-        List<Instruction> arrayElemInstructions = new ArrayList<>();
-
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
                 new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
 
         ExpressionNode index = ((ArrayElemNode) node).getIndexes().get(0);
 
         Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
-        instructions = visitExpression(index, instructions, updatedRegisters); // assign or just call?
+        instructions = visitExpression(index, instructions, updatedRegisters);
         registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
 
-        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
-                registers.getNextAvailableVariableReg()));
-        arrayElemInstructions.add(new MOV(registers.getR0Reg(),
-                registers.getNextReg(registers.getNextAvailableVariableReg())));
-        arrayElemInstructions.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
-
-        if (hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] == null && hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] == null) {
-            hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
-            hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
-            instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
-            List<Instruction> boundsInstructions = new ArrayList<>();
-            boundsInstructions = instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
-                    instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]);
-            instructions.add(new Label("p_check_array_bounds"), boundsInstructions);
-        }
+        instructions = generateArrayError(instructions, registers);
         instructions = generatePrintStringMessage(instructions, registers);
-
         instructions = generateRuntimeErrorMessage(instructions, registers);
 
-
-        arrayElemInstructions.add(new BL("p_check_array_bounds"));
-
-        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
-                registers.getNextAvailableVariableReg(),
-                Util.getTypeSize(
-                        (varSymbolTable.getVariable(((ArrayElemNode) node).getArrayName().getId())).getArrayElemType())));
-        arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
+        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
+                registers.getNextAvailableVariableReg()));
+        instructionsToBeAdded.add(new MOV(registers.getR0Reg(),
+                registers.getNextReg(registers.getNextAvailableVariableReg())));
+        instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
+        instructionsToBeAdded.add(new BL("p_check_array_bounds"));
+        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),elemTypeSize));
+        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                 registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
 
         //TODO: check!!!!!
         if(registers.getNextAvailableVariableReg() != RegisterARM.R4){
             if(((ArrayElemNode) node).getTypeIndicator() == Util.INT_TYPE){
-                arrayElemInstructions.add(new STR(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
+                instructionsToBeAdded.add(new STR(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
                         registers.getNextAvailableVariableReg()));
             } else {
-                arrayElemInstructions.add(new STRB(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
+                instructionsToBeAdded.add(new STRB(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
                         registers.getNextAvailableVariableReg()));
             }
 
         } else {
-            arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     registers.getNextAvailableVariableReg()));
         }
 
-
-        instructions.add(instructions.getCurrentLabel(), arrayElemInstructions);
-
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;
     }
 
     public static AssemblyCode visitBoolLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         int res;
 
         if (((BoolLiterNode) node).getValue()) {
@@ -340,7 +318,7 @@ public class CodeGenVisitor {
         }
 
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), res))));
+                new ArrayList<>(Collections.singletonList(new MOV(registers.getNextAvailableVariableReg(), res))));
 
         return instructions;
     }
@@ -350,7 +328,7 @@ public class CodeGenVisitor {
         char character = ((CharLiterNode) node).getValue();
 
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new MOV(registers.getNextAvailableVariableReg(), character))));
+                    new ArrayList<>(Collections.singletonList(new MOV(registers.getNextAvailableVariableReg(), character))));
         
         return instructions;
     }
@@ -363,39 +341,37 @@ public class CodeGenVisitor {
 
         if(nodeType == Util.INT_TYPE | nodeType == Util.STRING_TYPE | nodeType == Util.ARRAY_TYPE | nodeType == Util.PAIR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                    new ArrayList<>(Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(),
                             registers.getStackPtrReg(), varSymbolTable.getVariable(nodeID.getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
         }
 
         if(nodeType == Util.BOOL_TYPE | nodeType == Util.CHAR_TYPE){
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new LDRSB(registers.getNextAvailableVariableReg(),
-                            registers.getStackPtrReg(),  varSymbolTable.getVariable(nodeID.getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
+                    new ArrayList<>(Collections.singletonList(new LDRSB(registers.getNextAvailableVariableReg(),
+                            registers.getStackPtrReg(), varSymbolTable.getVariable(nodeID.getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
         }
 
         return instructions;
     }
 
     public static AssemblyCode visitIntLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(),
+                new ArrayList<>(Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(),
                         new Label(((IntLiterNode) node).getValue().toString())))));
 
         return instructions;
     }
 
     public static AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         PairElemNode pNode = (PairElemNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+        String errorMessage = "\"NullReferenceError: dereference a null reference\\n\\0\"";
         instructions.getMessageGenerator().
-                generatePrintErrorMessage(
-                        instructions, 50, "\"NullReferenceError: dereference a null reference\\n\\0\""); // todo: check const
+                generatePrintErrorMessage(instructions, errorMessage.length() - 5, errorMessage); // todo: check length
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
             instructions = generatePrintStringMessage(instructions, registers);
         }
-//        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -416,23 +392,19 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPairLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         instructions.add(instructions.getCurrentLabel(),
-                Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), 0))); //TODO: check the constant
+                Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(), 0))); //TODO: check the constant
         return instructions;
     }
 
     public static AssemblyCode visitStringLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-
         StringLiterNode strNode = (StringLiterNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
             Label label = new Label("msg_" + instructions.getNumberOfMessage());
 
             instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), label))));
-
+                new ArrayList<>(Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(), label))));
 
             instructionsToBeAdded.add(new HeaderInstr("\t.word ", strNode.getStringSize()));
             instructionsToBeAdded.add(new HeaderInstr("\t.ascii " + strNode.getValue()));
@@ -443,35 +415,27 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitUnaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
-
-        instructions = visitExpression(((UnaryOprNode) node).getExpr(), instructions, registers);
-
         UnaryOpr unaryOpr = ((UnaryOprNode) node).getUnaryOpr();
 
+        instructions = visitExpression(((UnaryOprNode) node).getExpr(), instructions, registers);
         switch (unaryOpr) {
             case NOT:
                 instructionsToBeAdded.add(new EOR(registers.getNextAvailableVariableReg(), 1));
                 break;
             case NEG:
-
                 instructions = generateOverflowError(instructions, registers);
-
                 instructions = generatePrintStringMessage(instructions, registers);
-
                 instructions = generateRuntimeErrorMessage(instructions, registers);
 
                 instructionsToBeAdded.add(new RSBS(registers.getNextAvailableVariableReg(),
                         registers.getNextAvailableVariableReg(), 0));
 
                 instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
-
                 break;
             case LEN:
-                instructions.add(instructions.getCurrentLabel(),
-                        new ArrayList<>(Arrays.asList(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()),
-                                new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()))));
+                instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+                instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
                 break;
             case ORD:
             case CHR:
@@ -485,25 +449,24 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitBinaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
         instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
         RegisterARM exprLReg = registers.getNextAvailableVariableReg();
-        if (exprLReg == RegisterARM.R10) {
-            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new PUSH(exprLReg))));
-        }
 
+        if (exprLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new PUSH(exprLReg))));
+        }
         Registers updatedRegs = registers.addRegInUsedList(exprLReg);
 
         instructions = visitExpression(((BinaryOprNode) node).getExprR(), instructions, updatedRegs);
-        RegisterARM exprRReg = registers.getNextAvailableVariableReg();
 
+        RegisterARM exprRReg = registers.getNextAvailableVariableReg();
         RegisterARM resultReg = exprLReg;
 
         if (exprRReg == RegisterARM.R10 && exprLReg == RegisterARM.R10) {
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new POP(RegisterARM.R11))));
+                    new ArrayList<>(Collections.singletonList(new POP(RegisterARM.R11))));
             exprLReg = RegisterARM.R11;
         }
 
@@ -524,12 +487,8 @@ public class CodeGenVisitor {
                     instructions.getMessageGenerator().generatePrintErrorMessage(
                             instructions, errorMessage.length() - 3, errorMessage);
                 }
-
-
                 instructions = generateRuntimeErrorMessage(instructions, registers);
-
                 instructions = generatePrintStringMessage(instructions, registers);
-
             }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
@@ -585,24 +544,11 @@ public class CodeGenVisitor {
                         || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD))) {
                     instructions = generateOverflowError(instructions, registers);
                 }
-
             }
-
         }
 
         registers.setRegNotInUse(resultReg);
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-        return instructions;
-    }
-
-    ////////////////////////////////parameter/////////////////////////////
-
-    public static AssemblyCode visitParamListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        return instructions;
-    }
-
-    public static AssemblyCode visitParamNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        //Seems like it doesn't require anything.
         return instructions;
     }
 
@@ -724,7 +670,6 @@ public class CodeGenVisitor {
 
         instructions = visitAssignRightNode(rhsNode, instructions, registers);
 
-
         // construct value to put in variable symbol table
         Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
 
@@ -736,7 +681,6 @@ public class CodeGenVisitor {
             instructionsToBeAdded.clear();
         }
 
-
         if (typeIndicator == Util.CHAR_TYPE || typeIndicator == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
@@ -744,28 +688,27 @@ public class CodeGenVisitor {
         }
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-//        System.out.println(instructions.instructionsPerLabel);
-
         return instructions;
     }
 
     public static AssemblyCode visitExitStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         List<Instruction> instructionsForBinOp = new ArrayList<>();
+        ExitStatNode eNode = (ExitStatNode) node;
 
-        if(((ExitStatNode) node).getExpr() instanceof BinaryOprNode){
-            instructions = visitBinaryOprNode(((ExitStatNode) node).getExpr(), instructions, registers);
+        if (eNode.getExpr() instanceof BinaryOprNode) {
+            instructions = visitBinaryOprNode(eNode.getExpr(), instructions, registers);
             instructionsForBinOp.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
             instructionsForBinOp.add(new BL("exit"));
             instructions.add(instructions.getCurrentLabel(), instructionsForBinOp);
         }
 
-        if (((ExitStatNode) node).getExpr() instanceof IdentNode) {
+        if (eNode.getExpr() instanceof IdentNode) {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
-        } else if(((ExitStatNode) node).getExpr() instanceof IntLiterNode){
+        } else if(eNode.getExpr() instanceof IntLiterNode){
             //TODO: BAD PROGRAMMING DESIGN!!!!!!!!!!
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
-                    ((IntLiterNode) ((ExitStatNode) node).getExpr()).getValue()));
+                    ((IntLiterNode) eNode.getExpr()).getValue()));
         }
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
@@ -778,7 +721,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitFreeStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructionsToBeAdded.addAll(instructions.getMessageGenerator().generateNullReferenceInstructions(
                 registers, instructions));
@@ -792,21 +734,21 @@ public class CodeGenVisitor {
         }
 
         Label printFreePair = new Label("p_free_pair");
-        instructions.add(printFreePair, new ArrayList<>(Arrays.asList(new PUSH(registers.getLinkReg()))));
+        instructions.add(printFreePair, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
         instructions.add(printFreePair,
                 instructions.getMessageGenerator().generateRuntimeErrorInstructions(registers, instructions));
 
-        List<Instruction> printFreePairInstructions = new ArrayList<>();
-        printFreePairInstructions.add(new PUSH(registers.getR0Reg()));
-        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg()));
-        printFreePairInstructions.add(new BL("free"));
-        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getStackPtrReg()));
-        printFreePairInstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg(), 4));
-        printFreePairInstructions.add(new BL("free"));
-        printFreePairInstructions.add(new POP(registers.getR0Reg()));
-        printFreePairInstructions.add(new BL("free"));
-        printFreePairInstructions.add(new POP(registers.getPCReg()));
-        instructions.add(printFreePair, printFreePairInstructions);
+        instructionsToBeAdded.clear();
+        instructionsToBeAdded.add(new PUSH(registers.getR0Reg()));
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getR0Reg()));
+        instructionsToBeAdded.add(new BL("free"));
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getStackPtrReg()));
+        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getR0Reg(), 4));
+        instructionsToBeAdded.add(new BL("free"));
+        instructionsToBeAdded.add(new POP(registers.getR0Reg()));
+        instructionsToBeAdded.add(new BL("free"));
+        instructionsToBeAdded.add(new POP(registers.getPCReg()));
+        instructions.add(printFreePair, instructionsToBeAdded);
 
         instructions = generateRuntimeErrorMessage(instructions, registers);
 
@@ -844,25 +786,23 @@ public class CodeGenVisitor {
 
         String branchLabelName = instructions.getNextLabel();
         instructions.add(currentMainLabel,
-                new ArrayList<>(Arrays.asList(new B(branchLabelName))));
+                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
         if (!varSymbolTable.checkSameState()) {
             int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new ADD(registers.getStackPtrReg(),
-                            registers.getStackPtrReg(), diff))));
+                    new ArrayList<>(Collections.singletonList(
+                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
         }
 
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new B(branchLabelName))));
+                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
         instructions.updateCurrentLabel();
 
         return instructions;
     }
 
     public static AssemblyCode visitPrintlnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        // Todo: problem with duplicate messages should be caused message center not checking if that message is generated before
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         PrintlnStatNode pNode = (PrintlnStatNode) node;
         ExpressionNode printExp = pNode.getExpr();
@@ -870,7 +810,6 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
-        Label printTypeLabel = new Label("p_print_" + exprType);
         Label printlnLabel = new Label("p_print_ln");
 
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
@@ -920,9 +859,6 @@ public class CodeGenVisitor {
         int typeIndicator = printExp.getTypeIndicator();
         String exprType = convertTypeToString(typeIndicator);
 
-        Label printTypeLabel = new Label("p_print_" + exprType);
-        Label printlnLabel = new Label("p_print_ln");
-
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructions.add(new Header(".data"), null);
 
@@ -944,7 +880,6 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitReadStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         ReadStatNode rNode = (ReadStatNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         List<Instruction> instructionsForHeader = new ArrayList<>();
@@ -969,11 +904,11 @@ public class CodeGenVisitor {
             //todo: assumed main label didn't get changed
 
             //instructions under L1
+                int varStackPos = varSymbolTable.getVariable(target.getId().getId()).getLocationInStack();
                 instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(),
-                    registers.getStackPtrReg(), varSymbolTable.getVariable(target.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+                    registers.getStackPtrReg(), varStackPos - instructions.getCurrentStackPtrPos()));
                 instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
                 instructionsToBeAdded.add(new BL("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator())));
-
 
             readLabel = new Label("p_read_" + Util.getBaseTypeString(target.getId().getTypeIndicator()));
             labels.add(readLabel);
@@ -984,7 +919,6 @@ public class CodeGenVisitor {
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-
 
         instructionsToBeAdded.clear();
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
@@ -1003,12 +937,11 @@ public class CodeGenVisitor {
 
 
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         ReturnStatNode returnStatNode = (ReturnStatNode) node;
 
         instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new MOV(registers.getR0Reg(),
+                new ArrayList<>(Collections.singletonList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
 
 ///////////TODO!!!!!!
@@ -1020,13 +953,12 @@ public class CodeGenVisitor {
 //                                    varSymbolTable.getVarLocalSize()))));
 //        }
 
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 
         return instructions;
     }
 
     public static AssemblyCode visitScopingStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         newSymbolTable();
         ScopingStatNode sNode = (ScopingStatNode) node;
         varSymbolTable.saveState();
@@ -1036,7 +968,7 @@ public class CodeGenVisitor {
         if (!varSymbolTable.checkSameState()) {
             int diff = Math.abs(varSymbolTable.getState() - varSymbolTable.getVarTotalSize());
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new ADD(registers.getStackPtrReg(),
+                    new ArrayList<>(Collections.singletonList(new ADD(registers.getStackPtrReg(),
                             registers.getStackPtrReg(), diff))));
             instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + diff);
         }
@@ -1090,7 +1022,7 @@ public class CodeGenVisitor {
         popSymbolTable();
 
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new B(beforeWhile.getName()))));
+                new ArrayList<>(Collections.singletonList(new B(beforeWhile.getName()))));
 
         instructions.setCurrentLabel(beforeWhile);
 
@@ -1162,7 +1094,7 @@ public class CodeGenVisitor {
 
 
         //PUSH {LR}
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Arrays.asList(
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Collections.singletonList(
                 new PUSH(registers.getLinkReg()))));
 
         //Visit StatListNode and return instructions
@@ -1340,6 +1272,17 @@ public class CodeGenVisitor {
                     registers, instructions, hasErrorMsgs[Util.DIVIDE_ZERO_ERROR]
             ));
 
+        }
+        return instructions;
+    }
+
+    private static AssemblyCode generateArrayError(AssemblyCode instructions, Registers registers) {
+        if (hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] == null && hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] == null) {
+            hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
+            hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
+            instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
+            instructions.add(new Label("p_check_array_bounds"), instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
+                    instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]));
         }
         return instructions;
     }

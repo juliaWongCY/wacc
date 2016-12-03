@@ -9,17 +9,17 @@ import java.util.List;
 
 public class ArrayElemNode extends ExpressionNode {
 
-    private IdentNode arrayName;
+    private IdentNode iNode;
     private List<ExpressionNode> indexes;
 
     public ArrayElemNode(IdentNode arrayName, List<ExpressionNode> indexes) {
-        this.arrayName = arrayName;
+        this.iNode = arrayName;
         this.indexes = indexes;
         typeIndicator = Util.ARRAY_TYPE;
     }
 
-    public IdentNode getArrayName() {
-        return arrayName;
+    public String getArrayName() {
+        return iNode.getId();
     }
 
     public List<ExpressionNode> getIndexes() {
@@ -28,7 +28,7 @@ public class ArrayElemNode extends ExpressionNode {
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
-        Type type = st.lookUpVariable(arrayName.getId());
+        Type type = st.lookUpVariable(iNode.getId());
 
         Type elemType = type;
         for (int i = 0; i < indexes.size(); i++) {

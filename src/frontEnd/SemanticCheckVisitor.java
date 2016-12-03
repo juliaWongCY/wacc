@@ -117,9 +117,9 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         try {
             fType = symbolTable.lookUpFunction(functionId);
             IdentNode iNode = new IdentNode(functionId);
-            iNode.getNodeType(symbolTable);
 
             if (fType instanceof FunctionType) {
+                iNode.setTypeIndicator(((FunctionType) fType).getReturnType());
                 List<Type> paramTypes = ((FunctionType) fType).getParams();
                 BasicParser.ArgListContext actx = ctx.argList();
 

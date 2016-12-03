@@ -296,15 +296,28 @@ public class CodeGenVisitor {
 
         arrayElemInstructions.add(new BL("p_check_array_bounds"));
 
-        //TODO: getting the wrong reg???
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(),
                 registers.getNextAvailableVariableReg(),
                 Util.getTypeSize(
                         (varSymbolTable.getVariable(((ArrayElemNode) node).getArrayName().getId())).getArrayElemType())));
         arrayElemInstructions.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                 registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
-        arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
-                registers.getNextAvailableVariableReg()));
+
+        //TODO: check!!!!!
+        if(registers.getNextAvailableVariableReg() != RegisterARM.R4){
+            if(((ArrayElemNode) node).getTypeIndicator() == Util.INT_TYPE){
+                arrayElemInstructions.add(new STR(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
+                        registers.getNextAvailableVariableReg()));
+            } else {
+                arrayElemInstructions.add(new STRB(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
+                        registers.getNextAvailableVariableReg()));
+            }
+
+        } else {
+            arrayElemInstructions.add(new LDR(registers.getNextAvailableVariableReg(),
+                    registers.getNextAvailableVariableReg()));
+        }
+
 
         instructions.add(instructions.getCurrentLabel(), arrayElemInstructions);
 
@@ -648,10 +661,13 @@ public class CodeGenVisitor {
         if((assignStatNode.getAssignRHS()) instanceof CallAsRNode){
             type = convertAssignRHSToValue(assignStatNode.getAssignRHS(), instructions.getCurrentStackPtrPos()).getValueType();
         } else {
-            type = Util.getTypeSize(assignStatNode.getAssignRHS().getTypeIndicator());
+              type = assignStatNode.getAssignRHS().getTypeIndicator(); //TODO: CHECK!!!!
+//            type = Util.getTypeSize(assignStatNode.getAssignRHS().getTypeIndicator());
 
         }
-        if (type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
+
+        //TODO: takend out (type == Util.CHAR_TYPE ||)
+        if ( type == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {

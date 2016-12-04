@@ -766,17 +766,18 @@ public class CodeGenVisitor {
         instructions.add(printFreePair,
                 instructions.getMessageGenerator().generateRuntimeErrorInstructions(registers, instructions));
 
-        instructionsToBeAdded.clear();
-        instructionsToBeAdded.add(new PUSH(registers.getR0Reg()));
-        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getR0Reg()));
-        instructionsToBeAdded.add(new BL("free"));
-        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getStackPtrReg()));
-        instructionsToBeAdded.add(new LDR(registers.getR0Reg(), registers.getR0Reg(), 4));
-        instructionsToBeAdded.add(new BL("free"));
-        instructionsToBeAdded.add(new POP(registers.getR0Reg()));
-        instructionsToBeAdded.add(new BL("free"));
-        instructionsToBeAdded.add(new POP(registers.getPCReg()));
-        instructions.add(printFreePair, instructionsToBeAdded);
+//        instructionsToBeAdded.clear();
+        List<Instruction> freePairinstructions = new ArrayList<>();
+        freePairinstructions.add(new PUSH(registers.getR0Reg()));
+        freePairinstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg()));
+        freePairinstructions.add(new BL("free"));
+        freePairinstructions.add(new LDR(registers.getR0Reg(), registers.getStackPtrReg()));
+        freePairinstructions.add(new LDR(registers.getR0Reg(), registers.getR0Reg(), 4));
+        freePairinstructions.add(new BL("free"));
+        freePairinstructions.add(new POP(registers.getR0Reg()));
+        freePairinstructions.add(new BL("free"));
+        freePairinstructions.add(new POP(registers.getPCReg()));
+        instructions.add(printFreePair, freePairinstructions);
 
         instructions = generateRuntimeErrorMessage(instructions, registers);
 

@@ -662,24 +662,26 @@ public class CodeGenVisitor {
         DeclareStatNode dNode = (DeclareStatNode) node;
         AssignRightNode rhsNode = dNode.getAssignRightNode();
         int typeIndicator = Util.convertTypeToIndicator(dNode.getType());
-
-        instructionsToBeAdded.add(new SUB(registers.getStackPtrReg(),
-                registers.getStackPtrReg(), Util.getTypeSize(typeIndicator)));
-        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+//
+//        instructionsToBeAdded.add(new SUB(registers.getStackPtrReg(),
+//                registers.getStackPtrReg(), Util.getTypeSize(typeIndicator)));
+//        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Arrays.asList(new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(),
+                        Util.getTypeSize(typeIndicator)))));
         instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() - Util.getTypeSize(typeIndicator));
 
         instructions = visitAssignRightNode(rhsNode, instructions, registers);
 
         // construct value to put in variable symbol table
         Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
-
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
         //TODO: printing duplicate call instructions CHECK!!
         //For non recursive cases
-        if(instructions.getCurrentLabel().equals(new Label("main"))){
-            instructionsToBeAdded.clear();
-        }
+//        if(instructions.getCurrentLabel().equals(new Label("main"))){
+//            instructionsToBeAdded.clear();
+//        }
 
         if (typeIndicator == Util.CHAR_TYPE || typeIndicator == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));

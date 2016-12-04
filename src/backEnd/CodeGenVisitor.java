@@ -677,12 +677,6 @@ public class CodeGenVisitor {
         Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
-        //TODO: printing duplicate call instructions CHECK!!
-        //For non recursive cases
-//        if(instructions.getCurrentLabel().equals(new Label("main"))){
-//            instructionsToBeAdded.clear();
-//        }
-
         if (typeIndicator == Util.CHAR_TYPE || typeIndicator == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
@@ -790,8 +784,12 @@ public class CodeGenVisitor {
         instructions.add(currentMainLabel,
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
+
         if (!varSymbolTable.checkSameState()) {
-            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+            //TODO: getting the wrong diff??
+            int diff = varSymbolTable.getVarLocalSize();
+//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(
                             new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));

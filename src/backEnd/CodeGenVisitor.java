@@ -841,8 +841,8 @@ public class CodeGenVisitor {
 //JULIA END
 
         // duplicate with line 817?
-//        instructions.add(instructions.getCurrentLabel(),
-//                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
         instructions.updateCurrentLabel();
 
         return instructions;

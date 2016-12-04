@@ -816,16 +816,16 @@ public class CodeGenVisitor {
         instructions.add(currentMainLabel,
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
-
-        if (!varSymbolTable.checkSameState()) {
-            //TODO: getting the wrong diff?? the condition is wrong
-            int diff = varSymbolTable.getState();
-//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
-
-            instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Collections.singletonList(
-                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
-        }
+//
+//        if (!varSymbolTable.checkSameState()) {
+//            //TODO: getting the wrong diff?? the condition is wrong
+//            int diff = varSymbolTable.getState();
+////            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+//
+//            instructions.add(instructions.getCurrentLabel(),
+//                    new ArrayList<>(Collections.singletonList(
+//                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
+//        }
 
 //JULIA
         if(instructions.getVarSymbolTable().hasNewVariables(varSymbolTable)){

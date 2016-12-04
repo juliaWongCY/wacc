@@ -57,12 +57,12 @@ public class VarSymbolTable {
     }
 
 
-    public void clearVariables(){
+    public void clearVariables() {
         Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
         Map<String, Value> newVarTable = new HashMap<>();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Map.Entry<String, Value> entry = iter.next();
-            if (entry.getKey().startsWith("f_inc")){
+            if (entry.getKey().startsWith("f_inc")) {
                 newVarTable.put(entry.getKey(), entry.getValue());
             }
 
@@ -105,5 +105,16 @@ public class VarSymbolTable {
 
     public int getState() {
         return state;
+    }
+
+    public boolean hasNewVariables(VarSymbolTable varSymbolTable) {
+        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, Value> entry = iter.next();
+            if (!varTable.get(entry.getKey()).equals(varSymbolTable.getVariable(entry.getKey()))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

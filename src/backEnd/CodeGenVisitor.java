@@ -818,7 +818,8 @@ public class CodeGenVisitor {
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
 
-        if (!varSymbolTable.checkSameState()) {
+        if(instructions.getVarSymbolTable().hasNewVariables(varSymbolTable)){
+//        if (!varSymbolTable.checkSameState()) {
             //TODO: getting the wrong diff?? the condition is wrong
             int diff = varSymbolTable.getState();
 //            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();

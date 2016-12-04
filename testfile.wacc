@@ -1,22 +1,40 @@
-# a simple recursive function
+# multiple string assignments and comparisons
 
 # Output:
-# #empty#
+# s1 is Hi
+# s2 is Hi
+# They are not the same.
+# Now modify s1[0] = 'h'
+# s1 is hi
+# s2 is Hi
+# They are not the same.
+
 
 # Program:
 
 begin
-  int rec(int x) is
-    if x == 0
-    then
-      skip
-    else
-      int y = call rec(x - 1)
-    fi ;
-    return 42
-  end
+  string s1 = "Hi" ;
+  string s2 = "Hi" ;
+  print "s1 is " ;
+  println s1 ;
+  print "s2 is " ;
+  println s2 ;
+  if s1 == s2 then
+    println "They are the same."
+  else
+    println "They are not the same."
+  fi ;
 
-  int x = 0 ;
-  #x = call rec(8)
-  skip
+  println "Now modify s1[0] = \'h\'" ;
+  s1[0] = 'h' ;
+
+  print "s1 is " ;
+  println s1 ;
+  print "s2 is " ;
+  println s2 ;
+  if s1 == s2 then
+    println "They are the same."
+  else
+    println "They are not the same."
+  fi
 end

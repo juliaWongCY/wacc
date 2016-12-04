@@ -617,7 +617,7 @@ public class CodeGenVisitor {
         }
 
         //TODO: takend out (type == Util.CHAR_TYPE ||)
-        if ( type == Util.BOOL_TYPE) {
+        if ( type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
@@ -786,8 +786,8 @@ public class CodeGenVisitor {
 
 
         if (!varSymbolTable.checkSameState()) {
-            //TODO: getting the wrong diff??
-            int diff = varSymbolTable.getVarLocalSize();
+            //TODO: getting the wrong diff?? the condition is wrong
+            int diff = varSymbolTable.getState();
 //            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
 
             instructions.add(instructions.getCurrentLabel(),

@@ -100,7 +100,7 @@ public class VarSymbolTable {
     }
 
     public boolean checkSameState() {
-        return varTable.size() == state;
+        return getVarTotalSize() == state;
     }
 
     public int getState() {

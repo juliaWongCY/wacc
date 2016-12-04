@@ -616,23 +616,53 @@ public class CodeGenVisitor {
 
         }
 
-        //TODO: takend out (type == Util.CHAR_TYPE ||)
-        if ( type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
-            instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
-        } else {
-            if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
-                IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
+        ///////// TODO: Newly implemented!! /////
+        AssignLeftNode lhsType = assignStatNode.getAssignLHS();
 
-                //TODO!!!
-//                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+        if(lhsType instanceof IdentAsLNode){
+            IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
+            if(type == Util.CHAR_TYPE){
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+            } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
-                   registers.getStackPtrReg(),
-                   varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
-            } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
+                        registers.getStackPtrReg(),
+                        varSymbolTable.getVariable(
+                                identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+            }
+//            //TODO!!!
+////                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+//            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+//                    registers.getStackPtrReg(),
+//                    varSymbolTable.getVariable(
+//                            identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+        } else if(lhsType instanceof ArrayElemAsLNode){
+
+        } else {
+            if (type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
             }
         }
+
+//
+//        //TODO: takend out (type == Util.CHAR_TYPE ||)
+//        if ( type == Util.CHAR_TYPE || type == Util.BOOL_TYPE) {
+//            instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+//        } else {
+//            if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
+//                IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
+//
+//                //TODO!!!
+////                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+//                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
+//                   registers.getStackPtrReg(),
+//                   varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()));
+//            } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
+//            } else {
+//                instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+//            }
+//        }
 
         instructions = visitAssignRightNode(assignStatNode.getAssignRHS(), instructions, registers);
 

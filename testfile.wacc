@@ -1,40 +1,26 @@
-# multiple string assignments and comparisons
+# print the contents of a simple array
 
 # Output:
-# s1 is Hi
-# s2 is Hi
-# They are not the same.
-# Now modify s1[0] = 'h'
-# s1 is hi
-# s2 is Hi
-# They are not the same.
-
+# #addrs# = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 # Program:
 
 begin
-  string s1 = "Hi" ;
-  string s2 = "Hi" ;
-  print "s1 is " ;
-  println s1 ;
-  print "s2 is " ;
-  println s2 ;
-  if s1 == s2 then
-    println "They are the same."
-  else
-    println "They are not the same."
-  fi ;
-
-  println "Now modify s1[0] = \'h\'" ;
-  s1[0] = 'h' ;
-
-  print "s1 is " ;
-  println s1 ;
-  print "s2 is " ;
-  println s2 ;
-  if s1 == s2 then
-    println "They are the same."
-  else
-    println "They are not the same."
-  fi
+  int[] a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] ;
+  int i = 0 ;
+  print a ;
+  print " = {" ;
+  i = 0 ;
+  while i < 10
+  do
+    print a[i] ;
+    if i < 9
+    then
+      print ", "
+    else
+      skip
+    fi ;
+    i = i + 1
+  done ;
+  println "}"
 end

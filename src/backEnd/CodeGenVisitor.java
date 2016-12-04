@@ -801,12 +801,11 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BEQ(instructions.getNextLabel()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
-        instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
-
         newSymbolTable();
-        Label currentMainLabel = instructions.getCurrentLabel();
+        instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
         popSymbolTable();
 
+        Label currentMainLabel = instructions.getCurrentLabel();
         instructions.updateCurrentLabel();
 
         newSymbolTable();
@@ -818,18 +817,19 @@ public class CodeGenVisitor {
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
 
-        if (!varSymbolTable.checkSameState()) {
-            //TODO: getting the wrong diff?? the condition is wrong
-            int diff = varSymbolTable.getState();
-//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+//        if (!varSymbolTable.checkSameState()) {
+//            //TODO: getting the wrong diff?? the condition is wrong
+//            int diff = varSymbolTable.getState();
+////            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+//
+//            instructions.add(instructions.getCurrentLabel(),
+//                    new ArrayList<>(Collections.singletonList(
+//                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
+//        }
 
-            instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Collections.singletonList(
-                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
-        }
-
-        instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
+        // duplicate with line 817?
+//        instructions.add(instructions.getCurrentLabel(),
+//                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
         instructions.updateCurrentLabel();
 
         return instructions;

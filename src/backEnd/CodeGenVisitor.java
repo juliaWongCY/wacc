@@ -789,7 +789,7 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitIfStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
+        String branchLabelName = instructions.getNextLabel();
         varSymbolTable.saveState();
 
         IfStatNode ifStatNode = (IfStatNode) node;
@@ -798,12 +798,14 @@ public class CodeGenVisitor {
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructionsToBeAdded.add(new CMP(registers.getNextAvailableVariableReg(), 0));
-        instructionsToBeAdded.add(new BEQ(instructions.getNextLabel()));
+        instructionsToBeAdded.add(new BEQ(branchLabelName));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         newSymbolTable();
         instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
         popSymbolTable();
+        //
+        instructions.add(new Label(branchLabelName), new ArrayList<>(Collections.singletonList(new EMPTY())));
 
         Label currentMainLabel = instructions.getCurrentLabel();
         instructions.updateCurrentLabel();
@@ -812,24 +814,12 @@ public class CodeGenVisitor {
         instructions = visitStatListNode(ifStatNode.getStatElseBody(), instructions, registers);
         popSymbolTable();
 
-        String branchLabelName = instructions.getNextLabel();
+        branchLabelName = instructions.getNextLabel();
         instructions.add(currentMainLabel,
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
-//
-//        if (!varSymbolTable.checkSameState()) {
-//            //TODO: getting the wrong diff?? the condition is wrong
-//            int diff = varSymbolTable.getState();
-////            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
-//
-//            instructions.add(instructions.getCurrentLabel(),
-//                    new ArrayList<>(Collections.singletonList(
-//                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
-//        }
 
-//JULIA
-        if(instructions.getVarSymbolTable().hasNewVariables(varSymbolTable)){
-//        if (!varSymbolTable.checkSameState()) {
+        if (!varSymbolTable.checkSameState()) {
             //TODO: getting the wrong diff?? the condition is wrong
 //            int diff = varSymbolTable.getState();
             int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
@@ -838,8 +828,7 @@ public class CodeGenVisitor {
                     new ArrayList<>(Collections.singletonList(
                             new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
         }
-//JULIA END
-
+        
         // duplicate with line 817?
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));

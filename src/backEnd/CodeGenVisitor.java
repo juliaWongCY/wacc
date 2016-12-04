@@ -831,8 +831,8 @@ public class CodeGenVisitor {
         if(instructions.getVarSymbolTable().hasNewVariables(varSymbolTable)){
 //        if (!varSymbolTable.checkSameState()) {
             //TODO: getting the wrong diff?? the condition is wrong
-            int diff = varSymbolTable.getState();
-//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+//            int diff = varSymbolTable.getState();
+            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
 
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(

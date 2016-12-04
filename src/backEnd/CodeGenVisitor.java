@@ -828,10 +828,10 @@ public class CodeGenVisitor {
                     new ArrayList<>(Collections.singletonList(
                             new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
         }
-        
+
         // duplicate with line 817?
-        instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
+//        instructions.add(instructions.getCurrentLabel(),
+//                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
         instructions.updateCurrentLabel();
 
         return instructions;

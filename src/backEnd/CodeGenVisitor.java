@@ -28,7 +28,7 @@ import java.util.List;
 
 public class CodeGenVisitor {
 
-    private static VarSymbolTable varSymbolTable;
+    private static VarSymbolTable varSymbolTable = new VarSymbolTable();
     private static FuncSymbolTable funcSymbolTable;
 
     //private static List<Label> labels;
@@ -213,7 +213,7 @@ public class CodeGenVisitor {
         registers.clearRegInUsed();
         instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-        
+
         return instructions;
     }
 
@@ -606,6 +606,7 @@ public class CodeGenVisitor {
         //TODO: getting the right type??
         int type = assignStatNode.getAssignRHS().getTypeIndicator();
 
+
         //TODO: takend out (type == Util.CHAR_TYPE ||)
         if (type == Util.BOOL_TYPE) {
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
@@ -767,26 +768,29 @@ public class CodeGenVisitor {
 
         newSymbolTable();
         instructions = visitStatListNode(ifStatNode.getStatElseBody(), instructions, registers);
-        popSymbolTable();
 
         branchLabelName = instructions.getNextLabel();
         instructions.add(currentMainLabel,
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
-
+        System.out.println(varSymbolTable.getVarLocalSize());
+        System.out.println(varSymbolTable.getVarTotalSize());
+//        if(varSymbolTable.hasNewVariables(varSymbolTable)){
         if (!varSymbolTable.checkSameState()) {
             //TODO: getting the wrong diff?? the condition is wrong
-//            int diff = varSymbolTable.getState();
-            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+            int diff = varSymbolTable.getVarLocalSize();
+//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
+            System.out.println(diff);
 
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(
                             new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
         }
+        popSymbolTable();
 
         // duplicate with line 817?
-//        instructions.add(instructions.getCurrentLabel(),
-//                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
+        instructions.add(instructions.getCurrentLabel(),
+                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
         instructions.updateCurrentLabel();
 
         return instructions;
@@ -929,13 +933,17 @@ public class CodeGenVisitor {
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         ReturnStatNode returnStatNode = (ReturnStatNode) node;
 
+        varSymbolTable.saveState();
+
+
         instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Collections.singletonList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
-
-///////////TODO!!!!!!
-//        if (varSymbolTable.getVarLocalSize() > 0) {
+//
+/////////////TODO!!!!!!
+//        if(!varSymbolTable.checkSameState()){
+////        if (varSymbolTable.getVarLocalSize() > 0) {
 //            instructions.add(instructions.getCurrentLabel(),
 //                    new ArrayList<>(Arrays.asList(
 //                            new ADD(registers.getStackPtrReg(),
@@ -943,7 +951,7 @@ public class CodeGenVisitor {
 //                                    varSymbolTable.getVarLocalSize()))));
 //        }
 
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+//        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 
         return instructions;
     }
@@ -1047,20 +1055,42 @@ public class CodeGenVisitor {
                 );
             }
         }
+
         funcSymbolTable.addFunction(
                 funcName,
                 Util.convertTypeToIndicator(fNode.getRetType()),
                 paramSymbolTable);
+
+        VarSymbolTable originalVarSymTable = varSymbolTable;
         varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
+
+
+        varSymbolTable.saveState();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
+
+        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
+//        if (varSymbolTable.getVarLocalSize() > 0) {
+            int size = varSymbolTable.getVarTotalSize();
+            while (size > 1024) {
+                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
+                size -= 1024;
+            }
+            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
+
+        }
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);
-//        instructions.clearVariable(instructions);
+//        instructions.clearVariable(instructions);  //TODO: do we need this??
+
+        varSymbolTable = originalVarSymTable;
+
 
         return instructions;
     }

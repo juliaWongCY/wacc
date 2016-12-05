@@ -490,60 +490,30 @@ public class CodeGenVisitor {
             if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.AND) {
                 boolean result = bNode.getExprLBool() && bNode.getExprRBool();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new AND(resultReg, exprLReg, exprRReg));
             } else if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.OR) {
                 boolean result = bNode.getExprLBool() || bNode.getExprRBool();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new ORR(resultReg, exprLReg, exprRReg));
             }
         } else {
-            if (((BinaryOprNode) node).isComparison()) {
-//                instructionsToBeAdded.add(new CMP(exprLReg, exprRReg));
-            } else {
-//                instructions.add(new Header(".data"), null);
-//                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
-//                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
-//                    String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
-//                    instructions.getMessageGenerator().generatePrintErrorMessage(
-//                            instructions, errorMessage.length() - 3, errorMessage);
-//                }
-
-//                instructions = generateRuntimeErrorMessage(instructions, registers);
-//
-//                instructions = generatePrintStringMessage(instructions, registers);
-
-            }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
                 boolean result = bNode.getExprLInt() > bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVGT(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVLE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GTE)) {
                 boolean result = bNode.getExprLInt() >= bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVGE(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVLT(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LT)) {
                 boolean result = bNode.getExprLInt() < bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVLT(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVGE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LTE)) {
                 boolean result = bNode.getExprLInt() <= bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVLE(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVGT(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.EQ)) {
                 boolean result = bNode.getExprLInt() == bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVEQ(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVNE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.NEQ)) {
                 boolean result = bNode.getExprLInt() != bNode.getExprRInt();
                 instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
-//                instructionsToBeAdded.add(new MOVNE(resultReg, 1));
-//                instructionsToBeAdded.add(new MOVEQ(resultReg, 0));
             } else {
 
                 if (bNode.getBinaryOpr().equals(BinaryOpr.PLUS)) {
@@ -589,30 +559,7 @@ public class CodeGenVisitor {
                     }
 
                 }
-
-//                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)
-//                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
-//                    instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
-//                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ||
-//                        ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
-//                    instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
-//                    instructionsToBeAdded.add(new BL(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-//                            "__aeabi_idiv" : "__aeabi_idivmod"));
-//                    instructionsToBeAdded.add(new MOV(resultReg,
-//                            ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-//                                    registers.getR0Reg() : registers.getR1Reg()));
-//                    instructions = generateDivideByZeroError(instructions, registers);
-//                } else {
-//                    instructionsToBeAdded.add(new BLNE("p_throw_overflow_error"));
-//                }
-
-//                if (!(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
-//                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD))) {
-//                    instructions = generateOverflowError(instructions, registers);
-//                }
-
             }
-
         }
 
         registers.setRegNotInUse(resultReg);
@@ -732,7 +679,64 @@ public class CodeGenVisitor {
         return instructions;
     }
 
-    public static AssemblyCode visitSideEffectNode(ASTNode node, AssemblyCode instructions, Rgister registers) {
+    public static AssemblyCode visitSideEffectNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+
+        SideEffectNode sNode = (SideEffectNode) node;
+
+        AssignLeftNode assignLeftNode = sNode.getAssignLeftNode();
+
+        if (assignLeftNode instanceof IdentAsLNode) {
+            IdentAsLNode identAsLNode = (IdentAsLNode) assignLeftNode;
+
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(),
+                            registers.getStackPtrReg(), varSymbolTable.getVariable(identAsLNode.getId().getId()).getLocationInStack() - instructions.getCurrentStackPtrPos()))));
+        } else if (assignLeftNode instanceof ArrayElemAsLNode) {
+        } else {
+            instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+        }
+
+        instructions = visitAssignLeftNode(sNode.getAssignLeftNode(), instructions, registers);
+        RegisterARM assignLReg = registers.getNextAvailableVariableReg();
+
+        if (assignLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new PUSH(assignLReg))));
+        }
+
+        Registers updatedRegs = registers.addRegInUsedList(assignLReg);
+
+
+
+         instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), new Label("1")));
+
+        RegisterARM valueReg = registers.getNextAvailableVariableReg();
+        RegisterARM resultReg = assignLReg;
+
+        if (valueReg == RegisterARM.R10 && assignLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Collections.singletonList(new POP(RegisterARM.R11))));
+            assignLReg = RegisterARM.R11;
+        }
+
+        if (sNode.getSideEffectingOpr() == SideEffectingOpr.INC) {
+            instructionsToBeAdded.add(new ADDS(resultReg, assignLReg, valueReg));
+        } else if (sNode.getSideEffectingOpr() == SideEffectingOpr.DEC) {
+            instructionsToBeAdded.add(new SUBS(resultReg, assignLReg, valueReg));
+        }
+
+        instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
+
+        instructions = generateOverflowError(instructions, registers);
+
+        registers.setRegNotInUse(resultReg);
+
+        instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+
+        instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+        return instructions;
+
 
     }
 

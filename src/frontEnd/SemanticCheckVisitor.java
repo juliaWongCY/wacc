@@ -9,7 +9,6 @@ import ast.expression.*;
 import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
-import javafx.geometry.Side;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
@@ -700,7 +699,7 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
         }
 
-        if (lhsType != new IntType()) {
+        if (!lhsType.equals(new IntType())) {
             return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 

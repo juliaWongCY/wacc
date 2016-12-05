@@ -213,7 +213,7 @@ public class CodeGenVisitor {
         registers.clearRegInUsed();
         instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-        
+
         return instructions;
     }
 
@@ -368,7 +368,7 @@ public class CodeGenVisitor {
 
         String errorMessage = "\"NullReferenceError: dereference a null reference\\n\\0\"";
         instructions.getMessageGenerator().
-                generatePrintErrorMessage(instructions, errorMessage.length() - 5, errorMessage); // todo: check length
+                generatePrintErrorMessage(instructions, errorMessage.length() - 4, errorMessage); // todo: check length
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
             instructions = generatePrintStringMessage(instructions, registers);
         }
@@ -756,7 +756,7 @@ public class CodeGenVisitor {
         instructions.add(new Header(".data"), null);
         String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
         instructions.getMessageGenerator().generatePrintErrorMessage(
-                instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
+                instructions, errorMessage.length() - 2 * 2, errorMessage);
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
             instructions = generatePrintStringMessage(instructions, registers);
         }
@@ -980,13 +980,14 @@ public class CodeGenVisitor {
                         registers.getNextAvailableVariableReg()))));
 
 ///////////TODO!!!!!!
+        if(!varSymbolTable.checkSameState()){
 //        if (varSymbolTable.getVarLocalSize() > 0) {
-//            instructions.add(instructions.getCurrentLabel(),
-//                    new ArrayList<>(Arrays.asList(
-//                            new ADD(registers.getStackPtrReg(),
-//                                    registers.getStackPtrReg(),
-//                                    varSymbolTable.getVarLocalSize()))));
-//        }
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(
+                            new ADD(registers.getStackPtrReg(),
+                                    registers.getStackPtrReg(),
+                                    varSymbolTable.getVarLocalSize()))));
+        }
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 

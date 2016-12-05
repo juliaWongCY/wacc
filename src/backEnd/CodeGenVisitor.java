@@ -1246,7 +1246,7 @@ public class CodeGenVisitor {
             hasErrorMsgs[Util.NULL_REF_ERROR] = instructions.getNumberOfMessage();
             String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
             instructions.getMessageGenerator().generatePrintErrorMessage(
-                    instructions, errorMessage.length() - 2 * 2, errorMessage);
+                    instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
 
         }
         return instructions;

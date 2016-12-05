@@ -213,7 +213,7 @@ public class CodeGenVisitor {
         registers.clearRegInUsed();
         instructionsToBeAdded.add(new STR(registers.getR0Reg(), registers.getNextAvailableVariableReg(), 4));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-        
+
         return instructions;
     }
 
@@ -980,13 +980,14 @@ public class CodeGenVisitor {
                         registers.getNextAvailableVariableReg()))));
 
 ///////////TODO!!!!!!
+        if(!varSymbolTable.checkSameState()){
 //        if (varSymbolTable.getVarLocalSize() > 0) {
-//            instructions.add(instructions.getCurrentLabel(),
-//                    new ArrayList<>(Arrays.asList(
-//                            new ADD(registers.getStackPtrReg(),
-//                                    registers.getStackPtrReg(),
-//                                    varSymbolTable.getVarLocalSize()))));
-//        }
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Arrays.asList(
+                            new ADD(registers.getStackPtrReg(),
+                                    registers.getStackPtrReg(),
+                                    varSymbolTable.getVarLocalSize()))));
+        }
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 

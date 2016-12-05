@@ -13,7 +13,7 @@ public class IdentAsLNode implements AssignLeftNode {
         this.id = id;
     }
 
-    public IdentNode getId() {
+    public IdentNode getIdnode() {
         return id;
     }
 

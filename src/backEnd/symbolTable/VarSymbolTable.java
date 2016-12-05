@@ -44,7 +44,7 @@ public class VarSymbolTable {
         }
     }
 
-    public VarProperty getVariable(String varName) {
+    public VarProperty getVarProperty(String varName) {
         if (varTable.containsKey(varName)) {
             return varTable.get(varName);
         }
@@ -52,7 +52,7 @@ public class VarSymbolTable {
             System.err.println("variable not found");
             return null;
         } else {
-            return parent.getVariable(varName);
+            return parent.getVarProperty(varName);
         }
     }
 
@@ -111,7 +111,7 @@ public class VarSymbolTable {
         Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, VarProperty> entry = iter.next();
-            if (!varTable.get(entry.getKey()).equals(varSymbolTable.getVariable(entry.getKey()))) {
+            if (!varTable.get(entry.getKey()).equals(varSymbolTable.getVarProperty(entry.getKey()))) {
                 return true;
             }
         }

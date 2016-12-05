@@ -1,5 +1,6 @@
 package backEnd;
 
+import errorHandling.ErrorType;
 import type.*;
 
 public class Util {
@@ -46,8 +47,8 @@ public class Util {
         if (type instanceof FunctionType) {
             return convertTypeToIndicator(((FunctionType) type).getReturnType());
         }
-        System.err.println("unrecognised type");
-        return -1;
+        System.err.println("unrecognised type or void");
+        return EMPTY_TYPE;
     }
 
     public static int getTypeSize(int typeIndicator) {

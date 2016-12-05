@@ -1210,16 +1210,39 @@ public class CodeGenVisitor {
                 return varSymbolTable.getVariable(iNode.getId());
             }
             if (typeIndicator == Util.PAIR_TYPE) {
-                if (node instanceof PairLiterNode
-                        || node instanceof ExprAsRNode && ((ExprAsRNode) node).getExpr() instanceof PairLiterNode) {
+
+                ExpressionNode expr = ((ExprAsRNode) node).getExpr();
+                if(expr instanceof PairLiterNode){
                     return new Value(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
                 }
-                if (node instanceof IdentNode) {
+//                if (expr instanceof PairElemNode){
+//                    System.out.println("getting here");
+////                    return new Value()
+//                }
+                if(expr instanceof IdentNode){
                     return varSymbolTable.getVariable(((IdentNode) node).getId());
                 }
+
+                //TODO!!!! ArrayElemNode
+                if(expr instanceof ArrayElemNode){
+                    List<ExpressionNode> arrayList = ((ArrayElemNode) expr).getIndexes();
+                    ExpressionNode elem = arrayList.get(0);
+                    int elemIndicator = elem.getTypeIndicator();
+                    return new Value(elemIndicator, stackPtrPos);
+                }
+
+
+
+//                if (node instanceof PairLiterNode
+//                        || node instanceof ExprAsRNode && ((ExprAsRNode) node).getExpr() instanceof PairLiterNode) {
+//                    return new Value(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
+//                }
+//                if (node instanceof IdentNode) {
+//                    return varSymbolTable.getVariable(((IdentNode) node).getId());
+//                }
                 System.err.println("No other instance of RHS for it to be of type pair");
             }
-            return new Value(typeIndicator, stackPtrPos);
+            return new Value(typeIndicator, stackPtrPos); //For base types
         }
         if (node instanceof NewPairAsRNode) {
             int fst = ((NewPairAsRNode) node).getFstTypeIndicator();

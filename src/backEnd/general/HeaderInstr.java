@@ -18,7 +18,7 @@ public class HeaderInstr extends Instruction {
 
     @Override
     public String toString() {
-        if (messageLength > 0) {
+        if (messageLength > 0 || messageLength == 0 && instruction.equals("\t.word ")) {
             return "\t" + instruction + " " + messageLength + "\n";
         }
         return "\t" + instruction + "\n";

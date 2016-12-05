@@ -987,18 +987,20 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
         actualRetType = getRetTypeInStatList((BasicParser.StatListContext) sctx, sctx);
 
         // compare expected and actual return type
+        Type expectedType;
         try {
             Type fType = symbolTable.lookUpFunction(fname);
             if (!((FunctionType)fType).getReturnType().equals(actualRetType)
                     && !actualRetType.equals(new StatementType())) {
                 return handleError(ctx, ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE) ;
             }
+            expectedType = ((FunctionType) fType).getReturnType();
         } catch (SemanticException e) {
             return handleError(ctx, ErrorHandle.ERRORTYPE_UNDEFINED_FUNC) ;
         }
 
         popSymbolTable();
-        return new FunctionNode(actualRetType, new IdentNode(fname), paramListNode, statListNode);
+        return new FunctionNode(expectedType, new IdentNode(fname), paramListNode, statListNode);
     }
 
     @Override

@@ -9,6 +9,7 @@ import type.Type;
 public class IdentNode extends ExpressionNode {
 
     private final String id;
+    private Type type;
 
     public IdentNode(String id) {
         this.id = id;
@@ -27,11 +28,16 @@ public class IdentNode extends ExpressionNode {
                 type = ((FunctionType) type).getReturnType();
             }
             typeIndicator = Util.convertTypeToIndicator(type);
+            this.type = type;
             return type;
         } catch (SemanticException e) {
             throw new SemanticException("This " + id + " not an identifier.");
         }
 
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public void setTypeIndicator(Type type) {

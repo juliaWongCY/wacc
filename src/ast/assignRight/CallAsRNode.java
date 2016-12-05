@@ -1,6 +1,7 @@
 package ast.assignRight;
 
 import ast.expression.IdentNode;
+import backEnd.Util;
 import frontEnd.SemanticException;
 import frontEnd.SymbolTable;
 import type.FunctionType;
@@ -10,10 +11,12 @@ public class CallAsRNode implements AssignRightNode {
 
     private IdentNode functionId;
     private ArgListNode argList;
+    private Type retType;
 
     public CallAsRNode(IdentNode functionId) {
         this.functionId = functionId;
         this.argList = null;
+        this.retType = null;
     }
 
     public CallAsRNode(IdentNode functionId, ArgListNode argList) {
@@ -26,29 +29,22 @@ public class CallAsRNode implements AssignRightNode {
         return functionId;
     }
 
-    public void setFunctionId(IdentNode functionId) {
-        this.functionId = functionId;
-    }
-
     public ArgListNode getArgList() {
         return argList;
     }
 
-    public void setArgList(ArgListNode argList) {
-        this.argList = argList;
-    }
-
-
     @Override
     public int getTypeIndicator() {
-        return functionId.getTypeIndicator();
+        return Util.convertTypeToIndicator(retType);
     }
 
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
         Type type = st.lookUpFunction(functionId.getId()); // return the return type of the function, instead of its parameters
         if (type instanceof FunctionType) {
-            return ((FunctionType)type).getReturnType();
+            type = ((FunctionType) type).getReturnType();
+            retType = type;
+            return retType;
         } else {
             throw new SemanticException("Call not apply to function type");
         }

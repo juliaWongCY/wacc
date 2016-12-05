@@ -138,11 +138,11 @@ public class AssemblyCode {
     }
 
     public VarProperty lookUpVar(String var){
-        return varSymbolTable.getVariable(var);
+        return varSymbolTable.getVarProperty(var);
     }
 
     public int getPositionInStack(String var) {
-        int variablePos = lookUpVar(var).getLocationInStack();
+        int variablePos = lookUpVar(var).getStackPos();
         return variablePos - getCurrentStackPtrPos();
     }
 

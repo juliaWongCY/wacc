@@ -3,7 +3,7 @@ package backEnd;
 import backEnd.general.Header;
 import backEnd.general.Label;
 import backEnd.instructions.Instruction;
-import backEnd.symbolTable.Value;
+import backEnd.symbolTable.VarProperty;
 import backEnd.symbolTable.VarSymbolTable;
 
 import java.util.Map;
@@ -137,7 +137,7 @@ public class AssemblyCode {
         currentLabel = label;
     }
 
-    public Value lookUpVar(String var){
+    public VarProperty lookUpVar(String var){
         return varSymbolTable.getVariable(var);
     }
 

@@ -2,30 +2,28 @@ package backEnd.symbolTable;
 
 import backEnd.Util;
 
-public class Value {
+public class VarProperty {
 
     // TODO: refactor class to VarProperty, since doesn't need the value field
 
-
-    private String value = null;
     private int elementIndicator    = Util.EMPTY_TYPE;
     private int elementIndicatorSnd = Util.EMPTY_TYPE;
     private boolean isArray         = false;
     private boolean isPair          = false;
     private int locationInStack     = 0;
 
-    public Value(int elementIndicator, int locationInStack) {
+    public VarProperty(int elementIndicator, int locationInStack) {
         this.elementIndicator = elementIndicator;
         this.locationInStack = locationInStack;
     }
 
-    public Value(boolean isArray, int elementIndicator, int locationInStack) {
+    public VarProperty(boolean isArray, int elementIndicator, int locationInStack) {
         this.elementIndicator = elementIndicator;
         this.isArray = isArray;
         this.locationInStack = locationInStack;
     }
 
-    public Value(boolean isPair, int elementIndicator, int elementIndicatorSnd, int locationInStack) {
+    public VarProperty(boolean isPair, int elementIndicator, int elementIndicatorSnd, int locationInStack) {
         this.elementIndicator = elementIndicator;
         this.elementIndicatorSnd = elementIndicatorSnd;
         this.isPair = isPair;
@@ -33,32 +31,6 @@ public class Value {
     }
 
     // for base type value
-    public Value(String value, int elementIndicator, int locationInStack) {
-        this.value = value;
-        this.elementIndicator = elementIndicator;
-        this.locationInStack = locationInStack;
-    }
-
-    // for array type value, where the indicator indicates the element type
-    public Value(String value, boolean isArray, int elementIndicator, int locationInStack) {
-        this.value = value;
-        this.isArray = true;
-        this.elementIndicator = elementIndicator;
-        this.locationInStack = locationInStack;
-    }
-
-    // for pair type value, where the two indicators indicate the fst and snd elements respectively
-    public Value(String value, boolean isPair, int elementIndicator, int elementIndicatorSnd, int locationInStack) {
-        this.value = value;
-        this.isPair = true;
-        this.elementIndicator = elementIndicator;
-        this.elementIndicatorSnd = elementIndicatorSnd;
-        this.locationInStack = locationInStack;
-    }
-
-    public String getValue() {
-        return value;
-    }
 
     public int getValueType() {
         return elementIndicator;

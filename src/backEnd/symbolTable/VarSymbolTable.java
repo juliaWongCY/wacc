@@ -7,7 +7,7 @@ import java.util.Map;
 public class VarSymbolTable {
 
     private VarSymbolTable parent;
-    private Map<String, Value> varTable;
+    private Map<String, VarProperty> varTable;
 
     private int state = -1;
 
@@ -24,27 +24,27 @@ public class VarSymbolTable {
     // splitting addVar and modVar to ensure the integrity of the symbol table
     // TODO: change back to just call put method after the entire backend working
 
-    public void addVariable(String varName, Value value) {
+    public void addVariable(String varName, VarProperty varProperty) {
         if (varTable.containsKey(varName)) {
             System.err.println("Duplicate variable in same scope: " + varName);
         } else {
-            varTable.put(varName, value);
+            varTable.put(varName, varProperty);
         }
     }
 
-    public void modifyVariable(String varName, Value value) {
+    public void modifyVariable(String varName, VarProperty varProperty) {
         if (varTable.containsKey(varName)) {
-            varTable.put(varName, value);
+            varTable.put(varName, varProperty);
         } else {
             if (parent == null) {
                 System.err.println("Undefined variable");
             } else {
-                parent.modifyVariable(varName, value);
+                parent.modifyVariable(varName, varProperty);
             }
         }
     }
 
-    public Value getVariable(String varName) {
+    public VarProperty getVariable(String varName) {
         if (varTable.containsKey(varName)) {
             return varTable.get(varName);
         }
@@ -58,10 +58,10 @@ public class VarSymbolTable {
 
 
     public void clearVariables() {
-        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
-        Map<String, Value> newVarTable = new HashMap<>();
+        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
+        Map<String, VarProperty> newVarTable = new HashMap<>();
         while (iter.hasNext()) {
-            Map.Entry<String, Value> entry = iter.next();
+            Map.Entry<String, VarProperty> entry = iter.next();
             if (entry.getKey().startsWith("f_inc")) {
                 newVarTable.put(entry.getKey(), entry.getValue());
             }
@@ -75,9 +75,9 @@ public class VarSymbolTable {
 
     public int getVarLocalSize() {
         int size = 0;
-        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<String, Value> entry = iter.next();
+            Map.Entry<String, VarProperty> entry = iter.next();
             size += entry.getValue().getTypeSize();
         }
         return size;
@@ -108,9 +108,9 @@ public class VarSymbolTable {
     }
 
     public boolean hasNewVariables(VarSymbolTable varSymbolTable) {
-        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<String, Value> entry = iter.next();
+            Map.Entry<String, VarProperty> entry = iter.next();
             if (!varTable.get(entry.getKey()).equals(varSymbolTable.getVariable(entry.getKey()))) {
                 return true;
             }

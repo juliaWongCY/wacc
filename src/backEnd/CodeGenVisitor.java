@@ -16,7 +16,7 @@ import backEnd.instructions.load.LDRSB;
 import backEnd.instructions.store.STR;
 import backEnd.instructions.store.STRB;
 import backEnd.symbolTable.FuncSymbolTable;
-import backEnd.symbolTable.Value;
+import backEnd.symbolTable.VarProperty;
 import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.*;
@@ -368,7 +368,7 @@ public class CodeGenVisitor {
 
         String errorMessage = "\"NullReferenceError: dereference a null reference\\n\\0\"";
         instructions.getMessageGenerator().
-                generatePrintErrorMessage(instructions, errorMessage.length() - 5, errorMessage); // todo: check length
+                generatePrintErrorMessage(instructions, errorMessage.length() - 4, errorMessage); // todo: check length
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
             instructions = generatePrintStringMessage(instructions, registers);
         }
@@ -706,7 +706,7 @@ public class CodeGenVisitor {
         instructions = visitAssignRightNode(rhsNode, instructions, registers);
 
         // construct value to put in variable symbol table
-        Value val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
+        VarProperty val = convertAssignRHSToValue(rhsNode, instructions.getCurrentStackPtrPos());
         varSymbolTable.addVariable(dNode.getId().getId(), val);
 
         if (typeIndicator == Util.CHAR_TYPE || typeIndicator == Util.BOOL_TYPE) {
@@ -756,7 +756,7 @@ public class CodeGenVisitor {
         instructions.add(new Header(".data"), null);
         String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
         instructions.getMessageGenerator().generatePrintErrorMessage(
-                instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
+                instructions, errorMessage.length() - 2 * 2, errorMessage);
         if (hasPrintTypes[Util.STRING_TYPE] == null) {
             instructions = generatePrintStringMessage(instructions, registers);
         }
@@ -1082,11 +1082,11 @@ public class CodeGenVisitor {
                 System.err.println("shouldn't reach here, as should be able to get params type");
             }
 
-            paramSymbolTable.addVariable(paramNames.get(0), covertParamToValue(null, paramTypes.get(0), 4));
+            paramSymbolTable.addVariable(paramNames.get(0), covertParamToValue(paramTypes.get(0), 4));
             for (int i = 1; i < paramNames.size(); i++) {
                 paramSymbolTable.addVariable(
                         paramNames.get(i),
-                        covertParamToValue(null, paramTypes.get(i),
+                        covertParamToValue(paramTypes.get(i),
                                 Util.getTypeSize(paramTypes.get(i - 1))
                                 + paramSymbolTable.getVariable(paramNames.get(i - 1)).getLocationInStack())
                 );
@@ -1175,27 +1175,27 @@ public class CodeGenVisitor {
         }
     }
 
-    private static Value covertParamToValue(String value, Type type, int stackPos) {
+    private static VarProperty covertParamToValue(Type type, int stackPos) {
         if (type instanceof ArrayType) {
             int element = Util.convertTypeToIndicator(((ArrayType) type).getElemType());
-            return new Value(value, true, element, stackPos);  //TODO check stack ptr place
+            return new VarProperty(true, element, stackPos);  //TODO check stack ptr place
         }
         if (type instanceof PairType) {
             int fst = Util.convertTypeToIndicator(((PairType) type).getFstExprType());
             int snd = Util.convertTypeToIndicator(((PairType) type).getSndExprType());
-            return new Value(value, true, fst, snd, stackPos);
+            return new VarProperty(true, fst, snd, stackPos);
         }
-        return new Value(value, Util.convertTypeToIndicator(type), stackPos); //TODO check stack ptr place
+        return new VarProperty(Util.convertTypeToIndicator(type), stackPos); //TODO check stack ptr place
     }
 
-    private static Value convertAssignRHSToValue(AssignRightNode node, int stackPtrPos) {
+    private static VarProperty convertAssignRHSToValue(AssignRightNode node, int stackPtrPos) {
         int typeIndicator = Util.EMPTY_TYPE;
         if (node instanceof ArrayLiterAsRNode) {
-            return new Value(true, ((ArrayLiterAsRNode) node).getElementTypeIndicator(), stackPtrPos);
+            return new VarProperty(true, ((ArrayLiterAsRNode) node).getElementTypeIndicator(), stackPtrPos);
         }
         if (node instanceof CallAsRNode) {
             String funcName = ((CallAsRNode) node).getFunctionId().getId();
-            return new Value(funcSymbolTable.getFunctionRetType(funcName), stackPtrPos);
+            return new VarProperty(funcSymbolTable.getFunctionRetType(funcName), stackPtrPos);
         }
         if (node instanceof ExprAsRNode) {
             typeIndicator = ((ExprAsRNode)node).getExpr().getTypeIndicator();
@@ -1210,14 +1210,13 @@ public class CodeGenVisitor {
                 return varSymbolTable.getVariable(iNode.getId());
             }
             if (typeIndicator == Util.PAIR_TYPE) {
-
                 ExpressionNode expr = ((ExprAsRNode) node).getExpr();
                 if(expr instanceof PairLiterNode){
-                    return new Value(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
+                    return new VarProperty(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
                 }
 //                if (expr instanceof PairElemNode){
 //                    System.out.println("getting here");
-////                    return new Value()
+////                    return new VarProperty()
 //                }
                 if(expr instanceof IdentNode){
                     return varSymbolTable.getVariable(((IdentNode) node).getId());
@@ -1228,30 +1227,30 @@ public class CodeGenVisitor {
                     List<ExpressionNode> arrayList = ((ArrayElemNode) expr).getIndexes();
                     ExpressionNode elem = arrayList.get(0);
                     int elemIndicator = elem.getTypeIndicator();
-                    return new Value(elemIndicator, stackPtrPos);
+                    return new VarProperty(elemIndicator, stackPtrPos);
                 }
 
 
 
 //                if (node instanceof PairLiterNode
 //                        || node instanceof ExprAsRNode && ((ExprAsRNode) node).getExpr() instanceof PairLiterNode) {
-//                    return new Value(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
+//                    return new VarProperty(true, Util.EMPTY_TYPE, Util.EMPTY_TYPE, stackPtrPos);
 //                }
 //                if (node instanceof IdentNode) {
 //                    return varSymbolTable.getVariable(((IdentNode) node).getId());
 //                }
                 System.err.println("No other instance of RHS for it to be of type pair");
             }
-            return new Value(typeIndicator, stackPtrPos); //For base types
+            return new VarProperty(typeIndicator, stackPtrPos); //For base types
         }
         if (node instanceof NewPairAsRNode) {
             int fst = ((NewPairAsRNode) node).getFstTypeIndicator();
             int snd = ((NewPairAsRNode) node).getSndTypeIndicator();
-            return new Value(true, fst, snd, stackPtrPos);
+            return new VarProperty(true, fst, snd, stackPtrPos);
         }
         if (node instanceof PairElemAsRNode) {
             typeIndicator = ((PairElemAsRNode) node).getPairElemNode().getExpressionNode().getTypeIndicator();
-            return new Value(typeIndicator, stackPtrPos);
+            return new VarProperty(typeIndicator, stackPtrPos);
         }
         System.err.println("unrecognised assign rhs instance");
         return null;

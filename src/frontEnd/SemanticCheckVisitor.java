@@ -9,6 +9,7 @@ import ast.expression.*;
 import ast.parameter.*;
 import ast.statement.*;
 import ast.assignLeft.*;
+import javafx.geometry.Side;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import type.*;
@@ -682,6 +683,43 @@ public class SemanticCheckVisitor extends BasicParserBaseVisitor<ASTNode> {
             return handleError(ctx.assignRHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
         }
 
+    }
+
+    @Override
+    public ASTNode visitSideeffect_stat(@NotNull BasicParser.Sideeffect_statContext ctx) {
+        ASTNode assignLHS = visit(ctx.assignLHS());
+        Type lhsType = null;
+
+        if (!(assignLHS instanceof AssignLeftNode)) {
+            return handleError(ctx.assignLHS(), ((ErrorNode) assignLHS).getErrorType());
+        }
+
+        try {
+            lhsType = assignLHS.getNodeType(symbolTable);
+        } catch (SemanticException e) {
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_UNDEFINED_VAR);
+        }
+
+        if (lhsType != new IntType()) {
+            return handleError(ctx.assignLHS(), ErrorHandle.ERRORTYPE_INCOMPATIBLE_TYPE);
+        }
+
+        String operator = ctx.sideeffecting().getText();
+
+        SideEffectingOpr sideEffectingOpr = SideEffectingOpr.INC;
+
+        switch (operator) {
+            case "++":
+                sideEffectingOpr = SideEffectingOpr.INC;
+                break;
+            case "--":
+                sideEffectingOpr = SideEffectingOpr.DEC;
+                break;
+            default:
+                System.err.println("Operator not found.");
+        }
+
+        return new SideEffectNode(sideEffectingOpr, (AssignLeftNode) assignLHS);
     }
 
     @Override

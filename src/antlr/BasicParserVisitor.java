@@ -243,6 +243,12 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintln_stat(@NotNull BasicParser.Println_statContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BasicParser#sideeffecting}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSideeffecting(@NotNull BasicParser.SideeffectingContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code scope_stat}
 	 * labeled alternative in {@link BasicParser#stat}.
 	 * @param ctx the parse tree
@@ -330,6 +336,13 @@ public interface BasicParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnary_opNeg(@NotNull BasicParser.Unary_opNegContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sideeffect_stat}
+	 * labeled alternative in {@link BasicParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSideeffect_stat(@NotNull BasicParser.Sideeffect_statContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code if_stat}
 	 * labeled alternative in {@link BasicParser#stat}.

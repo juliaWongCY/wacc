@@ -53,6 +53,10 @@ NEQ: '!=' ;
 AND: '&&' ;
 OR: '||' ;
 
+//Side-effect operator
+INCREMENT: '++';
+DECREMENT: '--';
+
 //Unary operator
 NOT: '!' ;
 LEN: 'len' ;

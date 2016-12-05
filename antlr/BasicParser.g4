@@ -21,6 +21,8 @@ binaryOper_CompareHigher: GT | GTE | LT | LTE;
 
 binaryOper_CompareLower: EQ | NEQ;
 
+sideeffecting: INCREMENT | DECREMENT;
+
 sign : (MINUS|PLUS);
 
 intliter : sign? INTEGER;
@@ -47,6 +49,7 @@ statList : stat (SEMICOLON stat)*;
 
 stat : SKIP_                                #skip_stat
 | type IDENT ASSIGN assignRHS               #declare_stat
+| assignLHS sideeffecting                   #sideeffect_stat
 | assignLHS ASSIGN assignRHS                #assign_stat
 | READ assignLHS                            #read_stat
 | FREE expr                                 #free_stat

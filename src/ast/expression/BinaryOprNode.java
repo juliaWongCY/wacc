@@ -52,7 +52,7 @@ public class BinaryOprNode extends ExpressionNode {
     }
 
     public int getExprLInt() {
-        if (exprL.getTypeIndicator() == 0) {
+        if (exprL instanceof IntLiterNode) {
             return ((IntLiterNode) exprL).getValue();
         } else {
             return ((BinaryOprNode) exprL).getExprLInt();
@@ -60,10 +60,28 @@ public class BinaryOprNode extends ExpressionNode {
     }
 
     public int getExprRInt() {
-        if (exprL.getTypeIndicator() == 0) {
+        if (exprR instanceof IntLiterNode) {
             return ((IntLiterNode) exprR).getValue();
+//        } else if (exprR instanceof IdentNode) {
+//
         } else {
             return ((BinaryOprNode) exprR).getExprRInt();
+        }
+    }
+
+    public boolean getExprLBool() {
+        if (exprL.getTypeIndicator() == 1) {
+            return ((BoolLiterNode) exprL).getValue();
+        } else {
+            return ((BinaryOprNode) exprL).getExprLBool();
+        }
+    }
+
+    public boolean getExprRBool() {
+        if (exprR.getTypeIndicator() == 1) {
+            return ((BoolLiterNode) exprR).getValue();
+        } else {
+            return ((BinaryOprNode) exprR).getExprRBool();
         }
     }
 

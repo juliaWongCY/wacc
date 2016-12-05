@@ -367,12 +367,8 @@ public class CodeGenVisitor {
         PairElemNode pNode = (PairElemNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        String errorMessage = "\"NullReferenceError: dereference a null reference\\n\\0\"";
-        instructions.getMessageGenerator().
-                generatePrintErrorMessage(instructions, errorMessage.length() - 4, errorMessage); // todo: check length
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            instructions = generatePrintStringMessage(instructions, registers);
-        }
+        instructions = generateNullRefError(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -710,12 +706,9 @@ public class CodeGenVisitor {
                 registers, instructions));
 
         instructions.add(new Header(".data"), null);
-        String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
-        instructions.getMessageGenerator().generatePrintErrorMessage(
-                instructions, errorMessage.length() - 2 * 2, errorMessage);
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            instructions = generatePrintStringMessage(instructions, registers);
-        }
+
+        instructions = generateNullRefError(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
 
         Label printFreePair = new Label("p_free_pair");
         instructions.add(printFreePair, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
@@ -1244,6 +1237,17 @@ public class CodeGenVisitor {
             instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
             instructions.add(new Label("p_check_array_bounds"), instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
                     instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]));
+        }
+        return instructions;
+    }
+
+    private static AssemblyCode generateNullRefError(AssemblyCode instructions, Registers registers) {
+        if (hasErrorMsgs[Util.NULL_REF_ERROR] == null) {
+            hasErrorMsgs[Util.NULL_REF_ERROR] = instructions.getNumberOfMessage();
+            String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
+            instructions.getMessageGenerator().generatePrintErrorMessage(
+                    instructions, errorMessage.length() - 2 * 2, errorMessage);
+
         }
         return instructions;
     }

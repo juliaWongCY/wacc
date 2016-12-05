@@ -974,6 +974,8 @@ public class CodeGenVisitor {
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         ReturnStatNode returnStatNode = (ReturnStatNode) node;
 
+        varSymbolTable.saveState();
+
         instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Collections.singletonList(new MOV(registers.getR0Reg(),

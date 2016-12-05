@@ -976,22 +976,23 @@ public class CodeGenVisitor {
 
         varSymbolTable.saveState();
 
+
         instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Collections.singletonList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
+//
+/////////////TODO!!!!!!
+//        if(!varSymbolTable.checkSameState()){
+////        if (varSymbolTable.getVarLocalSize() > 0) {
+//            instructions.add(instructions.getCurrentLabel(),
+//                    new ArrayList<>(Arrays.asList(
+//                            new ADD(registers.getStackPtrReg(),
+//                                    registers.getStackPtrReg(),
+//                                    varSymbolTable.getVarLocalSize()))));
+//        }
 
-///////////TODO!!!!!!
-        if(!varSymbolTable.checkSameState()){
-//        if (varSymbolTable.getVarLocalSize() > 0) {
-            instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(
-                            new ADD(registers.getStackPtrReg(),
-                                    registers.getStackPtrReg(),
-                                    varSymbolTable.getVarLocalSize()))));
-        }
-
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+//        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 
         return instructions;
     }
@@ -1095,20 +1096,41 @@ public class CodeGenVisitor {
                 );
             }
         }
+
         funcSymbolTable.addFunction(
                 funcName,
                 Util.convertTypeToIndicator(fNode.getRetType()),
                 paramSymbolTable);
+        VarSymbolTable originalVarSymTable = varSymbolTable;
         varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
+        varSymbolTable.saveState();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
+
+        System.out.println(varSymbolTable.getState());
+
+        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
+//        if (varSymbolTable.getVarLocalSize() > 0) {
+            int size = varSymbolTable.getVarTotalSize();
+            System.out.println(size);
+            while (size > 1024) {
+                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
+                size -= 1024;
+            }
+            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
+
+        }
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);
 //        instructions.clearVariable(instructions);
+
+        varSymbolTable = originalVarSymTable;
 
         return instructions;
     }

@@ -617,6 +617,7 @@ public class CodeGenVisitor {
     public static AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         AssignStatNode assignStatNode = (AssignStatNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        boolean lhsIsIdent = assignStatNode.getAssignLHS() instanceof IdentAsLNode;
         boolean rhsIsCall = assignStatNode.getAssignRHS() instanceof CallAsRNode;
         //TODO: getting the right type??
         int type = assignStatNode.getAssignRHS().getTypeIndicator();
@@ -624,8 +625,11 @@ public class CodeGenVisitor {
 
         //TODO: takend out (type == Util.CHAR_TYPE ||)
         if (type == Util.BOOL_TYPE) {
-            if (rhsIsCall) {
-                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+            if (lhsIsIdent && rhsIsCall) {
+                IdentNode iNode = ((IdentAsLNode) assignStatNode.getAssignLHS()).getIdnode();
+                int lhsStackPos = varSymbolTable.getVarProperty(iNode.getId()).getStackPos();
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
+                        Math.abs(lhsStackPos - instructions.getCurrentStackPtrPos())));
             } else {
                 instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
             }
@@ -633,8 +637,11 @@ public class CodeGenVisitor {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
                 if(type == Util.CHAR_TYPE){
-                    if (rhsIsCall) {
-                        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+                    if (lhsIsIdent && rhsIsCall) {
+                        IdentNode iNode = (IdentNode) assignStatNode.getAssignLHS();
+                        int lhsStackPos = varSymbolTable.getVarProperty(iNode.getId()).getStackPos();
+                        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(),
+                                Math.abs(lhsStackPos - instructions.getCurrentStackPtrPos())));
                     } else {
                         instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
                     }

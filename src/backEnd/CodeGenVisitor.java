@@ -268,8 +268,11 @@ public class CodeGenVisitor {
         Type fullType = aNode.getElemType();
         int typeIndicator = aNode.getTypeIndicator();
 
+        System.out.println(varSymbolTable.getVarTotalSize());
+        int offset = varSymbolTable.getVarTotalSize() - 4;
+
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset)))); //TODO: offset
 
         // need to loop through indexes
         List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();
@@ -1060,18 +1063,18 @@ public class CodeGenVisitor {
                 paramSymbolTable);
 
         VarSymbolTable originalVarSymTable = varSymbolTable;
-//        varSymbolTable.saveState();
+        varSymbolTable.saveState();
         varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
 
 
-        varSymbolTable.saveState();
+//        varSymbolTable.saveState();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
-
+//
 //        System.out.println(fNode.getParamListNode().getParams().toString());
 //        System.out.println(varSymbolTable.getVarLocalSize());
 //        System.out.println(varSymbolTable.getVarTotalSize());

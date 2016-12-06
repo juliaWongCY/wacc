@@ -1,14 +1,16 @@
-# attempt dereference of a null pair by reading into an element of it
+# create a pair and write to its first element
 
 # Output:
-# #runtime_error#
-
-# Exit:
-# 255
+# 10
+# 42
 
 # Program:
 
 begin
-	pair(int, int) p = null ;
-	read snd p
+  pair(int, char) p = newpair(10, 'a') ;
+  int f = fst p ;
+  println f ;
+  fst p = 42 ;
+  f = fst p ;
+  println f
 end

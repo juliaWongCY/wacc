@@ -22,7 +22,6 @@ public class AssignStatNode implements StatementNode {
     }
 
 
-
     //These functions will be useful for backend
     public AssignRightNode getAssignRHS(){
         return assignRHS;

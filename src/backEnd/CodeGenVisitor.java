@@ -267,7 +267,6 @@ public class CodeGenVisitor {
         ArrayElemNode aNode = (ArrayElemNode) node;
         Type fullType = aNode.getElemType();
         int typeIndicator = aNode.getTypeIndicator();
-        int elemTypeSize = Util.getTypeSize(typeIndicator); // todo if string array should give 4, char array give 1
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
                 new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
@@ -287,7 +286,7 @@ public class CodeGenVisitor {
                     registers.getNextReg(registers.getNextAvailableVariableReg())));
             instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
             instructionsToBeAdded.add(new BL("p_check_array_bounds"));
-            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
+            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), 4));
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                     registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
             instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);

@@ -37,7 +37,7 @@ public class Util {
             return STRING_TYPE;
         }
         if (type instanceof ArrayType) {
-            if (((ArrayType) type).getElemType() instanceof  CharType) {
+            if (((ArrayType) type).getElemType() instanceof CharType) {
                 return STRING_TYPE;
             }
             return ARRAY_TYPE;

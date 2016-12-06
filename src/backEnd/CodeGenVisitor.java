@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings({"ConstantConditions", "WeakerAccess"})
 public class CodeGenVisitor {
 
     private static VarSymbolTable varSymbolTable = new VarSymbolTable();
@@ -33,8 +34,8 @@ public class CodeGenVisitor {
 
     //private static List<Label> labels;
     private static boolean hasPrintlnMsg = false;
-    private static Integer[] printTypes = new Integer[Util.NUMBER_OF_TYPE];
-    private static Integer[] errorMsgs = new Integer[Util.NUMBER_OF_ERROR];
+    private static final Integer[] printTypes = new Integer[Util.NUMBER_OF_TYPE];
+    private static final Integer[] errorMsgs = new Integer[Util.NUMBER_OF_ERROR];
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
 
@@ -77,6 +78,7 @@ public class CodeGenVisitor {
         return visitArrayElemNode(((ArrayElemAsLNode)node).getArrayElem(), instructions, registers);
     }
 
+    @SuppressWarnings("UnusedParameters")
     public static AssemblyCode visitIdentAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         return instructions;
     }
@@ -139,6 +141,7 @@ public class CodeGenVisitor {
             instructionsToBeAdded.clear();
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(),
                     registers.getPreviousReg(registers.getNextAvailableVariableReg()), offset));
+            assert instructions != null;
             instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         }
 
@@ -262,44 +265,45 @@ public class CodeGenVisitor {
     public static AssemblyCode visitArrayElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         ArrayElemNode aNode = (ArrayElemNode) node;
-        Type type = varSymbolTable.getVarProperty(aNode.getArrayName()).getType();
-//        int elemTypeSize = Util.getTypeSize(((ArrayType) type).getElemType()); // todo if string array should give 4, char array give 1
-        int elemTypeSize = Util.getTypeSize(type); // todo if string array should give 4, char array give 1
-
+        Type fullType = aNode.getElemType();
+        int typeIndicator = aNode.getTypeIndicator();
+        int elemTypeSize = Util.getTypeSize(typeIndicator); // todo if string array should give 4, char array give 1
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
                 new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
 
-        ExpressionNode index = ((ArrayElemNode) node).getIndexes().get(0);
+        // need to loop through indexes
+        List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();
 
         Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
-        instructions = visitExpression(index, instructions, updatedRegisters);
-        registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
+        for (ExpressionNode index : indexes) {
+            instructions = visitExpression(index, instructions, updatedRegisters);
+            registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
 
-        instructions = generateArrayError(instructions, registers);
-        instructions = generatePrintStringMessage(instructions, registers);
-        instructions = generateRuntimeErrorMessage(instructions, registers);
+            instructions = generateArrayError(instructions, registers);
+            instructions = generatePrintStringMessage(instructions, registers);
+            instructions = generateRuntimeErrorMessage(instructions, registers);
 
-        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
-                registers.getNextAvailableVariableReg()));
-        instructionsToBeAdded.add(new MOV(registers.getR0Reg(),
-                registers.getNextReg(registers.getNextAvailableVariableReg())));
-        instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
-        instructionsToBeAdded.add(new BL("p_check_array_bounds"));
-        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
-        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
-                registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
+                    registers.getNextAvailableVariableReg()));
+            instructionsToBeAdded.add(new MOV(registers.getR0Reg(),
+                    registers.getNextReg(registers.getNextAvailableVariableReg())));
+            instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
+            instructionsToBeAdded.add(new BL("p_check_array_bounds"));
+            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
+            instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
+                    registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+        }
 
         //TODO: check!!!!!
         if(registers.getNextAvailableVariableReg() != RegisterARM.R4){
-            if(((ArrayElemNode) node).getTypeIndicator() == Util.INT_TYPE){
+            if(typeIndicator == Util.INT_TYPE){
                 instructionsToBeAdded.add(new STR(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
                         registers.getNextAvailableVariableReg()));
             } else {
                 instructionsToBeAdded.add(new STRB(registers.getPreviousReg(registers.getNextAvailableVariableReg()),
                         registers.getNextAvailableVariableReg()));
             }
-
         } else {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     registers.getNextAvailableVariableReg()));
@@ -388,6 +392,7 @@ public class CodeGenVisitor {
         return instructions;
     }
 
+    @SuppressWarnings("UnusedParameters")
     public static AssemblyCode visitPairLiterNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         instructions.add(instructions.getCurrentLabel(),
                 Collections.singletonList(new LDR(registers.getNextAvailableVariableReg(), 0))); //TODO: check the constant
@@ -651,7 +656,7 @@ public class CodeGenVisitor {
         Type varType = dNode.getType();
 
         instructions.add(instructions.getCurrentLabel(),
-                new ArrayList<>(Arrays.asList(new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(),
+                new ArrayList<>(Collections.singletonList(new SUB(registers.getStackPtrReg(), registers.getStackPtrReg(),
                         Util.getTypeSize(varType)))));
         instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() - Util.getTypeSize(varType));
 
@@ -872,7 +877,7 @@ public class CodeGenVisitor {
         labels.add(instructions.getCurrentLabel());
 
         Label msgLabel = new Label("msg_" + instructions.getNumberOfMessage());
-        Label readLabel = null;
+        Label readLabel;
         if (rNode.getAssignLHS() instanceof IdentAsLNode) {
             IdentAsLNode target = (IdentAsLNode) rNode.getAssignLHS();
             if (target.getIdnode().getTypeIndicator() == Util.INT_TYPE) {
@@ -965,6 +970,7 @@ public class CodeGenVisitor {
         return instructions;
     }
 
+    @SuppressWarnings("UnusedParameters")
     public static AssemblyCode visitSkipStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         //No instructions are added.
         return instructions;
@@ -1115,7 +1121,7 @@ public class CodeGenVisitor {
 
 
         //PUSH {LR}
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<Instruction>(Collections.singletonList(
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
                 new PUSH(registers.getLinkReg()))));
 
         //Visit StatListNode and return instructions
@@ -1148,8 +1154,7 @@ public class CodeGenVisitor {
 
     // create new symbol table with parent as current symbol table
     private static void newSymbolTable() {
-        VarSymbolTable vst = new VarSymbolTable(varSymbolTable);
-        varSymbolTable = vst;
+        varSymbolTable = new VarSymbolTable(varSymbolTable);
     }
 
     // discard current symbol table and set current table as its parent

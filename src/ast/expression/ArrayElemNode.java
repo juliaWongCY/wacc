@@ -18,6 +18,10 @@ public class ArrayElemNode extends ExpressionNode {
         typeIndicator = Util.ARRAY_TYPE;
     }
 
+    public Type getElemType() {
+        return iNode.getType();
+    }
+
     public String getArrayName() {
         return iNode.getId();
     }

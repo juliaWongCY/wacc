@@ -235,12 +235,12 @@ public class MessageGenerator {
         return nullReferenceInstructions;
     }
 
-    public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions) {
+    public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions, int msgNum) {
         List<Instruction> nullPointerInstructions = new ArrayList<>();
 
         nullPointerInstructions.add(new PUSH(registers.getLinkReg()));
         nullPointerInstructions.add(new CMP(registers.getR0Reg(), 0));
-        nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+        nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + msgNum)));
         nullPointerInstructions.add(new BLEQ("p_throw_runtime_error"));
         nullPointerInstructions.add(new POP(registers.getPCReg()));
 

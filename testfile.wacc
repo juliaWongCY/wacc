@@ -22,7 +22,7 @@
 
 begin
   int r1(int x) is
-    if x == 0
+    if x == 0 
     then
       skip
     else
@@ -30,13 +30,13 @@ begin
       println x ;
       int y = call r2(x)
     fi ;
-    return 42
+    return 42  
   end
 
   int r2(int y) is
     print "r2: received " ;
     println y ;
-    int z = call r1(y - 1) ;
+    int z = call r1(y - 1) ; 
     return 44
   end
 

@@ -33,8 +33,8 @@ public class CodeGenVisitor {
 
     //private static List<Label> labels;
     private static boolean hasPrintlnMsg = false;
-    private static Integer[] hasPrintTypes = new Integer[Util.NUMBER_OF_TYPE];
-    private static Integer[] hasErrorMsgs = new Integer[Util.NUMBER_OF_ERROR];
+    private static Integer[] printTypes = new Integer[Util.NUMBER_OF_TYPE];
+    private static Integer[] errorMsgs = new Integer[Util.NUMBER_OF_ERROR];
 
     ///////////////////////// assignment LHS and RHS ////////////////////////////////////
 
@@ -263,7 +263,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         ArrayElemNode aNode = (ArrayElemNode) node;
         Type type = varSymbolTable.getVarProperty(aNode.getArrayName()).getType();
-        int elemTypeSize = Util.getTypeSize(((ArrayType) type).getElemType());
+//        int elemTypeSize = Util.getTypeSize(((ArrayType) type).getElemType()); // todo if string array should give 4, char array give 1
+        int elemTypeSize = Util.getTypeSize(type); // todo if string array should give 4, char array give 1
 
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
@@ -285,7 +286,7 @@ public class CodeGenVisitor {
                 registers.getNextReg(registers.getNextAvailableVariableReg())));
         instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_array_bounds"));
-        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),elemTypeSize));
+        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
         instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                 registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
 
@@ -367,12 +368,8 @@ public class CodeGenVisitor {
         PairElemNode pNode = (PairElemNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-        String errorMessage = "\"NullReferenceError: dereference a null reference\\n\\0\"";
-        instructions.getMessageGenerator().
-                generatePrintErrorMessage(instructions, errorMessage.length() - 4, errorMessage); // todo: check length
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            instructions = generatePrintStringMessage(instructions, registers);
-        }
+        instructions = generateNullRefError(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructionsToBeAdded.clear();
@@ -385,7 +382,6 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
-        instructions = instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions);
         instructions = generateRuntimeErrorMessage(instructions, registers);
         instructions = generatePrintStringMessage(instructions, registers);
         
@@ -710,12 +706,9 @@ public class CodeGenVisitor {
                 registers, instructions));
 
         instructions.add(new Header(".data"), null);
-        String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
-        instructions.getMessageGenerator().generatePrintErrorMessage(
-                instructions, errorMessage.length() - 2 * 2, errorMessage);
-        if (hasPrintTypes[Util.STRING_TYPE] == null) {
-            instructions = generatePrintStringMessage(instructions, registers);
-        }
+
+        instructions = generateNullRefError(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
 
         Label printFreePair = new Label("p_free_pair");
         instructions.add(printFreePair, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
@@ -1188,9 +1181,9 @@ public class CodeGenVisitor {
     private static AssemblyCode generatePrintTypeMessage(AssemblyCode instructions, Registers registers, int typeIndicator) {
         Label label = new Label("p_print_" + convertTypeToString(typeIndicator));
 
-        if (hasPrintTypes[typeIndicator] == null) {
+        if (printTypes[typeIndicator] == null) {
             instructions.add(label, new ArrayList<>(Collections.singletonList(new PUSH(registers.getLinkReg()))));
-            hasPrintTypes[typeIndicator] = instructions.getNumberOfMessage();
+            printTypes[typeIndicator] = instructions.getNumberOfMessage();
             instructions = instructions.getMessageGenerator().generatePrintTypeMessage(typeIndicator, instructions);
             instructions.add(label,
                     instructions.getMessageGenerator().printInstrTypeMessage(typeIndicator, instructions, registers));
@@ -1204,42 +1197,42 @@ public class CodeGenVisitor {
     }
 
     private static AssemblyCode generateRuntimeErrorMessage(AssemblyCode instructions, Registers registers) {
-        if (hasErrorMsgs[Util.RUNTIME_ERROR] == null) {
+        if (errorMsgs[Util.RUNTIME_ERROR] == null) {
             List<Instruction> runTimeInstructions
                     = instructions.getMessageGenerator().generateRuntimeInstructions(registers, instructions);
             instructions.add(new Label("p_throw_runtime_error"), runTimeInstructions);
-            hasErrorMsgs[Util.RUNTIME_ERROR] = 1;
+            errorMsgs[Util.RUNTIME_ERROR] = 1;
         }
         return instructions;
     }
 
     private static AssemblyCode generateOverflowError(AssemblyCode instructions, Registers registers) {
-        if (hasErrorMsgs[Util.OVERFLOW_ERROR] == null) {
+        if (errorMsgs[Util.OVERFLOW_ERROR] == null) {
             String errorMessage = "\"OverflowError: the result is too small/large to store in a 4-byte signed-integer.\\n\"";
             int size = errorMessage.length() - 3;
-            hasErrorMsgs[Util.OVERFLOW_ERROR] = instructions.getNumberOfMessage();
+            errorMsgs[Util.OVERFLOW_ERROR] = instructions.getNumberOfMessage();
             instructions.getMessageGenerator().generatePrintErrorMessage(
                     instructions, size, errorMessage);
 
             Label overflowLabel = new Label("p_throw_overflow_error");
             instructions.add(overflowLabel, instructions.getMessageGenerator().generateOverflowInstructions(
-                    registers, instructions, hasErrorMsgs[Util.OVERFLOW_ERROR]));
+                    registers, instructions, errorMsgs[Util.OVERFLOW_ERROR]));
         }
 
         return instructions;
     }
 
     private static AssemblyCode generateDivideByZeroError(AssemblyCode instructions, Registers registers) {
-        if (hasErrorMsgs[Util.DIVIDE_ZERO_ERROR] == null) {
+        if (errorMsgs[Util.DIVIDE_ZERO_ERROR] == null) {
             String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
             int size = errorMessage.length() - 3;
-            hasErrorMsgs[Util.DIVIDE_ZERO_ERROR] = instructions.getNumberOfMessage();
+            errorMsgs[Util.DIVIDE_ZERO_ERROR] = instructions.getNumberOfMessage();
             instructions.getMessageGenerator().generatePrintErrorMessage(
                     instructions, size, errorMessage);
 
             Label checkDivideByZero = new Label("p_check_divide_by_zero");
             instructions.add(checkDivideByZero, instructions.getMessageGenerator().generateDivideByZeroInstructions(
-                    registers, instructions, hasErrorMsgs[Util.DIVIDE_ZERO_ERROR]
+                    registers, instructions, errorMsgs[Util.DIVIDE_ZERO_ERROR]
             ));
 
         }
@@ -1247,12 +1240,23 @@ public class CodeGenVisitor {
     }
 
     private static AssemblyCode generateArrayError(AssemblyCode instructions, Registers registers) {
-        if (hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] == null && hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] == null) {
-            hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
-            hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
+        if (errorMsgs[Util.ARRAY_NEG_INDEX_ERROR] == null && errorMsgs[Util.ARRAY_OUT_BOUND_ERROR] == null) {
+            errorMsgs[Util.ARRAY_NEG_INDEX_ERROR] = instructions.getNumberOfMessage();
+            errorMsgs[Util.ARRAY_OUT_BOUND_ERROR] = instructions.getNumberOfMessage() + 1;
             instructions = instructions.getMessageGenerator().generateArrayOutOfBoundsMessage(instructions);
             instructions.add(new Label("p_check_array_bounds"), instructions.getMessageGenerator().generateCheckArrayBoundsInstructions(
-                    instructions, registers, hasErrorMsgs[Util.ARRAY_NEG_INDEX_ERROR], hasErrorMsgs[Util.ARRAY_OUT_BOUND_ERROR]));
+                    instructions, registers, errorMsgs[Util.ARRAY_NEG_INDEX_ERROR], errorMsgs[Util.ARRAY_OUT_BOUND_ERROR]));
+        }
+        return instructions;
+    }
+
+    private static AssemblyCode generateNullRefError(AssemblyCode instructions, Registers registers) {
+        if (errorMsgs[Util.NULL_REF_ERROR] == null) {
+            errorMsgs[Util.NULL_REF_ERROR] = instructions.getNumberOfMessage();
+            String errorMessage = "\"NullReferenceError: dereference a null reference.\\n\\0\"";
+            instructions.getMessageGenerator().generatePrintErrorMessage(
+                    instructions, errorMessage.length() - 2 * 2 - 1, errorMessage);
+            instructions.getMessageGenerator().generateNullPointerInstructions(registers, instructions, errorMsgs[Util.NULL_REF_ERROR]);
         }
         return instructions;
     }

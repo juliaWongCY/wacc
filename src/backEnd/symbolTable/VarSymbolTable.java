@@ -78,7 +78,9 @@ public class VarSymbolTable {
         Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, VarProperty> entry = iter.next();
-            size += entry.getValue().getTypeSize();
+            if (!entry.getValue().isParam()) {
+                size += entry.getValue().getTypeSize();
+            }
         }
         return size;
     }

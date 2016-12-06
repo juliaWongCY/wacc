@@ -1072,13 +1072,13 @@ public class CodeGenVisitor {
                 System.err.println("shouldn't reach here, as should be able to get params type");
             }
 
-            paramSymbolTable.addVariable(paramNames.get(0), new VarProperty(paramTypes.get(0), 4));
+            paramSymbolTable.addVariable(paramNames.get(0), new VarProperty(paramTypes.get(0), 4, true));
             for (int i = 1; i < paramNames.size(); i++) {
                 paramSymbolTable.addVariable(
                         paramNames.get(i),
                         new VarProperty(paramTypes.get(i),
                                 Util.getTypeSize(paramTypes.get(i - 1))
-                                + paramSymbolTable.getVarProperty(paramNames.get(i - 1)).getStackPos())
+                                + paramSymbolTable.getVarProperty(paramNames.get(i - 1)).getStackPos(), true)
                 );
             }
         }
@@ -1089,33 +1089,14 @@ public class CodeGenVisitor {
                 paramSymbolTable);
 
         VarSymbolTable originalVarSymTable = varSymbolTable;
-//<<<<<<< HEAD
-//        varSymbolTable.saveState();
-//        varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
-//
-//
-////        varSymbolTable.saveState();
-//
-//        List<Instruction> instructionsToBeAdded = new ArrayList<>();
-//=======
         varSymbolTable = paramSymbolTable;
-
         varSymbolTable.saveState();
-//>>>>>>> donald
+
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
 
-//        if(varSymbolTable.hasAddedNewVar()){
-//            int size = varSymbolTable.getVarTotalSize();
-//            while (size > 1024) {
-//                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
-//                size -= 1024;
-//            }
-//            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
-//
-//        }
 
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);

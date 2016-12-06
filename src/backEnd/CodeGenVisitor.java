@@ -773,14 +773,11 @@ public class CodeGenVisitor {
         instructions.add(currentMainLabel,
                 new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
-        System.out.println(varSymbolTable.getVarLocalSize());
-        System.out.println(varSymbolTable.getVarTotalSize());
 //        if(varSymbolTable.hasNewVariables(varSymbolTable)){
         if (!varSymbolTable.checkSameState()) {
             //TODO: getting the wrong diff?? the condition is wrong
             int diff = varSymbolTable.getVarLocalSize();
 //            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
-            System.out.println(diff);
 
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(
@@ -1062,10 +1059,11 @@ public class CodeGenVisitor {
                 paramSymbolTable);
 
         VarSymbolTable originalVarSymTable = varSymbolTable;
+        varSymbolTable.saveState();
         varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
 
 
-        varSymbolTable.saveState();
+//        varSymbolTable.saveState();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
@@ -1073,16 +1071,27 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
 
-        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
+//        System.out.println(fNode.getParamListNode().getParams().toString());
+//        System.out.println(varSymbolTable.getVarLocalSize());
+//        System.out.println(varSymbolTable.getVarTotalSize());
+//        System.out.println(originalVarSymTable.getVarLocalSize());
+//        System.out.println(originalVarSymTable.getVarTotalSize());
+//        System.out.println();
+
+          if(fNode.getParamListNode() == null || varSymbolTable.getVarLocalSize() != originalVarSymTable.getVarLocalSize()){
+//        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
 //        if (varSymbolTable.getVarLocalSize() > 0) {
             int size = varSymbolTable.getVarTotalSize();
+            System.out.println("size: " + size);
             while (size > 1024) {
                 instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
                 size -= 1024;
             }
-            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
+//            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
+             instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 4)); //TODO: hard-coded
 
-        }
+          }
+
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
@@ -1110,7 +1119,7 @@ public class CodeGenVisitor {
 
         instructions.returnMainLabel();
 //        instructions.setNumberOfMessage(0);
-        varSymbolTable  = new VarSymbolTable();
+//        varSymbolTable  = new VarSymbolTable(); //Todo: Commented out
 
 
         //PUSH {LR}

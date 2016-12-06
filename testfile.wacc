@@ -1,20 +1,15 @@
-# a simple increment function definition and usage
+# basic array declaration and assignment
 
 # Output:
-# 1
-# 4
+# 3
+# 3
 
 # Program:
 
 begin
-  int inc(int x) is
-    return x + 1
-  end
-  int x = 0 ;
-  x = call inc(x) ;
-  println x ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  x = call inc(x) ;
-  println x
+  int[] a = [1];
+  int[] b = [3];
+  int[][] c = [a,b] ;
+  println c[0][0]
 end
+

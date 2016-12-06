@@ -276,8 +276,8 @@ public class CodeGenVisitor {
         List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();
 
 
-        Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
         for (ExpressionNode index : indexes) {
+            Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
             instructions = visitExpression(index, instructions, updatedRegisters);
             registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
 

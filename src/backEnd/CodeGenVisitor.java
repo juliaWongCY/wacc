@@ -19,12 +19,10 @@ import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarProperty;
 import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
+import frontEnd.SymbolTable;
 import type.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings({"ConstantConditions", "WeakerAccess"})
 public class CodeGenVisitor {
@@ -773,7 +771,7 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitIfStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         String branchLabelName = instructions.getNextLabel();
-        varSymbolTable.saveState();
+
 
         IfStatNode ifStatNode = (IfStatNode) node;
 
@@ -785,27 +783,28 @@ public class CodeGenVisitor {
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         newSymbolTable();
+        int oldSize = varSymbolTable.saveState();
         instructions = visitStatListNode(ifStatNode.getStatThenBody(), instructions, registers);
+        if (varSymbolTable.hasAddedNewVar()) {
+            int diff = varSymbolTable.getVarTotalSize() - oldSize;
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Collections.singletonList(
+                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
+        }
         popSymbolTable();
-        //
         instructions.add(new Label(branchLabelName), new ArrayList<>(Collections.singletonList(new EMPTY())));
 
         Label currentMainLabel = instructions.getCurrentLabel();
         instructions.updateCurrentLabel();
 
         newSymbolTable();
+        oldSize = varSymbolTable.saveState();
         instructions = visitStatListNode(ifStatNode.getStatElseBody(), instructions, registers);
-
         branchLabelName = instructions.getNextLabel();
-        instructions.add(currentMainLabel,
-                new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
+        instructions.add(currentMainLabel, new ArrayList<>(Collections.singletonList(new B(branchLabelName))));
 
-//        if(varSymbolTable.hasNewVariables(varSymbolTable)){
-        if (!varSymbolTable.checkSameState()) {
-            //TODO: getting the wrong diff?? the condition is wrong
-            int diff = varSymbolTable.getVarLocalSize();
-//            int diff = varSymbolTable.getState() - varSymbolTable.getVarTotalSize();
-
+        if (varSymbolTable.hasAddedNewVar()) {
+            int diff = varSymbolTable.getVarTotalSize() - oldSize;
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(
                             new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
@@ -957,44 +956,40 @@ public class CodeGenVisitor {
     public static AssemblyCode visitReturnStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         ReturnStatNode returnStatNode = (ReturnStatNode) node;
 
-        varSymbolTable.saveState();
-
-
         instructions = visitExpression(returnStatNode.getExpr(), instructions, registers);
         instructions.add(instructions.getCurrentLabel(),
                 new ArrayList<>(Collections.singletonList(new MOV(registers.getR0Reg(),
                         registers.getNextAvailableVariableReg()))));
-//
-/////////////TODO!!!!!!
-//        if(!varSymbolTable.checkSameState()){
-////        if (varSymbolTable.getVarLocalSize() > 0) {
-//            instructions.add(instructions.getCurrentLabel(),
-//                    new ArrayList<>(Arrays.asList(
-//                            new ADD(registers.getStackPtrReg(),
-//                                    registers.getStackPtrReg(),
-//                                    varSymbolTable.getVarLocalSize()))));
-//        }
 
-//        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+        if(varSymbolTable.peekHasAddedNewVar()){
+            int size = varSymbolTable.getVarTotalSize();
+            while (size > 1024) {
+                instructions.add(instructions.getCurrentLabel(),
+                        new ArrayList<>(Collections.singletonList(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024))));
+                size -= 1024;
+            }
+            instructions.add(instructions.getCurrentLabel(), Collections.singletonList(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size)));
+
+        }
+        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
 
         return instructions;
     }
 
     public static AssemblyCode visitScopingStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-        newSymbolTable();
         ScopingStatNode sNode = (ScopingStatNode) node;
-        varSymbolTable.saveState();
+        newSymbolTable();
+        int oldState = varSymbolTable.saveState();
         instructions = visitStatListNode(sNode.getBody(), instructions, registers);
 
         //If size of SymbolTable is NOT the same
-        if (!varSymbolTable.checkSameState()) {
-            int diff = Math.abs(varSymbolTable.getState() - varSymbolTable.getVarTotalSize());
+        if (varSymbolTable.hasAddedNewVar()) {
+            int diff = Math.abs(varSymbolTable.getVarTotalSize() - oldState);
             instructions.add(instructions.getCurrentLabel(),
                     new ArrayList<>(Collections.singletonList(new ADD(registers.getStackPtrReg(),
                             registers.getStackPtrReg(), diff))));
             instructions.setCurrentStackPtrPos(instructions.getCurrentStackPtrPos() + diff);
         }
-
         popSymbolTable();
         return instructions;
     }
@@ -1041,7 +1036,14 @@ public class CodeGenVisitor {
         instructions.updateCurrentLabel();
 
         newSymbolTable();
+        int oldSize = varSymbolTable.saveState();
         instructions = visitStatListNode(whileStateNode.getBody(), instructions, registers);
+        if (varSymbolTable.hasAddedNewVar()) {
+            int diff = varSymbolTable.getVarTotalSize() - oldSize;
+            instructions.add(instructions.getCurrentLabel(),
+                    new ArrayList<>(Collections.singletonList(
+                            new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), diff))));
+        }
         popSymbolTable();
 
         instructions.add(instructions.getCurrentLabel(),
@@ -1055,12 +1057,12 @@ public class CodeGenVisitor {
     ////////////////////////////function and program//////////////////////////////////////
 
     public static AssemblyCode visitFunctionNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
         FunctionNode fNode = (FunctionNode) node;
         VarSymbolTable paramSymbolTable = new VarSymbolTable();
         String funcName = fNode.getFunctionName();
         List<String> paramNames;
         List<Type> paramTypes = null;
+        List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
         if (fNode.getParamListNode() != null) {
             paramNames = fNode.getParamListNode().getParamNames();
@@ -1087,43 +1089,36 @@ public class CodeGenVisitor {
                 paramSymbolTable);
 
         VarSymbolTable originalVarSymTable = varSymbolTable;
-        varSymbolTable.saveState();
-        varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
-
-
+//<<<<<<< HEAD
 //        varSymbolTable.saveState();
+//        varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
+//
+//
+////        varSymbolTable.saveState();
+//
+//        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+//=======
+        varSymbolTable = paramSymbolTable;
 
-        List<Instruction> instructionsToBeAdded = new ArrayList<>();
+        varSymbolTable.saveState();
+//>>>>>>> donald
         instructions.addFuncLabel(funcName);
         instructionsToBeAdded.add(new PUSH(registers.getLinkReg()));
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = visitStatListNode(fNode.getStatement(), instructions, registers);
+
+//        if(varSymbolTable.hasAddedNewVar()){
+//            int size = varSymbolTable.getVarTotalSize();
+//            while (size > 1024) {
+//                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
+//                size -= 1024;
+//            }
+//            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
 //
-//        System.out.println(fNode.getParamListNode().getParams().toString());
-//        System.out.println(varSymbolTable.getVarLocalSize());
-//        System.out.println(varSymbolTable.getVarTotalSize());
-//        System.out.println(originalVarSymTable.getVarLocalSize());
-//        System.out.println(originalVarSymTable.getVarTotalSize());
-//        System.out.println();
-
-//          if(fNode.getParamListNode() == null || varSymbolTable.getVarLocalSize() != originalVarSymTable.getVarLocalSize()){
-        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
-//        if (varSymbolTable.getVarLocalSize() > 0) {
-            int size = varSymbolTable.getVarTotalSize();
-            System.out.println("size: " + size);
-            while (size > 1024) {
-                instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), 1024));
-                size -= 1024;
-            }
-            instructionsToBeAdded.add(new ADD(registers.getStackPtrReg(), registers.getStackPtrReg(), size));
-
-          }
-
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new POP(registers.getPCReg()))));
+//        }
 
         instructions.add(instructions.getCurrentLabel(), instructions.getMessageGenerator().generateEndOfFunc(registers));
         instructions.setCurrentStackPtrPos(0);
-//        instructions.clearVariable(instructions);  //TODO: do we need this??
 
         varSymbolTable = originalVarSymTable;
 
@@ -1191,7 +1186,9 @@ public class CodeGenVisitor {
         if (varSymbolTable.getParent() == null) {
             System.err.println("error in finding variable symbol table parent");
         } else {
+            Stack<Integer> states = varSymbolTable.getStates();
             varSymbolTable = varSymbolTable.getParent();
+            varSymbolTable.setStates(states);
         }
     }
 

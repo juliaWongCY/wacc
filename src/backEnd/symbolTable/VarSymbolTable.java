@@ -20,6 +20,7 @@ public class VarSymbolTable {
     public VarSymbolTable(VarSymbolTable parent) {
         this.parent = parent;
         this.varTable = new HashMap<>();
+        this.states = parent.getStates();
     }
 
     // splitting addVar and modVar to ensure the integrity of the symbol table
@@ -69,8 +70,6 @@ public class VarSymbolTable {
 
         }
         varTable = newVarTable;
-
-
     }
 
 
@@ -105,4 +104,15 @@ public class VarSymbolTable {
         return getVarTotalSize() != states.pop();
     }
 
+    public boolean peekHasAddedNewVar() {
+        return getVarTotalSize() != states.peek();
+    }
+
+    public Stack<Integer> getStates() {
+        return states;
+    }
+
+    public void setStates(Stack<Integer> states) {
+        this.states = states;
+    }
 }

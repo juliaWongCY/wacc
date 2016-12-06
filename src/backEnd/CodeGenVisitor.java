@@ -263,7 +263,8 @@ public class CodeGenVisitor {
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         ArrayElemNode aNode = (ArrayElemNode) node;
         Type type = varSymbolTable.getVarProperty(aNode.getArrayName()).getType();
-        int elemTypeSize = Util.getTypeSize(((ArrayType) type).getElemType());
+//        int elemTypeSize = Util.getTypeSize(((ArrayType) type).getElemType()); // todo if string array should give 4, char array give 1
+        int elemTypeSize = Util.getTypeSize(type); // todo if string array should give 4, char array give 1
 
 
         instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
@@ -285,7 +286,7 @@ public class CodeGenVisitor {
                 registers.getNextReg(registers.getNextAvailableVariableReg())));
         instructionsToBeAdded.add(new MOV(registers.getR1Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_array_bounds"));
-        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),elemTypeSize));
+        instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
         instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                 registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
 

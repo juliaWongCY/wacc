@@ -637,12 +637,15 @@ public class CodeGenVisitor {
 
         //TODO: takend out (type == Util.CHAR_TYPE ||)
         if (type == Util.BOOL_TYPE) {
+            // todo if rhs is call add const 4
             instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
                 if(type == Util.CHAR_TYPE){
-                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+                    instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+
                 } else {
                     VarProperty varProperty = varSymbolTable.getVarProperty(identAsLNode.getIdnode().getId());
 

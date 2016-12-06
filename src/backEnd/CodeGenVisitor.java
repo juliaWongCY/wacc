@@ -269,10 +269,23 @@ public class CodeGenVisitor {
         int typeIndicator = aNode.getTypeIndicator();
 
         System.out.println(varSymbolTable.getVarTotalSize());
+        System.out.println(varSymbolTable.getVarLocalSize());
+
+
+        int varLocalSize = varSymbolTable.getVarLocalSize();
+        int varTotalSize = varSymbolTable.getVarTotalSize();
+        int diff = varSymbolTable.getVarLocalSize() - varSymbolTable.getVarTotalSize();
         int offset = varSymbolTable.getVarTotalSize() - 4;
 
-        instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset)))); //TODO: offset
+        if(varLocalSize == varTotalSize){
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), diff))));
+        } else {
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset))));
+        }
+
+        //TODO: offset
 
         // need to loop through indexes
         List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();

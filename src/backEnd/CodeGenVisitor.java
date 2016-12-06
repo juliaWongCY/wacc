@@ -271,14 +271,7 @@ public class CodeGenVisitor {
         int stackPos = varSymbolTable.getVarProperty(aNode.getArrayName()).getStackPos();
         System.out.println(stackPos);
 
-        System.out.println(varSymbolTable.getVarTotalSize());
-        System.out.println(varSymbolTable.getVarLocalSize());
-
-
-        int varLocalSize = varSymbolTable.getVarLocalSize();
         int varTotalSize = varSymbolTable.getVarTotalSize();
-        int diff = varSymbolTable.getVarLocalSize() - varSymbolTable.getVarTotalSize();
-        int offset = varSymbolTable.getVarTotalSize() - 4;
 
         if(varTotalSize != stackPos){
             instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
@@ -288,15 +281,6 @@ public class CodeGenVisitor {
                 new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
         }
 
-//        if(varLocalSize == varTotalSize){
-//            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-//                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), diff))));
-//        } else {
-//            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-//                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset))));
-//        }
-
-        //TODO: offset
 
         // need to loop through indexes
         List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();
@@ -934,6 +918,11 @@ public class CodeGenVisitor {
         } else if (rNode.getAssignLHS() instanceof PairElemAsLNode) {
             PairElemAsLNode pairElem = (PairElemAsLNode) rNode.getAssignLHS();
             instructions = visitPairElemAsLNode(pairElem, instructions, registers);
+            instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
+            instructionsToBeAdded.add(new BL("p_read_" +  Util.getBaseTypeString(pairElem.getPairElemNode().getTypeIndicator())));
+
+            readLabel = new Label("p_read_" + Util.getBaseTypeString(pairElem.getPairElemNode().getTypeIndicator()));
+            labels.add(readLabel);
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
@@ -945,6 +934,7 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new ADD(registers.getR0Reg(), registers.getR0Reg(), 4));
         instructionsToBeAdded.add(new BL("scanf"));
         instructionsToBeAdded.add(new POP(registers.getPCReg()));
+
 
         instructions.add(labels.get(1), instructionsToBeAdded);
         //instructions.add(labels.get(1), new ArrayList<>(Arrays.asList(new POP(registers.getPCReg()))));

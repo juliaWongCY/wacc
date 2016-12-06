@@ -1,12 +1,14 @@
-# basic array (reference) printing
+# attempt dereference of a null pair by reading into an element of it
 
 # Output:
-# Printing an array variable gives an address, such as #addrs#
+# #runtime_error#
+
+# Exit:
+# 255
 
 # Program:
 
 begin
-  print "Printing an array variable gives an address, such as " ;
-  int[] a = [1,2,3] ;
-  println a
+	pair(int, int) p = null ;
+	read fst p
 end

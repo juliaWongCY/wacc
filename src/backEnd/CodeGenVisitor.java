@@ -275,14 +275,11 @@ public class CodeGenVisitor {
         // need to loop through indexes
         List<ExpressionNode> indexes = ((ArrayElemNode) node).getIndexes();
 
+
         Registers updatedRegisters = registers.addRegInUsedList(registers.getNextAvailableVariableReg());
         for (ExpressionNode index : indexes) {
             instructions = visitExpression(index, instructions, updatedRegisters);
             registers.setRegNotInUse(registers.getPreviousReg(registers.getNextAvailableVariableReg()));
-
-            instructions = generateArrayError(instructions, registers);
-            instructions = generatePrintStringMessage(instructions, registers);
-            instructions = generateRuntimeErrorMessage(instructions, registers);
 
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(),
                     registers.getNextAvailableVariableReg()));
@@ -293,6 +290,8 @@ public class CodeGenVisitor {
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), elemTypeSize));
             instructionsToBeAdded.add(new ADD(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(),
                     registers.getNextReg(registers.getNextAvailableVariableReg()), new LSL(2)));
+            instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+            instructionsToBeAdded.clear();
         }
 
         //TODO: check!!!!!
@@ -310,6 +309,10 @@ public class CodeGenVisitor {
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
+
+        instructions = generateArrayError(instructions, registers);
+        instructions = generatePrintStringMessage(instructions, registers);
+        instructions = generateRuntimeErrorMessage(instructions, registers);
 
         return instructions;
     }

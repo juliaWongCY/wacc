@@ -268,6 +268,9 @@ public class CodeGenVisitor {
         Type fullType = aNode.getElemType();
         int typeIndicator = aNode.getTypeIndicator();
 
+        int stackPos = varSymbolTable.getVarProperty(aNode.getArrayName()).getStackPos();
+        System.out.println(stackPos);
+
         System.out.println(varSymbolTable.getVarTotalSize());
         System.out.println(varSymbolTable.getVarLocalSize());
 
@@ -277,13 +280,21 @@ public class CodeGenVisitor {
         int diff = varSymbolTable.getVarLocalSize() - varSymbolTable.getVarTotalSize();
         int offset = varSymbolTable.getVarTotalSize() - 4;
 
-        if(varLocalSize == varTotalSize){
+        if(varTotalSize != stackPos){
             instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), diff))));
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), Math.abs(Math.abs(stackPos) - varTotalSize)))));
         } else {
             instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
-                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset))));
+                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 0))));
         }
+
+//        if(varLocalSize == varTotalSize){
+//            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
+//                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), diff))));
+//        } else {
+//            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(
+//                new ADD(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), offset))));
+//        }
 
         //TODO: offset
 

@@ -1052,11 +1052,11 @@ public class CodeGenVisitor {
                 paramSymbolTable);
 
         VarSymbolTable originalVarSymTable = varSymbolTable;
-        varSymbolTable.saveState();
+//        varSymbolTable.saveState();
         varSymbolTable = funcSymbolTable.getFunctionParams(funcName);
 
 
-//        varSymbolTable.saveState();
+        varSymbolTable.saveState();
 
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
         instructions.addFuncLabel(funcName);
@@ -1071,8 +1071,8 @@ public class CodeGenVisitor {
 //        System.out.println(originalVarSymTable.getVarTotalSize());
 //        System.out.println();
 
-          if(fNode.getParamListNode() == null || varSymbolTable.getVarLocalSize() != originalVarSymTable.getVarLocalSize()){
-//        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
+//          if(fNode.getParamListNode() == null || varSymbolTable.getVarLocalSize() != originalVarSymTable.getVarLocalSize()){
+        if(!varSymbolTable.checkSameState() || fNode.getParamListNode() == null){
 //        if (varSymbolTable.getVarLocalSize() > 0) {
             int size = varSymbolTable.getVarTotalSize();
             System.out.println("size: " + size);
@@ -1111,7 +1111,7 @@ public class CodeGenVisitor {
 
         instructions.returnMainLabel();
 //        instructions.setNumberOfMessage(0);
-//        varSymbolTable  = new VarSymbolTable(); //Todo: Commented out
+        varSymbolTable  = new VarSymbolTable(); //Todo: Commented out
 
 
         //PUSH {LR}

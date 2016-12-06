@@ -3,13 +3,14 @@ package backEnd.symbolTable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Stack;
 
 public class VarSymbolTable {
 
     private VarSymbolTable parent;
     private Map<String, VarProperty> varTable;
 
-    private int state = -1;
+    private Stack<Integer> states = new Stack<>();
 
     public VarSymbolTable() {
         parent = null;
@@ -95,26 +96,13 @@ public class VarSymbolTable {
         return parent;
     }
 
-    public void saveState() {
-        state = getVarTotalSize();
+    public int saveState() {
+        states.push(getVarTotalSize());
+        return states.peek();
     }
 
-    public boolean checkSameState() {
-        return getVarTotalSize() == state;
+    public boolean hasAddedNewVar() {
+        return getVarTotalSize() != states.pop();
     }
 
-    public int getState() {
-        return state;
-    }
-
-    public boolean hasNewVariables(VarSymbolTable varSymbolTable) {
-        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String, VarProperty> entry = iter.next();
-            if (!varTable.get(entry.getKey()).equals(varSymbolTable.getVarProperty(entry.getKey()))) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

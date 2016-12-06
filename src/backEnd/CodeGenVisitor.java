@@ -1,12 +1,14 @@
 package backEnd;
 
-import ast.ASTNode;
 import ast.*;
-import backEnd.general.*;
-import ast.assignLeft.*;
+import ast.assignLeft.ArrayElemAsLNode;
+import ast.assignLeft.IdentAsLNode;
+import ast.assignLeft.PairElemAsLNode;
 import ast.assignRight.*;
 import ast.expression.*;
 import ast.statement.*;
+import backEnd.general.Header;
+import backEnd.general.HeaderInstr;
 import backEnd.general.Label;
 import backEnd.instructions.*;
 import backEnd.instructions.binaryOp.*;
@@ -19,8 +21,9 @@ import backEnd.symbolTable.FuncSymbolTable;
 import backEnd.symbolTable.VarProperty;
 import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
-import frontEnd.SymbolTable;
-import type.*;
+import type.BoolType;
+import type.CharType;
+import type.Type;
 
 import java.util.*;
 
@@ -630,19 +633,27 @@ public class CodeGenVisitor {
     public static AssemblyCode visitAssignStatNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         AssignStatNode assignStatNode = (AssignStatNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
-
+        boolean rhsIsCall = assignStatNode.getAssignRHS() instanceof CallAsRNode;
         //TODO: getting the right type??
         int type = assignStatNode.getAssignRHS().getTypeIndicator();
 
 
         //TODO: takend out (type == Util.CHAR_TYPE ||)
         if (type == Util.BOOL_TYPE) {
-            instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+            if (rhsIsCall) {
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+            } else {
+                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+            }
         } else {
             if (assignStatNode.getAssignLHS() instanceof IdentAsLNode) {
                 IdentAsLNode identAsLNode = (IdentAsLNode) assignStatNode.getAssignLHS();
                 if(type == Util.CHAR_TYPE){
-                instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+                    if (rhsIsCall) {
+                        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg(), 4));
+                    } else {
+                        instructionsToBeAdded.add(new STRB(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
+                    }
                 } else {
                     VarProperty varProperty = varSymbolTable.getVarProperty(identAsLNode.getIdnode().getId());
 

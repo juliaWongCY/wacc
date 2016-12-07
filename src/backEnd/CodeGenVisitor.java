@@ -23,6 +23,7 @@ import backEnd.symbolTable.VarSymbolTable;
 import frontEnd.SemanticException;
 import type.BoolType;
 import type.CharType;
+import type.PairType;
 import type.Type;
 
 import java.util.*;
@@ -397,7 +398,9 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
         instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
-        instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
+        if(!(node instanceof PairElemAsLNode)){ //TODO: check for heap test
+            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
+        }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = generateRuntimeErrorMessage(instructions, registers);
@@ -652,6 +655,11 @@ public class CodeGenVisitor {
                         registers.getStackPtrReg(), varProperty.getStackPos() - instructions.getCurrentStackPtrPos()));
                 }
             } else if (assignStatNode.getAssignLHS() instanceof ArrayElemAsLNode) {
+            } else if (assignStatNode.getAssignLHS() instanceof PairElemAsLNode) {
+                //TODO: correct?
+                RegisterARM regNxt1 = registers.getNextAvailableVariableReg();
+                RegisterARM regNxt2 = registers.getNextReg(regNxt1);
+                instructionsToBeAdded.add(new STR(regNxt1, regNxt2));
             } else {
                 instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
             }
@@ -700,6 +708,7 @@ public class CodeGenVisitor {
         } else {
             instructionsToBeAdded.add(new STR(registers.getNextAvailableVariableReg(), registers.getStackPtrReg()));
         }
+
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
 
         return instructions;

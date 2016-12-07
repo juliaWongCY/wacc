@@ -14,10 +14,6 @@ public class ScopingStatNode implements StatementNode {
         this.stat = stat;
     }
 
-    public StatListNode getchildrenStat(){
-        return stat;
-    }
-
     @Override
     public Type getNodeType(SymbolTable st) throws SemanticException {
 

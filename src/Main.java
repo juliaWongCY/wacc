@@ -5,6 +5,7 @@ import backEnd.AssemblyLine;
 import backEnd.CodeGenerator;
 import backEnd.RegisterARM;
 import frontEnd.*;
+import optimisation.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -65,6 +66,8 @@ public class Main {
         if (semanticCheckVisitor.hasSemanticError()) {
             System.exit(200);
         }
+
+        ast = optimisingVisitor.visitProgramNode(ast);
 
         //Back-end
         CodeGenerator codeGenerator = new CodeGenerator();

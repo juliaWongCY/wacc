@@ -460,104 +460,100 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitBinaryOprNode(ASTNode node, AssemblyCode instructions, Registers registers) {
-
-        BinaryOprNode bNode = (BinaryOprNode) node;
-
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
-//        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
-
+        instructions = visitExpression(((BinaryOprNode) node).getExprL(), instructions, registers);
         RegisterARM exprLReg = registers.getNextAvailableVariableReg();
-        if (exprLReg == RegisterARM.R10) {
-            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Arrays.asList(new PUSH(exprLReg))));
-        }
 
+        if (exprLReg == RegisterARM.R10) {
+            instructions.add(instructions.getCurrentLabel(), new ArrayList<>(Collections.singletonList(new PUSH(exprLReg))));
+        }
         Registers updatedRegs = registers.addRegInUsedList(exprLReg);
 
-//        instructions = visitExpression(((BinaryOprNode) node).getExprR(), instructions, updatedRegs);
-            RegisterARM exprRReg = registers.getNextAvailableVariableReg();
+        instructions = visitExpression(((BinaryOprNode) node).getExprR(), instructions, updatedRegs);
 
+        RegisterARM exprRReg = registers.getNextAvailableVariableReg();
         RegisterARM resultReg = exprLReg;
 
         if (exprRReg == RegisterARM.R10 && exprLReg == RegisterARM.R10) {
             instructions.add(instructions.getCurrentLabel(),
-                    new ArrayList<>(Arrays.asList(new POP(RegisterARM.R11))));
+                    new ArrayList<>(Collections.singletonList(new POP(RegisterARM.R11))));
             exprLReg = RegisterARM.R11;
         }
 
-
         if (((BinaryOprNode) node).isLogical()) {
             if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.AND) {
-                boolean result = bNode.getExprLBool() && bNode.getExprRBool();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new AND(resultReg, exprLReg, exprRReg));
             } else if (((BinaryOprNode) node).getBinaryOpr() == BinaryOpr.OR) {
-                boolean result = bNode.getExprLBool() || bNode.getExprRBool();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new ORR(resultReg, exprLReg, exprRReg));
             }
         } else {
+            if (((BinaryOprNode) node).isComparison()) {
+                instructionsToBeAdded.add(new CMP(exprLReg, exprRReg));
+            } else {
+                instructions.add(new Header(".data"), null);
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
+                    instructions.getMessageGenerator().generatePrintErrorMessage(
+                            instructions, errorMessage.length() - 3, errorMessage);
+                }
+                instructions = generateRuntimeErrorMessage(instructions, registers);
+                instructions = generatePrintStringMessage(instructions, registers);
+            }
 
             if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GT)) {
-                boolean result = bNode.getExprLInt() > bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVGT(resultReg, 1));
+                instructionsToBeAdded.add(new MOVLE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.GTE)) {
-                boolean result = bNode.getExprLInt() >= bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVGE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVLT(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LT)) {
-                boolean result = bNode.getExprLInt() < bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVLT(resultReg, 1));
+                instructionsToBeAdded.add(new MOVGE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.LTE)) {
-                boolean result = bNode.getExprLInt() <= bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVLE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVGT(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.EQ)) {
-                boolean result = bNode.getExprLInt() == bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVEQ(resultReg, 1));
+                instructionsToBeAdded.add(new MOVNE(resultReg, 0));
             } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.NEQ)) {
-                boolean result = bNode.getExprLInt() != bNode.getExprRInt();
-                instructionsToBeAdded.add(new MOV(resultReg, result? 1 : 0));
+                instructionsToBeAdded.add(new MOVNE(resultReg, 1));
+                instructionsToBeAdded.add(new MOVEQ(resultReg, 0));
             } else {
 
-                if (bNode.getBinaryOpr().equals(BinaryOpr.PLUS)) {
-                    int constant = bNode.getExprLInt() + bNode.getExprRInt();
-                    instructionsToBeAdded.add(new LDR(resultReg, constant));
-                } else if (bNode.getBinaryOpr().equals(BinaryOpr.MINUS)) {
-                    int constant = bNode.getExprLInt() - bNode.getExprRInt();
-                    instructionsToBeAdded.add(new LDR(resultReg, constant));
-                } else if (bNode.getBinaryOpr().equals(BinaryOpr.MULT)) {
-                    int constant = bNode.getExprLInt() * bNode.getExprRInt();
-                    instructionsToBeAdded.add(new LDR(resultReg, constant));
-                } else if (bNode.getBinaryOpr().equals(BinaryOpr.DIV)) {
-                    if (bNode.getExprRInt() != 0) {
-                        int constant = bNode.getExprLInt() / bNode.getExprRInt();
-                        instructionsToBeAdded.add(new LDR(resultReg, constant));
-                    } else {
-                        String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
-                        instructions.getMessageGenerator().generatePrintErrorMessage(
-                                instructions, errorMessage.length() - 3, errorMessage);
-                        instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
-                        instructionsToBeAdded.add(new BL(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-                                "__aeabi_idiv" : "__aeabi_idivmod"));
-                        instructionsToBeAdded.add(new MOV(resultReg,
-                                ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-                                        registers.getR0Reg() : registers.getR1Reg()));
-                        instructions = generateDivideByZeroError(instructions, registers);
-                    }
-                } else if (bNode.getBinaryOpr().equals(BinaryOpr.MOD)) {
-                    if (bNode.getExprRInt() != 0) {
-                        int constant = bNode.getExprLInt() % bNode.getExprRInt();
-                        instructionsToBeAdded.add(new LDR(resultReg, constant));
-                    } else {
-                        String errorMessage = "\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
-                        instructions.getMessageGenerator().generatePrintErrorMessage(
-                                instructions, errorMessage.length() - 3, errorMessage);
-                        instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
-                        instructionsToBeAdded.add(new BL(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-                                "__aeabi_idiv" : "__aeabi_idivmod"));
-                        instructionsToBeAdded.add(new MOV(resultReg,
-                                ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
-                                        registers.getR0Reg() : registers.getR1Reg()));
-                        instructions = generateDivideByZeroError(instructions, registers);
-                    }
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)) {
+                    instructionsToBeAdded.add(new ADDS(resultReg, exprLReg, exprRReg));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
+                    instructionsToBeAdded.add(new SUBS(resultReg, exprLReg, exprRReg));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MULT)) {
+                    instructionsToBeAdded.add(new SMULL(exprLReg, exprRReg, exprLReg, exprRReg));
+                    instructionsToBeAdded.add(new CMP(exprRReg, exprLReg, "ASR", 31));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    instructionsToBeAdded.add(new MOV(registers.getR0Reg(), exprLReg));
+                    instructionsToBeAdded.add(new MOV(registers.getR1Reg(), exprRReg));
+                }
 
+                if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.PLUS)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MINUS)) {
+                    instructionsToBeAdded.add(new BLVS("p_throw_overflow_error"));
+                } else if (((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ||
+                        ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD)) {
+                    instructionsToBeAdded.add(new BL("p_check_divide_by_zero"));
+                    instructionsToBeAdded.add(new BL(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
+                            "__aeabi_idiv" : "__aeabi_idivmod"));
+                    instructionsToBeAdded.add(new MOV(resultReg,
+                            ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV) ?
+                                    registers.getR0Reg() : registers.getR1Reg()));
+                    instructions = generateDivideByZeroError(instructions, registers);
+                } else {
+                    instructionsToBeAdded.add(new BLNE("p_throw_overflow_error"));
+                }
+
+                if (!(((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.DIV)
+                        || ((BinaryOprNode) node).getBinaryOpr().equals(BinaryOpr.MOD))) {
+                    instructions = generateOverflowError(instructions, registers);
                 }
             }
         }

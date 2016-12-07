@@ -403,13 +403,17 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
         if (pNode.isFirst()) {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
-            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
+            if(!isAsL){ //TODO: check for heap test
+                instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
+            }
+//            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
         } else {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), 4));//todo: check
+            if(!isAsL){
+                instructionsToBeAdded.add(new LDRSB(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), 0));
+            }
         }
-//        if(isAsL){ //TODO: check for heap test
-//            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
-//        }
+
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = generateRuntimeErrorMessage(instructions, registers);

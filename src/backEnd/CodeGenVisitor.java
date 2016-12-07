@@ -87,7 +87,7 @@ public class CodeGenVisitor {
 
     public static AssemblyCode visitPairElemAsLNode(ASTNode node, AssemblyCode instructions, Registers registers) {
         //CHECKED
-        return visitPairElemNode(((PairElemAsLNode)node).getPairElemNode(), instructions, registers);
+        return visitPairElemNode(((PairElemAsLNode)node).getPairElemNode(), instructions, registers, true);
     }
 
     public static AssemblyCode visitArgListNode(ASTNode node, AssemblyCode instructions, Registers registers) {
@@ -384,6 +384,10 @@ public class CodeGenVisitor {
     }
 
     public static AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode instructions, Registers registers) {
+        return visitPairElemNode(node, instructions, registers, false);
+    }
+
+    public static AssemblyCode visitPairElemNode(ASTNode node, AssemblyCode instructions, Registers registers, boolean isAsL) {
         PairElemNode pNode = (PairElemNode) node;
         List<Instruction> instructionsToBeAdded = new ArrayList<>();
 
@@ -398,14 +402,14 @@ public class CodeGenVisitor {
         instructionsToBeAdded.add(new MOV(registers.getR0Reg(), registers.getNextAvailableVariableReg()));
         instructionsToBeAdded.add(new BL("p_check_null_pointer"));
         instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
-        if(!(node instanceof PairElemAsLNode)){ //TODO: check for heap test
+        if(isAsL){ //TODO: check for heap test
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
         }
 
         instructions.add(instructions.getCurrentLabel(), instructionsToBeAdded);
         instructions = generateRuntimeErrorMessage(instructions, registers);
         instructions = generatePrintStringMessage(instructions, registers);
-        
+
         return instructions;
     }
 

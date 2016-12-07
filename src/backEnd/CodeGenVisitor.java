@@ -406,7 +406,6 @@ public class CodeGenVisitor {
             if(!isAsL){ //TODO: check for heap test
                 instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));
             }
-//            instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg()));//todo: check
         } else {
             instructionsToBeAdded.add(new LDR(registers.getNextAvailableVariableReg(), registers.getNextAvailableVariableReg(), 4));//todo: check
             if(!isAsL){

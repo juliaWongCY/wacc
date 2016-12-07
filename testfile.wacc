@@ -1,16 +1,25 @@
-# create a pair and write to its second element
+# simple input/output loop
 
 # Output:
-# a
-# Z
+# Please input an integer: #input#
+# echo input: #output#
+# Do you want to continue entering input?
+# (enter Y for 'yes' and N for 'no')
+# #input#
+# ...
 
 # Program:
 
 begin
-  pair(int, char) p = newpair(10, 'a') ;
-  char s = snd p ;
-  println s ;
-  snd p = 'Z' ;
-  s = snd p ;
-  println s
+  char continue = 'Y' ;
+  int buff = 0 ;
+  while continue != 'N' do
+    print "Please input an integer: " ;
+    read buff ;
+    print "echo input: " ;
+    println buff ;
+    println "Do you want to continue entering input?" ;
+    println "(enter Y for \'yes\' and N for \'no\')" ;
+    read continue
+  done
 end

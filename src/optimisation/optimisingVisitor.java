@@ -187,7 +187,7 @@ public class optimisingVisitor {
         int exprLInt, exprRInt, constant;
         boolean exprLBool, exprRBool, resultBool;
 
-        if (!(exprLNode instanceof IdentNode) && !(exprRNode instanceof IdentNode)) {
+        if (!(newExprLNode instanceof IdentNode) && !(newExprRNode instanceof IdentNode)) {
             switch (binaryOpr) {
                 //ARITHMETIC - BOTH EXPRESSION HAS TO BE INTEGER
                 case PLUS:
@@ -502,9 +502,9 @@ public class optimisingVisitor {
 
         PrintlnStatNode pNode = (PrintlnStatNode) node;
 
-        ASTNode newExprNode = visitExpressionNode(pNode.getExpr());
+        ExpressionNode newExprNode = (ExpressionNode) visitExpressionNode(pNode.getExpr());
 
-        return new PrintlnStatNode((ExpressionNode) newExprNode);
+        return new PrintlnStatNode(newExprNode);
     }
 
     public static ASTNode visitPrintStatNode(ASTNode node) {

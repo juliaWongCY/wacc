@@ -13,7 +13,7 @@ begin
       skip
     else
       int i = x ;
-      while i > 0 do 
+      while i > 0 do
         print "-" ;
         i = i - 1
       done ;
@@ -27,5 +27,5 @@ begin
   int x = 0;
 
   read x;
-  int s = call f(x) 
+  int s = call f(x)
 end

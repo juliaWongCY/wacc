@@ -199,16 +199,25 @@ public class optimisingVisitor {
                     exprLInt = ((IntLiterNode) newExprLNode).getValue();
                     exprRInt = ((IntLiterNode) newExprRNode).getValue();
                     if (binaryOpr == BinaryOpr.PLUS) {
-                        constant = (long) exprLInt + exprRInt;
+                        constant = exprLInt + exprRInt;
+                        if (!(constant - exprRInt == exprLInt)) {
+                            return node;
+                        }
                     } else if (binaryOpr == BinaryOpr.MINUS) {
                         constant = (long) exprLInt - exprRInt;
+                        if (!(constant + exprRInt == exprLInt)) {
+                            return node;
+                        }
                     } else {
                         constant = (long) exprLInt * exprRInt;
+                        if (!(constant / exprRInt == exprLInt)) {
+                            return node;
+                        }
                     }
 
-                    if (constant >>> 32 != 0) {
-                        return node;
-                    }
+//                    if (constant >>> 32 != 0) {
+//                        return node;
+//                    }
                     return new IntLiterNode((int) constant);
                 case DIV:
                 case MOD:

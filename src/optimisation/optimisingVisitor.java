@@ -16,6 +16,8 @@ import com.sun.org.apache.regexp.internal.RE;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ast.BinaryOpr.DIV;
+
 public class optimisingVisitor {
 
     private static SymbolTable symbolTable;
@@ -184,7 +186,8 @@ public class optimisingVisitor {
         }
         //Not sure if we have to do UnaryOprNode
 
-        int exprLInt, exprRInt, constant;
+        int exprLInt, exprRInt;
+        long constant;
         boolean exprLBool, exprRBool, resultBool;
 
         if (!(newExprLNode instanceof IdentNode) && !(newExprRNode instanceof IdentNode)) {
@@ -196,28 +199,34 @@ public class optimisingVisitor {
                     exprLInt = ((IntLiterNode) newExprLNode).getValue();
                     exprRInt = ((IntLiterNode) newExprRNode).getValue();
                     if (binaryOpr == BinaryOpr.PLUS) {
-                        constant = exprLInt + exprRInt;
+                        constant = (long) exprLInt + exprRInt;
                     } else if (binaryOpr == BinaryOpr.MINUS) {
-                        constant = exprLInt - exprRInt;
+                        constant = (long) exprLInt - exprRInt;
                     } else {
-                        constant = exprLInt * exprRInt;
+                        constant = (long) exprLInt * exprRInt;
                     }
-                    return new IntLiterNode(constant);
+
+                    if (constant >>> 32 != 0) {
+                        return node;
+                    }
+                    return new IntLiterNode((int) constant);
                 case DIV:
                 case MOD:
                     exprLInt = ((IntLiterNode) newExprLNode).getValue();
                     exprRInt = ((IntLiterNode) newExprRNode).getValue();
                     if (exprRInt != 0) {
-                        if (binaryOpr == BinaryOpr.DIV) {
+                        if (binaryOpr == DIV) {
                             constant = exprLInt / exprRInt;
                         } else {
                             constant = exprLInt % exprRInt;
                         }
-                        return new IntLiterNode(constant);
+                        if (constant >>> 32 != 0) {
+                            return node;
+                        }
+                        return new IntLiterNode((int) constant);
                     } else {
                         return node;
                     }
-
 
                     //COMPARING - GTE/GT/LTE/LT ALL HAS TO BE INTEGER/CHAR
                 case GTE:

@@ -532,14 +532,16 @@ public class optimisingVisitor {
 
     public static ASTNode visitScopingStatNode(ASTNode node) {
 
-        newSymbolTable();
-        ScopingStatNode sNode = (ScopingStatNode) node;
-        StatListNode slNode = sNode.getBody();
+//        newSymbolTable();
+//        ScopingStatNode sNode = (ScopingStatNode) node;
+//        StatListNode slNode = sNode.getBody();
+//
+//        slNode = (StatListNode) visitStatListNode(slNode);
+//
+//        popSymbolTable();
+//        return new ScopingStatNode(slNode);
 
-        slNode = (StatListNode) visitStatListNode(slNode);
-
-        popSymbolTable();
-        return new ScopingStatNode(slNode);
+        return node;
     }
 
     public static ASTNode visitSideEffectNode(ASTNode node) {
@@ -559,17 +561,19 @@ public class optimisingVisitor {
 
     public static ASTNode visitWhileStatNode(ASTNode node) {
 
-        WhileStatNode wNode = (WhileStatNode) node;
-        ExpressionNode condition = wNode.getCondition();
-        //TODO: Simplify the condition
+//        WhileStatNode wNode = (WhileStatNode) node;
+//        ExpressionNode condition = wNode.getCondition();
+//        //TODO: Simplify the condition
+//
+//        StatListNode body = wNode.getBody();
+//
+//        newSymbolTable();
+//        body = (StatListNode) visitStatListNode(body);
+//        popSymbolTable();
+//
+//        return new WhileStatNode(condition, body);
 
-        StatListNode body = wNode.getBody();
-
-        newSymbolTable();
-        body = (StatListNode) visitStatListNode(body);
-        popSymbolTable();
-
-        return new WhileStatNode(condition, body);
+        return node;
     }
 
     ///////////////////////////// End of Statement Node ////////////////////////////////
@@ -597,14 +601,16 @@ public class optimisingVisitor {
 
     public static ASTNode visitFunctionNode(ASTNode node) {
 
-        FunctionNode fNode = (FunctionNode) node;
-        StatListNode slNode = fNode.getStatement();
+//        FunctionNode fNode = (FunctionNode) node;
+//        StatListNode slNode = fNode.getStatement();
+//
+//        newSymbolTable();
+//        slNode = (StatListNode) visitStatListNode(slNode);
+//        popSymbolTable();
+//
+//        return new FunctionNode(fNode.getRetType(), fNode.getFuncitonNameInIdentNode(), fNode.getParamListNode(), slNode);
 
-        newSymbolTable();
-        slNode = (StatListNode) visitStatListNode(slNode);
-        popSymbolTable();
-
-        return new FunctionNode(fNode.getRetType(), fNode.getFuncitonNameInIdentNode(), fNode.getParamListNode(), slNode);
+        return node;
 
     }
 

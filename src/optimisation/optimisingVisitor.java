@@ -187,7 +187,7 @@ public class optimisingVisitor {
         //Not sure if we have to do UnaryOprNode
 
         int exprLInt, exprRInt;
-        long constant;
+        int constant;
         boolean exprLBool, exprRBool, resultBool;
 
         if (!(newExprLNode instanceof IdentNode) && !(newExprRNode instanceof IdentNode)) {
@@ -204,12 +204,12 @@ public class optimisingVisitor {
                             return node;
                         }
                     } else if (binaryOpr == BinaryOpr.MINUS) {
-                        constant = (long) exprLInt - exprRInt;
+                        constant = exprLInt - exprRInt;
                         if (!(constant + exprRInt == exprLInt)) {
                             return node;
                         }
                     } else {
-                        constant = (long) exprLInt * exprRInt;
+                        constant = exprLInt * exprRInt;
                         if (!(constant / exprRInt == exprLInt)) {
                             return node;
                         }
@@ -229,10 +229,7 @@ public class optimisingVisitor {
                         } else {
                             constant = exprLInt % exprRInt;
                         }
-                        if (constant >>> 32 != 0) {
-                            return node;
-                        }
-                        return new IntLiterNode((int) constant);
+                        return new IntLiterNode(constant);
                     } else {
                         return node;
                     }

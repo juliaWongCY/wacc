@@ -40,6 +40,10 @@ public class FunctionNode implements ASTNode {
         return functionName.getId();
     }
 
+    public IdentNode getFuncitonNameInIdentNode() {
+        return functionName;
+    }
+
     public ParamListNode getParamListNode(){
         return paramList;
     }

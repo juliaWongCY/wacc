@@ -595,7 +595,16 @@ public class optimisingVisitor {
     }
 
     public static ASTNode visitFunctionNode(ASTNode node) {
-        return null;
+
+        FunctionNode fNode = (FunctionNode) node;
+        StatListNode slNode = fNode.getStatement();
+
+        newSymbolTable();
+        slNode = (StatListNode) visitStatListNode(slNode);
+        popSymbolTable();
+
+        return new FunctionNode(fNode.getRetType(), fNode.getFuncitonNameInIdentNode(), fNode.getParamListNode(), slNode);
+
     }
 
     ///////////////////////////// End of Function and Program ////////////////////////////////

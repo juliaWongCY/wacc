@@ -187,121 +187,122 @@ public class optimisingVisitor {
         int exprLInt, exprRInt, constant;
         boolean exprLBool, exprRBool, resultBool;
 
-        switch (binaryOpr) {
-            //ARITHMETIC - BOTH EXPRESSION HAS TO BE INTEGER
-            case PLUS:
-            case MINUS:
-            case MULT:
-                exprLInt = ((IntLiterNode) newExprLNode).getValue();
-                exprRInt = ((IntLiterNode) newExprRNode).getValue();
-                if (binaryOpr == BinaryOpr.PLUS) {
-                    constant = exprLInt + exprRInt;
-                } else if (binaryOpr == BinaryOpr.MINUS) {
-                    constant = exprLInt - exprRInt;
-                } else {
-                    constant = exprLInt * exprRInt;
-                }
-                return new IntLiterNode(constant);
-            case DIV:
-            case MOD:
-                exprLInt = ((IntLiterNode) newExprLNode).getValue();
-                exprRInt = ((IntLiterNode) newExprRNode).getValue();
-                if (exprRInt != 0) {
-                    if (binaryOpr == BinaryOpr.DIV) {
-                        constant = exprLInt / exprRInt;
+        if (!(exprLNode instanceof IdentNode) && !(exprRNode instanceof IdentNode)) {
+            switch (binaryOpr) {
+                //ARITHMETIC - BOTH EXPRESSION HAS TO BE INTEGER
+                case PLUS:
+                case MINUS:
+                case MULT:
+                    exprLInt = ((IntLiterNode) newExprLNode).getValue();
+                    exprRInt = ((IntLiterNode) newExprRNode).getValue();
+                    if (binaryOpr == BinaryOpr.PLUS) {
+                        constant = exprLInt + exprRInt;
+                    } else if (binaryOpr == BinaryOpr.MINUS) {
+                        constant = exprLInt - exprRInt;
                     } else {
-                        constant = exprLInt % exprRInt;
+                        constant = exprLInt * exprRInt;
                     }
                     return new IntLiterNode(constant);
-                } else {
-                    return node;
-                }
-
-
-            //COMPARING - GTE/GT/LTE/LT ALL HAS TO BE INTEGER/CHAR
-            case GTE:
-            case GT:
-            case LTE:
-            case LT:
-                if (newExprLNode instanceof IntLiterNode) {
+                case DIV:
+                case MOD:
                     exprLInt = ((IntLiterNode) newExprLNode).getValue();
                     exprRInt = ((IntLiterNode) newExprRNode).getValue();
-                    if (binaryOpr == BinaryOpr.GTE) {
-                        resultBool = exprLInt >= exprRInt;
-                    } else if (binaryOpr == BinaryOpr.GT) {
-                        resultBool = exprLInt > exprRInt;
-                    } else if (binaryOpr == BinaryOpr.LTE) {
-                        resultBool = exprLInt <= exprRInt;
+                    if (exprRInt != 0) {
+                        if (binaryOpr == BinaryOpr.DIV) {
+                            constant = exprLInt / exprRInt;
+                        } else {
+                            constant = exprLInt % exprRInt;
+                        }
+                        return new IntLiterNode(constant);
                     } else {
-                        resultBool = exprLInt < exprRInt;
+                        return node;
                     }
-                    return new BoolLiterNode(resultBool);
-                } else {
-                    exprLInt = ((CharLiterNode) newExprLNode).getValue();
-                    exprRInt = ((CharLiterNode) newExprRNode).getValue();
-                    if (binaryOpr == BinaryOpr.GTE) {
-                        resultBool = exprLInt >= exprRInt;
-                    } else if (binaryOpr == BinaryOpr.GT) {
-                        resultBool = exprLInt > exprRInt;
-                    } else if (binaryOpr == BinaryOpr.LTE) {
-                        resultBool = exprLInt <= exprRInt;
-                    } else {
-                        resultBool = exprLInt < exprRInt;
-                    }
-                    return new BoolLiterNode(resultBool);
-                }
 
 
-            //COMPARING - EQ/NEQ: EVERYTYPE
-            case EQ:
-            case NEQ:
-                if (newExprLNode instanceof IntLiterNode && newExprRNode instanceof IntLiterNode) {
-                    exprLInt = ((IntLiterNode) newExprLNode).getValue();
-                    exprRInt = ((IntLiterNode) newExprRNode).getValue();
-                    if (binaryOpr == BinaryOpr.EQ) {
-                        resultBool = exprLInt == exprRInt;
+                    //COMPARING - GTE/GT/LTE/LT ALL HAS TO BE INTEGER/CHAR
+                case GTE:
+                case GT:
+                case LTE:
+                case LT:
+                    if (newExprLNode instanceof IntLiterNode) {
+                        exprLInt = ((IntLiterNode) newExprLNode).getValue();
+                        exprRInt = ((IntLiterNode) newExprRNode).getValue();
+                        if (binaryOpr == BinaryOpr.GTE) {
+                            resultBool = exprLInt >= exprRInt;
+                        } else if (binaryOpr == BinaryOpr.GT) {
+                            resultBool = exprLInt > exprRInt;
+                        } else if (binaryOpr == BinaryOpr.LTE) {
+                            resultBool = exprLInt <= exprRInt;
+                        } else {
+                            resultBool = exprLInt < exprRInt;
+                        }
+                        return new BoolLiterNode(resultBool);
                     } else {
-                        resultBool = exprLInt != exprRInt;
+                        exprLInt = ((CharLiterNode) newExprLNode).getValue();
+                        exprRInt = ((CharLiterNode) newExprRNode).getValue();
+                        if (binaryOpr == BinaryOpr.GTE) {
+                            resultBool = exprLInt >= exprRInt;
+                        } else if (binaryOpr == BinaryOpr.GT) {
+                            resultBool = exprLInt > exprRInt;
+                        } else if (binaryOpr == BinaryOpr.LTE) {
+                            resultBool = exprLInt <= exprRInt;
+                        } else {
+                            resultBool = exprLInt < exprRInt;
+                        }
+                        return new BoolLiterNode(resultBool);
                     }
-                    return new BoolLiterNode(resultBool);
-                } else if (newExprLNode instanceof CharLiterNode && newExprRNode instanceof CharLiterNode) {
-                    exprLInt = ((CharLiterNode) newExprLNode).getValue();
-                    exprRInt = ((CharLiterNode) newExprRNode).getValue();
-                    if (binaryOpr == BinaryOpr.EQ) {
-                        resultBool = exprLInt == exprRInt;
+
+
+                    //COMPARING - EQ/NEQ: EVERYTYPE
+                case EQ:
+                case NEQ:
+                    if (newExprLNode instanceof IntLiterNode && newExprRNode instanceof IntLiterNode) {
+                        exprLInt = ((IntLiterNode) newExprLNode).getValue();
+                        exprRInt = ((IntLiterNode) newExprRNode).getValue();
+                        if (binaryOpr == BinaryOpr.EQ) {
+                            resultBool = exprLInt == exprRInt;
+                        } else {
+                            resultBool = exprLInt != exprRInt;
+                        }
+                        return new BoolLiterNode(resultBool);
+                    } else if (newExprLNode instanceof CharLiterNode && newExprRNode instanceof CharLiterNode) {
+                        exprLInt = ((CharLiterNode) newExprLNode).getValue();
+                        exprRInt = ((CharLiterNode) newExprRNode).getValue();
+                        if (binaryOpr == BinaryOpr.EQ) {
+                            resultBool = exprLInt == exprRInt;
+                        } else {
+                            resultBool = exprLInt != exprRInt;
+                        }
+                        return new BoolLiterNode(resultBool);
+                    } else if (newExprLNode instanceof BoolLiterNode && newExprRNode instanceof BoolLiterNode) {
+                        exprLBool = ((BoolLiterNode) newExprLNode).getValue();
+                        exprRBool = ((BoolLiterNode) newExprRNode).getValue();
+                        if (binaryOpr == BinaryOpr.EQ) {
+                            resultBool = exprLBool == exprRBool;
+                        } else {
+                            resultBool = exprLBool != exprRBool;
+                        }
+                        return new BoolLiterNode(resultBool);
                     } else {
-                        resultBool = exprLInt != exprRInt;
+                        return node;
                     }
-                    return new BoolLiterNode(resultBool);
-                } else if (newExprLNode instanceof BoolLiterNode && newExprRNode instanceof BoolLiterNode) {
+
+
+                    //LOGICAL - BOTH EXPRESSION HAS TO BE BOOLEAN
+                case AND:
+                case OR:
                     exprLBool = ((BoolLiterNode) newExprLNode).getValue();
                     exprRBool = ((BoolLiterNode) newExprRNode).getValue();
-                    if (binaryOpr == BinaryOpr.EQ) {
-                        resultBool = exprLBool == exprRBool;
+                    if (binaryOpr == BinaryOpr.AND) {
+                        resultBool = exprLBool && exprRBool;
                     } else {
-                        resultBool = exprLBool != exprRBool;
+                        resultBool = exprLBool || exprRBool;
                     }
                     return new BoolLiterNode(resultBool);
-                } else {
-                    return node;
-                }
-
-
-            //LOGICAL - BOTH EXPRESSION HAS TO BE BOOLEAN
-            case AND:
-            case OR:
-                exprLBool = ((BoolLiterNode) newExprLNode).getValue();
-                exprRBool = ((BoolLiterNode) newExprRNode).getValue();
-                if (binaryOpr == BinaryOpr.AND) {
-                    resultBool = exprLBool && exprRBool;
-                } else {
-                    resultBool = exprLBool || exprRBool;
-                }
-                return new BoolLiterNode(resultBool);
+            }
         }
 
-
-        return null;
+        return node;
     }
 
 //    public static ASTNode visitBoolLiterNode(ASTNode node) {
@@ -481,7 +482,7 @@ public class optimisingVisitor {
         IfStatNode iNode = (IfStatNode) node;
         ExpressionNode condition = iNode.getCond();
 
-        //TODO: Need to simplify the condition?
+        condition = (ExpressionNode) visitExpressionNode(condition);
 
         StatListNode thenBody = iNode.getStatThenBody();
         StatListNode elseBody = iNode.getStatElseBody();

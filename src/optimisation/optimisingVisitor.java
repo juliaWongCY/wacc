@@ -473,7 +473,7 @@ public class optimisingVisitor {
     }
 
     public static ASTNode visitFreeStatNode(ASTNode node) {
-        return null;
+        return node;
     }
 
     public static ASTNode visitIfStatNode(ASTNode node) {

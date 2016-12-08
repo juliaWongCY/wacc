@@ -78,8 +78,10 @@ public class Registers {
         regInUsed.remove(reg);
     }
 
-    public void removeRegInUsedList(RegisterARM reg){
-        regInUsed.remove(reg);
+    public void popRegInUsedList(){
+        if (!regInUsed.isEmpty()){
+            regInUsed.remove(regInUsed.size() - 1);
+        }
     }
 
     public void clearRegInUsed(){

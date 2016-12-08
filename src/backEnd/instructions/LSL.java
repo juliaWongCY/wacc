@@ -10,7 +10,7 @@ public class LSL extends Instruction {
 
     @Override
     public String toString() {
-        return "\t\tLSL #" + shiftNum + "\n";
+        return "LSL #" + shiftNum + "\n";
     }
 
 }

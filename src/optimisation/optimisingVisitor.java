@@ -430,7 +430,7 @@ public class optimisingVisitor {
         IdentNode iNode;
 
         if (assignLNode instanceof IdentAsLNode && assignRNode instanceof ExprAsRNode) {
-            iNode = ((IdentAsLNode) assignLNode).getId();
+            iNode = ((IdentAsLNode) assignLNode).getIdnode();
             String id = iNode.getId();
             ExpressionNode newExprR = (ExpressionNode) visitExpressionNode(((ExprAsRNode) assignRNode).getExpr());
             symbolTable.modifyVariable(id, newExprR);

@@ -1,0 +1,192 @@
+	.data
+	msg_0:
+		.word 5
+		.ascii "%.*s\0"
+	msg_1:
+		.word  1
+		.ascii "-"
+	msg_2:
+		.word 82
+		.ascii "OverflowError: the result is too small/large to store in a 4-byte signed-integer.\n"
+	msg_3:
+		.word  0
+		.ascii ""
+	msg_4:
+		.word 1
+		.ascii "\0"
+	msg_5:
+		.word  3
+		.ascii "|  "
+	msg_6:
+		.word  1
+		.ascii " "
+	msg_7:
+		.word 3
+		.ascii "%d\0"
+	msg_8:
+		.word  3
+		.ascii " = "
+	msg_9:
+		.word  3
+		.ascii "  |"
+	msg_10:
+		.word  28
+		.ascii "Asci character lookup table:"
+	.text
+
+
+	.global main
+
+	f_printLine:
+		PUSH {LR}
+		SUB SP, SP, #4
+		LDR R4, =0
+		STR R4, [SP]
+		B L0
+	L0:
+		LDR R4, [SP]
+		LDR R5, [SP, #8]
+		CMP R4, R5
+		MOVLT R4, #1
+		MOVGE R4, #0
+		CMP R4, #1
+		BEQ L1
+		LDR R4, =msg_3
+		MOV R0, R4
+		BL p_print_string
+		BL p_print_ln
+		MOV R4, #1
+		MOV R0, R4
+		ADD SP, SP, #8
+		POP {PC}
+		POP {PC}
+		.ltorg
+	p_print_string:
+		PUSH {LR}
+		LDR R1, [R0]
+		ADD R2, R0, #4
+		LDR R0, =msg_0
+		ADD R0, R0, #4
+		BL printf
+		MOV R0, #0
+		BL fflush
+		POP {PC}
+	L1:
+		LDR R4, =msg_1
+		MOV R0, R4
+		BL p_print_string
+		LDR R4, [SP]
+		LDR R5, =1
+		ADDS R4, R4, R5
+		BLVS p_throw_overflow_error
+		STR R4, [SP]
+		B L0
+	p_throw_runtime_error:
+		BL p_print_string
+		MOV R0, #-1
+		BL exit
+	p_throw_overflow_error:
+		LDR R0, =msg_2
+		BL p_throw_runtime_error
+	p_print_ln:
+		PUSH {LR}
+		LDR R0, =msg_4
+		ADD R0, R0, #4
+		BL puts
+		MOV R0, #0
+		BL fflush
+		POP {PC}
+	f_printMap:
+		PUSH {LR}
+		LDR R4, =msg_5
+		MOV R0, R4
+		BL p_print_string
+		LDR R4, [SP, #4]
+		LDR R5, =100
+		CMP R4, R5
+		MOVLT R4, #1
+		MOVGE R4, #0
+		CMP R4, #0
+		BEQ L2
+		LDR R4, =msg_6
+		MOV R0, R4
+		BL p_print_string
+		B L3
+	L2:
+		B L3
+	p_print_int:
+		PUSH {LR}
+		MOV R1, R0
+		LDR R0, =msg_7
+		ADD R0, R0, #4
+		BL printf
+		MOV R0, #0
+		BL fflush
+		POP {PC}
+	L3:
+		LDR R4, [SP, #4]
+		MOV R0, R4
+		BL p_print_int
+		LDR R4, =msg_8
+		MOV R0, R4
+		BL p_print_string
+		LDR R4, [SP, #4]
+		MOV R0, R4
+		BL putchar
+		LDR R4, =msg_9
+		MOV R0, R4
+		BL p_print_string
+		BL p_print_ln
+		MOV R4, #1
+		MOV R0, R4
+		POP {PC}
+		POP {PC}
+		.ltorg
+	main:
+		PUSH {LR}
+		LDR R4, =msg_10
+		MOV R0, R4
+		BL p_print_string
+		BL p_print_ln
+		SUB SP, SP, #1
+		LDR R4, =13
+		STR R4, [SP, #-4]!
+		BL f_printLine
+		ADD SP, SP, #4
+		MOV R4, R0
+		STRB R4, [SP]
+		SUB SP, SP, #4
+		MOV R4, #' '
+		STR R4, [SP]
+		B L4
+	L4:
+		LDR R4, [SP]
+		LDR R5, =127
+		CMP R4, R5
+		MOVLT R4, #1
+		MOVGE R4, #0
+		CMP R4, #1
+		BEQ L5
+		LDR R4, =13
+		STR R4, [SP, #-4]!
+		BL f_printLine
+		ADD SP, SP, #4
+		MOV R4, R0
+		STRB R4, [SP]
+		ADD SP, SP, #5
+		LDR R0, =0
+		POP {PC}
+		.ltorg
+	L5:
+		LDR R4, [SP]
+		STR R4, [SP, #-4]!
+		BL f_printMap
+		ADD SP, SP, #4
+		MOV R4, R0
+		STRB R4, [SP]
+		LDR R4, [SP]
+		LDR R5, =1
+		ADDS R4, R4, R5
+		BLVS p_throw_overflow_error
+		STR R4, [SP]
+		B L4

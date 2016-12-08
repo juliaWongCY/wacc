@@ -3,13 +3,14 @@ package backEnd.symbolTable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Stack;
 
 public class VarSymbolTable {
 
     private VarSymbolTable parent;
-    private Map<String, Value> varTable;
+    private Map<String, VarProperty> varTable;
 
-    private int state = -1;
+    private Stack<Integer> states = new Stack<>();
 
     public VarSymbolTable() {
         parent = null;
@@ -19,32 +20,33 @@ public class VarSymbolTable {
     public VarSymbolTable(VarSymbolTable parent) {
         this.parent = parent;
         this.varTable = new HashMap<>();
+        this.states = parent.getStates();
     }
 
     // splitting addVar and modVar to ensure the integrity of the symbol table
     // TODO: change back to just call put method after the entire backend working
 
-    public void addVariable(String varName, Value value) {
+    public void addVariable(String varName, VarProperty varProperty) {
         if (varTable.containsKey(varName)) {
             System.err.println("Duplicate variable in same scope: " + varName);
         } else {
-            varTable.put(varName, value);
+            varTable.put(varName, varProperty);
         }
     }
 
-    public void modifyVariable(String varName, Value value) {
+    public void modifyVariable(String varName, VarProperty varProperty) {
         if (varTable.containsKey(varName)) {
-            varTable.put(varName, value);
+            varTable.put(varName, varProperty);
         } else {
             if (parent == null) {
                 System.err.println("Undefined variable");
             } else {
-                parent.modifyVariable(varName, value);
+                parent.modifyVariable(varName, varProperty);
             }
         }
     }
 
-    public Value getVariable(String varName) {
+    public VarProperty getVarProperty(String varName) {
         if (varTable.containsKey(varName)) {
             return varTable.get(varName);
         }
@@ -52,33 +54,33 @@ public class VarSymbolTable {
             System.err.println("variable not found");
             return null;
         } else {
-            return parent.getVariable(varName);
+            return parent.getVarProperty(varName);
         }
     }
 
 
-    public void clearVariables(){
-        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
-        Map<String, Value> newVarTable = new HashMap<>();
-        while(iter.hasNext()){
-            Map.Entry<String, Value> entry = iter.next();
-            if (entry.getKey().startsWith("f_inc")){
+    public void clearVariables() {
+        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
+        Map<String, VarProperty> newVarTable = new HashMap<>();
+        while (iter.hasNext()) {
+            Map.Entry<String, VarProperty> entry = iter.next();
+            if (entry.getKey().startsWith("f_inc")) {
                 newVarTable.put(entry.getKey(), entry.getValue());
             }
 
         }
         varTable = newVarTable;
-
-
     }
 
 
     public int getVarLocalSize() {
         int size = 0;
-        Iterator<Map.Entry<String, Value>> iter = varTable.entrySet().iterator();
+        Iterator<Map.Entry<String, VarProperty>> iter = varTable.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<String, Value> entry = iter.next();
-            size += entry.getValue().getTypeSize();
+            Map.Entry<String, VarProperty> entry = iter.next();
+            if (!entry.getValue().isParam()) {
+                size += entry.getValue().getTypeSize();
+            }
         }
         return size;
     }
@@ -95,15 +97,24 @@ public class VarSymbolTable {
         return parent;
     }
 
-    public void saveState() {
-        state = getVarTotalSize();
+    public int saveState() {
+        states.push(getVarTotalSize());
+        return states.peek();
     }
 
-    public boolean checkSameState() {
-        return varTable.size() == state;
+    public boolean hasAddedNewVar() {
+        return getVarTotalSize() != states.pop();
     }
 
-    public int getState() {
-        return state;
+    public boolean peekHasAddedNewVar() {
+        return getVarTotalSize() != states.peek();
+    }
+
+    public Stack<Integer> getStates() {
+        return states;
+    }
+
+    public void setStates(Stack<Integer> states) {
+        this.states = states;
     }
 }

@@ -235,12 +235,12 @@ public class MessageGenerator {
         return nullReferenceInstructions;
     }
 
-    public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions) {
+    public AssemblyCode generateNullPointerInstructions(Registers registers, AssemblyCode instructions, int msgNum) {
         List<Instruction> nullPointerInstructions = new ArrayList<>();
 
         nullPointerInstructions.add(new PUSH(registers.getLinkReg()));
         nullPointerInstructions.add(new CMP(registers.getR0Reg(), 0));
-        nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+        nullPointerInstructions.add(new LDREQ(registers.getR0Reg(), new Label("msg_" + msgNum)));
         nullPointerInstructions.add(new BLEQ("p_throw_runtime_error"));
         nullPointerInstructions.add(new POP(registers.getPCReg()));
 
@@ -259,20 +259,20 @@ public class MessageGenerator {
     }
 
     public List<Instruction> generateCheckArrayBoundsInstructions(
-            AssemblyCode instructions, Registers registers) {
+            AssemblyCode instructions, Registers registers, int msgNeg, int msgOOB) {
         List<Instruction> checkArrayBoundsInstructions = new ArrayList<>();
 
         checkArrayBoundsInstructions.add(new PUSH(registers.getLinkReg()));
         checkArrayBoundsInstructions.add(new CMP(registers.getR0Reg(), 0));
 
         checkArrayBoundsInstructions.add(new LDRLT(registers.getR0Reg(),
-                new Label("msg_" + (instructions.getNumberOfMessage() - 4))));
+                new Label("msg_" + msgNeg)));
         checkArrayBoundsInstructions.add(new BLLT("p_throw_runtime_error"));
         checkArrayBoundsInstructions.add(new LDR(registers.getR1Reg(), registers.getR1Reg()));
         checkArrayBoundsInstructions.add(new CMP(registers.getR0Reg(), registers.getR1Reg()));
 
         checkArrayBoundsInstructions.add(new LDRCS(registers.getR0Reg(),
-                new Label("msg_" + (instructions.getNumberOfMessage() - 2))));
+                new Label("msg_" + msgOOB)));
         checkArrayBoundsInstructions.add(new BLCS("p_throw_runtime_error"));
         checkArrayBoundsInstructions.add(new POP(registers.getPCReg()));
 

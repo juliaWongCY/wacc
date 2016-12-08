@@ -13,11 +13,15 @@ public class Util {
     public static final int ARRAY_TYPE     = 4;
     public static final int PAIR_TYPE      = 5;
 
-    public static final int NUMBER_OF_ERROR   = 4;
-    public static final int RUNTIME_ERROR     = 0;
-    public static final int OVERFLOW_ERROR    = 1;
-    public static final int DIVIDE_ZERO_ERROR = 2;
-    public static final int NULL_REF_ERROR    = 3;
+    public static final int NUMBER_OF_ERROR          = 6;
+    public static final int RUNTIME_ERROR            = 0;
+    public static final int OVERFLOW_ERROR           = 1;
+    public static final int DIVIDE_ZERO_ERROR        = 2;
+    public static final int ARRAY_NEG_INDEX_ERROR    = 3;
+    public static final int ARRAY_OUT_BOUND_ERROR    = 4;
+    public static final int NULL_REF_ERROR           = 5;
+
+
 
     public static int convertTypeToIndicator(Type type) {
         if (type instanceof IntType) {
@@ -33,7 +37,7 @@ public class Util {
             return STRING_TYPE;
         }
         if (type instanceof ArrayType) {
-            if (((ArrayType) type).getElemType() instanceof  CharType) {
+            if (((ArrayType) type).getElemType() instanceof CharType) {
                 return STRING_TYPE;
             }
             return ARRAY_TYPE;
@@ -44,8 +48,8 @@ public class Util {
         if (type instanceof FunctionType) {
             return convertTypeToIndicator(((FunctionType) type).getReturnType());
         }
-        System.err.println("unrecognised type");
-        return -1;
+        System.err.println("unrecognised type or void");
+        return EMPTY_TYPE;
     }
 
     public static int getTypeSize(int typeIndicator) {

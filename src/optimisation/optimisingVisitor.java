@@ -4,14 +4,11 @@ import ast.ASTNode;
 import ast.BinaryOpr;
 import ast.FunctionNode;
 import ast.ProgramNode;
-import ast.assignLeft.ArrayElemAsLNode;
 import ast.assignLeft.AssignLeftNode;
 import ast.assignLeft.IdentAsLNode;
-import ast.assignLeft.PairElemAsLNode;
 import ast.assignRight.*;
 import ast.expression.*;
 import ast.statement.*;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,25 +197,24 @@ public class optimisingVisitor {
                     exprRInt = ((IntLiterNode) newExprRNode).getValue();
                     if (binaryOpr == BinaryOpr.PLUS) {
                         constant = exprLInt + exprRInt;
-                        if (!(constant - exprRInt == exprLInt)) {
+                        if (((exprLInt ^ constant) & (exprRInt ^ constant)) < 0) {
                             return node;
                         }
                     } else if (binaryOpr == BinaryOpr.MINUS) {
                         constant = exprLInt - exprRInt;
-                        if (!(constant + exprRInt == exprLInt)) {
+                        if (((exprLInt ^ exprRInt) & (exprLInt ^ constant)) < 0) {
                             return node;
                         }
                     } else {
-                        constant = exprLInt * exprRInt;
-                        if (!(constant / exprRInt == exprLInt)) {
+                        long res = (long)exprLInt * (long)exprRInt;
+                        if ((int)res != res) {
                             return node;
+                        } else {
+                            return new IntLiterNode((int) res);
                         }
                     }
 
-//                    if (constant >>> 32 != 0) {
-//                        return node;
-//                    }
-                    return new IntLiterNode((int) constant);
+                    return new IntLiterNode(constant);
                 case DIV:
                 case MOD:
                     exprLInt = ((IntLiterNode) newExprLNode).getValue();

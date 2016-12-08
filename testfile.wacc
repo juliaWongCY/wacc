@@ -1,6 +1,7 @@
-# multiplying the biggest possible negative integer
+# integer underflow
 
 # Output:
+# -2147483647
 # -2147483648
 # #runtime_error#
 
@@ -10,8 +11,10 @@
 # Program:
 
 begin
-  int x = -2147483648 ;
+  int x = -2147483647 ;
   println x ;
-  x = x*10; #err here?
+  x = x - 1 ;
+  println x ;
+  x = x - 1 ; #err here?
   println x
 end

@@ -1,8 +1,8 @@
-# integer underflow
+# integer overflow - generates odd assembly error!
 
 # Output:
-# -2147483647
-# -2147483648
+# 2147483
+# 2147483000
 # #runtime_error#
 
 # Exit:
@@ -11,10 +11,12 @@
 # Program:
 
 begin
-  int x = -2147483647 ;
+  int x = 2147483 ;
   println x ;
-  x = x - 1 ;
+  x = x * 1000 ;
   println x ;
-  x = x - 1 ; #err here?
+  x = x * 1000 ;
+  println x ;
+  x = x * 1000 ; #err here?
   println x
 end

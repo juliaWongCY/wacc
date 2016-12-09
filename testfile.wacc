@@ -1,17 +1,8 @@
 begin
-  pair(int, char) p = newpair(10, 'a') ;
-  pair(int, char) q = p;
-  println p ;
-  println q ;
-  println p == q ;
-  int x = fst p ;
-  int y = fst q ;
-  println x ;
-  println y ;
-  println x == y ;
-  char c1 = snd p ;
-  char c2 = snd q ;
-  println c1 ;
-  println c2 ;
-  println c1 == c2
+    int a = 1;
+    if true then
+        int a = 4
+    else
+        int a = 0
+    fi
 end

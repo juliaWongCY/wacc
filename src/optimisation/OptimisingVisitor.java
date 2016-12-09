@@ -521,9 +521,19 @@ public class OptimisingVisitor {
         ExpressionNode condition = iNode.getCond();
 
         condition = (ExpressionNode) visitExpressionNode(condition);
-
         StatListNode thenBody = iNode.getStatThenBody();
         StatListNode elseBody = iNode.getStatElseBody();
+
+        if (condition instanceof BoolLiterNode) {
+            BoolLiterNode bNode = (BoolLiterNode) condition;
+            if (bNode.getValue()) {
+                return new ScopingStatNode(thenBody);
+            } else {
+                return new ScopingStatNode(elseBody);
+            }
+        }
+
+
 
         newSymbolTable();
         ++level;
@@ -601,8 +611,17 @@ public class OptimisingVisitor {
 
     public static ASTNode visitWhileStatNode(ASTNode node) {
 
-//        WhileStatNode wNode = (WhileStatNode) node;
-//        ExpressionNode condition = wNode.getCondition();
+        WhileStatNode wNode = (WhileStatNode) node;
+        ExpressionNode condition = wNode.getCondition();
+        condition = (ExpressionNode) visitExpressionNode(condition);
+        if (condition instanceof BoolLiterNode) {
+            BoolLiterNode bNode = (BoolLiterNode) condition;
+            if (bNode.getValue()) {
+                return node;
+            } else {
+                return new SkipStatNode();
+            }
+        }
 //        //TODO: Simplify the condition
 //
 //        StatListNode body = wNode.getBody();

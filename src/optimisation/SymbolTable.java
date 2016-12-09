@@ -8,7 +8,7 @@ import java.util.Map;
 public class SymbolTable {
 
     private SymbolTable parent;
-    private Map<String, ExpressionNode> varTable;
+    private Map<String, OptimiseProperty> varTable;
 
 
     public SymbolTable() {
@@ -25,27 +25,30 @@ public class SymbolTable {
         return parent;
     }
 
-    public void addVariable(String varName, ExpressionNode expressionNode) {
+    public void addVariable(String varName, OptimiseProperty property) {
         if (!varTable.containsKey(varName)) {
-            varTable.put(varName, expressionNode);
+            varTable.put(varName, property);
         } else {
             System.err.println("Duplicate variable in same scope: " + varName);
         }
     }
 
-    public void modifyVariable(String varName, ExpressionNode expressionNode) {
+    public void modifyVariable(String varName, ExpressionNode expressionNode, int assignLevel) {
         if (varTable.containsKey(varName)) {
-            varTable.put(varName, expressionNode);
+            OptimiseProperty optimiseProperty = varTable.get(varName);
+            optimiseProperty.setExpressionNode(expressionNode);
+            optimiseProperty.pushAssignLevels(assignLevel);
+            varTable.put(varName, optimiseProperty);
         } else {
             if (parent == null) {
                 System.err.println("Undefined variable");
             } else {
-                parent.modifyVariable(varName, expressionNode);
+                parent.modifyVariable(varName, expressionNode, assignLevel);
             }
         }
     }
 
-    public ExpressionNode getVariable(String varName) {
+    public OptimiseProperty getVariable(String varName) {
         if (varTable.containsKey(varName)) {
             return varTable.get(varName);
         }

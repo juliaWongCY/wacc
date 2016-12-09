@@ -3,7 +3,6 @@ import antlr.BasicParser;
 import ast.ASTNode;
 import backEnd.AssemblyLine;
 import backEnd.CodeGenerator;
-import backEnd.RegisterARM;
 import frontEnd.*;
 import optimisation.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -67,7 +66,7 @@ public class Main {
             System.exit(200);
         }
 
-        ast = optimisingVisitor.visitProgramNode(ast);
+        ast = OptimisingVisitor.visitProgramNode(ast);
 
         //Back-end
         CodeGenerator codeGenerator = new CodeGenerator();

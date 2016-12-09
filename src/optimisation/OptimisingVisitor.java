@@ -15,10 +15,10 @@ import java.util.List;
 
 import static ast.BinaryOpr.DIV;
 
-public class optimisingVisitor {
+public class OptimisingVisitor {
 
     private static SymbolTable symbolTable;
-
+    private static int level = 0;
 
     ///////////////////////////// Start of Assign Left ////////////////////////////////
 
@@ -169,8 +169,8 @@ public class optimisingVisitor {
         } else
         if (exprLNode instanceof IdentNode) {
             IdentNode iNode = (IdentNode) exprLNode;
-            newExprLNode = symbolTable.getVariable(iNode.getId());
-
+            OptimiseProperty property = symbolTable.getVariable(iNode.getId());
+            newExprLNode = property.getExpressionNode();
         }
         //Not sure if we have to do UnaryOprNode
 
@@ -179,7 +179,8 @@ public class optimisingVisitor {
         }
         if (exprRNode instanceof IdentNode) {
             IdentNode iNode = (IdentNode) exprRNode;
-            newExprRNode = symbolTable.getVariable(iNode.getId());
+            OptimiseProperty property = symbolTable.getVariable(iNode.getId());
+            newExprLNode = property.getExpressionNode();
         }
         //Not sure if we have to do UnaryOprNode
 
@@ -446,7 +447,7 @@ public class optimisingVisitor {
             iNode = ((IdentAsLNode) assignLNode).getIdnode();
             String id = iNode.getId();
             ExpressionNode newExprR = (ExpressionNode) visitExpressionNode(((ExprAsRNode) assignRNode).getExpr());
-            symbolTable.modifyVariable(id, newExprR);
+            symbolTable.modifyVariable(id, newExprR, level);
             AssignRightNode newAssignRNode = new ExprAsRNode(newExprR);
             return new AssignStatNode(newAssignRNode, assignLNode);
         }
@@ -468,7 +469,8 @@ public class optimisingVisitor {
         if (assignRNode instanceof ExprAsRNode) {
             //ExpressionNode expressionNode = (ExpressionNode) visitExprAsRNode(assignRNode);
             ExpressionNode expressionNode = (ExpressionNode)  visitExpressionNode(((ExprAsRNode) assignRNode).getExpr());
-            symbolTable.addVariable(id, expressionNode);
+            OptimiseProperty property = new OptimiseProperty(expressionNode, level);
+            symbolTable.addVariable(id, property);
             return new DeclareStatNode(dNode.getType(), identNode, new ExprAsRNode(expressionNode));
         }
 
@@ -500,11 +502,15 @@ public class optimisingVisitor {
         StatListNode elseBody = iNode.getStatElseBody();
 
         newSymbolTable();
+        ++level;
         thenBody = (StatListNode) visitStatListNode(thenBody);
+        --level;
         popSymbolTable();
 
         newSymbolTable();
+        ++level;
         elseBody = (StatListNode) visitStatListNode(elseBody);
+        --level;
         popSymbolTable();
 
         return new IfStatNode(condition, thenBody, elseBody);
@@ -543,17 +549,15 @@ public class optimisingVisitor {
     }
 
     public static ASTNode visitScopingStatNode(ASTNode node) {
+        ScopingStatNode sNode = (ScopingStatNode) node;
+        StatListNode slNode = sNode.getBody();
 
-//        newSymbolTable();
-//        ScopingStatNode sNode = (ScopingStatNode) node;
-//        StatListNode slNode = sNode.getBody();
-//
-//        slNode = (StatListNode) visitStatListNode(slNode);
-//
-//        popSymbolTable();
-//        return new ScopingStatNode(slNode);
-
-        return node;
+        newSymbolTable();
+        ++level;
+        slNode = (StatListNode) visitStatListNode(slNode);
+        --level;
+        popSymbolTable();
+        return new ScopingStatNode(slNode);
     }
 
     public static ASTNode visitSideEffectNode(ASTNode node) {

@@ -49,6 +49,18 @@ public class SymbolTable {
 //        }
 //    }
 
+    public void modifyVariable(String varName, OptimiseProperty property) {
+        if (varTable.containsKey(varName)) {
+            varTable.put(varName, property);
+        } else {
+            if (parent == null) {
+                System.err.println("Undefined variable");
+            } else {
+                parent.modifyVariable(varName, property);
+            }
+        }
+    }
+
     public void modifyVariable(String varName, ASTNode value, int assignLevel) {
         if (varTable.containsKey(varName)) {
             OptimiseProperty optimiseProperty = varTable.get(varName);

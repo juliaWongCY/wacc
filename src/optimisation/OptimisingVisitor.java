@@ -173,6 +173,9 @@ public class OptimisingVisitor {
             OptimiseProperty property = symbolTable.getVariable(iNode.getId());
             if (!(property == null)) {
 //                newExprLNode = property.getExpressionNode();
+                if (!property.isCanOptimise()) {
+                    return node;
+                }
                 if (property.getValue() instanceof ExpressionNode) {
                     newExprLNode = (ExpressionNode) property.getValue();
                 } else {
@@ -192,6 +195,9 @@ public class OptimisingVisitor {
             IdentNode iNode = (IdentNode) exprRNode;
             OptimiseProperty property = symbolTable.getVariable(iNode.getId());
             if (!(property == null)) {
+                if (!property.isCanOptimise()) {
+                    return node;
+                }
 //                newExprRNode = property.getExpressionNode();
                 if (property.getValue() instanceof ExpressionNode) {
                     newExprRNode = (ExpressionNode) property.getValue();
@@ -569,6 +575,16 @@ public class OptimisingVisitor {
     }
 
     public static ASTNode visitReadStatNode(ASTNode node) {
+        ReadStatNode rNode = (ReadStatNode) node;
+
+        AssignLeftNode assignLNode = rNode.getAssignLHS();
+
+        if (assignLNode instanceof IdentAsLNode) {
+            OptimiseProperty property = symbolTable.getVariable(((IdentAsLNode) assignLNode).getIdnode().getId());
+            property.setCanOptimise(false);
+            symbolTable.modifyVariable(((IdentAsLNode) assignLNode).getIdnode().getId(), property);
+        }
+
         return node;
     }
 

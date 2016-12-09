@@ -214,7 +214,8 @@ public class OptimisingVisitor {
         boolean exprLBool, exprRBool, resultBool;
 
         if (!(newExprLNode instanceof IdentNode) && !(newExprRNode instanceof IdentNode)
-                && !(newExprLNode instanceof BinaryOprNode) && !(newExprRNode instanceof BinaryOprNode)) {
+                && !(newExprLNode instanceof BinaryOprNode) && !(newExprRNode instanceof BinaryOprNode)
+                && !(newExprLNode instanceof UnaryOprNode) && !(newExprRNode instanceof UnaryOprNode)) {
             switch (binaryOpr) {
                 //ARITHMETIC - BOTH EXPRESSION HAS TO BE INTEGER
                 case PLUS:

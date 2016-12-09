@@ -1,5 +1,6 @@
 package optimisation;
 
+import ast.ASTNode;
 import ast.expression.ExpressionNode;
 
 import java.util.HashMap;
@@ -33,17 +34,32 @@ public class SymbolTable {
         }
     }
 
-    public void modifyVariable(String varName, ExpressionNode expressionNode, int assignLevel) {
+//    public void modifyVariable(String varName, ExpressionNode expressionNode, int assignLevel) {
+//        if (varTable.containsKey(varName)) {
+//            OptimiseProperty optimiseProperty = varTable.get(varName);
+//            optimiseProperty.setExpressionNode(expressionNode);
+//            optimiseProperty.pushAssignLevels(assignLevel);
+//            varTable.put(varName, optimiseProperty);
+//        } else {
+//            if (parent == null) {
+//                System.err.println("Undefined variable");
+//            } else {
+//                parent.modifyVariable(varName, expressionNode, assignLevel);
+//            }
+//        }
+//    }
+
+    public void modifyVariable(String varName, ASTNode value, int assignLevel) {
         if (varTable.containsKey(varName)) {
             OptimiseProperty optimiseProperty = varTable.get(varName);
-            optimiseProperty.setExpressionNode(expressionNode);
+            optimiseProperty.setValue(value);
             optimiseProperty.pushAssignLevels(assignLevel);
             varTable.put(varName, optimiseProperty);
         } else {
             if (parent == null) {
                 System.err.println("Undefined variable");
             } else {
-                parent.modifyVariable(varName, expressionNode, assignLevel);
+                parent.modifyVariable(varName, value, assignLevel);
             }
         }
     }

@@ -166,21 +166,40 @@ public class OptimisingVisitor {
 
         if (exprLNode instanceof BinaryOprNode) {
             newExprLNode = (ExpressionNode) visitBinaryOprNode(exprLNode);
-        } else
+        }
+        ExprLIdentNodeChecker:
         if (exprLNode instanceof IdentNode) {
             IdentNode iNode = (IdentNode) exprLNode;
             OptimiseProperty property = symbolTable.getVariable(iNode.getId());
-            newExprLNode = property.getExpressionNode();
+            if (!(property == null)) {
+//                newExprLNode = property.getExpressionNode();
+                if (property.getValue() instanceof ExpressionNode) {
+                    newExprLNode = (ExpressionNode) property.getValue();
+                } else {
+                    break ExprLIdentNodeChecker;
+                }
+
+            }
+
         }
         //Not sure if we have to do UnaryOprNode
 
         if (exprRNode instanceof BinaryOprNode) {
             newExprRNode = (ExpressionNode) visitBinaryOprNode(exprRNode);
         }
+        ExprRIdentNodeChecker:
         if (exprRNode instanceof IdentNode) {
             IdentNode iNode = (IdentNode) exprRNode;
             OptimiseProperty property = symbolTable.getVariable(iNode.getId());
-            newExprRNode = property.getExpressionNode();
+            if (!(property == null)) {
+//                newExprRNode = property.getExpressionNode();
+                if (property.getValue() instanceof ExpressionNode) {
+                    newExprRNode = (ExpressionNode) property.getValue();
+                } else {
+                    break ExprRIdentNodeChecker;
+                }
+            }
+
         }
         //Not sure if we have to do UnaryOprNode
 
@@ -472,8 +491,13 @@ public class OptimisingVisitor {
             OptimiseProperty property = new OptimiseProperty(expressionNode, level);
             symbolTable.addVariable(id, property);
             return new DeclareStatNode(dNode.getType(), identNode, new ExprAsRNode(expressionNode));
+        } else if (assignRNode instanceof PairElemAsRNode) {
+            OptimiseProperty property = new OptimiseProperty(((PairElemAsRNode) assignRNode).getPairElemNode(), level);
+            symbolTable.addVariable(id, property);
+        } else if (assignRNode instanceof NewPairAsRNode) {
+            OptimiseProperty property = new OptimiseProperty((NewPairAsRNode) assignRNode, level);
+            symbolTable.addVariable(id, property);
         }
-
         return node;
     }
 

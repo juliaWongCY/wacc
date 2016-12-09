@@ -1,29 +1,47 @@
 package optimisation;
 
+import ast.ASTNode;
 import ast.expression.ExpressionNode;
 
 import java.util.Stack;
 
 public class OptimiseProperty {
 
-    private ExpressionNode expressionNode;
+//    private ExpressionNode expressionNode;
+    private ASTNode value;
     private int initLevel;
     private Stack<Integer> assignLevels;
     private boolean canOptimise;
 
-    public OptimiseProperty(ExpressionNode expressionNode, int initLevel) {
-        this.expressionNode = expressionNode;
+    public OptimiseProperty(ASTNode value, int initLevel) {
+        this.value = value;
         this.initLevel = initLevel;
         this.assignLevels = new Stack<>();
         this.canOptimise = true;
     }
 
-    public ExpressionNode getExpressionNode() {
-        return expressionNode;
+//    public OptimiseProperty(ExpressionNode expressionNode, int initLevel) {
+//        this.expressionNode = expressionNode;
+//        this.initLevel = initLevel;
+//        this.assignLevels = new Stack<>();
+//        this.canOptimise = true;
+//    }
+
+//    public ExpressionNode getExpressionNode() {
+//        return expressionNode;
+//    }
+
+    public ASTNode getValue() {
+        return value;
     }
 
-    public void setExpressionNode(ExpressionNode expressionNode) {
-        this.expressionNode = expressionNode;
+
+//    public void setExpressionNode(ExpressionNode expressionNode) {
+//        this.expressionNode = expressionNode;
+//    }
+
+    public void setValue(ASTNode value) {
+        this.value = value;
     }
 
     public int getInitLevel() {

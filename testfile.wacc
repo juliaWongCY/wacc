@@ -1,10 +1,17 @@
 begin
-    int a = 1;
-    begin
-        a = 2;
-        begin
-            a = 2 * a
-        end;
-        int b = a * a + a
-    end
+  pair(int, char) p = newpair(10, 'a') ;
+  pair(int, char) q = p;
+  println p ;
+  println q ;
+  println p == q ;
+  int x = fst p ;
+  int y = fst q ;
+  println x ;
+  println y ;
+  println x == y ;
+  char c1 = snd p ;
+  char c2 = snd q ;
+  println c1 ;
+  println c2 ;
+  println c1 == c2
 end

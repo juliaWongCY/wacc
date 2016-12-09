@@ -180,7 +180,7 @@ public class OptimisingVisitor {
         if (exprRNode instanceof IdentNode) {
             IdentNode iNode = (IdentNode) exprRNode;
             OptimiseProperty property = symbolTable.getVariable(iNode.getId());
-            newExprLNode = property.getExpressionNode();
+            newExprRNode = property.getExpressionNode();
         }
         //Not sure if we have to do UnaryOprNode
 

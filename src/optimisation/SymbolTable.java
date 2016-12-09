@@ -51,12 +51,13 @@ public class SymbolTable {
     public OptimiseProperty getVariable(String varName) {
         if (varTable.containsKey(varName)) {
             return varTable.get(varName);
-        }
-        if (parent == null) {
-            System.err.println("variable not found");
-            return null;
         } else {
-            return parent.getVariable(varName);
+            if (parent == null) {
+                System.err.println("variable not found");
+                return null;
+            } else {
+                return parent.getVariable(varName);
+            }
         }
     }
 

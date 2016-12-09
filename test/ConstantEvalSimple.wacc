@@ -1,0 +1,28 @@
+###################
+##expected output##
+###################
+
+###################
+
+#Exit Code: 0
+
+###################
+
+
+begin
+    int a = 1 + 1;
+    int b = 2 - 2;
+    int c = 3 * 3;
+    int d = 4 / 4;
+    int e = 5 % 5;
+    bool f = 6 < 6;
+    bool g = 7 <= 7;
+    bool h = 8 > 8;
+    bool i = 9 >= 9;
+    bool j = 10 == 10;
+    bool k = 11 != 11;
+    bool l = j && k;
+    bool m = j || k;
+    bool n = 'a' < 'b';
+    bool o = 'c' == 'd'
+end

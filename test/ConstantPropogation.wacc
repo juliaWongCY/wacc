@@ -1,0 +1,29 @@
+###################
+##expected output##
+###################
+
+#2
+#4
+#1008
+#true
+#false
+
+###################
+
+#Exit Code: 0
+
+###################
+
+
+begin
+    int a = 1 + 1;
+    println a;
+    int b = a + 2;
+    println b;
+    int c = a * b + 1000;
+    println c;
+    bool d = 4 < 5;
+    println d;
+    bool e = d == (true && false);
+    println e
+end

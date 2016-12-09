@@ -1,0 +1,22 @@
+###################
+##expected output##
+###################
+
+#0
+
+###################
+
+#Exit Code: 0
+
+###################
+
+
+begin
+    int a = 1;
+    if true then
+        a = 0;
+        println a
+    else
+        println "This should not be printed"
+    done
+end
